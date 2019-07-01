@@ -1,8 +1,4 @@
 export default class {
-    public middleware: () => {
-
-    }
-    
     constructor() {
         let a = 3;
     }
