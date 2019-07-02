@@ -1,0 +1,93 @@
+@import "constants";
+
+.main {
+  transition: grid-template-columns 5s;
+}
+
+.sidenav-open {
+  & .content-container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 5fr;
+    & div {
+      padding: 0.4em;
+    }
+    & .sidenav-container {
+      background-color: $sidebar-background;
+      & .label-icon-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        // margin-top: 1.5em;
+        & h2 {
+          font-size: 1em;
+        }
+        & .icon {
+          margin-right: 0.4em;
+          //icon size
+          font-size: 1.7em;
+        }
+      }
+      & .app-logo-container {
+        display: flex;
+        align-items: center;
+        margin-top: 0.4em;
+        img {
+          margin-right: 0.4em;
+        }
+        & h1 {
+          font-size: 1.4rem;
+        }
+        & .logo {
+          width: $logo-width;
+          height: $logo-height;
+        }
+        & .sideNav-cross {
+          margin-left: auto;
+          // margin-left: min(1em);
+          // icon size
+          font-size: 1.2em;
+        }
+      }
+    }
+  }
+  & .sidenav-container:hover {
+    background-color: darken($sidebar-background, 20%);
+  }
+}
+
+.sidenav-close {
+  & .content-container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 70px 8fr;
+    & div {
+      padding: 0.4em;
+    }
+    & .sidenav-container {
+      background-color: $sidebar-background;
+      & .logo {
+        width: $logo-width;
+        height: $logo-height;
+      }
+      & .icon {
+        font-size: 1.7em;
+      }
+      & .sideNav-cross {
+        display: none;
+      }
+      & .app-logo-container {
+        margin-top: 0.4em;
+        & h1 {
+          display: none;
+        }
+      }
+      & .label-icon-container h2 {
+        display: none;
+      }
+    }
+  }
+  & .sidenav-container:hover {
+    background-color: darken($sidebar-background, 20%);
+  }
+}

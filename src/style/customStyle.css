@@ -1,0 +1,408 @@
+/* Text Styles */
+@font-face {
+  font-family: VisbyRoundCF-Bold;
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-Bold.eot");
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-Bold.woff")
+      format("woff"),
+    url("../fonts/VisbyRoundv1.7w/OTF/VisbyRoundCF-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: VisbyRoundCF-DemiBold;
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-DemiBold.eot");
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-DemiBold.woff")
+      format("woff"),
+    url("../fonts/VisbyRoundv1.7w/OTF/VisbyRoundCF-DemiBold.otf")
+      format("opentype");
+}
+
+@font-face {
+  font-family: VisbyRoundCF-Regular;
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-Regular.eot");
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-Regular.woff")
+      format("woff"),
+    url("../fonts/VisbyRoundv1.7w/OTF/VisbyRoundCF-Regular.otf")
+      format("opentype");
+}
+
+@font-face {
+  font-family: VisbyRoundCF-Medium;
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-Medium.eot");
+  src: url("../fonts/VisbyRoundv1.7w/Webfont/VisbyRoundCF-Medium.woff")
+      format("woff"),
+    url("../fonts/VisbyRoundv1.7w/OTF/VisbyRoundCF-Medium.otf")
+      format("opentype");
+}
+
+.heading1 {
+  font-family: VisbyRoundCF-Bold;
+  font-size: 32px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: -0.3px;
+}
+.heading2 {
+  font-family: VisbyRoundCF-Bold;
+  font-size: 28px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: -0.3px;
+}
+.heading3 {
+  font-family: VisbyRoundCF-Bold;
+  font-size: 26px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: -0.3px;
+}
+.subheading1 {
+  font-family: VisbyRoundCF-DemiBold;
+  font-size: 28px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: -0.82px;
+  line-height: 1.4em;
+  margin-bottom: 0.2em;
+}
+.subheading2 {
+  font-family: VisbyRoundCF-DemiBold;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: -0.82px;
+}
+.body1 {
+  font-family: VisbyRoundCF-Regular;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: -0.03px;
+}
+.body2 {
+  font-family: VisbyRoundCF-Regular;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: -0.03px;
+}
+.caption {
+  font-family: VisbyRoundCF-Medium;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: 0.1px;
+}
+/*removing default box-shadow of all buttons*/
+.btn {
+  box-shadow: none !important;
+}
+/* class for hiding anything*/
+.hide-always {
+  display: none;
+}
+
+/*styling for active elements*/
+.active {
+  color: #6b6b6b !important;
+}
+
+/*cursor type of pointer for all links*/
+a:hover {
+  cursor: pointer;
+}
+
+/** LOGIN **/
+.btn-submit {
+  background-color: #ea6565 !important;
+  color: #fff !important;
+}
+
+/** CARD **/
+
+.card-modify {
+  height: 350px;
+  box-shadow: 10px 5px 5px rgb(87, 85, 85);
+  background-color: #ea6565 !important;
+  overflow: auto;
+  border: 2px solid #ea6565 !important;
+}
+
+.card-modify-footer {
+  height: 5px !important;
+}
+
+.card-modify > img {
+  height: 100%;
+}
+
+.card-modify:hover {
+  box-shadow: 10px 5px 5px rgb(20, 20, 20);
+  cursor: pointer;
+}
+
+/** HEADER **/
+.navbar {
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
+}
+
+.navbar-brand > img {
+  height: 35px;
+  width: 100px;
+}
+
+.nav-link {
+  color: #ea6565 !important;
+  font-weight: 800;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar .hide {
+    display: none;
+  }
+}
+
+/* REGISTER FORM*/
+.card-register {
+  box-shadow: 2px 2px 4px 4px #252424 !important;
+  background-color: #ea6565 !important;
+}
+.register-btn {
+  background-color: #a84545 !important;
+  color: #fff !important;
+}
+
+/** FOOTER **/
+.footer {
+  position: fixed;
+  bottom: -1rem;
+  width: 100%;
+  z-index: 1;
+  animation-name: bantai;
+  animation-duration: 1s;
+}
+
+@keyframes bantai {
+  0% {
+    border-top: 5px solid #ea6565;
+    bottom: -50px;
+  }
+  50% {
+    border-top: 2px solid #ea6565;
+  }
+  100% {
+    bottom: -15px;
+  }
+}
+
+.footer-dismiss {
+  display: none;
+}
+
+/** SEARCHINPUT **/
+.select-content > input {
+  width: 10px;
+}
+
+/* THIS CLASS IS USED IN ALL FORM INPUTS, USING HERE FOR SEARCH INPUT */
+.form-control {
+  color: #ea6565 !important;
+  box-shadow: none !important;
+  border-color: #ea6565 !important;
+}
+.form-control::placeholder {
+  color: #ea6565 !important;
+}
+
+.search-box {
+  padding: 50px;
+  margin-left: 5% !important;
+}
+
+.search-form {
+  margin-left: 150px;
+}
+
+.custom-file-label {
+  color: #ea6565 !important;
+  border-color: #ea6565 !important;
+}
+
+.custom-file-label::after {
+  background-color: #ea6565 !important;
+  color: #fff !important;
+}
+
+.search-btn {
+  box-shadow: none !important;
+  background-color: #ea6565 !important;
+}
+
+/* these are the classes of the react-select that is taken from the web-dev tools for modifying the color */
+.css-2b097c-container,
+.css-tlfecz-indicatorContainer,
+.css-yk16xz-control,
+.css-1wa3eu0-placeholder {
+  border-color: #ea6565 !important;
+  color: #ea6565 !important;
+  box-shadow: none !important;
+}
+
+.badge {
+  background-color: #743333 !important;
+  color: #fff;
+  font-size: 15px !important;
+}
+
+.badge-empty {
+  background-color: #d44b4b;
+  width: 60px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.badge-empty-lg {
+  background-color: #d44b4b;
+  width: 80px;
+  height: 20px;
+  border-radius: 3px;
+}
+.tags {
+  position: absolute;
+  bottom: 0;
+}
+.checkbox-box input {
+  display: none;
+}
+
+.checkbox-box {
+  padding-left: 30px;
+  position: relative;
+  cursor: pointer;
+  font-size: 18px;
+  margin-right: 18px;
+}
+
+.checkbox-box .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #d4cfcf;
+  border-radius: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.checkbox-box input:checked + .checkmark {
+  background-color: #ea6565;
+}
+
+.checkbox-box:hover .checkmark {
+  background-color: #ebebeb;
+}
+
+/** INFO PANEL **/
+.info-panel {
+  width: 300px;
+  position: absolute;
+  right: 0;
+  background: #fff;
+}
+
+.before {
+  border: 1px solid #ddd;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.after {
+  display: none;
+}
+
+.panel {
+  background: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+}
+
+.cross-btn:focus,
+.cross-btn:active {
+  box-shadow: none !important;
+}
+
+/** SIDEBAR **/
+#sidebar-wrapper {
+  z-index: 1;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  overflow-y: hidden;
+  background: #ced0d1;
+  border: 1px solid rgb(90, 90, 90);
+  opacity: 1;
+  margin: 2px;
+}
+
+/* Change with of sidebar from 0 to 250px */
+#sidebar-wrapper-toggle {
+  z-index: 1;
+  position: absolute;
+  height: 100%;
+  overflow-y: hidden;
+  background: #fff;
+  border: 1px solid rgb(138, 138, 144);
+  opacity: 1;
+  width: 250px;
+  margin: 2px;
+}
+
+/* Always take up entire screen */
+#page-content-wrapper {
+  height: 100vh;
+  position: absolute;
+  padding: 15px;
+  /* border: 1px solid rgb(138, 138, 144); */
+  margin: 2px;
+}
+
+/* Since we added left padding, we need to shrink the width by 250px */
+#page-content-wrapper-toggle {
+  height: 100vh;
+  position: absolute;
+  padding: 15px;
+  /* border: 1px solid rgb(138, 138, 144); */
+  padding-left: 25px;
+  margin: 2px;
+  margin-left: 254px;
+}
+
+.list-group-item > a {
+  color: #ea6565;
+}
+
+.list-group-item > a:hover {
+  color: #ea6565;
+}
+.list-group > li:hover {
+  background-color: #ffe4e4;
+}
+
+/* Sidebar styling - the entire ul list */
+.sidebar-nav {
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-nav li {
+  text-indent: 20px;
+  line-height: 40px;
+}
+
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #ddd;
+}
+
+.sidebar-nav li a:hover {
+  background: #16a085;
+}
+
+.hamburger-hide {
+  display: none;
+}
+
+.hamburger-cancel {
+  background-color: #f8f8f8;
+  height: 35px;
+}
