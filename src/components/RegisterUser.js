@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { HeadingText, SubmitFormButton } from "../reusableComponents";
+import { SubmitFormButton } from "../reusableComponents";
+import { HeadingText } from "../reusableComponents/text";
 
 import { Dropdown } from "../reusableComponents/Dropdown";
 import { TextFieldGroup } from "../reusableComponents/TextFieldGroup";

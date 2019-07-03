@@ -1,5 +1,5 @@
 import React from "react";
 
-export default props => {
+export const SubHeadingOne = props => {
   return <div className="subheading1">{props.text}</div>;
 };

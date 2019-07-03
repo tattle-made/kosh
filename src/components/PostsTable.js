@@ -12,14 +12,17 @@ import axios from "axios";
 
 //actions
 import { fetchPosts } from "../actions/fetchData";
+//components
+import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
 
 class PostsTable extends Component {
   constructor(props) {
     super(props);
     /**
      * consists of 2 state:
-     * 1. results.
-     * 2. columns.
+     * 1. data
+     * 2. loading
+     * 3. columns
      */
     this.state = {
       data: [],
@@ -96,12 +99,14 @@ class PostsTable extends Component {
     };
     console.log("hello", this.state.data);
     return (
-      <div className="container" style={{ marginTop: 50 }}>
+      <div className="container">
+        {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
+        <HeadingTwo text="Posts" />
         <div className="my-3">
-          <Button variant="primary" size="sm" className="mr-3">
+          <button className="btn btn-sm btn-color-white-one mr-3">
             <FontAwesomeIcon icon={faUpload} /> Upload
-          </Button>
-          <Button variant="tattle" size="sm">
+          </button>
+          <Button variant="color-primary-one" size="sm">
             <FontAwesomeIcon icon={faDownload} /> Download
           </Button>
         </div>
@@ -128,7 +133,9 @@ const mapStateToProps = state => ({
   fetch: state.fetch
 });
 
-export default connect(
-  mapStateToProps,
-  { fetchPosts }
-)(PostsTable);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { fetchPosts }
+  )(PostsTable)
+);

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { HeadingOne } from "../reusableComponents/HeadingOne";
+import { HeadingOne } from "../reusableComponents/text/HeadingOne";
 
 class Loading extends Component {
   render() {

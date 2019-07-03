@@ -1,5 +1,7 @@
 @import "constants";
+@import "colors";
 
+// animation
 .main {
   transition: grid-template-columns 5s;
 }
@@ -8,35 +10,50 @@
   & .content-container {
     display: grid;
     height: 100vh;
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr 7fr;
     & div {
       padding: 0.4em;
     }
     & .sidenav-container {
-      background-color: $sidebar-background;
+      background-color: $sidenav-background;
       & .label-icon-container {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: end;
         // margin-top: 1.5em;
+        &:hover {
+          // tried removing hover underline, does not work
+          // & h2 {
+          //   text-decoration: none;
+          // }
+          background-color: #ffccc8;
+        }
         & h2 {
-          font-size: 1em;
+          font-family: RoundedMplus1c-Medium;
+          font-size: 20px;
+          color: #151a3d;
+          letter-spacing: -0.23px;
         }
         & .icon {
           margin-right: 0.4em;
           //icon size
           font-size: 1.7em;
+          margin-left: 0.27em;
         }
       }
       & .app-logo-container {
         display: flex;
         align-items: center;
         margin-top: 0.4em;
+        margin-bottom: 1.4em;
         img {
           margin-right: 0.4em;
         }
         & h1 {
-          font-size: 1.4rem;
+          font-family: RoundedMplus1c-Medium;
+          font-size: 24px;
+          color: #000637;
+          letter-spacing: -0.28px;
         }
         & .logo {
           width: $logo-width;
@@ -44,16 +61,17 @@
         }
         & .sideNav-cross {
           margin-left: auto;
-          // margin-left: min(1em);
+          margin-left: min(1em);
+          margin-bottom: 0.2em;
           // icon size
           font-size: 1.2em;
         }
       }
     }
   }
-  & .sidenav-container:hover {
-    background-color: darken($sidebar-background, 20%);
-  }
+  // & .sidenav-container:hover {
+  //   background-color: darken($sidenav-background, 20%);
+  // }
 }
 
 .sidenav-close {
@@ -65,29 +83,36 @@
       padding: 0.4em;
     }
     & .sidenav-container {
-      background-color: $sidebar-background;
+      background-color: $sidenav-background;
       & .logo {
         width: $logo-width;
         height: $logo-height;
       }
       & .icon {
         font-size: 1.7em;
+        margin-left: 0.27em;
       }
       & .sideNav-cross {
         display: none;
       }
       & .app-logo-container {
         margin-top: 0.4em;
+        margin-bottom: 1.4em;
         & h1 {
           display: none;
         }
       }
-      & .label-icon-container h2 {
-        display: none;
+      & .label-icon-container {
+        &:hover {
+          background-color: #ffccc8;
+        }
+        h2 {
+          display: none;
+        }
       }
     }
   }
-  & .sidenav-container:hover {
-    background-color: darken($sidebar-background, 20%);
-  }
+  // & .sidenav-container:hover {
+  //   background-color: darken($sidenav-background, 20%);
+  // }
 }

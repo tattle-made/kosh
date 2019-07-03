@@ -1,7 +1,7 @@
 import React from "react";
-import "./style/stylesheet.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./app1.css";
+import "./style/stylesheet.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -21,7 +21,8 @@ import RegisterUser from "./components/RegisterUser";
 import Users from "./components/Users";
 import PostsTable from "./components/PostsTable";
 import SideNav from "./components/SideNav";
-
+import PostsTableItem from "./components/PostsTableItem";
+import LoginCard from "./components/LoginCard";
 function App() {
   return (
     <Provider store={store}>
@@ -40,7 +41,9 @@ function App() {
           <Route exact path="/register" component={RegisterUser} />
           <Route exact path="/users" component={SideNav} />
           <Route exact path="/posts" component={SideNav} />
-          <Route path="/" component={SideNav} />
+          <Route exact path="/posts/:id" component={SideNav} />
+          <Route exact path="/sidenav" component={SideNav} />
+          <Route exact path="/login" component={LoginCard} />
         </div>
       </Router>
     </Provider>

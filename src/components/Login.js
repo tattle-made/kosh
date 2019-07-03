@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
-  HeadingText,
-  SubHeadingOne,
   EmailField,
   PasswordField,
   SubmitFormButton
 } from "../reusableComponents";
+
+import { HeadingText, SubHeadingOne } from "../reusableComponents/text";
 
 export default props => (
   <div className="container-fluid" style={styles.container}>

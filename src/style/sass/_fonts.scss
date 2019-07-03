@@ -1,0 +1,47 @@
+/* Text Styles */
+@font-face {
+  font-family: RoundedMplus1c-Medium;
+  src: url("https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:500&display=swap");
+}
+@font-face {
+  font-family: RoundedMplus1c-Light;
+  src: url("https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:300&display=swap");
+}
+
+.heading1 {
+  font-family: RoundedMplus1c-Medium;
+  font-size: 24px;
+  color: #000000 100%;
+  letter-spacing: -0.28px;
+  line-height: 36px;
+}
+.heading2 {
+  font-family: RoundedMplus1c-Medium;
+  font-size: 20px;
+  color: #151a3d;
+  letter-spacing: -0.23px;
+}
+.heading3 {
+  font-family: RoundedMplus1c-Medium;
+  font-size: 16px;
+  color: #000000;
+  letter-spacing: -0.18px;
+}
+.subtitle1 {
+  font-family: RoundedMplus1c-Medium;
+  font-size: 14px;
+  color: #060d42;
+  letter-spacing: -0.16px;
+}
+.subtitle2 {
+  font-family: RoundedMplus1c-Light;
+  font-size: 16px;
+  color: #151a3d;
+  letter-spacing: -0.18px;
+}
+.body1 {
+  font-family: RoundedMplus1c-Medium;
+  font-size: 17px;
+  color: #151a3d;
+  letter-spacing: -0.2px;
+}

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import PostsTable from "./PostsTable";
 import Users from "./Users";
+import PostsTableItem from "./PostsTableItem";
 
 export default class SideNav extends Component {
   constructor(props) {
@@ -28,6 +29,17 @@ export default class SideNav extends Component {
     this.setState({
       open: !this.state.open
     });
+  }
+  mainContent(route) {
+    if (route === "/posts") {
+      return <PostsTable />;
+    } else if (route === "/search") {
+      return <SearchInput />;
+    } else if (route === "/users") {
+      return <Users />;
+    } else {
+      return <PostsTableItem />;
+    }
   }
   render() {
     return (
@@ -56,7 +68,7 @@ export default class SideNav extends Component {
             <Link to="/posts">
               <div className="label-icon-container">
                 <span className="icon">
-                  <FontAwesomeIcon icon={faCloud} />
+                  <FontAwesomeIcon icon={faCloud} color="#000637" />
                 </span>
                 <h2>Posts</h2>
               </div>
@@ -64,7 +76,7 @@ export default class SideNav extends Component {
             <Link to="/search">
               <div className="label-icon-container">
                 <span className="icon">
-                  <FontAwesomeIcon icon={faSearch} />
+                  <FontAwesomeIcon icon={faSearch} color="#000637" />
                 </span>
                 <h2>Search</h2>
               </div>
@@ -72,7 +84,7 @@ export default class SideNav extends Component {
             <Link to="/users">
               <div className="label-icon-container">
                 <span className="icon">
-                  <FontAwesomeIcon icon={faUsers} />
+                  <FontAwesomeIcon icon={faUsers} color="#000637" />
                 </span>
                 <h2>Users</h2>
               </div>
@@ -80,13 +92,7 @@ export default class SideNav extends Component {
           </div>
 
           <div className="main-content-container">
-            {this.props.location.pathname === "/posts" ? (
-              <PostsTable />
-            ) : this.props.location.pathname === "/search" ? (
-              <SearchInput />
-            ) : this.props.location.pathname === "/users" ? (
-              <Users />
-            ) : null}
+            {this.mainContent(this.props.location.pathname)}
           </div>
         </div>
       </div>

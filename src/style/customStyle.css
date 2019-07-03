@@ -33,24 +33,6 @@
       format("opentype");
 }
 
-.heading1 {
-  font-family: VisbyRoundCF-Bold;
-  font-size: 32px;
-  color: rgba(0, 0, 0, 1);
-  letter-spacing: -0.3px;
-}
-.heading2 {
-  font-family: VisbyRoundCF-Bold;
-  font-size: 28px;
-  color: rgba(0, 0, 0, 1);
-  letter-spacing: -0.3px;
-}
-.heading3 {
-  font-family: VisbyRoundCF-Bold;
-  font-size: 26px;
-  color: rgba(0, 0, 0, 1);
-  letter-spacing: -0.3px;
-}
 .subheading1 {
   font-family: VisbyRoundCF-DemiBold;
   font-size: 28px;
@@ -65,12 +47,7 @@
   color: rgba(0, 0, 0, 1);
   letter-spacing: -0.82px;
 }
-.body1 {
-  font-family: VisbyRoundCF-Regular;
-  font-size: 20px;
-  color: rgba(0, 0, 0, 1);
-  letter-spacing: -0.03px;
-}
+
 .body2 {
   font-family: VisbyRoundCF-Regular;
   font-size: 18px;
