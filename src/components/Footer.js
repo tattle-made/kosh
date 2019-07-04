@@ -24,16 +24,19 @@ class FooterSite extends Component {
 
   render() {
     const { errors } = this.state;
-    console.log("error hai bhai", errors);
-    if (this.state.visible) {
+    console.log(this.props.errors.message);
+    console.log(errors);
+    console.log("visible ", this.state.visible);
+    if (errors) {
       return (
         <Footer
           alert_type="danger"
           message={errors}
           visible={this.state.visible}
           closeFooter={() => {
+            console.log("close");
             this.setState({
-              visible: false
+              errors: ""
             });
           }}
         />
