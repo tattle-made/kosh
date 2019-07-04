@@ -22,4 +22,8 @@ export class LoginController extends _BaseController {
             return 'failure token';
         });
     }
+
+    public logout(): Promise<string> {
+        return Promise.resolve('logged out');
+    }
 }

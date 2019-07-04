@@ -39,6 +39,11 @@ app.post('/auth/login', (req: Request, res: Response) => {
     .then((response) => res.send((new LoginResponse(response).get())));
 });
 
+app.post('/auth/logout', (req: Request, res: Response) => {
+    loginController.logout()
+    .then((response) => res.send({msg: response}));
+});
+
 
 app.listen(port, () => {
     console.log('server is listening to ', port);
