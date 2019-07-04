@@ -8,23 +8,24 @@ class FooterSite extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: "Server Down",
-      visible: true
+      errors: "",
+      visible: false
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.errors.message,
+        visible: true
       });
     }
   }
 
   render() {
     const { errors } = this.state;
-
-    if (!IsEmpty(errors)) {
+    console.log("error hai bhai", errors);
+    if (this.state.visible) {
       return (
         <Footer
           alert_type="danger"
