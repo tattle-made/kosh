@@ -28,7 +28,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "sass": "node-sass -w src/style/sass/ -o src/style/stylesheet.css",
+    "sass": "node-sass -w src/style/sass/stylesheet.scss src/style/stylesheet.css",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

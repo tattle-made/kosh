@@ -23,10 +23,10 @@ export const loginUser = userData => {
           // decoding token to get user data
           console.log("auth");
           console.log(typeof token);
-          const decodedToken = jwtDecode(token);
-          // setting current user
-          console.log("decode");
-          dispatch(setCurrentUser(decodedToken));
+          // const decodedToken = jwtDecode(token);
+          // // setting current user
+          // console.log("decode");
+          dispatch(setCurrentUser(token));
         }
       })
       .catch(err =>
