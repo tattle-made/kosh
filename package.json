@@ -27,6 +27,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
+  "homepage" : "http://13.235.151.218/",
   "scripts": {
     "sass": "node-sass -w src/style/sass/stylesheet.scss src/style/stylesheet.css",
     "start": "react-scripts start",
