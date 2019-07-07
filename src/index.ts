@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import {Request, Response} from 'express';
 import {PostController} from './controllers/PostController';
 import {SearchController} from './controllers/SearchController';
@@ -9,6 +10,7 @@ import LoginResponse from './models/response/LoginResponse';
 const app = express();
 const port = 8080;
 
+app.use(cors);
 app.use(express.json());
 
 // import logger from './logger-core';
