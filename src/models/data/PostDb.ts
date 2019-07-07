@@ -41,6 +41,9 @@ Promise<JSON> {
 export function getAll() {
     return Post.findAll({
         limit: 10,
+        order : [
+            ['createdAt', 'DESC'],
+        ],
     })
     .map((el) => el.get({ plain: true }))
     .catch((err) => {
