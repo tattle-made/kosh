@@ -21,12 +21,21 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.get('/posts', (req: Request, res: Response) => {
-    res.send(postController.getAll());
+    postController.getAll()
+    .then((posts) => res.send(posts));
+});
+
+app.post('/posts', (req: Request, res: Response) => {
+    const {type, data, filename, source} = req.body;
+    postController.create(type, data, filename, source)
+    .then((response: JSON) => res.send(response))
+    .catch((err) => res.send(err.JSON));
 });
 
 app.get('/posts/:id', (req: Request, res: Response) => {
     const {id} = req.params;
-    res.send(postController.get(id));
+    postController.get(id)
+    .then((post) => res.send(post));
 });
 
 app.get('/search', (req: Request, res: Response) => {

@@ -1,21 +1,20 @@
 import BaseController from './_BaseController';
-import Post from '../models/data/Post';
+import {Post, create, getAll, get} from '../models/data/PostDb';
 
 export class PostController extends BaseController {
     constructor() {
         super('temp');
     }
 
-    public getAll(): Post[] {
-        return [
-            new Post('asdf-asdf-asdf', 'title one', ['one', 'two', 'three']),
-            new Post('asdf-asdf-asdg', 'title two', ['one', 'two', 'three']),
-            new Post('asdf-asdf-asdh', 'title three', ['one', 'two', 'three']),
-            new Post('asdf-asdf-asdi', 'title four', ['one', 'two', 'three']),
-        ];
+    public getAll() {
+        return getAll();
     }
 
-    public get(id: string): Post {
-        return new Post('asdf-asdf-asdf', 'title one', ['one', 'two', 'three']);
+    public get(id: number) {
+        return get(id);
+    }
+
+    public create(type: string, data: string, filename: string, source: number): Promise<JSON> {
+        return create(type, data, filename, source);
     }
 }
