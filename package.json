@@ -25,9 +25,10 @@
     "react-select": "^3.0.4",
     "reactjs-popup": "^1.4.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.2.0"
   },
-  "homepage" : "http://13.235.151.218/",
+  "homepage": "http://13.235.151.218/",
   "scripts": {
     "sass": "node-sass -w src/style/sass/stylesheet.scss src/style/stylesheet.css",
     "start": "react-scripts start",

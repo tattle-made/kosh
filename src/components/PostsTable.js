@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUpload, faDownload } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUpload,
+  faDownload,
+  faSync,
+  faTrashAlt,
+  faCheck
+} from "@fortawesome/free-solid-svg-icons";
+
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
@@ -14,12 +21,22 @@ import axios from "axios";
 import { fetchPosts } from "../actions/fetchData";
 //components
 import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
+import { Card } from "./Card";
+
+// socket io
+import io from "socket.io-client";
+
+//todo import from an external file;
+const SHELL_SERVER_API_ENDPOINT = "http://13.233.110.23:8080/posts";
+
+//connect to server
+const socket = io(SHELL_SERVER_API_ENDPOINT);
 
 class PostsTable extends Component {
   constructor(props) {
     super(props);
     /**
-     * consists of 2 state:
+     * consists of 3 state:
      * 1. data
      * 2. loading
      * 3. columns
@@ -29,14 +46,14 @@ class PostsTable extends Component {
       loading: true,
       columns: [
         {
-          dataField: "title",
+          dataField: "type",
           text: "Title"
           // sort: true
         },
         {
-          dataField: "description",
-          text: "Description"
-          // sort: true
+          dataField: "filename",
+          text: "Description",
+          formatter: this.previewFormatter
         },
         {
           dataField: "tags",
@@ -47,29 +64,81 @@ class PostsTable extends Component {
         },
         {
           dataField: "actions",
-          text: "Actions"
+          text: "Actions",
           // sort: true
+          formatter: this.actionIconsFormatter
         }
       ]
     };
+
+    this.refresh = this.refresh.bind(this);
+  }
+
+  previewFormatter(cell, row) {
+    console.log("row");
+    console.log(row);
+    if (row.type == "image") {
+      return (
+        <div className="card" style={prev}>
+          <img
+            src={`https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${cell}?alt=media&token=88192814-45bb-4302-b409-b5c26e90390b`}
+            alt="preview"
+          />
+        </div>
+      );
+    } else if (row.type == "video") {
+      return (
+        // <video
+        //   // src={`https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${cell}?alt=media&token=88192814-45bb-4302-b409-b5c26e90390b`}
+        //   // src={"https://youtu.be/DBXH9jJRaDk"}
+        // />
+        <div className="card" style={prev}>
+          <iframe src="https://www.youtube.com/embed/hZFNVj505HQ" />
+        </div>
+      );
+    } else if (row.type == "text") {
+      return (
+        <div className="card" style={prev}>
+          <div className="card-text">
+            Mollit anim Lorem quis nulla mollit officia ad. Do do aute dolore
+            incididunt pariatur enim cupidatat reprehenderit quis eu non. Est
+            incididunt commodo enim voluptate mollit sit reprehenderit elit
+            proident aute non et. Consectetur aliquip tempor anim excepteur nisi
+            consectetur sint pariatur. Do veniam pariatur enim aliquip ut elit
+            nulla ad ad et deserunt do reprehenderit minim. Pariatur culpa
+            adipisicing nulla occaecat aliquip cupidatat labore nisi excepteur
+            mollit excepteur.
+          </div>
+        </div>
+      );
+    }
+  }
+
+  actionIconsFormatter(cel, row) {
+    return (
+      <div>
+        <FontAwesomeIcon icon={faTrashAlt} className="mr-5" />
+
+        <FontAwesomeIcon icon={faCheck} />
+      </div>
+    );
   }
 
   componentDidMount() {
     console.log("mounted");
     const url = "http://13.233.110.23:8080/posts";
     console.log("props", this.props);
-    this.props.fetchPosts(url);
+    // this.props.fetchPosts(url);
     console.log("data", this.props.fetch.data);
   }
 
-  //TODO : change this life cycle method.
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.fetch.data) {
-      this.setState({
-        data: nextProps.fetch.data
-      });
-    }
+  refresh() {
+    console.log("refreshing");
+    this.props.fetchPosts(SHELL_SERVER_API_ENDPOINT);
   }
+
+  //TODO : change this life cycle method.
+
   // static getDerivedStateFromProps(nextProps, prevState) {
   //   if (nextProps.fetch) {
   //     return {
@@ -87,7 +156,13 @@ class PostsTable extends Component {
   // rowEvents() {
   //   console.log("row");
   // }
+
   render() {
+    socket.on("post/newData", () => {
+      console.log("new Data received");
+      this.refresh();
+    });
+
     const rowEvents = {
       onClick: (e, row, rowIndex) => {
         // console.log(e);
@@ -97,7 +172,9 @@ class PostsTable extends Component {
         this.props.history.push(url);
       }
     };
+
     console.log("hello", this.state.data);
+
     return (
       <div className="container">
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
@@ -106,6 +183,14 @@ class PostsTable extends Component {
           <button className="btn btn-sm btn-color-white-one mr-3">
             <FontAwesomeIcon icon={faUpload} /> Upload
           </button>
+          <Button
+            variant="light"
+            size="sm"
+            onClick={this.refresh}
+            className="mr-3"
+          >
+            <FontAwesomeIcon icon={faSync} />
+          </Button>
           <Button variant="color-primary-one" size="sm">
             <FontAwesomeIcon icon={faDownload} /> Download
           </Button>
@@ -114,7 +199,7 @@ class PostsTable extends Component {
           striped
           hover
           keyField="id"
-          data={this.state.data}
+          data={this.props.fetch.data}
           columns={this.state.columns}
           filter={filterFactory()}
           pagination={paginationFactory()}
@@ -139,3 +224,7 @@ export default withRouter(
     { fetchPosts }
   )(PostsTable)
 );
+
+const prev = {
+  width: "300px"
+};
