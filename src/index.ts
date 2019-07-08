@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as cors from 'cors';
+import * as Sentry from '@sentry/node';
 import {Request, Response} from 'express';
 import {PostController} from './controllers/PostController';
 import {SearchController} from './controllers/SearchController';
@@ -11,8 +12,10 @@ import LoginResponse from './models/response/LoginResponse';
 
 const app = express();
 const port = 8080;
+Sentry.init({ dsn: 'https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856' });
 
 // app.use(cors);
+app.use(Sentry.Handlers.requestHandler());
 app.use(express.json());
 
 // import logger from './logger-core';
@@ -53,9 +56,19 @@ app.post('/auth/login', (req: Request, res: Response) => {
 });
 
 app.post('/auth/logout', (req: Request, res: Response) => {
-    loginController.logout()
-    .then((response) => res.send({msg: response}));
+    const {token} = req.body;
+    loginController.logout(token)
+    .then((response) => res.send(response));
 });
+
+app.use(Sentry.Handlers.errorHandler());
+
+// app.use(function onError(err, req, res, next) {
+//     // The error id is attached to `res.sentry` to be returned
+//     // and optionally displayed to the user for support.
+//     res.statusCode = 500;
+//     res.end(res.sentry + '\n');
+//   });
 
 
 app.listen(port, () => {

@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import db from '../../service/db';
 import {v1 as uuid} from 'uuid';
+import {logError} from '../../service/logger';
 
 export class Auth extends Sequelize.Model {}
 
@@ -35,6 +36,11 @@ export function createOrUpdateTokenForUserId(userId: number): Promise<string> {
     }, {returning: true})
     .then((val) => token)
     .catch((err) => console.log(err));
+}
+
+export function deleteToken(token: string): Promise<number> {
+    return Auth.destroy({where: {token}})
+    .catch((err) => logError(err));
 }
 
 // createOrUpdateTokenForUserId(1)

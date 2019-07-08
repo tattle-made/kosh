@@ -1,7 +1,10 @@
 import _BaseController from './_BaseController';
 import {exists} from '../models/data/UserDb';
-import {createOrUpdateTokenForUserId} from '../models/data/AuthDb';
+import {createOrUpdateTokenForUserId, deleteToken} from '../models/data/AuthDb';
 import ExistsResponse from '../models/data/ExistsResponse';
+import LogoutResponse from '../models/response/LogoutResponse';
+
+import {logError} from '../service/logger';
 
 export class LoginController extends _BaseController {
     constructor() {
@@ -23,7 +26,10 @@ export class LoginController extends _BaseController {
         });
     }
 
-    public logout(): Promise<string> {
-        return Promise.resolve('logged out');
+    public logout(token: string) {
+        return deleteToken(token)
+        .then((numOfRows: number) => LogoutResponse.create(numOfRows).get())
+        .catch((err) => logError(err));
     }
 }
+
