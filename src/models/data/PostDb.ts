@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import db from '../../service/db';
+import { PostCreateRequest } from '../request/PostCreateRequest';
 
 export class Post extends Sequelize.Model {}
 
@@ -8,6 +9,7 @@ Post.init({
     data: Sequelize.STRING,
     filename: Sequelize.STRING,
     source: Sequelize.INTEGER,
+    campaign_id: Sequelize.INTEGER,
 }, {
     sequelize: db.get(),
     modelName: 'post',
@@ -23,14 +25,9 @@ Post.init({
 //     });
 // });
 
-export function create(type: string, data: string, filename: string, source: number):
+export function create(param: PostCreateRequest):
 Promise<JSON> {
-    return Post.create({
-        type,
-        data,
-        filename,
-        source,
-    })
+    return Post.create(param.getAll())
     .then((res: Post) => res.toJSON())
     .catch((err) => Promise.resolve({
         message : 'Error creating Post',

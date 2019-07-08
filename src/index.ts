@@ -5,12 +5,14 @@ import {PostController} from './controllers/PostController';
 import {SearchController} from './controllers/SearchController';
 import {LoginController} from './controllers/LoginController';
 
+import {PostCreateRequest} from './models/request/PostCreateRequest';
+
 import LoginResponse from './models/response/LoginResponse';
 
 const app = express();
 const port = 8080;
 
-app.use(cors);
+// app.use(cors);
 app.use(express.json());
 
 // import logger from './logger-core';
@@ -28,8 +30,8 @@ app.get('/posts', (req: Request, res: Response) => {
 });
 
 app.post('/posts', (req: Request, res: Response) => {
-    const {type, data, filename, source} = req.body;
-    postController.create(type, data, filename, source)
+    const post = new PostCreateRequest(req.body);
+    postController.create(post)
     .then((response: JSON) => res.send(response))
     .catch((err) => res.send(err.JSON));
 });

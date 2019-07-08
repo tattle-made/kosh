@@ -1,6 +1,8 @@
 import BaseController from './_BaseController';
 import {Post, create, getAll, get} from '../models/data/PostDb';
 
+import {PostCreateRequest} from '../models/request/PostCreateRequest';
+
 export class PostController extends BaseController {
     constructor() {
         super('temp');
@@ -14,7 +16,7 @@ export class PostController extends BaseController {
         return get(id);
     }
 
-    public create(type: string, data: string, filename: string, source: number): Promise<JSON> {
-        return create(type, data, filename, source);
+    public create(param: PostCreateRequest): Promise<JSON> {
+        return create(param);
     }
 }
