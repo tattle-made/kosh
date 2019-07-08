@@ -28,7 +28,7 @@ Post.init({
 export function create(param: PostCreateRequest):
 Promise<JSON> {
     return Post.create(param.getAll())
-    .then((res: Post) => res.toJSON())
+    .then((post: Post) => post.get({plain: true}))
     .catch((err) => Promise.resolve({
         message : 'Error creating Post',
         error : err.toJSON(),

@@ -2,14 +2,12 @@ export class PostCreateRequest {
     public type: string;
     public data: string;
     public filename: string;
-    public source: number;
     public campaignId: number;
 
     constructor(param: any) {
         this.type = param.type;
         this.data = param.data;
         this.filename = param.filename;
-        this.source = param.source;
         this.campaignId = param.campaignId;
     }
 
@@ -18,8 +16,7 @@ export class PostCreateRequest {
             type: this.type,
             data: this.data,
             filename: this.filename,
-            source: this.source,
-            campaignId: this.campaignId,
+            campaign_id: this.campaignId,
         };
     }
 }
