@@ -1,25 +1,17 @@
-// login header styling
-.login-header{
-    & img{
-        width:200px;
-        height:90px;
-    }
-    text-align:center;
-    margin-top:10px;
-}
 
-// login footer styling
-.login-footer{
-    margin-top: 50px;
-    display:flex;
-    justify-content:center;
-    & div{
-        margin: 0 30px;
-    }
-}
 
-// login card styling
-@mixin loginCard{
+@mixin loginPage{
+    // login header styling
+    .login-header{
+        & img{
+            width:200px;
+            height:90px;
+        }
+        text-align:center;
+        margin-top:10px;
+    }
+
+    // login card styling
     .login {
     display: flex;
     width: 40vw;
@@ -81,11 +73,23 @@
         width:200px;
     }
     }
+
+   // login footer styling
+    .login-footer{
+        margin-top: 50px;
+        display:flex;
+        justify-content:center;
+        & div{
+            margin: 0 30px;
+        }
+    }
+ 
 }
 
 @media(max-width:768px){
-    @include loginCard
+    @include loginPage
 
+    // Login Card changes
     .login {
         flex-direction:column;
     }
@@ -99,8 +103,12 @@
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
     }
+    .login-footer{
+        // background-color: #e7e7e7;
+        margin-top:180px;
+    }
 }
 
 @media(min-width:768px){
-    @include loginCard;
+    @include loginPage;
 }

@@ -14127,21 +14127,13 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6; } }
 
-.login-header {
-  text-align: center;
-  margin-top: 10px; }
-  .login-header img {
-    width: 200px;
-    height: 90px; }
-
-.login-footer {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center; }
-  .login-footer div {
-    margin: 0 30px; }
-
 @media (max-width: 768px) {
+  .login-header {
+    text-align: center;
+    margin-top: 10px; }
+    .login-header img {
+      width: 200px;
+      height: 90px; }
   .login {
     display: flex;
     width: 40vw;
@@ -14171,6 +14163,12 @@ a.text-dark:hover, a.text-dark:focus {
       padding: 6px 4px; }
     .login-right .btn-login-size {
       width: 200px; }
+  .login-footer {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center; }
+    .login-footer div {
+      margin: 0 30px; }
   .login {
     flex-direction: column; }
   .login-left {
@@ -14180,9 +14178,17 @@ a.text-dark:hover, a.text-dark:focus {
   .login-right {
     border-top-right-radius: 0;
     border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px; } }
+    border-bottom-right-radius: 20px; }
+  .login-footer {
+    margin-top: 180px; } }
 
 @media (min-width: 768px) {
+  .login-header {
+    text-align: center;
+    margin-top: 10px; }
+    .login-header img {
+      width: 200px;
+      height: 90px; }
   .login {
     display: flex;
     width: 40vw;
@@ -14211,7 +14217,13 @@ a.text-dark:hover, a.text-dark:focus {
       margin-top: 25px;
       padding: 6px 4px; }
     .login-right .btn-login-size {
-      width: 200px; } }
+      width: 200px; }
+  .login-footer {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center; }
+    .login-footer div {
+      margin: 0 30px; } }
 
 /* Text Styles */
 @font-face {
