@@ -30,7 +30,7 @@ import io from "socket.io-client";
 const SHELL_SERVER_API_ENDPOINT = "http://13.233.110.23:8080/posts";
 
 //connect to server
-const socket = io(SHELL_SERVER_API_ENDPOINT);
+const socket = io("http://localhost:3001/");
 
 class PostsTable extends Component {
   constructor(props) {
@@ -130,6 +130,13 @@ class PostsTable extends Component {
     console.log("props", this.props);
     // this.props.fetchPosts(url);
     console.log("data", this.props.fetch.data);
+    
+    // SOCKET IO
+    // so when new data is received the page will refresh automatically.
+     socket.on("posts/newData", (value) => {
+      console.log("new Data received", value.name);
+      this.refresh();
+    });
   }
 
   refresh() {
@@ -156,13 +163,8 @@ class PostsTable extends Component {
   // rowEvents() {
   //   console.log("row");
   // }
-
+  
   render() {
-    socket.on("post/newData", () => {
-      console.log("new Data received");
-      this.refresh();
-    });
-
     const rowEvents = {
       onClick: (e, row, rowIndex) => {
         // console.log(e);
