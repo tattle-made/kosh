@@ -50,6 +50,7 @@ export default class SideNav extends Component {
     }
   }
   render() {
+    console.log("sidenav route", this.props.location.pathname);
     return (
       <div
         className={classnames("main", {
@@ -78,11 +79,17 @@ export default class SideNav extends Component {
                   route={"/posts"}
                   icon={eval(faCloud)}
                   label={"Posts"}
+                  className={classnames({
+                    active: this.props.location.pathname === "/posts"
+                  })}
                 />
                 <MenuItem
                   route={"/search"}
                   icon={eval(faSearch)}
                   label={"Search"}
+                  className={classnames({
+                    active: this.props.location.pathname === "/search"
+                  })}
                 />
                 <AccessControl
                   allowedPermissions={["user:canView"]}
@@ -93,6 +100,9 @@ export default class SideNav extends Component {
                     route={"/users"}
                     icon={eval(faUsers)}
                     label={"Users"}
+                    className={classnames({
+                      active: this.props.location.pathname === "/users"
+                    })}
                   />
                 </AccessControl>
               </div>

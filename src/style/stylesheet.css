@@ -7034,6 +7034,12 @@ a.text-dark:hover, a.text-dark:focus {
     .sidenav-open .content-container .sidenav-container div {
       position: sticky;
       top: 0px; }
+    .sidenav-open .content-container .sidenav-container .active {
+      background-color: #ffccc8;
+      border-right: 8px solid #232422;
+      margin-right: -19px; }
+      .sidenav-open .content-container .sidenav-container .active h2 {
+        font-weight: bold; }
     .sidenav-open .content-container .sidenav-container .label-icon-container {
       display: flex;
       flex-direction: row;
@@ -7088,6 +7094,13 @@ a.text-dark:hover, a.text-dark:focus {
     .sidenav-close .content-container .sidenav-container .icon {
       font-size: 1.7em;
       margin-left: -0.2em; }
+    .sidenav-close .content-container .sidenav-container .active {
+      background-color: #ffccc8;
+      border-right: 8px solid #232422;
+      width: 40px;
+      padding-right: 35px; }
+      .sidenav-close .content-container .sidenav-container .active h2 {
+        font-weight: bold; }
     .sidenav-close .content-container .sidenav-container .sideNav-cross {
       display: none; }
     .sidenav-close .content-container .sidenav-container .app-logo-container {
