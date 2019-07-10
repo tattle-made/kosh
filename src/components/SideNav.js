@@ -53,32 +53,47 @@ export default class SideNav extends Component {
       >
         <div className="content-container">
           <div className="sidenav-container" onClick={this.toggle.bind(this)}>
-            <div className="app-logo-container">
-              <img
-                className="logo"
-                src="http://blog.tattle.co.in/content/images/2019/06/xmonogram.png.pagespeed.ic.W0h-PgH2Ps.webp"
-              />
-              <h1>Tattle</h1>
-              <span
-                className="sideNav-cross"
-                onClick={this.closeSideNav.bind(this)}
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </span>
+            <div>
+              <div className="app-logo-container">
+                <img
+                  className="logo"
+                  src="http://blog.tattle.co.in/content/images/2019/06/xmonogram.png.pagespeed.ic.W0h-PgH2Ps.webp"
+                />
+                <h1>Tattle</h1>
+                <span
+                  className="sideNav-cross"
+                  onClick={this.closeSideNav.bind(this)}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </span>
+              </div>
+              <div className="links">
+                <MenuItem
+                  route={"/posts"}
+                  icon={eval(faCloud)}
+                  label={"Posts"}
+                  className="link"
+                />
+                <MenuItem
+                  route={"/search"}
+                  icon={eval(faSearch)}
+                  label={"Search"}
+                  className="link"
+                />
+                <AccessControl
+                  allowedPermissions={["user:canView"]}
+                  text={() => this.dothis()}
+                  renderNoAccess={() => console.log("u dont have permission")}
+                >
+                  <MenuItem
+                    route={"/users"}
+                    icon={eval(faUsers)}
+                    label={"Users"}
+                    className="link"
+                  />
+                </AccessControl>
+              </div>
             </div>
-            <MenuItem route={"/posts"} icon={eval(faCloud)} label={"Posts"} />
-            <MenuItem
-              route={"/search"}
-              icon={eval(faSearch)}
-              label={"Search"}
-            />
-            <AccessControl
-              allowedPermissions={["user:canView"]}
-              text={() => this.dothis()}
-              renderNoAccess={() => console.log("u dont have permission")}
-            >
-              <MenuItem route={"/users"} icon={eval(faUsers)} label={"Users"} />
-            </AccessControl>
           </div>
 
           <div className="main-content-container">

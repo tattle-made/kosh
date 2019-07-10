@@ -7031,6 +7031,9 @@ a.text-dark:hover, a.text-dark:focus {
     padding: 0.4em; }
   .sidenav-open .content-container .sidenav-container {
     background-color: #ffe5e2; }
+    .sidenav-open .content-container .sidenav-container div {
+      position: sticky;
+      top: 0px; }
     .sidenav-open .content-container .sidenav-container .label-icon-container {
       display: flex;
       flex-direction: row;
@@ -7045,12 +7048,13 @@ a.text-dark:hover, a.text-dark:focus {
       .sidenav-open .content-container .sidenav-container .label-icon-container .icon {
         margin-right: 0.4em;
         font-size: 1.7em;
-        margin-left: 0.27em; }
+        margin-left: -0.2em; }
     .sidenav-open .content-container .sidenav-container .app-logo-container {
       display: flex;
       align-items: center;
       margin-top: 0.4em;
-      margin-bottom: 1.4em; }
+      margin-bottom: 1.4em;
+      margin-left: -0.45em; }
       .sidenav-open .content-container .sidenav-container .app-logo-container img {
         margin-right: 0.4em; }
       .sidenav-open .content-container .sidenav-container .app-logo-container h1 {
@@ -7075,17 +7079,21 @@ a.text-dark:hover, a.text-dark:focus {
     padding: 0.4em; }
   .sidenav-close .content-container .sidenav-container {
     background-color: #ffe5e2; }
+    .sidenav-close .content-container .sidenav-container div {
+      position: sticky;
+      top: 0px; }
     .sidenav-close .content-container .sidenav-container .logo {
       width: 3em;
       height: 3em; }
     .sidenav-close .content-container .sidenav-container .icon {
       font-size: 1.7em;
-      margin-left: 0.27em; }
+      margin-left: -0.2em; }
     .sidenav-close .content-container .sidenav-container .sideNav-cross {
       display: none; }
     .sidenav-close .content-container .sidenav-container .app-logo-container {
       margin-top: 0.4em;
-      margin-bottom: 1.4em; }
+      margin-bottom: 1.4em;
+      margin-left: -0.45em; }
       .sidenav-close .content-container .sidenav-container .app-logo-container h1 {
         display: none; }
     .sidenav-close .content-container .sidenav-container .label-icon-container:hover {

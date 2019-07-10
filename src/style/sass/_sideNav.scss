@@ -15,16 +15,10 @@
       padding: 0.4em;
     }
     & .sidenav-container {
-      // position: relative;
-      // posiston: fixed;
-      // position: sticky; // See link
-      // left: 0;
-      // top: 0; //to make it stick to the top of the screen
-      // height: 100vh;
-      // position: -webkit-sticky;
-      // position: sticky;
-      // max-height: 100vh;
-      // overflow: hidden;
+      div {
+        position: sticky;
+        top: 0px;
+      }
       background-color: $sidenav-background;
       & .label-icon-container {
         display: flex;
@@ -48,7 +42,7 @@
           margin-right: 0.4em;
           //icon size
           font-size: 1.7em;
-          margin-left: 0.27em;
+          margin-left: -0.2em;
         }
       }
       & .app-logo-container {
@@ -56,6 +50,7 @@
         align-items: center;
         margin-top: 0.4em;
         margin-bottom: 1.4em;
+        margin-left: -0.45em;
         img {
           margin-right: 0.4em;
         }
@@ -93,12 +88,10 @@
       padding: 0.4em;
     }
     & .sidenav-container {
-      // position: sticky; // See link
-      // top: 0; //to make it stick to the top of the screen
-      // height: 100vh;
-      // max-height: 100vh;
-      // overflow: hidden;
-      // position: fixed;
+      div {
+        position: sticky;
+        top: 0px;
+      }
       background-color: $sidenav-background;
       & .logo {
         width: $logo-width;
@@ -106,7 +99,7 @@
       }
       & .icon {
         font-size: 1.7em;
-        margin-left: 0.27em;
+        margin-left: -0.2em;
       }
       & .sideNav-cross {
         display: none;
@@ -114,6 +107,7 @@
       & .app-logo-container {
         margin-top: 0.4em;
         margin-bottom: 1.4em;
+        margin-left: -0.45em;
         & h1 {
           display: none;
         }
