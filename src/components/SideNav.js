@@ -7,15 +7,15 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
-import { Link } from "react-router-dom";
 
 //components
 import SearchInput from "./SearchInput";
 import PostsTable from "./PostsTable";
 import Users from "./Users";
 import PostsTableItem from "./PostsTableItem";
+import { MenuItem } from "../reusableComponents/MenuItem";
 // access control
-import AccessControl from "./accessControl"
+import AccessControl from "./accessControl";
 
 export default class SideNav extends Component {
   constructor(props) {
@@ -66,37 +66,19 @@ export default class SideNav extends Component {
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </div>
-
-            <Link to="/posts">
-              <div className="label-icon-container">
-                <span className="icon">
-                  <FontAwesomeIcon icon={faCloud} color="#000637" />
-                </span>
-                <h2>Posts</h2>
-              </div>
-            </Link>
-            <Link to="/search">
-              <div className="label-icon-container">
-                <span className="icon">
-                  <FontAwesomeIcon icon={faSearch} color="#000637" />
-                </span>
-                <h2>Search</h2>
-              </div>
-            </Link>
+            <MenuItem route={"/posts"} icon={eval(faCloud)} label={"Posts"} />
+            <MenuItem
+              route={"/search"}
+              icon={eval(faSearch)}
+              label={"Search"}
+            />
             <AccessControl
-              allowedPermissions={["user:canView"]} text={() => this.dothis()} 
-               renderNoAccess = {() => console.log("u dont have permission")}
+              allowedPermissions={["user:canView"]}
+              text={() => this.dothis()}
+              renderNoAccess={() => console.log("u dont have permission")}
             >
-              <Link to="/users">
-                 <div className="label-icon-container">
-                  <span className="icon">
-                  <FontAwesomeIcon icon={faUsers} color="#000637" />
-                  </span>
-                 <h2>Users</h2>
-                  </div>
-              </Link>
+              <MenuItem route={"/users"} icon={eval(faUsers)} label={"Users"} />
             </AccessControl>
-            
           </div>
 
           <div className="main-content-container">
