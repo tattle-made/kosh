@@ -7097,7 +7097,8 @@ a.text-dark:hover, a.text-dark:focus {
       .sidenav-close .content-container .sidenav-container .app-logo-container h1 {
         display: none; }
     .sidenav-close .content-container .sidenav-container .label-icon-container:hover {
-      background-color: #ffccc8; }
+      background-color: #ffccc8;
+      width: 40px; }
     .sidenav-close .content-container .sidenav-container .label-icon-container h2 {
       display: none; }
 

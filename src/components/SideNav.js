@@ -28,10 +28,16 @@ export default class SideNav extends Component {
     console.log("hi this is");
   }
   toggle(e) {
+    console.log("toggle");
     this.setState({
       open: !this.state.open
     });
   }
+  onMenuItemClick(e) {
+    console.log("menuItem");
+    e.stopPropagation();
+  }
+
   mainContent(route) {
     if (route === "/posts") {
       return <PostsTable />;
@@ -52,7 +58,7 @@ export default class SideNav extends Component {
         })}
       >
         <div className="content-container">
-          <div className="sidenav-container" onClick={this.toggle.bind(this)}>
+          <div className="sidenav-container" onClick={() => this.toggle()}>
             <div>
               <div className="app-logo-container">
                 <img
@@ -62,23 +68,21 @@ export default class SideNav extends Component {
                 <h1>Tattle</h1>
                 <span
                   className="sideNav-cross"
-                  onClick={this.closeSideNav.bind(this)}
+                  onClick={() => this.closeSideNav()}
                 >
                   <FontAwesomeIcon icon={faTimes} />
                 </span>
               </div>
-              <div className="links">
+              <div className="links" onClick={e => this.onMenuItemClick(e)}>
                 <MenuItem
                   route={"/posts"}
                   icon={eval(faCloud)}
                   label={"Posts"}
-                  className="link"
                 />
                 <MenuItem
                   route={"/search"}
                   icon={eval(faSearch)}
                   label={"Search"}
-                  className="link"
                 />
                 <AccessControl
                   allowedPermissions={["user:canView"]}
@@ -89,7 +93,6 @@ export default class SideNav extends Component {
                     route={"/users"}
                     icon={eval(faUsers)}
                     label={"Users"}
-                    className="link"
                   />
                 </AccessControl>
               </div>
