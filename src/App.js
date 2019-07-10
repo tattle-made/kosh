@@ -23,6 +23,8 @@ import PostsTable from "./components/PostsTable";
 import SideNav from "./components/SideNav";
 import PostsTableItem from "./components/PostsTableItem";
 import LoginCard from "./components/LoginCard";
+import Test from "./components/test";
+
 function App() {
   return (
     <Provider store={store}>
@@ -44,6 +46,7 @@ function App() {
           <Route exact path="/posts/:id" component={SideNav} />
           <Route exact path="/sidenav" component={SideNav} />
           <Route exact path="/login" component={LoginCard} />
+          <Route exact path="/test" component={Test} />
         </div>
       </Router>
     </Provider>

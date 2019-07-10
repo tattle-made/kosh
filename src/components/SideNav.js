@@ -14,6 +14,8 @@ import SearchInput from "./SearchInput";
 import PostsTable from "./PostsTable";
 import Users from "./Users";
 import PostsTableItem from "./PostsTableItem";
+// access control
+import AccessControl from "./accessControl"
 
 export default class SideNav extends Component {
   constructor(props) {
@@ -81,14 +83,20 @@ export default class SideNav extends Component {
                 <h2>Search</h2>
               </div>
             </Link>
-            <Link to="/users">
-              <div className="label-icon-container">
-                <span className="icon">
+            <AccessControl userPermissions={["read"]}
+              allowedPermissions={["user:canView"]} text={() => this.dothis()} 
+               renderNoAccess = {() => console.log("u dont have permission")}
+            >
+              <Link to="/users">
+                 <div className="label-icon-container">
+                  <span className="icon">
                   <FontAwesomeIcon icon={faUsers} color="#000637" />
-                </span>
-                <h2>Users</h2>
-              </div>
-            </Link>
+                  </span>
+                 <h2>Users</h2>
+                  </div>
+              </Link>
+            </AccessControl>
+            
           </div>
 
           <div className="main-content-container">

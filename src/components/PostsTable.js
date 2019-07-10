@@ -22,6 +22,8 @@ import { fetchPosts } from "../actions/fetchData";
 //components
 import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
 import { Card } from "./Card";
+// action control
+import AccessControl from "./accessControl";
 
 // socket io
 import io from "socket.io-client";
@@ -117,8 +119,12 @@ class PostsTable extends Component {
   actionIconsFormatter(cel, row) {
     return (
       <div>
-        <FontAwesomeIcon icon={faTrashAlt} className="mr-5" />
-
+         <AccessControl userPermissions={["read"]}
+          allowedPermissions={["user:canView"]} text={() => this.dothis()} 
+          renderNoAccess = {() => console.log("u dont have permission")}
+          >
+           <FontAwesomeIcon icon={faTrashAlt} className="mr-5" />
+           </AccessControl>
         <FontAwesomeIcon icon={faCheck} />
       </div>
     );
