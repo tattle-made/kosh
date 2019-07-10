@@ -83,7 +83,7 @@ export default class SideNav extends Component {
                 <h2>Search</h2>
               </div>
             </Link>
-            <AccessControl userPermissions={["read"]}
+            <AccessControl
               allowedPermissions={["user:canView"]} text={() => this.dothis()} 
                renderNoAccess = {() => console.log("u dont have permission")}
             >

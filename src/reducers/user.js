@@ -2,7 +2,7 @@ import { GET_USER, SET_USER } from "../actions/types";
 
 const user = {
   id: "asdf-asdf-2343-asdf",
-  role: "EDITOR",
+  role: "SUBSCRIBER",
   team: "fact check team delhi"
 };
 

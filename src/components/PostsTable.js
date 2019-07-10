@@ -119,7 +119,7 @@ class PostsTable extends Component {
   actionIconsFormatter(cel, row) {
     return (
       <div>
-         <AccessControl userPermissions={["read"]}
+         <AccessControl
           allowedPermissions={["user:canView"]} text={() => this.dothis()} 
           renderNoAccess = {() => console.log("u dont have permission")}
           >
