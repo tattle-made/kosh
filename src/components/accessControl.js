@@ -1,63 +1,52 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-// import getUserPermissions from "../utils/permission";
-
-
+import { connect } from "react-redux";
+import { getUserPermissions } from "../utils/permissions";
 
 class AccessControl extends Component {
+  checkPermissions(userPermissions, allowedPermissions) {
+    //return true only if userPermissions have all the permission of the
+    // component.
+    return allowedPermissions.every(permission =>
+      userPermissions.includes(permission)
+    );
 
-    getUserPermissions(role) {
-        switch(role){
-            case "ADMIN":
-              return ["post:canDelete","post:canUpload", "user:canView"];
-            case "SUBSCRIBER":
-             return [];
-            default:
-            return [];
-        }
-    }
-    checkPermissions(userPermissions,  allowedPermissions) {
-      //return true only if userPermissions have all the permission of the
-      // component.
-      return  allowedPermissions.every(permission => userPermissions.includes(permission));
+    // returns true even if user have some permission of the component.
 
-      // returns true even if user have some permission of the component.
+    // if ( allowedPermissionsPermissions.length === 0) {
+    //     return true;
+    //   }
+    //     return userPermissions.some(permission =>
+    //       allowedPermissions.includes(permission)
+    //   );
+  }
 
-        // if ( allowedPermissionsPermissions.length === 0) {
-        //     return true;
-        //   }
-
-        //     return userPermissions.some(permission =>
-        //       allowedPermissions.includes(permission)
-        //   );
-    }
-
- 
   render() {
-
-const userPermissions = this.getUserPermissions(this.props.userRole);
+    const userPermissions = getUserPermissions(this.props.userRole);
 
     const permitted = this.checkPermissions(
-              userPermissions,
-              this.props.allowedPermissions
-            );
-      
-            if (permitted) {
-              return this.props.children;
-            }
-            this.props.renderNoAccess();
-            return null;
+      userPermissions,
+      this.props.allowedPermissions
+    );
+
+    if (permitted) {
+      return this.props.children;
+    }
+    this.props.renderNoAccess();
+    return null;
   }
 }
 
-AccessControl.ropTypes = {
+AccessControl.propTypes = {
   allowedPermissions: PropTypes.array,
-  renderNoAccess: PropTypes.func,
+  renderNoAccess: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-    userRole : state.user.role
+  userRole: state.user.role
 });
 
-export default connect(mapStateToProps,{})(AccessControl);
+export default connect(
+  mapStateToProps,
+  {}
+)(AccessControl);
