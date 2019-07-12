@@ -41,22 +41,12 @@ export function create(param: PostCreateRequest): Promise<JSON> {
 }
 
 export function getAll() {
-  // console.log(
-  //   Post.findAll({
-  //     limit: 10,
-  //     order: [["createdAt", "DESC"]]
-  //   }).map(el => el.get({ plain: true }))
-  // );
-
-  // DOUBT
-  // what is this map doing here ?
   return Post.findAll({
     limit: 10,
     order: [["createdAt", "DESC"]]
   })
     .map(el => el.get({ plain: true }))
     .catch(err => {
-      // why not simply return object ?
       return Promise.resolve({
         message: "Error creating Post",
         error: err

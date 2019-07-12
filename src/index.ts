@@ -44,7 +44,6 @@ app.post("/postByTime", (req: Request, res: Response) => {
     .catch(err => res.send(err.JSON));
 });
 
-//doubt
 app.post("/posts", (req: Request, res: Response) => {
   const post = new PostCreateRequest(req.body);
   postController
@@ -62,7 +61,6 @@ app.get("/search", (req: Request, res: Response) => {
   res.send(searchController.search(req.query));
 });
 
-//doubt
 app.post("/auth/login", (req: Request, res: Response) => {
   const { username, password } = req.body;
   loginController

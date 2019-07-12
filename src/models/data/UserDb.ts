@@ -36,8 +36,6 @@ export function exists(
   username: string,
   password: string
 ): Promise<ExistsResponse> {
-  //DOUBT
-  // why find and count all ? why count ?
   return User.findAndCountAll({
     where: {
       username,

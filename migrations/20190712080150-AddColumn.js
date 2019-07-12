@@ -20,6 +20,6 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    return queryInterface.removeColumn("user", "email", Sequelize.STRING);
+    return queryInterface.removeColumn("users", "email", Sequelize.STRING);
   }
 };

@@ -1,13 +1,13 @@
 export default class LoginResponse {
-    private token: string;
+  private token: string;
 
-    constructor(token: string) {
-        this.token = token;
-    }
+  constructor(token: string) {
+    this.token = token;
+  }
 
-    public get() {
-        return {
-            token : this.token,
-        };
-    }
+  public get() {
+    return {
+      token: this.token
+    };
+  }
 }
