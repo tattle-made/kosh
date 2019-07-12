@@ -7,3 +7,4 @@ export function logMessage(message: string) {
 export function logError(err: any) {
     Sentry.captureException(err);
 }
+
