@@ -1,4 +1,4 @@
-import { ERRORS, SEARCH, CONTENT_LOADING, POSTS } from "./types";
+import { ERRORS, SEARCH, CONTENT_LOADING, POSTS, USERS } from "./types";
 import axios from "axios";
 
 export const error = error => {
@@ -52,7 +52,8 @@ export const search = url => {
   // };
 };
 
-export const fetchPosts = url => {
+export const fetchPosts = () => {
+  const url = "http://13.233.110.23:8080/posts";
   const request = axios.get(url);
   return dispatch => {
     request
@@ -93,4 +94,19 @@ export const fetchPosts = url => {
   //       ]
   //     };
   //   })
+};
+
+export const fetchUsers = () => {
+  const url = "http://localhost:8080/users";
+  const request = axios.get(url);
+  return dispatch => {
+    request
+      .then(res => {
+        dispatch({
+          type: USERS,
+          payload: res.data
+        });
+      })
+      .catch(err => console.log(err));
+  };
 };

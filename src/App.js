@@ -18,12 +18,14 @@ import Sidebar from "./components/Sidebar";
 import Home from "./components/Home";
 import Loading from "./components/Loading";
 import RegisterUser from "./components/RegisterUser";
-import Users from "./components/Users";
+import UsersTable from "./components/UsersTable";
 import PostsTable from "./components/PostsTable";
 import SideNav from "./components/SideNav";
 import PostsTableItem from "./components/PostsTableItem";
 import LoginCard from "./components/LoginCard";
 import Test from "./components/test";
+import UserCreate from "./components/UserCreate";
+import UserUpdate from "./components/UserUpdate";
 
 function App() {
   return (
@@ -47,6 +49,9 @@ function App() {
           <Route exact path="/sidenav" component={SideNav} />
           <Route exact path="/login" component={LoginCard} />
           <Route exact path="/test" component={Test} />
+          <Route exact path="/users/create" component={UserCreate} />
+          <Route exact path="/users/update/:id" component={UserUpdate} />
+          <Route exact path="/users/delete/:id" component={Test} />
         </div>
       </Router>
     </Provider>

@@ -12,15 +12,15 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { Breadcrumb } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import overlayFactory from "react-bootstrap-table2-overlay";
 import axios from "axios";
 
 //actions
-import { fetchPosts } from "../actions/fetchData";
-import { postDelete } from "../actions/post";
+import { fetchUsers } from "../actions/fetchData";
+import { userDelete } from "../actions/user";
 
 //components
 import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
@@ -37,7 +37,7 @@ const SHELL_SERVER_API_ENDPOINT = "http://13.233.110.23:8080/posts";
 //connect to server
 const socket = io("http://localhost:3001/");
 
-class PostsTable extends Component {
+class UsersTable extends Component {
   constructor(props) {
     super(props);
     /**
@@ -47,33 +47,29 @@ class PostsTable extends Component {
      * 3. columns
      */
     this.state = {
-      data: [],
+      users: [],
       loading: true,
       columns: [
         {
-          dataField: "type",
-          text: "Title"
+          dataField: "username",
+          text: "Username"
           // sort: true
         },
         {
-          dataField: "filename",
-          text: "Description",
-          formatter: this.previewFormatter,
-          events: {
-            onClick: (e, column, columnIndex, row, rowIndex) => {
-              // console.log("events");
-              // console.log(column);
-              // console.log(columnIndex);
-              // console.log(row);
-              // console.log(rowIndex);
-              const url = `/posts/${row.id}`;
-              this.props.history.push(url);
-            }
-          }
+          dataField: "email",
+          text: "Email",
+          formatter: this.previewFormatter
         },
         {
-          dataField: "tags",
-          text: "Tags",
+          dataField: "role",
+          text: "Role",
+          // sort: true,
+          filter: textFilter(),
+          headerAlign: "center"
+        },
+        {
+          dataField: "posts",
+          text: "Posts",
           // sort: true,
           filter: textFilter(),
           headerAlign: "center"
@@ -89,48 +85,7 @@ class PostsTable extends Component {
     };
 
     this.refresh = this.refresh.bind(this);
-  }
-
-  previewFormatter(cell, row) {
-    console.log("row");
-    console.log(row);
-    console.log("cell");
-    console.log(cell);
-    if (row.type == "image") {
-      return (
-        <div className="card" style={prev}>
-          <img
-            src={`https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${cell}?alt=media&token=88192814-45bb-4302-b409-b5c26e90390b`}
-            alt="preview"
-          />
-        </div>
-      );
-    } else if (row.type == "video") {
-      return (
-        // <video
-        //   // src={`https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${cell}?alt=media&token=88192814-45bb-4302-b409-b5c26e90390b`}
-        //   // src={"https://youtu.be/DBXH9jJRaDk"}
-        // />
-        <div className="card" style={prev}>
-          <iframe src="https://www.youtube.com/embed/hZFNVj505HQ" />
-        </div>
-      );
-    } else if (row.type == "text") {
-      return (
-        <div className="card" style={prev}>
-          <div className="card-text">
-            Mollit anim Lorem quis nulla mollit officia ad. Do do aute dolore
-            incididunt pariatur enim cupidatat reprehenderit quis eu non. Est
-            incididunt commodo enim voluptate mollit sit reprehenderit elit
-            proident aute non et. Consectetur aliquip tempor anim excepteur nisi
-            consectetur sint pariatur. Do veniam pariatur enim aliquip ut elit
-            nulla ad ad et deserunt do reprehenderit minim. Pariatur culpa
-            adipisicing nulla occaecat aliquip cupidatat labore nisi excepteur
-            mollit excepteur.
-          </div>
-        </div>
-      );
-    }
+    this.actionIconsFormatter = this.actionIconsFormatter.bind(this);
   }
 
   actionIconsFormatter(cell, row, rowIndex, props) {
@@ -146,8 +101,7 @@ class PostsTable extends Component {
             icon={faTrashAlt}
             className="mr-5"
             onClick={() => {
-              props.postDelete(row.id);
-              console.log("delete");
+              props.userDelete(row.id);
             }}
           />
         </AccessControl>
@@ -157,30 +111,31 @@ class PostsTable extends Component {
   }
 
   componentDidMount() {
-    // console.log("mounted");
-    // console.log("props", this.props);
-    console.log("data", this.props.fetch.data);
-    this.props.fetchPosts();
-
+    console.log("mounted");
+    console.log("props", this.props.userDelete(10));
+    this.props.fetchUsers();
+    this.setState({
+      users: this.props.users
+    });
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
-    socket.on("posts/newData", value => {
+    socket.on("users/newData", value => {
       console.log("new Data received", value.name);
       this.refresh();
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.fetch.data !== this.props.fetch.data) {
+    console.log("will recieve new props", nextProps);
+    if (nextProps.users !== this.props.users) {
       this.setState({
-        data: nextProps.fetch.data
+        users: nextProps.users
       });
     }
   }
-
   refresh() {
     console.log("refreshing");
-    this.props.fetchPosts();
+    this.props.fetchUsers();
   }
 
   //TODO : change this life cycle method.
@@ -206,7 +161,6 @@ class PostsTable extends Component {
   render() {
     // const rowEvents = {
     //   onClick: (e, row, rowIndex) => {
-    //     // console.log("row Event");
     //     // console.log(e);
     //     // console.log(row);
     //     // console.log(rowIndex);
@@ -215,12 +169,17 @@ class PostsTable extends Component {
     //   }
     // };
 
-    // console.log("hello", this.state.data);
-
+    console.log("hello state", this.state.users);
+    console.log("hello props", this.props.users);
     return (
       <div className="container">
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
-        <HeadingTwo text="Posts" />
+        <HeadingTwo text="Users" />
+        <Breadcrumb>
+          <Breadcrumb.Item href="/users">Users</Breadcrumb.Item>
+          <Breadcrumb.Item href="/users/create">Create</Breadcrumb.Item>
+          {/* <Breadcrumb.Item active>Data</Breadcrumb.Item> */}
+        </Breadcrumb>
         <div className="my-3">
           <button className="btn btn-sm btn-color-white-one mr-3">
             <FontAwesomeIcon icon={faUpload} /> Upload
@@ -241,32 +200,35 @@ class PostsTable extends Component {
           striped
           hover
           keyField="id"
-          data={this.state.data}
+          // we cannot directly use this.props.fetchUsers, this will give data=[] empty array
+          // we need to set the data using state, and whever new data from fetchUsers is arrived via
+          // props.users defined in mapStateToProps we can use lifecycle method to update the state
+          // which will re-render the component and will show the updated data in the table.
+          data={this.state.users}
           columns={this.state.columns}
           filter={filterFactory()}
           pagination={paginationFactory()}
           // rowEvents={rowEvents}
-          // loading={this.state.loading} //only loading is true, react-bootstrap-table will render overlay
-          // overlay={overlayFactory()}
         />
       </div>
     );
   }
 }
 
-PostsTable.propTypes = {
-  fetchPosts: PropTypes.func
+UsersTable.propTypes = {
+  fetchUsers: PropTypes.func,
+  userDelete: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  fetch: state.fetch
+  users: state.users
 });
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { fetchPosts, postDelete }
-  )(PostsTable)
+    { fetchUsers, userDelete }
+  )(UsersTable)
 );
 
 const prev = {

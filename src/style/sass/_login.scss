@@ -1,27 +1,25 @@
-
-
-@mixin loginPage{
-    // login header styling
-    .login-header{
-        & img{
-            width:200px;
-            height:90px;
-        }
-        text-align:center;
-        margin-top:10px;
+@mixin loginPage {
+  // login header styling
+  .login-header {
+    & img {
+      width: 200px;
+      height: 90px;
     }
+    text-align: center;
+    margin-top: 10px;
+  }
 
-    // login card styling
-    .login {
+  // login card styling
+  .login {
     display: flex;
     width: 40vw;
     height: 53vh;
-    margin-top:30px;
+    margin-top: 30px;
     //   background-color: #bada55;
     //   flex: 0 0 50%;
-    }
+  }
 
-    .login-left {
+  .login-left {
     flex: 0 0 50%;
     // background-color: aquamarine;
     //   flex: 1;
@@ -44,8 +42,8 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     // box-shadow: 2px 2px rgba(105, 104, 104, 0.781);
-    }
-    .login-right {
+  }
+  .login-right {
     flex: 0 0 50%;
     background-color: $sidenav-background;
     //   flex: 1;
@@ -57,58 +55,55 @@
     // box-shadow: 2px 2px rgba(105, 104, 104, 0.781);
 
     padding-left: auto;
-    padding-top:8px;
+    padding-top: 8px;
     padding-bottom: 14px;
-    text-align:center;
+    text-align: center;
     & input[type="text"] {
-        background: transparent;
-        // border: none;
-        // border-bottom: 2px solid #102713;
-        border: 1px solid #151a3d;
-        border-radius: 5px;
-        margin-top: 25px;
-        padding: 6px 4px;
+      background: transparent;
+      // border: none;
+      // border-bottom: 2px solid #102713;
+      border: 1px solid #151a3d;
+      border-radius: 5px;
+      margin-top: 25px;
+      padding: 6px 4px;
     }
-    & .btn-login-size{
-        width:200px;
+    & .btn-login-size {
+      width: 200px;
     }
-    }
+  }
 
-   // login footer styling
-    .login-footer{
-        margin-top: 50px;
-        display:flex;
-        justify-content:center;
-        & div{
-            margin: 0 30px;
-        }
+  // login footer styling
+  .login-footer {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    & div {
+      margin: 0 30px;
     }
- 
+  }
 }
 
-@media(max-width:768px){
-    @include loginPage
-
-    // Login Card changes
+@media (max-width: 768px) {
+  @include loginPage // Login Card changes
     .login {
-        flex-direction:column;
-    }
-    .login-left{
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        border-bottom-left-radius: 0;      
-    }
-    .login-right{
-        border-top-right-radius:0;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-    }
-    .login-footer{
-        // background-color: #e7e7e7;
-        margin-top:180px;
-    }
+    flex-direction: column;
+  }
+  .login-left {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 0;
+  }
+  .login-right {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  .login-footer {
+    // background-color: #e7e7e7;
+    margin-top: 180px;
+  }
 }
 
-@media(min-width:768px){
-    @include loginPage;
+@media (min-width: 768px) {
+  @include loginPage;
 }

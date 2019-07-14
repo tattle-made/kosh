@@ -11,7 +11,7 @@ import classnames from "classnames";
 //components
 import SearchInput from "./SearchInput";
 import PostsTable from "./PostsTable";
-import Users from "./Users";
+import Users from "./UsersTable";
 import PostsTableItem from "./PostsTableItem";
 import { MenuItem } from "../reusableComponents/MenuItem";
 // access control

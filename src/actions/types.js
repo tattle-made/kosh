@@ -6,3 +6,6 @@ export const BREADCRUMBS = "BREADCRUMBS";
 export const SET_USER = "SET_USER";
 export const GET_USER = "GET_USER";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const USERS = "USERS";
+export const POST_DELETE = "POST_DELETE";
+export const USER_DELETE = "USER_DELETE";

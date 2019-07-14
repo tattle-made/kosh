@@ -3,10 +3,12 @@ import errorReducer from "./errorReducer";
 import dataReducer from "./dataReducer";
 import breadcrumbs from "./breadcrumbs";
 import user from "./user";
+import users from "./users";
 
 export default combineReducers({
   errors: errorReducer,
   fetch: dataReducer,
   breadcrumbs: breadcrumbs,
-  user: user
+  user: user,
+  users: users
 });
