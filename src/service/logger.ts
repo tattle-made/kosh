@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/node';
+import * as Sentry from "@sentry/node";
 
 export function logMessage(message: string) {
     Sentry.captureMessage(message);
@@ -7,4 +7,3 @@ export function logMessage(message: string) {
 export function logError(err: any) {
     Sentry.captureException(err);
 }
-

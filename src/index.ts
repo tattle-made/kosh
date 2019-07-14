@@ -15,7 +15,7 @@ import { UserCreateRequest } from "./models/request/UserCreateRequest";
 const app = express();
 const port = 8080;
 Sentry.init({
-  dsn: "https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856"
+    dsn: "https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856"
 });
 
 // app.use(cors);
@@ -29,73 +29,84 @@ const loginController = new LoginController();
 const userController = new UserController();
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("pong");
+    res.send("pong");
 });
 
 app.get("/posts", (req: Request, res: Response) => {
-  postController.getAll().then(posts => res.send(posts));
+    postController.getAll().then(posts => res.send(posts));
 });
 
 app.post("/postByTime", (req: Request, res: Response) => {
-  const { d1, d2 } = req.body;
-  postController
-    .getByTime(d1, d2)
-    .then(posts => res.send(posts))
-    .catch(err => res.send(err.JSON));
+    const { d1, d2 } = req.body;
+    postController
+        .getByTime(d1, d2)
+        .then(posts => res.send(posts))
+        .catch(err => res.send(err.JSON));
 });
 
 app.post("/posts", (req: Request, res: Response) => {
-  const post = new PostCreateRequest(req.body);
-  postController
-    .create(post)
-    .then((response: JSON) => res.send(response))
-    .catch(err => res.send(err.JSON));
+    const post = new PostCreateRequest(req.body);
+    postController
+        .create(post)
+        .then((response: JSON) => res.send(response))
+        .catch(err => res.send(err.JSON));
 });
 
 app.get("/posts/:id", (req: Request, res: Response) => {
-  const { id } = req.params;
-  postController.get(id).then(post => res.send(post));
+    const { id } = req.params;
+    postController.get(id).then(post => res.send(post));
+});
+
+app.post("/posts/:id", (req: Request, res: Response) => {
+    const { id } = req.params;
+    postController.delete(id).then(post => res.send(post));
 });
 
 app.get("/search", (req: Request, res: Response) => {
-  res.send(searchController.search(req.query));
+    res.send(searchController.search(req.query));
 });
 
 app.post("/auth/login", (req: Request, res: Response) => {
-  const { username, password } = req.body;
-  loginController
-    .login(username, password)
-    .then(response => res.send(new LoginResponse(response).get()));
+    const { username, password } = req.body;
+    loginController
+        .login(username, password)
+        .then(response => res.send(new LoginResponse(response).get()));
 });
 
 app.post("/auth/logout", (req: Request, res: Response) => {
-  const { token } = req.body;
-  loginController.logout(token).then(response => res.send(response));
+    const { token } = req.body;
+    loginController.logout(token).then(response => res.send(response));
+});
+
+app.get("/users", (req: Request, res: Response) => {
+    userController.getAll().then(users => {
+        res.send(users);
+    });
 });
 
 app.post("/users/create", (req: Request, res: Response) => {
-  const user = new UserCreateRequest(req.body);
-  userController
-    .createUser(user)
-    .then(response => res.send(response))
-    .catch(err => res.send(err.JSON));
+    const user = new UserCreateRequest(req.body);
+    userController
+        .create(user)
+        .then(response => res.send(response))
+        .catch(err => res.send(err.JSON));
 });
 
 app.post("/users/update/:id", (req: Request, res: Response) => {
-  const user = new UserCreateRequest(req.body);
-  const { id } = req.params;
-  userController
-    .updateUser(id, user)
-    .then(response => res.send(response))
-    .catch(err => res.send(err.JSON));
+    const user = new UserCreateRequest(req.body);
+    const { id } = req.params;
+    userController
+        .update(id, user)
+        .then(response => res.send(response))
+        .catch(err => res.send(err.JSON));
 });
 
 app.post("/users/delete/:id", (req: Request, res: Response) => {
-  const { id } = req.params;
-  userController
-    .deleteUser(id)
-    .then(response => res.send(response))
-    .catch(err => res.send(err.JSON));
+    const { id } = req.params;
+    userController
+        .delete(id)
+        .then(response => res.send(response))
+        .catch(err => res.send(err.JSON));
 });
 
 app.use(Sentry.Handlers.errorHandler());
@@ -108,5 +119,5 @@ app.use(Sentry.Handlers.errorHandler());
 //   });
 
 app.listen(port, () => {
-  console.log("server is listening to ", port);
+    console.log("server is listening to ", port);
 });

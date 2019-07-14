@@ -6,16 +6,16 @@ import { UserCreateRequest } from "../request/UserCreateRequest";
 export class User extends Sequelize.Model {}
 
 User.init(
-  {
-    username: Sequelize.STRING,
-    password: Sequelize.STRING,
-    email: Sequelize.STRING,
-    role: Sequelize.STRING
-  },
-  {
-    sequelize: db.get(),
-    modelName: "user"
-  }
+    {
+        username: Sequelize.STRING,
+        password: Sequelize.STRING,
+        email: Sequelize.STRING,
+        role: Sequelize.STRING
+    },
+    {
+        sequelize: db.get(),
+        modelName: "user"
+    }
 );
 
 // User.sync()
@@ -33,79 +33,96 @@ User.init(
 // returns true and {userid : <id>}
 
 export function exists(
-  username: string,
-  password: string
+    username: string,
+    password: string
 ): Promise<ExistsResponse> {
-  return User.findAndCountAll({
-    where: {
-      username,
-      password
-    }
-  })
-    .then(result => {
-      if (result.count === 0) {
-        return new ExistsResponse(false, -1);
-      } else {
-        return new ExistsResponse(true, result.rows[0].get("id") as number);
-      }
+    return User.findAndCountAll({
+        where: {
+            username,
+            password
+        }
     })
-    .catch(err => {
-      console.log(err);
-    });
-  // .then((user) => user.id != undefined ? true : false;)
+        .then(result => {
+            if (result.count === 0) {
+                return new ExistsResponse(false, -1);
+            } else {
+                return new ExistsResponse(true, result.rows[0].get(
+                    "id"
+                ) as number);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    // .then((user) => user.id != undefined ? true : false;)
 }
 
-export function createUser(param: UserCreateRequest): Promise<any> {
-  return User.create(param.getAll())
-    .then((user: User) => {
-      return user.get();
+export function getAll() {
+    return User.findAll({
+        limit: 10,
+        order: [["createdAt", "DESC"]]
     })
-    .catch(err =>
-      Promise.resolve({
-        message: "Error creating User",
-        error: err.toJSON()
-      })
-    );
+        .map(el => el.get({ plain: true }))
+        .catch(err => {
+            return Promise.resolve({
+                message: "Error creating Post",
+                error: err
+            });
+        });
 }
 
-export function updateUser(id: number, param: UserCreateRequest): Promise<any> {
-  return User.update(
-    {
-      username: param.username,
-      password: param.password,
-      email: param.email,
-      role: param.role
-    },
-    {
-      where: {
-        id
-      }
-    }
-  )
-    .then(user => {
-      return user;
-    })
-    .catch(err =>
-      Promise.resolve({
-        message: "Error Updating User",
-        error: err.toJSON()
-      })
-    );
+export function create(param: UserCreateRequest): Promise<any> {
+    return User.create(param.getAll())
+        .then((user: User) => {
+            return user.get();
+        })
+        .catch(err =>
+            Promise.resolve({
+                message: "Error creating User",
+                error: err.toJSON()
+            })
+        );
+}
+
+export function update(id: number, param: UserCreateRequest): Promise<any> {
+    return User.update(
+        {
+            username: param.username,
+            password: param.password,
+            email: param.email,
+            role: param.role
+        },
+        {
+            where: {
+                id
+            }
+        }
+    )
+        .then(user => {
+            console.log("updated");
+            console.log(user);
+        })
+        .catch(err =>
+            Promise.resolve({
+                message: "Error Updating User",
+                error: err.toJSON()
+            })
+        );
 }
 
 export function deleteUser(id: number): Promise<any> {
-  return User.destroy({
-    where: {
-      id
-    }
-  })
-    .then(user => {
-      return user;
+    return User.destroy({
+        where: {
+            id
+        }
     })
-    .catch(err =>
-      Promise.resolve({
-        message: "Error Deleting User",
-        error: err.toJSON()
-      })
-    );
+        .then(user => {
+            return user;
+        })
+        .catch(err =>
+            Promise.resolve({
+                message: "Error Deleting User",
+                error: err.toJSON()
+            })
+        );
 }

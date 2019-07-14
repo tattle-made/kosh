@@ -3,5 +3,4 @@ export default class {
     constructor(route: string) {
         this.route = route;
     }
-
 }

@@ -4,10 +4,9 @@ export class SearchRequest {
     public url: string;
 
     constructor(param: any) {
-        const {type, query, url} = param;
+        const { type, query, url } = param;
         this.type = type;
         this.query = query;
         this.url = url;
     }
 }
-
