@@ -1,5 +1,5 @@
 import React from "react";
 
 export const HeadingTwo = props => {
-  return <div className="heading2">{props.text}</div>;
+  return <span className="heading2">{props.text}</span>;
 };

@@ -1,10 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Button, Form } from "react-bootstrap";
-
+import { Button, Form, Breadcrumb } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUpload,
+  faDownload,
+  faSync,
+  faTrashAlt,
+  faCheck
+} from "@fortawesome/free-solid-svg-icons";
+import { withRouter } from "react-router-dom";
+//components
+import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
 //actions
-import { createUser } from "../actions/auth";
+import { createUser } from "../actions/user";
 
 class UserCreate extends Component {
   constructor(props) {
@@ -29,10 +39,39 @@ class UserCreate extends Component {
       role: this.state.role
     };
     this.props.createUser(userData);
+    this.props.history.push("/users");
   }
+
   render() {
     return (
       <div className="container">
+        <Breadcrumb>
+          <Breadcrumb.Item href="/users">
+            <span>
+              <HeadingTwo text="Users" />
+            </span>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item href="/users/create">
+            <HeadingTwo text="Create" />
+          </Breadcrumb.Item>
+          {/* <Breadcrumb.Item active>Data</Breadcrumb.Item> */}
+        </Breadcrumb>
+        <div className="my-3">
+          <button className="btn btn-sm btn-color-white-one mr-3">
+            <FontAwesomeIcon icon={faUpload} /> Upload
+          </button>
+          <Button
+            variant="light"
+            size="sm"
+            onClick={this.refresh}
+            className="mr-3"
+          >
+            <FontAwesomeIcon icon={faSync} />
+          </Button>
+          <Button variant="color-primary-one" size="sm">
+            <FontAwesomeIcon icon={faDownload} /> Download
+          </Button>
+        </div>
         <Form onSubmit={this.onFormSubmit.bind(this)}>
           <Form.Group controlId="username">
             {/* <Form.Label>Email address</Form.Label> */}
@@ -85,7 +124,9 @@ UserCreate.propTypes = {
   createUser: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { createUser }
-)(UserCreate);
+export default withRouter(
+  connect(
+    null,
+    { createUser }
+  )(UserCreate)
+);

@@ -9,3 +9,5 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const USERS = "USERS";
 export const POST_DELETE = "POST_DELETE";
 export const USER_DELETE = "USER_DELETE";
+export const USER_SELECT = "USER_SELECT";
+export const USER_UPDATE = "USER_UPDATE";

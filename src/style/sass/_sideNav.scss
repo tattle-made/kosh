@@ -22,7 +22,7 @@
       background-color: $sidenav-background;
       & .active {
         background-color: #ffccc8;
-        border-right: 8px solid #232422;
+        border-right: 4px solid #232422;
         margin-right: -19px;
         h2 {
           font-weight: bold;
@@ -111,9 +111,9 @@
       }
       & .active {
         background-color: #ffccc8;
-        border-right: 8px solid #232422;
+        border-right: 4px solid #232422;
         width: 40px;
-        padding-right: 35px;
+        padding-right: 40px;
         h2 {
           font-weight: bold;
         }

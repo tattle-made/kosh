@@ -49,9 +49,9 @@ function App() {
           <Route exact path="/sidenav" component={SideNav} />
           <Route exact path="/login" component={LoginCard} />
           <Route exact path="/test" component={Test} />
-          <Route exact path="/users/create" component={UserCreate} />
-          <Route exact path="/users/update/:id" component={UserUpdate} />
-          <Route exact path="/users/delete/:id" component={Test} />
+          <Route exact path="/users/create" component={SideNav} />
+          <Route exact path="/users/update/:id" component={SideNav} />
+          <Route exact path="/users/delete/:id" component={SideNav} />
         </div>
       </Router>
     </Provider>

@@ -1,4 +1,4 @@
-import { GET_USER, SET_USER } from "../actions/types";
+import { GET_USER, SET_USER, USER_SELECT } from "../actions/types";
 
 const user = {
   id: "",

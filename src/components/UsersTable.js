@@ -5,7 +5,8 @@ import {
   faDownload,
   faSync,
   faTrashAlt,
-  faCheck
+  faCheck,
+  faEdit
 } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
@@ -20,11 +21,12 @@ import axios from "axios";
 
 //actions
 import { fetchUsers } from "../actions/fetchData";
-import { userDelete } from "../actions/user";
+import { userDelete, selectedUser } from "../actions/user";
 
 //components
 import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
 import { Card } from "./Card";
+
 // action control
 import AccessControl from "./accessControl";
 
@@ -99,12 +101,20 @@ class UsersTable extends Component {
         >
           <FontAwesomeIcon
             icon={faTrashAlt}
-            className="mr-5"
+            className="mr-2"
             onClick={() => {
               props.userDelete(row.id);
             }}
           />
         </AccessControl>
+        <FontAwesomeIcon
+          icon={faEdit}
+          className="mr-2"
+          onClick={() => {
+            props.selectedUser(row);
+            props.history.push(`/users/update/${row.id}`);
+          }}
+        />
         <FontAwesomeIcon icon={faCheck} />
       </div>
     );
@@ -174,10 +184,16 @@ class UsersTable extends Component {
     return (
       <div className="container">
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
-        <HeadingTwo text="Users" />
+
         <Breadcrumb>
-          <Breadcrumb.Item href="/users">Users</Breadcrumb.Item>
-          <Breadcrumb.Item href="/users/create">Create</Breadcrumb.Item>
+          <Breadcrumb.Item href="/users">
+            <span>
+              <HeadingTwo text="Users" />
+            </span>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item href="/users/create">
+            <HeadingTwo text="Create" />
+          </Breadcrumb.Item>
           {/* <Breadcrumb.Item active>Data</Breadcrumb.Item> */}
         </Breadcrumb>
         <div className="my-3">
@@ -227,7 +243,7 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { fetchUsers, userDelete }
+    { fetchUsers, userDelete, selectedUser }
   )(UsersTable)
 );
 

@@ -11,9 +11,13 @@ import classnames from "classnames";
 //components
 import SearchInput from "./SearchInput";
 import PostsTable from "./PostsTable";
-import Users from "./UsersTable";
+import UsersTable from "./UsersTable";
+import UserCreate from "./UserCreate";
+import UserUpdate from "./UserUpdate";
 import PostsTableItem from "./PostsTableItem";
 import { MenuItem } from "../reusableComponents/MenuItem";
+import tattle1 from "../img/tattle1.svg";
+
 // access control
 import AccessControl from "./accessControl";
 
@@ -44,10 +48,15 @@ export default class SideNav extends Component {
     } else if (route === "/search") {
       return <SearchInput />;
     } else if (route === "/users") {
-      return <Users />;
+      return <UsersTable />;
+    } else if (route === "/users/create") {
+      return <UserCreate />;
     } else {
-      return <PostsTableItem />;
+      return <UserUpdate />;
     }
+    // } else {
+    //   return <PostsTableItem />;
+    // }
   }
   render() {
     console.log("sidenav route", this.props.location.pathname);
@@ -64,7 +73,8 @@ export default class SideNav extends Component {
               <div className="app-logo-container">
                 <img
                   className="logo"
-                  src="http://blog.tattle.co.in/content/images/2019/06/xmonogram.png.pagespeed.ic.W0h-PgH2Ps.webp"
+                  src="http://blog.tattle.co.in/content/images/2019/07/xtattle_monogram_dark.png.pagespeed.ic.NV30zSMbH5.png"
+                  alt="logo"
                 />
                 <h1>Tattle</h1>
                 <span
