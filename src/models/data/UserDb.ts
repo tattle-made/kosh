@@ -126,3 +126,19 @@ export function deleteUser(id: number): Promise<any> {
             })
         );
 }
+
+export function getUserRole(id: number): Promise<any> {
+    return User.findOne({
+        where: {
+            id
+        }
+    })
+        .then(user => {
+            if (user) {
+                return user.get("role");
+            } else {
+                console.log("user role not found");
+            }
+        })
+        .catch(err => console.log(err));
+}

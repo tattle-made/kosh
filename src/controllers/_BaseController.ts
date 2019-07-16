@@ -3,4 +3,8 @@ export default class {
     constructor(route: string) {
         this.route = route;
     }
+
+    public getGetPermissions(): any {}
+
+    public getPostPermissions() {}
 }

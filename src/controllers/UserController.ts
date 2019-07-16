@@ -4,7 +4,8 @@ import {
     create,
     update,
     deleteUser,
-    getAll
+    getAll,
+    getUserRole
 } from "../models/data/UserDb";
 import {
     createOrUpdateTokenForUserId,
@@ -59,5 +60,17 @@ export class UserController extends _BaseController {
         return deleteToken(token)
             .then((numOfRows: number) => LogoutResponse.create(numOfRows).get())
             .catch(err => logError(err));
+    }
+
+    public getGetPermissions() {
+        return ["subscriber", "admin"];
+    }
+
+    public getPostPermissions() {
+        return ["admin"];
+    }
+
+    public getUserRole(userId: number) {
+        return getUserRole(userId);
     }
 }

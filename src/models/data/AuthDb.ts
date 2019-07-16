@@ -2,6 +2,7 @@ import * as Sequelize from "sequelize";
 import db from "../../service/db";
 import { v1 as uuid } from "uuid";
 import { logError } from "../../service/logger";
+import ExistsResponse from "./ExistsResponse";
 
 export class Auth extends Sequelize.Model {}
 
@@ -51,3 +52,20 @@ export function deleteToken(token: string): Promise<number> {
 // createOrUpdateTokenForUserId(1)
 // .then((val) => console.log(val))
 // .catch((err) => console.log(err));
+
+export function existsToken(token: string): Promise<ExistsResponse> {
+    return Auth.findOne({
+        where: {
+            token
+        }
+    })
+        .then(data => {
+            if (data) {
+                const user_id = data.get("user_id") as number;
+                return new ExistsResponse(true, user_id);
+            } else {
+                return new ExistsResponse(false, -1);
+            }
+        })
+        .catch(err => console.log(err));
+}

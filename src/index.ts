@@ -12,6 +12,10 @@ import LoginResponse from "./models/response/LoginResponse";
 import { UserController } from "./controllers/UserController";
 import { UserCreateRequest } from "./models/request/UserCreateRequest";
 
+//middleware
+import { authenticate } from "./core/middleware/authenticate";
+import { authorize } from "./core/middleware/authorize";
+
 const app = express();
 const port = 8080;
 Sentry.init({
@@ -28,6 +32,8 @@ const searchController = new SearchController();
 const loginController = new LoginController();
 const userController = new UserController();
 
+app.use(authenticate);
+app.use(authorize);
 app.get("/", (req: Request, res: Response) => {
     res.send("pong");
 });

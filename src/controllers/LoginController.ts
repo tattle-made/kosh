@@ -2,7 +2,9 @@ import _BaseController from "./_BaseController";
 import { exists } from "../models/data/UserDb";
 import {
     createOrUpdateTokenForUserId,
-    deleteToken
+    deleteToken,
+    existsToken
+    // getUserRole
 } from "../models/data/AuthDb";
 import ExistsResponse from "../models/data/ExistsResponse";
 import LogoutResponse from "../models/response/LogoutResponse";
@@ -33,5 +35,14 @@ export class LoginController extends _BaseController {
         return deleteToken(token)
             .then((numOfRows: number) => LogoutResponse.create(numOfRows).get())
             .catch(err => logError(err));
+    }
+
+    public existsToken(token: any): Promise<ExistsResponse> {
+        return existsToken(token);
+        // .then(token => {
+        //     console.log("controller ", token);
+        //     return token;
+        // })
+        // .catch(err => console.log(err));
     }
 }
