@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import { Redirect } from "react-router";
 import { Button } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
@@ -207,9 +208,20 @@ class PostsTable extends Component {
   onTableChange() {
     console.log("table change");
   }
+
+  onPageChange = (page, sizePerPage) => {
+    console.log("inside page ", page);
+    this.setState({
+      page
+    });
+    // return <Redirect to={`/posts/${page}`} />;
+    this.props.history.push(`/posts/${page}`);
+    this.props.fetchPosts(page);
+  };
+
   render() {
     if (this.props.location.pathname === "/posts") {
-      this.props.history.push("/posts/1");
+      return <Redirect to="/posts/1" />;
     }
     console.log("page ", this.state.page);
     // SOCKET IO
@@ -347,10 +359,12 @@ class PostsTable extends Component {
             firstPageTitle: "Go to first", // the title of first page button
             lastPageTitle: "Go to last", // the title of last page button
             hideSizePerPage: true, // hide the size per page dropdown
-            hidePageListOnlyOnePage: true // hide pagination bar when only one page, default is false
-            // onPageChange: (page, sizePerPage) => {}, // callback function when page was changing
+            hidePageListOnlyOnePage: true, // hide pagination bar when only one page, default is false
+            onPageChange: this.onPageChange, // callback function when page was changing
             // onSizePerPageChange: (sizePerPage, page) => {}, // callback function when page size was changing
-            // paginationTotalRenderer: (from, to, size) => { ... }  // custom the pagination total
+            paginationTotalRenderer: (from, to, size) => {
+              return `Showing ${from} to ${to} of ${size} Results`;
+            } // custom the pagination total
           })}
           onTableChange={this.onTableChange}
           // rowEvents={rowEvents}
