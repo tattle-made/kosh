@@ -11,7 +11,7 @@ class Test extends Component {
   render() {
     return <AccessControl userPermissions={["read"]}
     allowedPermissions={["read"]} text={() => this.dothis()} 
-    renderNoAccess = {() => alert("permission nhi hai bhai")}
+    renderNoAccess = {() => console.log("u dont have permission")}
     >
     <LoginCard />
     </AccessControl>

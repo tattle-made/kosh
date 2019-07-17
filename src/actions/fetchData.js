@@ -52,8 +52,8 @@ export const search = url => {
   // };
 };
 
-export const fetchPosts = () => {
-  const url = "http://13.233.110.23:8080/posts";
+export const fetchPosts = page => {
+  const url = `http://localhost:8080/posts/${page}`;
   const request = axios.get(url);
   return dispatch => {
     request

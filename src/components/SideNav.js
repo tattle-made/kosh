@@ -7,6 +7,8 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
+import { withRouter } from "react-router-dom";
+import tattle_monogram_dark from "../img/tattle_monogram_dark.png";
 
 //components
 import SearchInput from "./SearchInput";
@@ -21,7 +23,7 @@ import tattle1 from "../img/tattle1.svg";
 // access control
 import AccessControl from "./accessControl";
 
-export default class SideNav extends Component {
+class SideNav extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,19 +33,21 @@ export default class SideNav extends Component {
   closeSideNav(e) {
     console.log("hi this is");
   }
+
   toggle(e) {
     console.log("toggle");
     this.setState({
       open: !this.state.open
     });
   }
+
   onMenuItemClick(e) {
     console.log("menuItem");
     e.stopPropagation();
   }
 
   mainContent(route) {
-    if (route === "/posts") {
+    if (route === "/posts" || route.includes("/posts/")) {
       return <PostsTable />;
     } else if (route === "/search") {
       return <SearchInput />;
@@ -51,12 +55,11 @@ export default class SideNav extends Component {
       return <UsersTable />;
     } else if (route === "/users/create") {
       return <UserCreate />;
-    } else {
+    } else if (route.includes("/users/update")) {
       return <UserUpdate />;
+    } else {
+      return <PostsTableItem />;
     }
-    // } else {
-    //   return <PostsTableItem />;
-    // }
   }
   render() {
     console.log("sidenav route", this.props.location.pathname);
@@ -71,11 +74,7 @@ export default class SideNav extends Component {
           <div className="sidenav-container" onClick={() => this.toggle()}>
             <div>
               <div className="app-logo-container">
-                <img
-                  className="logo"
-                  src="http://blog.tattle.co.in/content/images/2019/07/xtattle_monogram_dark.png.pagespeed.ic.NV30zSMbH5.png"
-                  alt="logo"
-                />
+                <img className="logo" src={tattle_monogram_dark} alt="logo" />
                 <h1>Tattle</h1>
                 <span
                   className="sideNav-cross"
@@ -127,3 +126,5 @@ export default class SideNav extends Component {
     );
   }
 }
+
+export default withRouter(SideNav);

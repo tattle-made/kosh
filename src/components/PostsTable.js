@@ -5,7 +5,8 @@ import {
   faDownload,
   faSync,
   faTrashAlt,
-  faCheck
+  faCheck,
+  faSearch
 } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
@@ -17,10 +18,11 @@ import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import overlayFactory from "react-bootstrap-table2-overlay";
 import axios from "axios";
+import DatePicker from "react-datepicker";
 
 //actions
 import { fetchPosts } from "../actions/fetchData";
-import { postDelete } from "../actions/post";
+import { postDelete, postByTime } from "../actions/post";
 
 //components
 import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
@@ -35,7 +37,7 @@ import io from "socket.io-client";
 const SHELL_SERVER_API_ENDPOINT = "http://13.233.110.23:8080/posts";
 
 //connect to server
-const socket = io("http://localhost:3001/");
+const socket = io("http://localhost:8080/");
 
 class PostsTable extends Component {
   constructor(props) {
@@ -44,58 +46,41 @@ class PostsTable extends Component {
      * consists of 3 state:
      * 1. data
      * 2. loading
-     * 3. columns
+     *
      */
     this.state = {
-      data: [],
+      posts: [],
+      page: 1,
+      totalPages: 5,
+      count: 10,
       loading: true,
-      columns: [
-        {
-          dataField: "type",
-          text: "Title"
-          // sort: true
-        },
-        {
-          dataField: "filename",
-          text: "Description",
-          formatter: this.previewFormatter,
-          events: {
-            onClick: (e, column, columnIndex, row, rowIndex) => {
-              // console.log("events");
-              // console.log(column);
-              // console.log(columnIndex);
-              // console.log(row);
-              // console.log(rowIndex);
-              const url = `/posts/${row.id}`;
-              this.props.history.push(url);
-            }
-          }
-        },
-        {
-          dataField: "tags",
-          text: "Tags",
-          // sort: true,
-          filter: textFilter(),
-          headerAlign: "center"
-        },
-        {
-          dataField: "actions",
-          text: "Actions",
-          // sort: true
-          formatter: this.actionIconsFormatter,
-          formatExtraData: this.props
-        }
-      ]
+      startDate: new Date(),
+      endDate: new Date()
     };
-
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChange2 = this.handleChange2.bind(this);
+    this.previewFormatter = this.previewFormatter.bind(this);
     this.refresh = this.refresh.bind(this);
+    this.onSearchByDate = this.onSearchByDate.bind(this);
+  }
+
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+  handleChange2(date) {
+    this.setState({
+      endDate: date
+    });
   }
 
   previewFormatter(cell, row) {
-    console.log("row");
-    console.log(row);
-    console.log("cell");
-    console.log(cell);
+    // console.log("this ", this);
+    // console.log("row");
+    // console.log(row);
+    // console.log("cell");
+    // console.log(cell);
     if (row.type == "image") {
       return (
         <div className="card" style={prev}>
@@ -118,28 +103,18 @@ class PostsTable extends Component {
     } else if (row.type == "text") {
       return (
         <div className="card" style={prev}>
-          <div className="card-text">
-            Mollit anim Lorem quis nulla mollit officia ad. Do do aute dolore
-            incididunt pariatur enim cupidatat reprehenderit quis eu non. Est
-            incididunt commodo enim voluptate mollit sit reprehenderit elit
-            proident aute non et. Consectetur aliquip tempor anim excepteur nisi
-            consectetur sint pariatur. Do veniam pariatur enim aliquip ut elit
-            nulla ad ad et deserunt do reprehenderit minim. Pariatur culpa
-            adipisicing nulla occaecat aliquip cupidatat labore nisi excepteur
-            mollit excepteur.
-          </div>
+          <div className="card-text">{row.data}</div>
         </div>
       );
     }
   }
 
   actionIconsFormatter(cell, row, rowIndex, props) {
-    // console.log("props", props);
+    // console.log("this ", this);
     return (
       <div>
         <AccessControl
           allowedPermissions={["user:canView"]}
-          text={() => this.dothis()}
           renderNoAccess={() => console.log("u dont have permission")}
         >
           <FontAwesomeIcon
@@ -148,6 +123,7 @@ class PostsTable extends Component {
             onClick={() => {
               props.postDelete(row.id);
               console.log("delete");
+              // this.refresh();
             }}
           />
         </AccessControl>
@@ -159,8 +135,13 @@ class PostsTable extends Component {
   componentDidMount() {
     // console.log("mounted");
     // console.log("props", this.props);
-    console.log("data", this.props.fetch.data);
-    this.props.fetchPosts();
+    const path = this.props.location.pathname;
+    let page = path.split("/posts/")[1];
+    if (page === "") {
+      page = 1;
+    }
+    console.log("insidde mount page ", page);
+    this.props.fetchPosts(page);
 
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
@@ -171,16 +152,19 @@ class PostsTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.fetch.data !== this.props.fetch.data) {
+    if (nextProps.fetch !== this.props.fetch) {
       this.setState({
-        data: nextProps.fetch.data
+        posts: nextProps.fetch.posts,
+        page: nextProps.fetch.page,
+        totalPages: nextProps.fetch.totalPages,
+        count: nextProps.fetch.count
       });
     }
   }
 
   refresh() {
     console.log("refreshing");
-    this.props.fetchPosts();
+    this.props.fetchPosts(this.state.page);
   }
 
   //TODO : change this life cycle method.
@@ -203,20 +187,72 @@ class PostsTable extends Component {
   //   console.log("row");
   // }
 
+  onSearchByDate() {
+    console.log(
+      "search by date",
+      this.state.startDate.getTime(),
+      this.state.endDate
+    );
+    const path = this.props.location.pathname;
+    let page = path.split("/posts/")[1];
+    if (page === "") {
+      page = 1;
+    }
+    this.props.postByTime(
+      page,
+      this.state.startDate.getTime(),
+      this.state.endDate.getTime()
+    );
+  }
+  onTableChange() {
+    console.log("table change");
+  }
   render() {
-    // const rowEvents = {
-    //   onClick: (e, row, rowIndex) => {
-    //     // console.log("row Event");
-    //     // console.log(e);
-    //     // console.log(row);
-    //     // console.log(rowIndex);
-    //     const url = `/posts/${row.id}`;
-    //     this.props.history.push(url);
-    //   }
-    // };
+    if (this.props.location.pathname === "/posts") {
+      this.props.history.push("/posts/1");
+    }
+    console.log("page ", this.state.page);
+    // SOCKET IO
+    // so when new data is received the page will refresh automatically.
+    socket.on("posts/newData", value => {
+      console.log("new Data received", value.name);
+      this.refresh();
+    });
 
-    // console.log("hello", this.state.data);
-
+    const columns = [
+      {
+        dataField: "type",
+        text: "Title"
+        // sort: true
+      },
+      {
+        dataField: "filename",
+        text: "Description",
+        formatter: this.previewFormatter,
+        formatExtraData: this.state.posts,
+        events: {
+          onClick: (e, column, columnIndex, row, rowIndex) => {
+            const url = `/post/${row.id}`;
+            this.props.history.push(url);
+          }
+        }
+      },
+      {
+        dataField: "tags",
+        text: "Tags",
+        // sort: true,
+        filter: textFilter(),
+        headerAlign: "center"
+      },
+      {
+        dataField: "actions",
+        text: "Actions",
+        // sort: true
+        formatter: this.actionIconsFormatter,
+        formatExtraData: this.props
+      }
+    ];
+    console.log("fasfasf", typeof this.state.page);
     return (
       <div className="container">
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
@@ -236,15 +272,87 @@ class PostsTable extends Component {
           <Button variant="color-primary-one" size="sm">
             <FontAwesomeIcon icon={faDownload} /> Download
           </Button>
+          <DatePicker
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+            // popperPlacement="botom-start"
+            popperModifiers={{
+              flip: {
+                enabled: false
+              },
+              preventOverflow: {
+                enabled: true,
+                escapeWithReference: false
+              }
+            }}
+          />
+          <DatePicker
+            selected={this.state.endDate}
+            onChange={this.handleChange2}
+            popperModifiers={{
+              flip: {
+                enabled: false
+              },
+              preventOverflow: {
+                enabled: true,
+                escapeWithReference: false
+              }
+            }}
+          />
+          <Button
+            variant="color-primary-one"
+            size="sm"
+            onClick={this.onSearchByDate}
+          >
+            <FontAwesomeIcon icon={faSearch} />
+          </Button>
         </div>
         <BootstrapTable
           striped
           hover
           keyField="id"
-          data={this.state.data}
-          columns={this.state.columns}
+          data={this.state.posts ? this.state.posts : []}
+          columns={columns}
           filter={filterFactory()}
-          pagination={paginationFactory()}
+          remote={{ sort: true, pagination: true }}
+          pagination={paginationFactory({
+            page: parseInt(this.state.page), // Specify the current page. It's necessary when remote is enabled
+            sizePerPage: 10, // Specify the size per page. It's necessary when remote is enabled
+            totalSize: this.state.count, // Total data size. It's necessary when remote is enabled
+            pageStartIndex: 1, // first page will be 0, default is 1
+            paginationSize: 5, // the pagination bar size, default is 5
+            showTotal: true, // display pagination information
+            sizePerPageList: [
+              {
+                text: "5",
+                value: 5
+              },
+              {
+                text: "10",
+                value: 10
+              },
+              {
+                text: "All",
+                value: this.state.count
+              }
+            ], // A numeric array is also available: [5, 10]. the purpose of above example is custom the text
+            withFirstAndLast: false, // hide the going to first and last page button
+            alwaysShowAllBtns: true, // always show the next and previous page button
+            firstPageText: "First", // the text of first page button
+            prePageText: "Prev", // the text of previous page button
+            nextPageText: "Next", // the text of next page button
+            lastPageText: "Last", // the text of last page button
+            nextPageTitle: "Go to next", // the title of next page button
+            prePageTitle: "Go to previous", // the title of previous page button
+            firstPageTitle: "Go to first", // the title of first page button
+            lastPageTitle: "Go to last", // the title of last page button
+            hideSizePerPage: true, // hide the size per page dropdown
+            hidePageListOnlyOnePage: true // hide pagination bar when only one page, default is false
+            // onPageChange: (page, sizePerPage) => {}, // callback function when page was changing
+            // onSizePerPageChange: (sizePerPage, page) => {}, // callback function when page size was changing
+            // paginationTotalRenderer: (from, to, size) => { ... }  // custom the pagination total
+          })}
+          onTableChange={this.onTableChange}
           // rowEvents={rowEvents}
           // loading={this.state.loading} //only loading is true, react-bootstrap-table will render overlay
           // overlay={overlayFactory()}
@@ -265,7 +373,7 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { fetchPosts, postDelete }
+    { fetchPosts, postDelete, postByTime }
   )(PostsTable)
 );
 
