@@ -1,6 +1,8 @@
 import * as express from "express";
 import * as cors from "cors";
 import * as Sentry from "@sentry/node";
+//socket.io
+import * as socketio from "socket.io";
 import { Request, Response } from "express";
 import { PostController } from "./controllers/PostController";
 import { SearchController } from "./controllers/SearchController";
@@ -26,35 +28,58 @@ Sentry.init({
 app.use(Sentry.Handlers.requestHandler());
 app.use(express.json());
 
+const server = app.listen(port, () => {
+    console.log("server is listening to ", port);
+});
+
+const io = socketio(server);
+
 // import logger from './logger-core';
 const postController = new PostController();
 const searchController = new SearchController();
 const loginController = new LoginController();
 const userController = new UserController();
 
-app.use(authenticate);
-app.use(authorize);
+// app.use(authenticate);
+// app.use(authorize);
 app.get("/", (req: Request, res: Response) => {
     res.send("pong");
 });
 
-app.get("/posts", (req: Request, res: Response) => {
-    postController.getAll().then(posts => res.send(posts));
+app.get("/posts/:page", (req: Request, res: Response) => {
+    const page = req.params.page || 1;
+
+    postController.getAll(page).then(posts => res.send(posts));
 });
 
-app.post("/postByTime", (req: Request, res: Response) => {
-    const { d1, d2 } = req.body;
+app.post("/postByTime/:page", (req: Request, res: Response) => {
+    const page = req.params.page || 1;
+    const { startDate, endDate } = req.body;
+    const d1 = new Date(startDate).toISOString();
+    const d2 = new Date(endDate).toISOString();
     postController
-        .getByTime(d1, d2)
-        .then(posts => res.send(posts))
+        .getByTime(page, d1, d2)
+        .then(posts => {
+            res.send(posts);
+        })
         .catch(err => res.send(err.JSON));
+});
+
+app.set("socketio", io);
+
+io.on("connection", client => {
+    console.log("Client is connected");
 });
 
 app.post("/posts", (req: Request, res: Response) => {
     const post = new PostCreateRequest(req.body);
+    const io = req.app.get("socketio");
     postController
         .create(post)
-        .then((response: JSON) => res.send(response))
+        .then((response: JSON) => {
+            io.emit("posts/newData", { name: "gully" });
+            res.send(response);
+        })
         .catch(err => res.send(err.JSON));
 });
 
@@ -123,7 +148,3 @@ app.use(Sentry.Handlers.errorHandler());
 //     res.statusCode = 500;
 //     res.end(res.sentry + '\n');
 //   });
-
-app.listen(port, () => {
-    console.log("server is listening to ", port);
-});

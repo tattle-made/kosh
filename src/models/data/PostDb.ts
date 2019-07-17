@@ -19,6 +19,10 @@ Post.init(
     }
 );
 
+Post.afterCreate(function() {
+    console.log("post Created");
+});
+
 // Post.sync({force: true})
 // .then(() => {
 //     Post.create({
@@ -40,15 +44,24 @@ export function create(param: PostCreateRequest): Promise<JSON> {
         );
 }
 
-export function getAll() {
-    return Post.findAll({
+export function getAll(page: number) {
+    const pageSize = 10;
+    return Post.findAndCountAll({
+        offset: page * pageSize - pageSize,
         limit: 10,
         order: [["createdAt", "DESC"]]
     })
-        .map(el => el.get({ plain: true }))
+        .then(result => {
+            return {
+                page: page,
+                totalPages: Math.ceil(result.count / pageSize),
+                posts: result.rows,
+                count: result.count
+            };
+        })
         .catch(err => {
             return Promise.resolve({
-                message: "Error creating Post",
+                message: "Error Fetching Post",
                 error: err
             });
         });
@@ -62,14 +75,32 @@ export function get(id: number) {
     }).catch(err => console.log(err));
 }
 
-export function getByTime(d1: string, d2: string) {
-    return Post.findAll({
+export function getByTime(page: number, d1: string, d2: string) {
+    const pageSize = 10;
+    return Post.findAndCountAll({
         where: {
             createdAt: {
                 [Op.between]: [d1, d2]
             }
-        }
-    }).catch(err => console.log(err));
+        },
+        offset: page * pageSize - pageSize,
+        limit: 10,
+        order: [["createdAt", "DESC"]]
+    })
+        .then(result => {
+            return {
+                page: page,
+                totalPages: Math.ceil(result.count / pageSize),
+                posts: result.rows,
+                count: result.count
+            };
+        })
+        .catch(err => {
+            return Promise.resolve({
+                message: "Error Fetching Post",
+                error: err
+            });
+        });
 }
 
 export function deletePost(id: number): Promise<any> {

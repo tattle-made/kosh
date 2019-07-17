@@ -26,9 +26,11 @@ export const authorize = (req: Request, res: Response, next: Function) => {
             console.log("value ", value);
             if (value != undefined) {
                 if (req.method === "GET") {
-                    permission = value.getGetPermissions();
+                    // permission = value.getGetPermissions();
+                    permission = value.getPermissions();
                 } else {
-                    permission = value.getPostPermissions();
+                    // permission = value.getPostPermissions();
+                    permission = value.getPermissions();
                 }
             }
             console.log("permission ", permission);

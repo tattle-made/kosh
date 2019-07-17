@@ -15,16 +15,16 @@ export class PostController extends BaseController {
         super("temp");
     }
 
-    public getAll() {
-        return getAll();
+    public getAll(page: number) {
+        return getAll(page);
     }
 
     public get(id: number) {
         return get(id);
     }
 
-    public getByTime(d1: string, d2: string) {
-        return getByTime(d1, d2);
+    public getByTime(page: number, d1: string, d2: string) {
+        return getByTime(page, d1, d2);
     }
 
     public create(param: PostCreateRequest): Promise<JSON> {
