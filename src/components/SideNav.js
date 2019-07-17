@@ -7,7 +7,7 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import tattle_monogram_dark from "../img/tattle_monogram_dark.png";
 
 //components
@@ -89,7 +89,9 @@ class SideNav extends Component {
                   icon={eval(faCloud)}
                   label={"Posts"}
                   className={classnames({
-                    active: this.props.location.pathname === "/posts"
+                    active:
+                      this.props.location.pathname.includes("/posts") ||
+                      this.props.location.pathname.includes("/post")
                   })}
                 />
                 <MenuItem
@@ -97,7 +99,7 @@ class SideNav extends Component {
                   icon={eval(faSearch)}
                   label={"Search"}
                   className={classnames({
-                    active: this.props.location.pathname === "/search"
+                    active: this.props.location.pathname.includes("/search")
                   })}
                 />
                 <AccessControl
@@ -110,7 +112,7 @@ class SideNav extends Component {
                     icon={eval(faUsers)}
                     label={"Users"}
                     className={classnames({
-                      active: this.props.location.pathname === "/users"
+                      active: this.props.location.pathname.includes("/users")
                     })}
                   />
                 </AccessControl>
