@@ -2,7 +2,7 @@ import React from "react";
 import "./app1.css";
 import "./style/stylesheet.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -26,6 +26,7 @@ import LoginCard from "./components/LoginCard";
 import Test from "./components/test";
 import UserCreate from "./components/UserCreate";
 import UserUpdate from "./components/UserUpdate";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -44,8 +45,11 @@ function App() {
           <Route exact path="/loading" component={Loading} />
           <Route exact path="/register" component={RegisterUser} />
           <Route exact path="/users" component={SideNav} />
-          <Route exact path="/posts" component={SideNav} />
-          <Route exact path="/posts/:id" component={SideNav} />
+          <Switch>
+            <PrivateRoute exact path={"/posts"} component={SideNav} />
+            <Route exact path="/posts/:page" component={SideNav} />
+          </Switch>
+          <Route exact path="/post/:id" component={SideNav} />
           <Route exact path="/sidenav" component={SideNav} />
           <Route exact path="/login" component={LoginCard} />
           <Route exact path="/test" component={Test} />

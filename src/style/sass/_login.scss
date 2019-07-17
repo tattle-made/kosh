@@ -85,7 +85,7 @@
 
 @media (max-width: 768px) {
   @include loginPage // Login Card changes
-    .login {
+  .login {
     flex-direction: column;
   }
   .login-left {

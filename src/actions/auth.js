@@ -38,41 +38,6 @@ export const loginUser = userData => {
   };
 };
 
-export const createUser = userData => {
-  const request = axios.post("http://localhost:8080/users/create", userData);
-  return dispatch => {
-    request
-      .then(res => {
-        console.log("inside action", res);
-        dispatch({
-          type: SET_USER,
-          payload: res.data
-        });
-        // const token = res.data.token;
-        // // if token received
-        // if (token) {
-        //   // storing the token in local storage
-        //   localStorage.setItem("jwtToken", token);
-        //   // setting token to auth header
-        //   console.log("local");
-        //   setAuthHeaderToken(token);
-        //   // decoding token to get user data
-        //   console.log("auth");
-        //   console.log(typeof token);
-        //   // const decodedToken = jwtDecode(token);
-        //   // // setting current user
-        //   // console.log("decode");
-        //   dispatch(setCurrentUser(token));
-        // }
-      })
-      .catch(err =>
-        dispatch({
-          type: ERRORS,
-          payload: err
-        })
-      );
-  };
-};
 
 // setting logged in user
 export const setCurrentUser = decoded => {

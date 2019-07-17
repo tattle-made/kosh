@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-
+import { withRouter } from "react-router-dom";
 // Components
 import SearchInput from "./SearchInput";
 import ScraperPage from "./ScraperPage";
@@ -117,7 +117,9 @@ Sidebar.propTypes = {
   breadcrumbsAdd: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { breadcrumbsAdd }
-)(Sidebar);
+export default withRouter(
+  connect(
+    null,
+    { breadcrumbsAdd }
+  )(Sidebar)
+);
