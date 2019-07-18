@@ -36,7 +36,7 @@ class UserCreate extends Component {
     const userData = {
       username: this.state.username,
       email: this.state.email,
-      role: this.state.role
+      role: this.state.role.toLowerCase()
     };
     this.props.createUser(userData);
     this.props.history.push("/users");

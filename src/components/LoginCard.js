@@ -8,16 +8,16 @@ import { loginUser } from "../actions/auth";
 
 //components
 import tattleLogo from "../img/logo_logomark.png";
-import {HeadingThree} from "../reusableComponents/text/HeadingThree";
-import {BodyOne} from "../reusableComponents/text/BodyOne";
+import { HeadingThree } from "../reusableComponents/text/HeadingThree";
+import { BodyOne } from "../reusableComponents/text/BodyOne";
 
 class LoginCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "user_aab",
+      username: "",
       email: "",
-      password: "abcdf",
+      password: "",
       errors: {}
     };
   }
@@ -39,9 +39,8 @@ class LoginCard extends Component {
   render() {
     return (
       <div>
-
         <div className="login-header">
-          <img src={tattleLogo}/>
+          <img src={tattleLogo} />
         </div>
 
         <div className="login mx-auto">
@@ -75,13 +74,17 @@ class LoginCard extends Component {
                 onChange={this.onChange.bind(this)}
               />
               <br />
-              <Button variant="color-primary-one"  className="mt-4 btn-login-size" type="submit">
+              <Button
+                variant="color-primary-one"
+                className="mt-4 btn-login-size"
+                type="submit"
+              >
                 Sign In
               </Button>
             </form>
           </div>
         </div>
-            
+
         <div className="login-footer">
           <div>
             <HeadingThree text="Reach Out" />
@@ -96,18 +99,7 @@ class LoginCard extends Component {
           </div>
           <div>
             <HeadingThree text="Social" />
-               <BodyOne text="facebook" />
             <BodyOne text="facebook" />
-            <BodyOne text="facebook" />
-            <BodyOne text="facebook" />
-            <BodyOne text="facebook" />
-            <BodyOne text="facebook" />
-            <BodyOne text="facebook" />
-            <BodyOne text="facebook" />
-          </div>
-          <div>
-            <HeadingThree text="Values" />
-               <BodyOne text="facebook" />
             <BodyOne text="facebook" />
             <BodyOne text="facebook" />
             <BodyOne text="facebook" />
@@ -118,7 +110,18 @@ class LoginCard extends Component {
           </div>
           <div>
             <HeadingThree text="Values" />
-               <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+            <BodyOne text="facebook" />
+          </div>
+          <div>
+            <HeadingThree text="Values" />
+            <BodyOne text="facebook" />
             <BodyOne text="facebook" />
             <BodyOne text="facebook" />
             <BodyOne text="facebook" />
@@ -128,13 +131,13 @@ class LoginCard extends Component {
             <BodyOne text="facebook" />
           </div>
         </div>
-    </div>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  errors:state.errors
+  errors: state.errors
 });
 
 export default connect(

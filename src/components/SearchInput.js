@@ -1,24 +1,48 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
   faFileAlt,
   faCamera,
-  faVideo,
-  faUpload
+  faVideo
 } from "@fortawesome/free-solid-svg-icons";
+
 import { connect } from "react-redux";
+
 import PropTypes from "prop-types";
 
 // actions
-import { search, contentLoading } from "../actions/fetchData";
+import { search, contentLoading, error } from "../actions/fetchData";
 
 // components
 import { Card } from "../components/Card";
-import Loading from "../components/Loading";
+// import Loading from "../components/Loading";
 import Spinner from "../components/Spinner";
-import { HeadingTwo, BodyOne } from "../reusableComponents/text";
+import { UploadInput } from "../reusableComponents/UploadInput";
+
+// Capability file for this component
+// import { SearchInputCapabilities } from "./SearchInputCapabilities";
+//const accessibility = <SearchInputCapabilities role={props.user.role} />;
+
+function SearchInputCapabilities(role) {
+  switch (role) {
+    case "SUPER_ADMINISTRATOR":
+      return true;
+    case "ADMINISTRATOR":
+      return true;
+    case "EDITOR":
+      return true;
+    case "AUTHOR":
+      return true;
+    case "CONTRIBUTOR":
+      return false;
+    case "SUBSCRIBER":
+      return false;
+    default:
+      return false;
+  }
+}
 
 const options = [
   { value: "text", label: <FontAwesomeIcon icon={faFileAlt} /> },
@@ -26,164 +50,99 @@ const options = [
   { value: "video", label: <FontAwesomeIcon icon={faVideo} /> }
 ];
 
-class SearchInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchInput: "",
-      loading: false,
-      data: [],
-      selectedOption: "text",
-      content_type: []
-    };
-  }
+function SearchInput(props) {
+  const accessibility = SearchInputCapabilities(props.user.role);
+  console.log("accessibility ", accessibility);
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.fetch) {
-      this.setState({
-        data: nextProps.fetch.data,
-        loading: nextProps.fetch.loading
-      });
-    }
-  }
+  const [selectedOption, setSelectedOption] = useState("text");
+  const [content_type, setContent_type] = useState([]);
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.fetch) {
-  //     return {
-  //       data: nextProps.fetch.data,
-  //       loading: nextProps.fetch.loading
-  //     };
-  //   }
-  //   else return null;
-  // }
-  // componentDidUpdate(prevProps, prevState){
-  //   if(prevProps.)
-  // }
+  const handleChange = e => {
+    setSelectedOption(e.value);
+  };
 
-  handleChange(e) {
-    this.setState({ selectedOption: e.value });
-  }
+  const onSearch = e => {
+    e.preventDefault();
+    props.contentLoading();
+    setTimeout(() => props.search(), 3000);
+    contentLoading();
+  };
 
-  displayResults(cards) {
+  const displayResults = cards => {
     return cards.map(card => (
       <Card
         key={card.id}
         card={card}
-        display={this.state.content_type.includes(card.type)}
+        display={content_type.includes(card.type)}
       />
     ));
-  }
+  };
 
-  checkboxToggle(e) {
-    const new_list = this.state.content_type;
+  // useEffect(() => {
+  //   console.log("fired");
+  //   // return displayResults(props.fetch.data);
+  // }, [content_type]);
+
+  const checkboxToggle = e => {
+    const new_list = content_type;
     if (new_list.includes(e)) {
       new_list.splice(new_list.indexOf(e), 1);
     } else {
       new_list.push(e);
     }
-    this.setState({
-      content_type: new_list
-    });
-  }
+    setContent_type(new_list);
+  };
 
-  // inputvalue(e) {
-  //   console.log("INPUT ", e.target.value);
-  // }
-  onInputChange(e) {
-    this.setState({
-      searchInput: e.target.value
-    });
-  }
-
-  onFormSubmit(e) {
-    e.preventDefault();
-    this.props.contentLoading();
-    console.log("search ", this.state.searchInput);
-    this.props.contentLoading();
-    const url = `http://13.233.110.23:8080/search?type=${
-      this.state.content_type
-    }&query=${this.state.searchInput}`;
-    console.log(url);
-    this.props.search(url);
-    // this.setState({
-    //   loading: false
-    // });
-  }
-
-  render() {
-    const { selectedOption, data } = this.state;
+  if (true) {
     return (
-      <div className="container">
-        <HeadingTwo text="Search" />
-
-        {/* <div className="container search-box">
-          <form className="search-form" onSubmit={this.onFormSubmit.bind(this)}>
-            <div className="form-inline"> */}
-        {/* <Select
+      <div>
+        <div className="container search-box">
+          <form className="search-form">
+            <div className="form-inline">
+              <Select
                 className="mr-2"
                 placeholder={<FontAwesomeIcon icon={faFileAlt} />}
                 value={selectedOption}
-                onChange={this.handleChange.bind(this)}
+                onChange={handleChange}
                 options={options}
               />
-              {this.state.selectedOption === "text" ? (
+              {selectedOption === "text" ? (
                 <div className="search-content">
                   <input
                     className="form-control mr-2"
                     type="text"
                     id="search-input"
                     placeholder="Search"
-                    onChange={this.onInputChange.bind(this)}
                   />
                 </div>
-              ) : this.state.selectedOption === "image" ? (
+              ) : selectedOption === "image" ? (
                 <div className="search-content">
-                  <div className="custom-file  search-content">
-                    <input
-                      className="custom-file-input"
-                      type="file"
-                      id="myfile"
-                    />
-                    <label
-                      className="custom-file-label p-auto"
-                      htmlFor="myfile"
-                    >
-                      Upload Image
-                    </label>
-                  </div>
+                  <UploadInput label="Upload Image" />
                 </div>
               ) : (
                 <div className="search-content">
-                  <div className="custom-file ">
-                    <input
-                      className="custom-file-input"
-                      type="file"
-                      id="myfile"
-                    />
-                    <label className="custom-file-label" htmlFor="myfile">
-                      Upload Video
-                    </label>
-                  </div>
+                  <UploadInput label="Upload Video" />
                 </div>
-              )} */}
-        {/* <button className="btn search-btn ml-2" type="submit">
+              )}
+              <button
+                className="btn search-btn ml-2"
+                type="button"
+                onClick={onSearch}
+              >
                 <FontAwesomeIcon icon={faSearch} color="#fff" />
               </button>
             </div>
             <div className="form-inline mt-3">
               <label className="checkbox-box">
                 text
-                <input
-                  type="checkbox"
-                  onClick={() => this.checkboxToggle("text")}
-                />
+                <input type="checkbox" onClick={() => checkboxToggle("text")} />
                 <span className="checkmark" />
               </label>
               <label className="checkbox-box">
                 image
                 <input
                   type="checkbox"
-                  onClick={() => this.checkboxToggle("image")}
+                  onClick={() => checkboxToggle("image")}
                 />
                 <span className="checkmark" />
               </label>
@@ -191,84 +150,42 @@ class SearchInput extends Component {
                 video
                 <input
                   type="checkbox"
-                  onClick={() => this.checkboxToggle("video")}
+                  onClick={() => checkboxToggle("video")}
                 />
                 <span className="checkmark" />
               </label>
             </div>
           </form>
-        </div> */}
-        <div className="search-input">
-          <div className="search-input-input">
-            <input type="text" placeholder="Enter Search Term" />
-            <HeadingTwo text="or" />
-            <button className="btn  btn-color-white-one">
-              <FontAwesomeIcon icon={faUpload} /> Upload File
-            </button>
-          </div>
-
-          <div className="search-input-checkbox">
-            <BodyOne text="include" />
-            <label className="checkbox-box">
-              <BodyOne text="text" />
-              <input
-                type="checkbox"
-                onClick={() => this.checkboxToggle("text")}
-              />
-              <span className="checkmark" />
-            </label>
-            <label className="checkbox-box">
-              <BodyOne text="image" />
-              <input
-                type="checkbox"
-                onClick={() => this.checkboxToggle("image")}
-              />
-              <span className="checkmark" />
-            </label>
-            <label className="checkbox-box">
-              <BodyOne text="video" />
-              <input
-                type="checkbox"
-                onClick={() => this.checkboxToggle("video")}
-              />
-              <span className="checkmark" />
-            </label>
-          </div>
-          <button
-            className="btn btn-color-primary-one text-white"
-            type="submit"
-            onClick={this.onFormSubmit.bind(this)}
-          >
-            Search <FontAwesomeIcon icon={faSearch} color="#fff" />
-          </button>
         </div>
-
         <div className="search-result container mt-5">
           {/* empty cards for loading */}
-          {/* {this.state.loading ? <Loading /> : null} */}
+          {/* {props.fetch.loading ? <Loading /> : null} */}
           {/* spinner for loading */}
-          {this.props.fetch.loading ? (
-            <Spinner />
-          ) : (
-            <div className="card-columns">{this.displayResults(data)}</div>
-          )}
+          {props.fetch.loading ? <Spinner /> : null}
+          <div className="card-columns">{displayResults([props.fetch])}</div>
         </div>
       </div>
     );
+  } else {
+    props.error("Permission denied");
+    return null;
   }
 }
 
-SearchInput.prototypes = {
-  data: PropTypes.array.isRequired,
+SearchInput.propTypes = {
+  data: PropTypes.array,
   search: PropTypes.func.isRequired,
-  contentLoading: PropTypes.func.isRequired
+  contentLoading: PropTypes.func.isRequired,
+  error: PropTypes.func.isRequired,
+  user: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  fetch: state.fetch
+  fetch: state.fetch,
+  user: state.user
 });
 
 export default connect(
   mapStateToProps,
-  { search, contentLoading }
+  { search, contentLoading, error }
 )(SearchInput);

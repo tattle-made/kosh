@@ -6,20 +6,22 @@ import {
   faSync,
   faTrashAlt,
   faCheck,
-  faSearch
+  faSearch,
+  faFilter
 } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
-import { Button } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import overlayFactory from "react-bootstrap-table2-overlay";
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import SelectSearch from "react-select-search";
 
 //actions
 import { fetchPosts } from "../actions/fetchData";
@@ -28,6 +30,7 @@ import { postDelete, postByTime } from "../actions/post";
 //components
 import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
 import { Card } from "./Card";
+import { FilterComponent } from "./FilterComponent";
 // action control
 import AccessControl from "./accessControl";
 
@@ -56,7 +59,8 @@ class PostsTable extends Component {
       count: 10,
       loading: true,
       startDate: new Date(),
-      endDate: new Date()
+      endDate: new Date(),
+      filter: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
@@ -136,6 +140,7 @@ class PostsTable extends Component {
   componentDidMount() {
     // console.log("mounted");
     // console.log("props", this.props);
+
     const path = this.props.location.pathname;
     let page = path.split("/posts/")[1];
     if (page === "") {
@@ -219,6 +224,23 @@ class PostsTable extends Component {
     this.props.fetchPosts(page);
   };
 
+  onFilterItemSelect(e) {
+    this.setState({
+      filter: e.target.name
+    });
+  }
+  filterComponent() {
+    const filter = this.state.filter;
+    if (filter === "date") {
+      return <div />;
+    } else if (filter === "name") {
+      return <div>name</div>;
+    } else if (filter === "label") {
+      return <div>label</div>;
+    } else {
+      return null;
+    }
+  }
   render() {
     if (this.props.location.pathname === "/posts") {
       return <Redirect to="/posts/1" />;
@@ -264,9 +286,30 @@ class PostsTable extends Component {
         formatExtraData: this.props
       }
     ];
-    console.log("fasfasf", typeof this.state.page);
+    // console.log("fasfasf", typeof this.state.page);
+    const options = [
+      { name: "Swedish", value: "sv" },
+      { name: "English", value: "en" },
+      {
+        type: "group",
+        name: "Group name",
+        items: [{ name: "Spanish", value: "es" }]
+      }
+    ];
     return (
       <div className="container">
+        {/* <select className="selectpicker" multiple>
+          <optgroup label="Admin" data-max-options="2">
+            <option>Mohit</option>
+            <option>james</option>
+            <option>malik</option>
+          </optgroup>
+          <optgroup label="Subscriber" data-max-options="2">
+            <option>mohit</option>
+            <option>mohit</option>
+            <option>malik</option>
+          </optgroup>
+        </select> */}
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
         <HeadingTwo text="Posts" />
         <div className="my-3">
@@ -284,40 +327,136 @@ class PostsTable extends Component {
           <Button variant="color-primary-one" size="sm">
             <FontAwesomeIcon icon={faDownload} /> Download
           </Button>
-          <DatePicker
-            selected={this.state.startDate}
-            onChange={this.handleChange}
-            // popperPlacement="botom-start"
-            popperModifiers={{
-              flip: {
-                enabled: false
-              },
-              preventOverflow: {
-                enabled: true,
-                escapeWithReference: false
-              }
-            }}
-          />
-          <DatePicker
-            selected={this.state.endDate}
-            onChange={this.handleChange2}
-            popperModifiers={{
-              flip: {
-                enabled: false
-              },
-              preventOverflow: {
-                enabled: true,
-                escapeWithReference: false
-              }
-            }}
-          />
-          <Button
-            variant="color-primary-one"
-            size="sm"
-            onClick={this.onSearchByDate}
-          >
-            <FontAwesomeIcon icon={faSearch} />
-          </Button>
+          <span className="float-right">
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="color-primary-one"
+                size="sm"
+                id="dropdown-basic"
+              >
+                Filter
+                <FontAwesomeIcon icon={faFilter} />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  name="data"
+                  onClick={this.onFilterItemSelect.bind(this)}
+                >
+                  Filter by Date
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="name"
+                  onClick={this.onFilterItemSelect.bind(this)}
+                >
+                  Filter by Username
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="label"
+                  onClick={this.onFilterItemSelect.bind(this)}
+                >
+                  Filter by Label
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </span>
+        </div>
+        {/* <FilterComponent filter={this.state.filter} /> */}
+        <div>
+          {this.state.filter === "data" ? (
+            <div>
+              <select className="selectpicker" multiple>
+                <optgroup label="Admin" data-max-options="2">
+                  <option>Mohit</option>
+                  <option>james</option>
+                  <option>malik</option>
+                </optgroup>
+                <optgroup label="Subscriber" data-max-options="2">
+                  <option>mohit</option>
+                  <option>mohit</option>
+                  <option>malik</option>
+                </optgroup>
+              </select>
+
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleChange}
+                // popperPlacement="botom-start"
+                popperModifiers={{
+                  flip: {
+                    enabled: false
+                  },
+                  preventOverflow: {
+                    enabled: true,
+                    escapeWithReference: false
+                  }
+                }}
+              />
+              <DatePicker
+                selected={this.state.endDate}
+                onChange={this.handleChange2}
+                popperModifiers={{
+                  flip: {
+                    enabled: false
+                  },
+                  preventOverflow: {
+                    enabled: true,
+                    escapeWithReference: false
+                  }
+                }}
+              />
+              <Button
+                variant="color-primary-one"
+                size="sm"
+                onClick={this.onSearchByDate}
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </Button>
+            </div>
+          ) : this.state.filter === "name" ? (
+            <div>
+              <SelectSearch
+                options={options}
+                value="sv"
+                name="language"
+                placeholder="Choose your language"
+              />
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleChange}
+                // popperPlacement="botom-start"
+                popperModifiers={{
+                  flip: {
+                    enabled: false
+                  },
+                  preventOverflow: {
+                    enabled: true,
+                    escapeWithReference: false
+                  }
+                }}
+              />
+              <DatePicker
+                selected={this.state.endDate}
+                onChange={this.handleChange2}
+                popperModifiers={{
+                  flip: {
+                    enabled: false
+                  },
+                  preventOverflow: {
+                    enabled: true,
+                    escapeWithReference: false
+                  }
+                }}
+              />
+              <Button
+                variant="color-primary-one"
+                size="sm"
+                onClick={this.onSearchByDate}
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </Button>
+            </div>
+          ) : null}
         </div>
         <BootstrapTable
           striped
