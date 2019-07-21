@@ -1,5 +1,5 @@
 # these scripts is used with hooks in appspec.yml file
-# runnging the server using serve
+# runnging the server using nginx
 
 #!/bin/bash
-serve -s build
+sudo service nginx start
