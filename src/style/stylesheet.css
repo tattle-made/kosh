@@ -6,6 +6,8 @@
  */
 @import url(~react-datepicker/dist/react-datepicker.css);
 @import "http://weloveiconfonts.com/api/?family=fontawesome";
+@import url(~react-bootstrap-multiselect/css/bootstrap-multiselect.css);
+@import url(~react-selectize/themes/index.css);
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -7029,17 +7031,16 @@ a.text-dark:hover, a.text-dark:focus {
   display: grid;
   height: 100vh;
   grid-template-columns: 1fr 7fr; }
-  .sidenav-open .content-container div {
-    padding: 0.4em; }
   .sidenav-open .content-container .sidenav-container {
     background-color: #ffe5e2; }
     .sidenav-open .content-container .sidenav-container div {
       position: sticky;
-      top: 0px; }
+      top: 0px;
+      padding: 0.4em; }
     .sidenav-open .content-container .sidenav-container .active {
       background-color: #ffccc8;
-      border-right: 4px solid #232422;
-      margin-right: -19px; }
+      margin-right: -13px;
+      border-right: 4px solid #e65447; }
       .sidenav-open .content-container .sidenav-container .active h2 {
         font-weight: bold; }
     .sidenav-open .content-container .sidenav-container .label-icon-container {
@@ -7061,8 +7062,7 @@ a.text-dark:hover, a.text-dark:focus {
       display: flex;
       align-items: center;
       margin-top: 0.4em;
-      margin-bottom: 1.4em;
-      margin-left: -0.45em; }
+      margin-bottom: 1.4em; }
       .sidenav-open .content-container .sidenav-container .app-logo-container img {
         margin-right: 0.4em; }
       .sidenav-open .content-container .sidenav-container .app-logo-container h1 {
@@ -7083,13 +7083,12 @@ a.text-dark:hover, a.text-dark:focus {
   display: grid;
   height: 100vh;
   grid-template-columns: 70px 8fr; }
-  .sidenav-close .content-container div {
-    padding: 0.4em; }
   .sidenav-close .content-container .sidenav-container {
     background-color: #ffe5e2; }
     .sidenav-close .content-container .sidenav-container div {
       position: sticky;
-      top: 0px; }
+      top: 0px;
+      padding: 0.4em; }
     .sidenav-close .content-container .sidenav-container .logo {
       width: 3em;
       height: 3em; }
@@ -7100,15 +7099,14 @@ a.text-dark:hover, a.text-dark:focus {
       background-color: #ffccc8;
       border-right: 4px solid #e65447;
       width: 40px;
-      padding-right: 40px; }
+      padding-right: 47px; }
       .sidenav-close .content-container .sidenav-container .active h2 {
         font-weight: bold; }
     .sidenav-close .content-container .sidenav-container .sideNav-cross {
       display: none; }
     .sidenav-close .content-container .sidenav-container .app-logo-container {
       margin-top: 0.4em;
-      margin-bottom: 1.4em;
-      margin-left: -0.45em; }
+      margin-bottom: 1.4em; }
       .sidenav-close .content-container .sidenav-container .app-logo-container h1 {
         display: none; }
     .sidenav-close .content-container .sidenav-container .label-icon-container:hover {
@@ -14507,6 +14505,16 @@ input[type="search"]::-webkit-search-decoration {
   padding: 0 10px;
   color: rgba(0, 0, 0, 0.5);
   font-size: 12px; }
+
+.react-select {
+  width: 400px; }
+
+.filter-box {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  padding: 4px 0;
+  padding-bottom: 8px; }
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)

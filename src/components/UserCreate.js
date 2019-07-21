@@ -22,7 +22,8 @@ class UserCreate extends Component {
     this.state = {
       username: "",
       email: "",
-      role: ""
+      role: "",
+      password: ""
     };
   }
   onInputChange(e) {
@@ -36,7 +37,8 @@ class UserCreate extends Component {
     const userData = {
       username: this.state.username,
       email: this.state.email,
-      role: this.state.role.toLowerCase()
+      role: this.state.role.toLowerCase(),
+      password: this.state.password
     };
     this.props.createUser(userData);
     this.props.history.push("/users");
@@ -108,6 +110,16 @@ class UserCreate extends Component {
               <option>Author</option>
               <option>Contributer</option>
             </Form.Control>
+          </Form.Group>
+          <Form.Group controlId="email">
+            {/* <Form.Label>Email address</Form.Label> */}
+            <Form.Control
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.onInputChange.bind(this)}
+            />
           </Form.Group>
           <Form.Group controlId="submit">
             <Button variant="color-primary-one" type="submit">

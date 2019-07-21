@@ -1,11 +1,9 @@
-import { SET_CURRENT_USER, SET_USER, ERRORS } from "./types";
+import { SET_CURRENT_USER, USER, SET_USER, ERRORS } from "./types";
 import axios from "axios";
-import setAuthHeaderToken from "../auth/setAuthHeaderToken";
-import jwtDecode from "jwt-decode";
 
 export const loginUser = userData => {
   console.log("action received");
-  const request = axios.post("http://13.233.110.23:8080/auth/login", userData);
+  const request = axios.post("http://localhost:8080/auth/login", userData);
   return dispatch => {
     request
       .then(res => {
@@ -16,16 +14,9 @@ export const loginUser = userData => {
         // if token received
         if (token) {
           // storing the token in local storage
-          localStorage.setItem("jwtToken", token);
+          localStorage.setItem("token", token);
           // setting token to auth header
-          console.log("local");
-          setAuthHeaderToken(token);
-          // decoding token to get user data
-          console.log("auth");
-          console.log(typeof token);
-          // const decodedToken = jwtDecode(token);
-          // // setting current user
-          // console.log("decode");
+          console.log("token", token);
           dispatch(setCurrentUser(token));
         }
       })
@@ -38,11 +29,10 @@ export const loginUser = userData => {
   };
 };
 
-
 // setting logged in user
 export const setCurrentUser = decoded => {
   return {
-    type: SET_CURRENT_USER,
+    type: USER,
     payload: decoded
   };
 };
@@ -50,9 +40,8 @@ export const setCurrentUser = decoded => {
 // logout action
 export const logoutUser = () => {
   //remove token from local storage
-  localStorage.removeItem("jwtToken");
+  localStorage.removeItem("token");
   // delete auth header token.
-  setAuthHeaderToken(false);
   // remove current user
   // TODO : this does not seems to work, need to fix it soon.
   //   return dispatch => {

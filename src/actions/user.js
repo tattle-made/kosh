@@ -4,9 +4,11 @@ import {
   USER_DELETE,
   ERRORS,
   USER_SELECT,
-  USER_UPDATE
+  USER_UPDATE,
+  ALL_USERS
 } from "./types";
 import axios from "axios";
+import { headers } from "../utils/headers";
 
 export const setUser = role => {
   return {
@@ -22,31 +24,18 @@ export const getUser = () => {
 };
 
 export const createUser = userData => {
-  const request = axios.post("http://localhost:8080/users/create", userData);
+  console.log("create user action", userData);
+  const request = axios.post("http://localhost:8080/users/create", userData, {
+    headers: headers
+  });
   return dispatch => {
     request
       .then(res => {
         console.log("inside action", res);
-        dispatch({
-          type: SET_USER,
-          payload: res.data
-        });
-        // const token = res.data.token;
-        // // if token received
-        // if (token) {
-        //   // storing the token in local storage
-        //   localStorage.setItem("jwtToken", token);
-        //   // setting token to auth header
-        //   console.log("local");
-        //   setAuthHeaderToken(token);
-        //   // decoding token to get user data
-        //   console.log("auth");
-        //   console.log(typeof token);
-        //   // const decodedToken = jwtDecode(token);
-        //   // // setting current user
-        //   // console.log("decode");
-        //   dispatch(setCurrentUser(token));
-        // }
+        // dispatch({
+        //   type: SET_USER,
+        //   payload: res.data
+        // });
       })
       .catch(err =>
         dispatch({
@@ -59,7 +48,9 @@ export const createUser = userData => {
 
 export const userDelete = id => {
   const url = `http://localhost:8080/users/delete/${id}`;
-  const request = axios.post(url);
+  const request = axios.post(url, {
+    headers: headers
+  });
   // return dispatch => {
   //   request
   //     .then(res => {
@@ -85,8 +76,27 @@ export const selectedUser = userData => {
 export const updateUser = (id, userData) => {
   const url = `http://localhost:8080/users/update/${id}`;
   console.log("inside action", userData);
-  const request = axios.post(url, userData);
+  const request = axios.post(url, userData, {
+    headers: headers
+  });
   return {
     type: USER_UPDATE
+  };
+};
+
+export const fetchAllUsers = () => {
+  const url = "http://localhost:8080/users";
+  const request = axios.get(url, {
+    headers: headers
+  });
+  return dispatch => {
+    request
+      .then(res => {
+        dispatch({
+          type: ALL_USERS,
+          payload: res.data
+        });
+      })
+      .catch(err => console.log(err));
   };
 };

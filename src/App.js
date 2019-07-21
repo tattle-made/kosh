@@ -18,7 +18,7 @@ import LoginCard from "./components/LoginCard";
 import UserCreate from "./components/UserCreate";
 import UserUpdate from "./components/UserUpdate";
 import PrivateRoute from "./components/PrivateRoute";
-
+import ReactSelect from "./components/ReactSelect";
 function App() {
   return (
     <Provider store={store}>
@@ -42,6 +42,7 @@ function App() {
           <Route exact path="/users/create" component={SideNav} />
           <Route exact path="/users/update/:id" component={SideNav} />
           <Route exact path="/users/delete/:id" component={SideNav} />
+          <Route exact path="/test" component={ReactSelect} />
         </div>
       </Router>
     </Provider>

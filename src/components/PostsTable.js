@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUpload,
@@ -14,23 +15,22 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
-import { Button, Dropdown } from "react-bootstrap";
+import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import overlayFactory from "react-bootstrap-table2-overlay";
-import axios from "axios";
 import DatePicker from "react-datepicker";
-import SelectSearch from "react-select-search";
-
+import Select from "react-select";
 //actions
-import { fetchPosts } from "../actions/fetchData";
-import { postDelete, postByTime } from "../actions/post";
+import { fetchPosts, fetchUsers } from "../actions/fetchData";
+import { postDelete, postByTime, postByTimeAndUsers } from "../actions/post";
 
 //components
 import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
 import { Card } from "./Card";
 import { FilterComponent } from "./FilterComponent";
+import ReactSelect from "./ReactSelect";
 // action control
 import AccessControl from "./accessControl";
 
@@ -60,13 +60,15 @@ class PostsTable extends Component {
       loading: true,
       startDate: new Date(),
       endDate: new Date(),
-      filter: ""
+      users: [],
+      selectedUsers: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
     this.previewFormatter = this.previewFormatter.bind(this);
     this.refresh = this.refresh.bind(this);
     this.onSearchByDate = this.onSearchByDate.bind(this);
+    this.onSearchByTimeAndUser = this.onSearchByTimeAndUser.bind(this);
   }
 
   handleChange(date) {
@@ -136,11 +138,9 @@ class PostsTable extends Component {
       </div>
     );
   }
-
   componentDidMount() {
     // console.log("mounted");
     // console.log("props", this.props);
-
     const path = this.props.location.pathname;
     let page = path.split("/posts/")[1];
     if (page === "") {
@@ -155,6 +155,7 @@ class PostsTable extends Component {
       console.log("new Data received", value.name);
       this.refresh();
     });
+    this.props.fetchUsers();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -164,6 +165,15 @@ class PostsTable extends Component {
         page: nextProps.fetch.page,
         totalPages: nextProps.fetch.totalPages,
         count: nextProps.fetch.count
+      });
+    }
+    if (nextProps.users !== this.props.users) {
+      const users = [];
+      nextProps.users.forEach(user => {
+        users.push({ label: user.username, value: user.id });
+      });
+      this.setState({
+        users
       });
     }
   }
@@ -194,11 +204,7 @@ class PostsTable extends Component {
   // }
 
   onSearchByDate() {
-    console.log(
-      "search by date",
-      this.state.startDate.getTime(),
-      this.state.endDate
-    );
+    console.log("search by date");
     const path = this.props.location.pathname;
     let page = path.split("/posts/")[1];
     if (page === "") {
@@ -206,6 +212,24 @@ class PostsTable extends Component {
     }
     this.props.postByTime(
       page,
+      this.state.startDate.getTime(),
+      this.state.endDate.getTime()
+    );
+  }
+  onSearchByTimeAndUser() {
+    console.log("search by date and user");
+    const path = this.props.location.pathname;
+    let page = path.split("/posts/")[1];
+    if (page === "") {
+      page = 1;
+    }
+
+    const users_id = [];
+    console.log();
+    this.state.selectedUsers.forEach(user => users_id.push(user.value));
+    this.props.postByTimeAndUsers(
+      page,
+      users_id,
       this.state.startDate.getTime(),
       this.state.endDate.getTime()
     );
@@ -241,17 +265,26 @@ class PostsTable extends Component {
       return null;
     }
   }
+
+  onUserSelect = selectedUsers => {
+    this.setState({ selectedUsers });
+    console.log(`Option selected:`, selectedUsers);
+  };
+
   render() {
     if (this.props.location.pathname === "/posts") {
       return <Redirect to="/posts/1" />;
     }
     console.log("page ", this.state.page);
+
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
     socket.on("posts/newData", value => {
       console.log("new Data received", value.name);
       this.refresh();
     });
+    // let selected = [...this.refs.collegeList.selectedOptions].map(o => o.value);
+    // console.log("selected ", selected);
 
     const columns = [
       {
@@ -298,19 +331,6 @@ class PostsTable extends Component {
     ];
     return (
       <div className="container">
-        {/* <select className="selectpicker" multiple>
-          <optgroup label="Admin" data-max-options="2">
-            <option>Mohit</option>
-            <option>james</option>
-            <option>malik</option>
-          </optgroup>
-          <optgroup label="Subscriber" data-max-options="2">
-            <option>mohit</option>
-            <option>mohit</option>
-            <option>malik</option>
-          </optgroup>
-        </select> */}
-        {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
         <HeadingTwo text="Posts" />
         <div className="my-3">
           <button className="btn btn-sm btn-color-white-one mr-3">
@@ -340,7 +360,7 @@ class PostsTable extends Component {
 
               <Dropdown.Menu>
                 <Dropdown.Item
-                  name="data"
+                  name="date"
                   onClick={this.onFilterItemSelect.bind(this)}
                 >
                   Filter by Date
@@ -361,23 +381,9 @@ class PostsTable extends Component {
             </Dropdown>
           </span>
         </div>
-        {/* <FilterComponent filter={this.state.filter} /> */}
         <div>
-          {this.state.filter === "data" ? (
+          {this.state.filter === "date" ? (
             <div>
-              <select className="selectpicker" multiple>
-                <optgroup label="Admin" data-max-options="2">
-                  <option>Mohit</option>
-                  <option>james</option>
-                  <option>malik</option>
-                </optgroup>
-                <optgroup label="Subscriber" data-max-options="2">
-                  <option>mohit</option>
-                  <option>mohit</option>
-                  <option>malik</option>
-                </optgroup>
-              </select>
-
               <DatePicker
                 selected={this.state.startDate}
                 onChange={this.handleChange}
@@ -414,13 +420,26 @@ class PostsTable extends Component {
               </Button>
             </div>
           ) : this.state.filter === "name" ? (
-            <div>
-              <SelectSearch
-                options={options}
-                value="sv"
-                name="language"
-                placeholder="Choose your language"
-              />
+            <div className="filter-box">
+              <div className="react-select">
+                <Select
+                  isMulti
+                  value={this.state.selectedUsers}
+                  onChange={this.onUserSelect}
+                  options={this.state.users}
+                  //
+                  // styeles={{ width: "500px" }}
+                  theme={theme => ({
+                    ...theme,
+                    // borderRadius: {"4px"},
+                    colors: {
+                      ...theme.colors,
+                      primary25: "white",
+                      primary: "#B3B3B3"
+                    }
+                  })}
+                />
+              </div>
               <DatePicker
                 selected={this.state.startDate}
                 onChange={this.handleChange}
@@ -451,7 +470,7 @@ class PostsTable extends Component {
               <Button
                 variant="color-primary-one"
                 size="sm"
-                onClick={this.onSearchByDate}
+                onClick={this.onSearchByTimeAndUser}
               >
                 <FontAwesomeIcon icon={faSearch} />
               </Button>
@@ -520,13 +539,14 @@ PostsTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  fetch: state.fetch
+  fetch: state.fetch,
+  users: state.users
 });
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { fetchPosts, postDelete, postByTime }
+    { fetchPosts, postDelete, postByTime, fetchUsers, postByTimeAndUsers }
   )(PostsTable)
 );
 

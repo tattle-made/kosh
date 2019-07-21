@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { HeadingOne } from "../reusableComponents/text";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 //actions
 import { loginUser } from "../actions/auth";
@@ -34,13 +35,16 @@ class LoginCard extends Component {
     };
     console.log("submitted");
     this.props.loginUser(userData);
+    if (true) {
+      this.props.history.push("/posts");
+    }
   }
 
   render() {
     return (
       <div>
         <div className="login-header">
-          <img src={tattleLogo} />
+          <img src={tattleLogo} alt="logo" />
         </div>
 
         <div className="login mx-auto">
@@ -140,7 +144,9 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { loginUser }
-)(LoginCard);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { loginUser }
+  )(LoginCard)
+);

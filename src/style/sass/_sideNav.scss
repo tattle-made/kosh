@@ -11,18 +11,20 @@
     display: grid;
     height: 100vh;
     grid-template-columns: 1fr 7fr;
-    & div {
-      padding: 0.4em;
-    }
+    // & div {
+    //   padding: 0.4em;
+    // }
     & .sidenav-container {
       div {
         position: sticky;
         top: 0px;
+        padding: 0.4em;
       }
       background-color: $sidenav-background;
       & .active {
         background-color: #ffccc8;
-        margin-right: -19px;
+        margin-right: -13px;
+        border-right: 4px solid $color-primary-one;
         h2 {
           font-weight: bold;
         }
@@ -57,7 +59,7 @@
         align-items: center;
         margin-top: 0.4em;
         margin-bottom: 1.4em;
-        margin-left: -0.45em;
+        // margin-left: -0.45em;
         img {
           margin-right: 0.4em;
         }
@@ -91,13 +93,14 @@
     display: grid;
     height: 100vh;
     grid-template-columns: 70px 8fr;
-    & div {
-      padding: 0.4em;
-    }
+    // & div {
+    //   padding: 0.4em;
+    // }
     & .sidenav-container {
       div {
         position: sticky;
         top: 0px;
+        padding: 0.4em;
       }
       background-color: $sidenav-background;
       & .logo {
@@ -112,7 +115,7 @@
         background-color: #ffccc8;
         border-right: 4px solid $color-primary-one;
         width: 40px;
-        padding-right: 40px;
+        padding-right: 47px;
         h2 {
           font-weight: bold;
         }
@@ -123,7 +126,7 @@
       & .app-logo-container {
         margin-top: 0.4em;
         margin-bottom: 1.4em;
-        margin-left: -0.45em;
+        // margin-left: -0.45em;
         & h1 {
           display: none;
         }

@@ -1,5 +1,6 @@
 import { ERRORS, SEARCH, CONTENT_LOADING, POSTS, USERS } from "./types";
 import axios from "axios";
+import { headers } from "../utils/headers";
 
 export const error = error => {
   return {
@@ -15,7 +16,9 @@ export const contentLoading = () => {
 };
 
 export const search = url => {
-  const request = axios.get(url);
+  const request = axios.get(url, {
+    headers: headers
+  });
   return dispatch => {
     request
       .then(res => {
@@ -54,7 +57,9 @@ export const search = url => {
 
 export const fetchPosts = page => {
   const url = `http://localhost:8080/posts/${page}`;
-  const request = axios.get(url);
+  const request = axios.get(url, {
+    headers: headers
+  });
   return dispatch => {
     request
       .then(res => {
@@ -98,7 +103,9 @@ export const fetchPosts = page => {
 
 export const fetchUsers = () => {
   const url = "http://localhost:8080/users";
-  const request = axios.get(url);
+  const request = axios.get(url, {
+    headers: headers
+  });
   return dispatch => {
     request
       .then(res => {

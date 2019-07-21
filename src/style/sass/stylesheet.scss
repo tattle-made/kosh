@@ -9,7 +9,8 @@
 @import "breadcrumb";
 @import "~react-datepicker/dist/react-datepicker.css";
 @import "react-select-search";
-
+@import "react-select";
+@import "post-table";
 // modifying bootstrap constants value
 $theme-colors: (
   "primary": #0074d9,
@@ -20,3 +21,7 @@ $theme-colors: (
 );
 
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+@import "~react-bootstrap-multiselect/css/bootstrap-multiselect.css";
+// @import "~bootstrap-select/dist/css/bootstrap-select.min.css";
+@import "~react-selectize/themes/index.css";

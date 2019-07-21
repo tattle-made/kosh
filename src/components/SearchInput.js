@@ -5,7 +5,8 @@ import {
   faSearch,
   faFileAlt,
   faCamera,
-  faVideo
+  faVideo,
+  faUpload
 } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
@@ -20,29 +21,7 @@ import { Card } from "../components/Card";
 // import Loading from "../components/Loading";
 import Spinner from "../components/Spinner";
 import { UploadInput } from "../reusableComponents/UploadInput";
-
-// Capability file for this component
-// import { SearchInputCapabilities } from "./SearchInputCapabilities";
-//const accessibility = <SearchInputCapabilities role={props.user.role} />;
-
-function SearchInputCapabilities(role) {
-  switch (role) {
-    case "SUPER_ADMINISTRATOR":
-      return true;
-    case "ADMINISTRATOR":
-      return true;
-    case "EDITOR":
-      return true;
-    case "AUTHOR":
-      return true;
-    case "CONTRIBUTOR":
-      return false;
-    case "SUBSCRIBER":
-      return false;
-    default:
-      return false;
-  }
-}
+import { HeadingTwo, BodyOne } from "../reusableComponents/text";
 
 const options = [
   { value: "text", label: <FontAwesomeIcon icon={faFileAlt} /> },
@@ -99,7 +78,7 @@ function SearchInput(props) {
         <div className="container search-box">
           <form className="search-form">
             <div className="form-inline">
-              <Select
+              {/* <Select
                 className="mr-2"
                 placeholder={<FontAwesomeIcon icon={faFileAlt} />}
                 value={selectedOption}
@@ -131,6 +110,51 @@ function SearchInput(props) {
               >
                 <FontAwesomeIcon icon={faSearch} color="#fff" />
               </button>
+            </div> */}
+              <div className="search-input">
+                <div className="search-input-input">
+                  <input type="text" placeholder="Enter Search Term" />
+                  <HeadingTwo text="or" />
+                  <button className="btn  btn-color-white-one">
+                    <FontAwesomeIcon icon={faUpload} /> Upload File
+                  </button>
+                </div>
+
+                <div className="search-input-checkbox">
+                  <BodyOne text="include" />
+                  <label className="checkbox-box">
+                    <BodyOne text="text" />
+                    <input
+                      type="checkbox"
+                      onClick={() => this.checkboxToggle("text")}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                  <label className="checkbox-box">
+                    <BodyOne text="image" />
+                    <input
+                      type="checkbox"
+                      onClick={() => this.checkboxToggle("image")}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                  <label className="checkbox-box">
+                    <BodyOne text="video" />
+                    <input
+                      type="checkbox"
+                      onClick={() => this.checkboxToggle("video")}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                </div>
+                <button
+                  className="btn btn-color-primary-one text-white"
+                  type="submit"
+                  onClick={this.onFormSubmit.bind(this)}
+                >
+                  Search <FontAwesomeIcon icon={faSearch} color="#fff" />
+                </button>
+              </div>
             </div>
             <div className="form-inline mt-3">
               <label className="checkbox-box">
