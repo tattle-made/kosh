@@ -59,7 +59,6 @@ export function exists(
 
 export function getAll() {
     return User.findAll({
-        limit: 10,
         order: [["createdAt", "DESC"]]
     })
         .map(el => el.get({ plain: true }))
@@ -69,6 +68,18 @@ export function getAll() {
                 error: err
             });
         });
+}
+
+export function getById(id: number) {
+    return User.findOne({
+        where: {
+            id
+        }
+    })
+        .then(user => {
+            return user;
+        })
+        .catch(err => console.log(err));
 }
 
 export function create(param: UserCreateRequest): Promise<any> {

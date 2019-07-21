@@ -20,6 +20,15 @@ import { authorize } from "./core/middleware/authorize";
 
 const app = express();
 const port = 8080;
+const server = app.listen(port, () => {
+    console.log("server is listening to ", port);
+});
+const io = socketio(server);
+app.set("socketio", io);
+io.on("connection", client => {
+    console.log("Client is connected");
+});
+
 Sentry.init({
     dsn: "https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856"
 });
@@ -27,12 +36,8 @@ Sentry.init({
 // app.use(cors);
 app.use(Sentry.Handlers.requestHandler());
 app.use(express.json());
-
-const server = app.listen(port, () => {
-    console.log("server is listening to ", port);
-});
-
-const io = socketio(server);
+// app.use(authenticate);
+// app.use(authorize);
 
 // import logger from './logger-core';
 const postController = new PostController();
@@ -40,8 +45,6 @@ const searchController = new SearchController();
 const loginController = new LoginController();
 const userController = new UserController();
 
-// app.use(authenticate);
-// app.use(authorize);
 app.get("/", (req: Request, res: Response) => {
     res.send("pong");
 });
@@ -65,14 +68,29 @@ app.post("/postByTime/:page", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.set("socketio", io);
-
-io.on("connection", client => {
-    console.log("Client is connected");
+app.post("/postByTimeAndUsers/:page", (req: Request, res: Response) => {
+    const page = req.params.page || 1;
+    const { users_id, startDate, endDate } = req.body;
+    console.log(req.body)
+    const d1 = new Date(startDate).toISOString();
+    const d2 = new Date(endDate).toISOString();
+    users_id as Array<number>;
+    console.log(
+        "insidedlksjffffffffffffffffffl  llllllllllllllllllllllllllllllllllllll ",
+        typeof users_id,
+        users_id
+    );
+    postController
+        .getByTimeAndUsers(users_id, page, d1, d2)
+        .then(posts => {
+            res.send(posts);
+        })
+        .catch(err => res.send(err.JSON));
 });
 
 app.post("/posts", (req: Request, res: Response) => {
     const post = new PostCreateRequest(req.body);
+    console.log("post received ", post);
     const io = req.app.get("socketio");
     postController
         .create(post)
@@ -101,7 +119,10 @@ app.post("/auth/login", (req: Request, res: Response) => {
     const { username, password } = req.body;
     loginController
         .login(username, password)
-        .then(response => res.send(new LoginResponse(response).get()));
+        .then(response => res.send(response))
+        .catch(err => console.log(err));
+    // todo : fix loginResponse
+    // .then(response => res.send(new LoginResponse(response).get()));
 });
 
 app.post("/auth/logout", (req: Request, res: Response) => {

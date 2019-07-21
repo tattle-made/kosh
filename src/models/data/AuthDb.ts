@@ -41,7 +41,10 @@ export function createOrUpdateTokenForUserId(userId: number): Promise<string> {
         },
         { returning: true }
     )
-        .then(val => token)
+        .then(val => {
+            console.log("token craet ", token);
+            return token;
+        })
         .catch(err => console.log(err));
 }
 

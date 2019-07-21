@@ -4,9 +4,5 @@ export default class {
         this.route = route;
     }
 
-    // public getGetPermissions(): any {}
-
-    // public getPostPermissions() {}
-
-    public getPermissions(): any {}
+    public getPermissions(route: string, method: string): any {}
 }

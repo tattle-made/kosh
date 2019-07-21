@@ -5,6 +5,7 @@ import {
     getAll,
     get,
     getByTime,
+    getByTimeAndUsers,
     deletePost
 } from "../models/data/PostDb";
 
@@ -25,6 +26,15 @@ export class PostController extends BaseController {
 
     public getByTime(page: number, d1: string, d2: string) {
         return getByTime(page, d1, d2);
+    }
+
+    public getByTimeAndUsers(
+        user_id: any,
+        page: number,
+        d1: string,
+        d2: string
+    ) {
+        return getByTimeAndUsers(user_id, page, d1, d2);
     }
 
     public create(param: PostCreateRequest): Promise<JSON> {

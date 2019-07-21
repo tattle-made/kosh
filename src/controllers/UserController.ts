@@ -62,12 +62,12 @@ export class UserController extends _BaseController {
             .catch(err => logError(err));
     }
 
-    public getGetPermissions() {
-        return ["subscriber", "admin"];
-    }
-
-    public getPostPermissions() {
-        return ["admin"];
+    public getPermissions(route: string, method: string) {
+        if (method === "GET") {
+            return ["subscriber", "admin"];
+        } else {
+            return ["admin"];
+        }
     }
 
     public getUserRole(userId: number) {

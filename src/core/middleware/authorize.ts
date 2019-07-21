@@ -8,6 +8,7 @@ const application = new Application();
 application.addToRouteToControllerMap("/users", userController);
 application.addToRouteToControllerMap("/users/create", userController);
 application.addToRouteToControllerMap("/posts", userController);
+application.addToRouteToControllerMap("/auth/login", userController);
 //todo : fix for routes including :id
 application.addToRouteToControllerMap("/users/delete/:id", userController);
 
@@ -25,13 +26,7 @@ export const authorize = (req: Request, res: Response, next: Function) => {
             let permission;
             console.log("value ", value);
             if (value != undefined) {
-                if (req.method === "GET") {
-                    // permission = value.getGetPermissions();
-                    permission = value.getPermissions();
-                } else {
-                    // permission = value.getPostPermissions();
-                    permission = value.getPermissions();
-                }
+                permission = value.getPermissions(req.originalUrl, req.method);
             }
             console.log("permission ", permission);
             // console.log(permission.includes("admin"));

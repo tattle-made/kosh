@@ -11,7 +11,8 @@ Post.init(
         data: Sequelize.STRING,
         filename: Sequelize.STRING,
         source: Sequelize.INTEGER,
-        campaign_id: Sequelize.INTEGER
+        campaign_id: Sequelize.INTEGER,
+        user_id: Sequelize.INTEGER
     },
     {
         sequelize: db.get(),
@@ -90,9 +91,43 @@ export function getByTime(page: number, d1: string, d2: string) {
         .then(result => {
             return {
                 page: page,
+                count: result.count,
                 totalPages: Math.ceil(result.count / pageSize),
-                posts: result.rows,
-                count: result.count
+                posts: result.rows
+            };
+        })
+        .catch(err => {
+            return Promise.resolve({
+                message: "Error Fetching Post",
+                error: err
+            });
+        });
+}
+
+export function getByTimeAndUsers(
+    user_id: any,
+    page: number,
+    d1: string,
+    d2: string
+) {
+    const pageSize = 10;
+    return Post.findAndCountAll({
+        where: {
+            user_id: user_id,
+            createdAt: {
+                [Op.between]: [d1, d2]
+            }
+        },
+        offset: page * pageSize - pageSize,
+        limit: 10,
+        order: [["createdAt", "DESC"]]
+    })
+        .then(result => {
+            return {
+                page: page,
+                count: result.count,
+                totalPages: Math.ceil(result.count / pageSize),
+                posts: result.rows
             };
         })
         .catch(err => {

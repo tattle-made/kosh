@@ -10,7 +10,7 @@ export class Application {
         this.routeToController.set(route, controller);
     }
 
-    public getController(route: string) {
+    public getController(route: string){
         return this.routeToController.get(route);
     }
 
