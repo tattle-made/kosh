@@ -14,6 +14,9 @@ import LoginResponse from "./models/response/LoginResponse";
 import { UserController } from "./controllers/UserController";
 import { UserCreateRequest } from "./models/request/UserCreateRequest";
 
+//validator
+import { loginValidator } from "./core/validation/login";
+
 //middleware
 import { authenticate } from "./core/middleware/authenticate";
 import { authorize } from "./core/middleware/authorize";
@@ -71,7 +74,7 @@ app.post("/postByTime/:page", (req: Request, res: Response) => {
 app.post("/postByTimeAndUsers/:page", (req: Request, res: Response) => {
     const page = req.params.page || 1;
     const { users_id, startDate, endDate } = req.body;
-    console.log(req.body)
+    console.log(req.body);
     const d1 = new Date(startDate).toISOString();
     const d2 = new Date(endDate).toISOString();
     users_id as Array<number>;
@@ -117,6 +120,11 @@ app.get("/search", (req: Request, res: Response) => {
 
 app.post("/auth/login", (req: Request, res: Response) => {
     const { username, password } = req.body;
+    const { errors, isValid } = loginValidator(req.body);
+    console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrror sssssssss ", errors);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
     loginController
         .login(username, password)
         .then(response => res.send(response))
