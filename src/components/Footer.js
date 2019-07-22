@@ -30,7 +30,7 @@ class FooterSite extends Component {
     if (errors) {
       return (
         <Footer
-          alert_type="danger"
+          alert_type=""
           message={errors}
           visible={this.state.visible}
           closeFooter={() => {

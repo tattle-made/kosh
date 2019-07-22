@@ -7,6 +7,11 @@
   animation-name: bantai;
   animation-duration: 0.5s;
   //   transition: bantai 0.35s ease-in-out;
+  background: linear-gradient(
+    45deg,
+    $color-primary-one 0%,
+    $color-primary-four 100%
+  );
 }
 
 @keyframes bantai {

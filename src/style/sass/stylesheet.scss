@@ -17,7 +17,8 @@ $theme-colors: (
   "danger": #ff4136,
   "color-primary-one": $color-primary-one,
   "color-white-one": $color-white-one,
-  "color-white-two": $color-white-two
+  "color-white-two": $color-white-two,
+  "footer-background": #bada55
 );
 
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
