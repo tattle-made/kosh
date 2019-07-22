@@ -12,9 +12,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { withRouter } from "react-router-dom";
 //components
-import HeadingTwo from "../reusableComponents/text/HeadingTwo";
+import HeadingTwo from "../atomic-components/text/HeadingTwo";
 //actions
-import { createUser } from "../actions/user";
+import { createUser } from "../../redux/actions/user";
 
 class UserCreate extends Component {
   constructor(props) {

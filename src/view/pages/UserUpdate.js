@@ -13,9 +13,9 @@ import {
 import { withRouter } from "react-router-dom";
 
 //components
-import HeadingTwo from "../reusableComponents/text/HeadingTwo";
+import HeadingTwo from "../atomic-components/text/HeadingTwo";
 //actions
-import { updateUser } from "../actions/user";
+import { updateUser } from "../../redux/actions/user";
 
 class UserUpdate extends Component {
   constructor(props) {

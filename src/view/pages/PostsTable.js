@@ -23,16 +23,20 @@ import overlayFactory from "react-bootstrap-table2-overlay";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
 //actions
-import { fetchPosts, fetchUsers } from "../actions/fetchData";
-import { postDelete, postByTime, postByTimeAndUsers } from "../actions/post";
+import { fetchPosts, fetchUsers } from "../../redux/actions/fetchData";
+import {
+  postDelete,
+  postByTime,
+  postByTimeAndUsers
+} from "../../redux/actions/post";
 
 //components
-import HeadingTwo from "../reusableComponents/text/HeadingTwo";
-import { Card } from "./Card";
-import { FilterComponent } from "./FilterComponent";
-import ReactSelect from "./ReactSelect";
+import HeadingTwo from "../atomic-components/text/HeadingTwo";
+import { Card } from "../components/Card";
+import { FilterComponent } from "../components/FilterComponent";
+import ReactSelect from "../components/ReactSelect";
 // action control
-import AccessControl from "./accessControl";
+import AccessControl from "../components/AccessControl";
 
 // socket io
 import io from "socket.io-client";

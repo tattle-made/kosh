@@ -1,6 +1,6 @@
 import { POST_DELETE, POSTS } from "./types";
 import axios from "axios";
-import headers from "../utils/headers";
+import headers from "../../core-utils/headers";
 import { triggerRefresh } from "./fetchData";
 
 const postDelete = (id, refresh) => {

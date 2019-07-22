@@ -1,24 +1,24 @@
 import React from "react";
-import "./style/stylesheet.css";
+import "./view/style/stylesheet.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 
 //components
-import Cards from "./components/Cards";
-import CardDetails from "./components/CardDetails";
-import FooterSite from "./components/Footer";
-import InfoPanel from "./components/InfoPanel";
-import UsersTable from "./components/UsersTable";
-import PostsTable from "./components/PostsTable";
-import SideNav from "./components/SideNav";
-import PostsTableItem from "./components/PostsTableItem";
-import LoginCard from "./components/LoginCard";
-import UserCreate from "./components/UserCreate";
-import UserUpdate from "./components/UserUpdate";
-import PrivateRoute from "./components/PrivateRoute";
-import ReactSelect from "./components/ReactSelect";
+import Cards from "./view/components/Cards";
+import CardDetails from "./view/components/CardDetails";
+import FooterSite from "./view/components/Footer";
+import InfoPanel from "./view/components/InfoPanel";
+import UsersTable from "./view/pages/UsersTable";
+import PostsTable from "./view/pages/PostsTable";
+import SideNav from "./view/components/SideNav";
+import PostsTableItem from "./view/components/PostsTableItem";
+import LoginCard from "./view/pages/LoginCard";
+import UserCreate from "./view/pages/UserCreate";
+import UserUpdate from "./view/pages/UserUpdate";
+import PrivateRoute from "./view/components/PrivateRoute";
+import ReactSelect from "./view/components/ReactSelect";
 function App() {
   return (
     <Provider store={store}>

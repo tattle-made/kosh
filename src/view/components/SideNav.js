@@ -8,20 +8,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
 import { withRouter, Redirect } from "react-router-dom";
-import tattle_monogram_dark from "../img/tattle_monogram_dark.png";
+import tattle_monogram_dark from "../../img/tattle_monogram_dark.png";
 
 //components
-import SearchInput from "./SearchInput";
-import PostsTable from "./PostsTable";
-import UsersTable from "./UsersTable";
-import UserCreate from "./UserCreate";
-import UserUpdate from "./UserUpdate";
+import SearchInput from "../pages/SearchInput";
+import PostsTable from "../pages/PostsTable";
+import UsersTable from "../pages/UsersTable";
+import UserCreate from "../pages/UserCreate";
+import UserUpdate from "../pages/UserUpdate";
 import PostsTableItem from "./PostsTableItem";
-import MenuItem from "../reusableComponents/MenuItem";
-import tattle1 from "../img/tattle1.svg";
+import MenuItem from "../atomic-components/MenuItem";
+import tattle1 from "../../img/tattle1.svg";
 
 // access control
-import AccessControl from "./accessControl";
+import AccessControl from "./AccessControl";
 
 class SideNav extends Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HeadingOne from "../reusableComponents/text/HeadingOne";
+import HeadingOne from "../atomic-components/text/HeadingOne";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -7,12 +7,12 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import { IsEmpty } from "is-empty";
 //actions
-import { loginUser } from "../actions/auth";
+import { loginUser } from "../../redux/actions/auth";
 
 //components
-import tattleLogo from "../img/logo_logomark.png";
-import HeadingThree from "../reusableComponents/text/HeadingThree";
-import BodyOne from "../reusableComponents/text/BodyOne";
+import tattleLogo from "../../img/logo_logomark.png";
+import HeadingThree from "../atomic-components/text/HeadingThree";
+import BodyOne from "../atomic-components/text/BodyOne";
 
 class LoginCard extends Component {
   constructor(props) {

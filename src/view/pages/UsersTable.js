@@ -20,15 +20,15 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import axios from "axios";
 
 //actions
-import { fetchUsers } from "../actions/fetchData";
-import { userDelete, selectedUser } from "../actions/user";
+import { fetchUsers } from "../../redux/actions/fetchData";
+import { userDelete, selectedUser } from "../../redux/actions/user";
 
 //components
-import HeadingTwo from "../reusableComponents/text/HeadingTwo";
-import { Card } from "./Card";
+import HeadingTwo from "../atomic-components/text/HeadingTwo";
+import { Card } from "../components/Card";
 
 // action control
-import AccessControl from "./accessControl";
+import AccessControl from "../components/AccessControl";
 
 // socket io
 import io from "socket.io-client";

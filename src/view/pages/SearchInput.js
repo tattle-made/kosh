@@ -14,14 +14,14 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // actions
-import { search, contentLoading, error } from "../actions/fetchData";
+import { search, contentLoading, error } from "../../redux/actions/fetchData";
 
 // components
 import { Card } from "../components/Card";
 // import Loading from "../components/Loading";
 import Spinner from "../components/Spinner";
-import { UploadInput } from "../reusableComponents/UploadInput";
-import { HeadingTwo, BodyOne } from "../reusableComponents/text";
+import { UploadInput } from "../atomic-components/UploadInput";
+import { HeadingTwo, BodyOne } from "../atomic-components/text";
 
 const options = [
   { value: "text", label: <FontAwesomeIcon icon={faFileAlt} /> },
