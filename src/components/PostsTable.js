@@ -27,7 +27,7 @@ import { fetchPosts, fetchUsers } from "../actions/fetchData";
 import { postDelete, postByTime, postByTimeAndUsers } from "../actions/post";
 
 //components
-import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
+import HeadingTwo from "../reusableComponents/text/HeadingTwo";
 import { Card } from "./Card";
 import { FilterComponent } from "./FilterComponent";
 import ReactSelect from "./ReactSelect";
@@ -551,13 +551,14 @@ const mapStateToProps = state => ({
   refresh: state.refresh
 });
 
-export default withRouter(
+const prev = {
+  width: "300px"
+};
+
+const PostsTablePage = withRouter(
   connect(
     mapStateToProps,
     { fetchPosts, postDelete, postByTime, fetchUsers, postByTimeAndUsers }
   )(PostsTable)
 );
-
-const prev = {
-  width: "300px"
-};
+export default PostsTablePage;

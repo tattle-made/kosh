@@ -1,5 +1,7 @@
 import React from "react";
 
-export const HeadingTwo = props => {
+const HeadingTwo = props => {
   return <span className="heading2">{props.text}</span>;
 };
+
+export default HeadingTwo;

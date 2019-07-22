@@ -24,7 +24,7 @@ import { fetchUsers } from "../actions/fetchData";
 import { userDelete, selectedUser } from "../actions/user";
 
 //components
-import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
+import HeadingTwo from "../reusableComponents/text/HeadingTwo";
 import { Card } from "./Card";
 
 // action control
@@ -247,13 +247,15 @@ const mapStateToProps = state => ({
   refresh: state.refresh
 });
 
-export default withRouter(
+const prev = {
+  width: "300px"
+};
+
+const UsersTablePage = withRouter(
   connect(
     mapStateToProps,
     { fetchUsers, userDelete, selectedUser }
   )(UsersTable)
 );
 
-const prev = {
-  width: "300px"
-};
+export default UsersTablePage;

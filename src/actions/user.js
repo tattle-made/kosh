@@ -8,23 +8,23 @@ import {
   ALL_USERS
 } from "./types";
 import axios from "axios";
-import { headers } from "../utils/headers";
+import headers from "../utils/headers";
 import { triggerRefresh } from "./fetchData";
 
-export const setUser = role => {
+const setUser = role => {
   return {
     type: SET_USER,
     payload: role
   };
 };
 
-export const getUser = () => {
+const getUser = () => {
   return {
     type: GET_USER
   };
 };
 
-export const createUser = userData => {
+const createUser = userData => {
   console.log("create user action", userData);
   const request = axios.post("http://localhost:8080/users/create", userData, {
     headers: headers
@@ -47,8 +47,8 @@ export const createUser = userData => {
   };
 };
 
-export const userDelete = (id, refreshTrigger) => {
-  console.log("inside delete action", refreshTrigger);
+const userDelete = (id, refresh) => {
+  console.log("inside delete action", refresh);
   const url = `http://localhost:8080/users/delete/${id}`;
   const request = axios.post(url, {
     headers: headers
@@ -57,18 +57,18 @@ export const userDelete = (id, refreshTrigger) => {
     dispatch({
       type: USER_DELETE
     });
-    dispatch(triggerRefresh(refreshTrigger));
+    dispatch(triggerRefresh(refresh));
   };
 };
 
-export const selectedUser = userData => {
+const selectedUser = userData => {
   return {
     type: USER_SELECT,
     payload: userData
   };
 };
 
-export const updateUser = (id, userData) => {
+const updateUser = (id, userData) => {
   const url = `http://localhost:8080/users/update/${id}`;
   console.log("inside action", userData);
   const request = axios.post(url, userData, {
@@ -79,7 +79,7 @@ export const updateUser = (id, userData) => {
   };
 };
 
-export const fetchAllUsers = () => {
+const fetchAllUsers = () => {
   const url = "http://localhost:8080/users";
   const request = axios.get(url, {
     headers: headers
@@ -94,4 +94,14 @@ export const fetchAllUsers = () => {
       })
       .catch(err => console.log(err));
   };
+};
+
+export {
+  setUser,
+  getUser,
+  createUser,
+  userDelete,
+  selectedUser,
+  updateUser,
+  fetchAllUsers
 };

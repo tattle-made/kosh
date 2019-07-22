@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Card = props => {
+const Card = props => {
   // console.log("card details ", props.card, props.display);
 
   // if (props.card.type === "text" && props.display) {
@@ -72,3 +72,5 @@ export const Card = props => {
     );
   }
 };
+
+export default Card;

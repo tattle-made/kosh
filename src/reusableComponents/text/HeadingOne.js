@@ -1,5 +1,7 @@
 import React from "react";
 
-export const HeadingOne = props => {
+const HeadingOne = props => {
   return <div className="heading1">{props.text}</div>;
 };
+
+export default HeadingOne;

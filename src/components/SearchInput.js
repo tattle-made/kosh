@@ -210,7 +210,9 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(
+const SearchPage = connect(
   mapStateToProps,
   { search, contentLoading, error }
 )(SearchInput);
+
+export default SearchPage;

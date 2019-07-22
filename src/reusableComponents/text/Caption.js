@@ -1,5 +1,7 @@
 import React from "react";
 
-export const Caption = props => {
+const Caption = props => {
   return <div className="caption">{props.text}</div>;
 };
+
+export default Caption;

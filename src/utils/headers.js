@@ -1,6 +1,8 @@
 const token = localStorage.getItem("token");
 console.log(token);
 
-export const headers = {
+const headers = () => ({
   token: token
-};
+});
+
+export default headers;

@@ -1,6 +1,6 @@
 import { ADMIN, SUBSCRIBER } from "./roleTypes";
 
-export const getUserPermissions = role => {
+const getUserPermissions = role => {
   switch (role) {
     case ADMIN:
       return ["post:canDelete", "post:canUpload", "user:canView"];
@@ -10,3 +10,5 @@ export const getUserPermissions = role => {
       return [];
   }
 };
+
+export default getUserPermissions;

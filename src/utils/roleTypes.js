@@ -1,2 +1,4 @@
-export const ADMIN = "ADMIN";
-export const SUBSCRIBER = "SUBSCRIBER";
+const ADMIN = "ADMIN";
+const SUBSCRIBER = "SUBSCRIBER";
+
+export { ADMIN, SUBSCRIBER };

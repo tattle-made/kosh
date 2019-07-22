@@ -1,17 +1,37 @@
-export const ERRORS = "ERRORS";
-export const CONTENT_LOADING = "CONTENT_LOADING";
-export const SEARCH = "SEARCH";
-export const POSTS = "POSTS";
-export const BREADCRUMBS = "BREADCRUMBS";
-export const SET_USER = "SET_USER";
-export const GET_USER = "GET_USER";
-export const SET_CURRENT_USER = "SET_CURRENT_USER";
-export const USER = "USER";
-export const USERS = "USERS";
-export const POST_DELETE = "POST_DELETE";
-export const USER_DELETE = "USER_DELETE";
-export const USER_SELECT = "USER_SELECT";
-export const USER_UPDATE = "USER_UPDATE";
-export const ALL_USERS = "ALL_USERS";
-export const IS_VALID = "IS_VALID";
-export const REFRESH = "REFRESH";
+const ERRORS = "ERRORS";
+const CONTENT_LOADING = "CONTENT_LOADING";
+const SEARCH = "SEARCH";
+const POSTS = "POSTS";
+const BREADCRUMBS = "BREADCRUMBS";
+const SET_USER = "SET_USER";
+const GET_USER = "GET_USER";
+const SET_CURRENT_USER = "SET_CURRENT_USER";
+const USER = "USER";
+const USERS = "USERS";
+const POST_DELETE = "POST_DELETE";
+const USER_DELETE = "USER_DELETE";
+const USER_SELECT = "USER_SELECT";
+const USER_UPDATE = "USER_UPDATE";
+const ALL_USERS = "ALL_USERS";
+const IS_VALID = "IS_VALID";
+const REFRESH = "REFRESH";
+
+export {
+  ERRORS,
+  CONTENT_LOADING,
+  SEARCH,
+  POSTS,
+  BREADCRUMBS,
+  SET_USER,
+  GET_USER,
+  SET_CURRENT_USER,
+  USER,
+  USERS,
+  POST_DELETE,
+  USER_SELECT,
+  USER_DELETE,
+  USER_UPDATE,
+  ALL_USERS,
+  IS_VALID,
+  REFRESH
+};

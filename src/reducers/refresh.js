@@ -1,10 +1,12 @@
 import { REFRESH } from "../actions/types";
 
-export default function(state = null, action) {
+const refresh = (state = null, action) => {
   switch (action.type) {
     case REFRESH:
       return action.payload;
     default:
       return state;
   }
-}
+};
+
+export default refresh;

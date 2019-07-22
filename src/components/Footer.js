@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Footer } from "../reusableComponents/Footer";
+import Footer from "../reusableComponents/Footer";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import IsEmpty from "is-empty";
@@ -55,7 +55,9 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
+const FooterBottom = connect(
   mapStateToProps,
   {}
 )(FooterSite);
+
+export default FooterBottom;

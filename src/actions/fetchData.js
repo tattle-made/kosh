@@ -7,22 +7,22 @@ import {
   REFRESH
 } from "./types";
 import axios from "axios";
-import { headers } from "../utils/headers";
+import headers from "../utils/headers";
 
-export const error = error => {
+const error = error => {
   return {
     type: ERRORS,
     payload: error
   };
 };
 
-export const contentLoading = () => {
+const contentLoading = () => {
   return {
     type: CONTENT_LOADING
   };
 };
 
-export const search = url => {
+const search = url => {
   const request = axios.get(url, {
     headers: headers
   });
@@ -62,7 +62,7 @@ export const search = url => {
   // };
 };
 
-export const fetchPosts = page => {
+const fetchPosts = page => {
   const url = `http://localhost:8080/posts/${page}`;
   const request = axios.get(url, {
     headers: headers
@@ -108,7 +108,7 @@ export const fetchPosts = page => {
   //   })
 };
 
-export const fetchUsers = () => {
+const fetchUsers = () => {
   const url = "http://localhost:8080/users";
   const request = axios.get(url, {
     headers: headers
@@ -125,11 +125,20 @@ export const fetchUsers = () => {
   };
 };
 
-export const triggerRefresh = id => {
+const triggerRefresh = id => {
   return dispatch => {
     dispatch({
       type: REFRESH,
       payload: id
     });
   };
+};
+
+export {
+  error,
+  contentLoading,
+  search,
+  fetchPosts,
+  fetchUsers,
+  triggerRefresh
 };

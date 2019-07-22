@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { HeadingOne } from "../reusableComponents/text";
+import HeadingOne from "../reusableComponents/text/HeadingOne";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -11,8 +11,8 @@ import { loginUser } from "../actions/auth";
 
 //components
 import tattleLogo from "../img/logo_logomark.png";
-import { HeadingThree } from "../reusableComponents/text/HeadingThree";
-import { BodyOne } from "../reusableComponents/text/BodyOne";
+import HeadingThree from "../reusableComponents/text/HeadingThree";
+import BodyOne from "../reusableComponents/text/BodyOne";
 
 class LoginCard extends Component {
   constructor(props) {

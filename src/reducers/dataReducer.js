@@ -3,7 +3,7 @@ const initialState = {
   loading: false
 };
 
-export default function(state = initialState, action) {
+const dataReducer = (state = initialState, action) => {
   switch (action.type) {
     case CONTENT_LOADING:
       return { ...state, loading: true };
@@ -14,4 +14,6 @@ export default function(state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default dataReducer;

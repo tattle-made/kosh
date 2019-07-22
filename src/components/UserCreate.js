@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { withRouter } from "react-router-dom";
 //components
-import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
+import HeadingTwo from "../reusableComponents/text/HeadingTwo";
 //actions
 import { createUser } from "../actions/user";
 
@@ -136,9 +136,11 @@ UserCreate.propTypes = {
   createUser: PropTypes.func.isRequired
 };
 
-export default withRouter(
+const UserCreateForm = withRouter(
   connect(
     null,
     { createUser }
   )(UserCreate)
 );
+
+export default UserCreateForm;

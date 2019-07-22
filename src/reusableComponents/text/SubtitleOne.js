@@ -1,5 +1,7 @@
 import React from "react";
 
-export const SubtitleOne = props => {
+const SubtitleOne = props => {
   return <div className="subtitle1">{props.text}</div>;
 };
+
+export default SubtitleOne;

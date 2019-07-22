@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
-export const MenuItem = props => {
+const MenuItem = props => {
   return (
     <Link to={props.route}>
       <div className={`label-icon-container ${props.className}`}>
@@ -14,3 +14,5 @@ export const MenuItem = props => {
     </Link>
   );
 };
+
+export default MenuItem;

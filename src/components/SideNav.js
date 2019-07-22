@@ -17,7 +17,7 @@ import UsersTable from "./UsersTable";
 import UserCreate from "./UserCreate";
 import UserUpdate from "./UserUpdate";
 import PostsTableItem from "./PostsTableItem";
-import { MenuItem } from "../reusableComponents/MenuItem";
+import MenuItem from "../reusableComponents/MenuItem";
 import tattle1 from "../img/tattle1.svg";
 
 // access control
@@ -129,4 +129,6 @@ class SideNav extends Component {
   }
 }
 
-export default withRouter(SideNav);
+const SideNavBar = withRouter(SideNav);
+
+export default SideNavBar;

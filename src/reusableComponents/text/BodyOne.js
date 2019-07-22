@@ -1,5 +1,7 @@
 import React from "react";
 
-export const BodyOne = props => {
+const BodyOne = props => {
   return <div className="body1">{props.text}</div>;
 };
+
+export default BodyOne;

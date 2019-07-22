@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
-export default class Cards extends Component {
+class Cards extends Component {
   constructor() {
     super();
     this.routeChange = this.routeChange.bind(this);
@@ -64,3 +64,5 @@ export default class Cards extends Component {
     );
   }
 }
+
+export default Cards;

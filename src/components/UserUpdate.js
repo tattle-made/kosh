@@ -10,10 +10,10 @@ import {
   faTrashAlt,
   faCheck
 } from "@fortawesome/free-solid-svg-icons";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 //components
-import { HeadingTwo } from "../reusableComponents/text/HeadingTwo";
+import HeadingTwo from "../reusableComponents/text/HeadingTwo";
 //actions
 import { updateUser } from "../actions/user";
 
@@ -139,7 +139,11 @@ UserUpdate.propTypes = {
   updateUser: PropTypes.func.isRequired
 };
 
-export default withRouter(connect(
-  maptStateToProps,
-  { updateUser }
-)(UserUpdate));
+const UserUpdateForm = withRouter(
+  connect(
+    maptStateToProps,
+    { updateUser }
+  )(UserUpdate)
+);
+
+export default UserUpdateForm;

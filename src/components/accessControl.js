@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUserPermissions } from "../utils/permissions";
+import getUserPermissions from "../utils/permissions";
 
 class AccessControl extends Component {
   checkPermissions(userPermissions, allowedPermissions) {
@@ -46,7 +46,9 @@ const mapStateToProps = state => ({
   userRole: state.user.role
 });
 
-export default connect(
+const AccessControlWithRedux = connect(
   mapStateToProps,
   {}
 )(AccessControl);
+
+export default AccessControlWithRedux;

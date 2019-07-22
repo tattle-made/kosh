@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class CardDetails extends Component {
+class CardDetails extends Component {
   render() {
     const id = this.props.match.params.id;
     return (
@@ -10,3 +10,5 @@ export default class CardDetails extends Component {
     );
   }
 }
+
+export default CardDetails;

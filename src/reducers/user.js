@@ -1,6 +1,6 @@
 import { GET_USER, SET_USER, USER_SELECT } from "../actions/types";
 
-const user = {
+const userData = {
   id: "",
   username: "",
   email: "",
@@ -8,7 +8,7 @@ const user = {
   team: "fact check team delhi"
 };
 
-export default function(state = user, action) {
+const user = (state = userData, action) => {
   switch (action.type) {
     case GET_USER:
       return state;
@@ -17,4 +17,6 @@ export default function(state = user, action) {
     default:
       return state;
   }
-}
+};
+
+export default user;

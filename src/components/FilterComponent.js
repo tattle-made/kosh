@@ -22,7 +22,7 @@ import overlayFactory from "react-bootstrap-table2-overlay";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 
-export const FilterComponent = ({ filter }) => {
+const FilterComponent = ({ filter }) => {
   if (filter === "data") {
     return (
       <div>
@@ -66,3 +66,5 @@ export const FilterComponent = ({ filter }) => {
     return null;
   }
 };
+
+export default FilterComponent;

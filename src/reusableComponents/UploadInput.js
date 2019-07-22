@@ -1,6 +1,6 @@
 import React from "react";
 
-export const UploadInput = ({ label, margin_bottom }) => {
+const UploadInput = ({ label, margin_bottom }) => {
   return (
     <div className={`custom-file ${margin_bottom}`}>
       <input className="custom-file-input" type="file" id="myfile" />
@@ -10,3 +10,5 @@ export const UploadInput = ({ label, margin_bottom }) => {
     </div>
   );
 };
+
+export default UploadInput;
