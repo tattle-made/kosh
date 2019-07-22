@@ -8,7 +8,7 @@
 
 - Install Redux  Dev tools extension for you browser.
   ### Redux Dev tools extension
-  For Chrome visit this[https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en] link
+  For Chrome visit [this](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) link
 
 # UI Development
 
