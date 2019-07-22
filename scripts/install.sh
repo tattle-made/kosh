@@ -2,4 +2,4 @@
 # installing nginx to run the server
 
 #!/bin/bash
-sudo apt-get install nginx
+sudo apt-get install nginx -y
