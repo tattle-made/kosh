@@ -51,6 +51,7 @@ class UsersTable extends Component {
     this.state = {
       users: [],
       loading: true,
+      refresh: false,
       columns: [
         {
           dataField: "username",
@@ -91,7 +92,7 @@ class UsersTable extends Component {
   }
 
   actionIconsFormatter(cell, row, rowIndex, props) {
-    // console.log("props", props);
+    console.log("props actonformatter", props);
     return (
       <div>
         <AccessControl
@@ -103,7 +104,7 @@ class UsersTable extends Component {
             icon={faTrashAlt}
             className="mr-2"
             onClick={() => {
-              props.userDelete(row.id);
+              props.userDelete(row.id, row.id);
             }}
           />
         </AccessControl>
@@ -122,7 +123,6 @@ class UsersTable extends Component {
 
   componentDidMount() {
     console.log("mounted");
-    console.log("props", this.props.userDelete(10));
     this.props.fetchUsers();
     this.setState({
       users: this.props.users
@@ -141,6 +141,12 @@ class UsersTable extends Component {
       this.setState({
         users: nextProps.users
       });
+    }
+    if (nextProps.refresh !== this.props.refresh) {
+      this.setState({
+        refresh: nextProps.refresh
+      });
+      this.refresh();
     }
   }
   refresh() {
@@ -237,7 +243,8 @@ UsersTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  users: state.users
+  users: state.users,
+  refresh: state.refresh
 });
 
 export default withRouter(

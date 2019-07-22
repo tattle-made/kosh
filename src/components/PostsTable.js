@@ -61,7 +61,8 @@ class PostsTable extends Component {
       startDate: new Date(),
       endDate: new Date(),
       users: [],
-      selectedUsers: []
+      selectedUsers: [],
+      refresh: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
@@ -128,7 +129,7 @@ class PostsTable extends Component {
             icon={faTrashAlt}
             className="mr-5"
             onClick={() => {
-              props.postDelete(row.id);
+              props.postDelete(row.id, row.id);
               console.log("delete");
               // this.refresh();
             }}
@@ -175,6 +176,12 @@ class PostsTable extends Component {
       this.setState({
         users
       });
+    }
+    if (nextProps.refresh !== this.props.refresh) {
+      this.setState({
+        refresh: nextProps.refresh
+      });
+      this.refresh();
     }
   }
 
@@ -540,7 +547,8 @@ PostsTable.propTypes = {
 
 const mapStateToProps = state => ({
   fetch: state.fetch,
-  users: state.users
+  users: state.users,
+  refresh: state.refresh
 });
 
 export default withRouter(

@@ -14,3 +14,4 @@ export const USER_SELECT = "USER_SELECT";
 export const USER_UPDATE = "USER_UPDATE";
 export const ALL_USERS = "ALL_USERS";
 export const IS_VALID = "IS_VALID";
+export const REFRESH = "REFRESH";

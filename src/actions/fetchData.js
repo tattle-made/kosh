@@ -1,4 +1,11 @@
-import { ERRORS, SEARCH, CONTENT_LOADING, POSTS, USERS } from "./types";
+import {
+  ERRORS,
+  SEARCH,
+  CONTENT_LOADING,
+  POSTS,
+  USERS,
+  REFRESH
+} from "./types";
 import axios from "axios";
 import { headers } from "../utils/headers";
 
@@ -115,5 +122,14 @@ export const fetchUsers = () => {
         });
       })
       .catch(err => console.log(err));
+  };
+};
+
+export const triggerRefresh = id => {
+  return dispatch => {
+    dispatch({
+      type: REFRESH,
+      payload: id
+    });
   };
 };

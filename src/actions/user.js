@@ -9,6 +9,7 @@ import {
 } from "./types";
 import axios from "axios";
 import { headers } from "../utils/headers";
+import { triggerRefresh } from "./fetchData";
 
 export const setUser = role => {
   return {
@@ -46,23 +47,17 @@ export const createUser = userData => {
   };
 };
 
-export const userDelete = id => {
+export const userDelete = (id, refreshTrigger) => {
+  console.log("inside delete action", refreshTrigger);
   const url = `http://localhost:8080/users/delete/${id}`;
   const request = axios.post(url, {
     headers: headers
   });
-  // return dispatch => {
-  //   request
-  //     .then(res => {
-  //       dispatch({
-  //         type: USER_DELETE,
-  //         payload: res
-  //       });
-  //     })
-  //     .catch(err => console.log(err));
-  // };
-  return {
-    type: USER_DELETE
+  return dispatch => {
+    dispatch({
+      type: USER_DELETE
+    });
+    dispatch(triggerRefresh(refreshTrigger));
   };
 };
 

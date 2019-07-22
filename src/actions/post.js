@@ -1,14 +1,18 @@
 import { POST_DELETE, POSTS } from "./types";
 import axios from "axios";
 import { headers } from "../utils/headers";
+import { triggerRefresh } from "./fetchData";
 
-export const postDelete = id => {
+export const postDelete = (id, refresh) => {
   const url = `http://localhost:8080/posts/${id}`;
   const request = axios.post(url, {
     headers: headers
   });
-  return {
-    type: POST_DELETE
+  return dispatch => {
+    dispatch({
+      type: POST_DELETE
+    });
+    dispatch(triggerRefresh(refresh));
   };
 };
 
@@ -46,6 +50,23 @@ export const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
     headers: headers
   });
 
+  return dispatch => {
+    request
+      .then(res => {
+        dispatch({
+          type: POSTS,
+          payload: res.data
+        });
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const fetchPosts = page => {
+  const url = `http://localhost:8080/posts/${page}`;
+  const request = axios.get(url, {
+    headers: headers
+  });
   return dispatch => {
     request
       .then(res => {
