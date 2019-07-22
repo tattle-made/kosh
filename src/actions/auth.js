@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, USER, SET_USER, ERRORS } from "./types";
+import { SET_CURRENT_USER, USER, IS_VALID, SET_USER, ERRORS } from "./types";
 import axios from "axios";
 
 export const loginUser = userData => {
@@ -17,15 +17,17 @@ export const loginUser = userData => {
           localStorage.setItem("token", token);
           // setting token to auth header
           console.log("token", token);
+          dispatch(isValid(true));
           dispatch(setCurrentUser(token));
         }
       })
-      .catch(err =>
+      .catch(err => {
+        console.log("login error ", err.response.data);
         dispatch({
           type: ERRORS,
-          payload: err
-        })
-      );
+          payload: err.response.data
+        });
+      });
   };
 };
 
@@ -37,6 +39,12 @@ export const setCurrentUser = decoded => {
   };
 };
 
+export const isValid = boolValue => {
+  return {
+    type: IS_VALID,
+    payload: boolValue
+  };
+};
 // logout action
 export const logoutUser = () => {
   //remove token from local storage

@@ -3,7 +3,9 @@ import { HeadingOne } from "../reusableComponents/text";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
+import classnames from "classnames";
+import PropTypes from "prop-types";
+import { IsEmpty } from "is-empty";
 //actions
 import { loginUser } from "../actions/auth";
 
@@ -17,12 +19,24 @@ class LoginCard extends Component {
     super(props);
     this.state = {
       username: "",
-      email: "",
       password: "",
-      errors: {}
+      errors: {},
+      isValid: false
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors !== this.props.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+    if (nextProps.isValid !== this.props.isValid) {
+      this.setState({
+        isValid: nextProps.isValid
+      });
+    }
+  }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -36,11 +50,20 @@ class LoginCard extends Component {
     console.log("submitted");
     this.props.loginUser(userData);
     if (true) {
+      // this.props.history.push("/posts");
+    }
+  }
+
+  redirect(isValid) {
+    if (isValid) {
       this.props.history.push("/posts");
     }
   }
 
   render() {
+    this.redirect(this.state.isValid);
+    const errors = this.state.errors;
+    console.log("eeeeeeeee", errors);
     return (
       <div className="login-page">
         <div className="login-header">
@@ -61,14 +84,15 @@ class LoginCard extends Component {
                 value={this.state.username}
                 placeholder="Username"
                 onChange={this.onChange.bind(this)}
+                className={classnames("", {
+                  "is-invalid": errors.username
+                })}
               />
-              {/* <input
-                type="text"
-                name="email"
-                value={this.state.email}
-                placeholder="Enter Email"
-                onChange={this.onChange.bind(this)}
-              /> */}
+              {errors.username && (
+                <div className="invalid-feedback d-block">
+                  {errors.username}
+                </div>
+              )}
               <br />
               <input
                 type="password"
@@ -76,7 +100,15 @@ class LoginCard extends Component {
                 value={this.state.password}
                 placeholder="Password"
                 onChange={this.onChange.bind(this)}
+                className={classnames("", {
+                  "is-invalid": errors.password
+                })}
               />
+              {errors.password && (
+                <div className="invalid-feedback d-block">
+                  {errors.password}
+                </div>
+              )}
               <br />
               <Button
                 variant="color-primary-one"
@@ -141,7 +173,8 @@ class LoginCard extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  isValid: state.isValid
 });
 
 export default withRouter(
