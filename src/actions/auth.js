@@ -1,34 +1,45 @@
 import { SET_CURRENT_USER, USER, IS_VALID, SET_USER, ERRORS } from "./types";
 import axios from "axios";
 
-export const loginUser = userData => {
+export const loginUser = userData => dispatch => {
   console.log("action received");
   const request = axios.post("http://localhost:8080/auth/login", userData);
-  return dispatch => {
-    request
-      .then(res => {
-        console.log("inside then");
-        console.log(res);
-        console.log(userData);
-        const token = res.data.token;
-        // if token received
-        if (token) {
-          // storing the token in local storage
-          localStorage.setItem("token", token);
-          // setting token to auth header
-          console.log("token", token);
-          dispatch(isValid(true));
-          dispatch(setCurrentUser(token));
-        }
-      })
-      .catch(err => {
-        console.log("login error ", err.response.data);
-        dispatch({
-          type: ERRORS,
-          payload: err.response.data
-        });
+
+  request
+    .then(res => {
+      console.log("inside then");
+      console.log(res);
+      console.log(userData);
+      const token = res.data.token;
+      // if token received
+      if (token) {
+        // storing the token in local storage
+        localStorage.setItem("token", token);
+        // setting token to auth header
+        console.log("token", token);
+        dispatch(isValid(true));
+        dispatch(setCurrentUser(token));
+      }
+    })
+    .catch(err => {
+      console.log("inside catch err ", err.response.data.username);
+      // // const error = err.hasOwnProperty("response") ? err.response.data : err;
+      // console.log(
+      //   "login error ",
+      //   err.response.hasOwnProperty("data"),
+      //   err.response
+      // );
+      // let error;
+      // if (err.response.hasOwnProperty("data")) {
+      //   error = err.response.data;
+      // } else {
+      //   error = err;
+      // }
+      dispatch({
+        type: ERRORS,
+        payload: err
       });
-  };
+    });
 };
 
 // setting logged in user

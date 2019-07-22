@@ -84,15 +84,15 @@ class LoginCard extends Component {
                 value={this.state.username}
                 placeholder="Username"
                 onChange={this.onChange.bind(this)}
-                className={classnames("", {
-                  "is-invalid": errors.username
-                })}
+                // className={classnames("", {
+                //   "is-invalid": errors.username
+                // })}
               />
-              {errors.username && (
+              {/* {errors.username && (
                 <div className="invalid-feedback d-block">
                   {errors.username}
                 </div>
-              )}
+              )} */}
               <br />
               <input
                 type="password"
@@ -100,15 +100,15 @@ class LoginCard extends Component {
                 value={this.state.password}
                 placeholder="Password"
                 onChange={this.onChange.bind(this)}
-                className={classnames("", {
-                  "is-invalid": errors.password
-                })}
+                // className={classnames("", {
+                //   "is-invalid": errors.password
+                // })}
               />
-              {errors.password && (
+              {/* {errors.password && (
                 <div className="invalid-feedback d-block">
                   {errors.password}
                 </div>
-              )}
+              )} */}
               <br />
               <Button
                 variant="color-primary-one"
