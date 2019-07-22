@@ -42,7 +42,7 @@ class LoginCard extends Component {
 
   render() {
     return (
-      <div>
+      <div className="login-page">
         <div className="login-header">
           <img src={tattleLogo} alt="logo" />
         </div>
@@ -59,7 +59,7 @@ class LoginCard extends Component {
                 type="text"
                 name="username"
                 value={this.state.username}
-                placeholder="Enter Username"
+                placeholder="Username"
                 onChange={this.onChange.bind(this)}
               />
               {/* <input
@@ -71,10 +71,10 @@ class LoginCard extends Component {
               /> */}
               <br />
               <input
-                type="text"
+                type="password"
                 name="password"
                 value={this.state.password}
-                placeholder="Enter Password"
+                placeholder="Password"
                 onChange={this.onChange.bind(this)}
               />
               <br />
