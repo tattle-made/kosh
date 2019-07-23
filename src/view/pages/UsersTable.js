@@ -139,7 +139,7 @@ class UsersTable extends Component {
     console.log("will recieve new props", nextProps);
     if (nextProps.users !== this.props.users) {
       this.setState({
-        users: nextProps.users
+        users: nextProps.users.data
       });
     }
     if (nextProps.refresh !== this.props.refresh) {

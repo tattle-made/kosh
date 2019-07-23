@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUpload,
@@ -10,14 +9,10 @@ import {
   faSearch,
   faFilter
 } from "@fortawesome/free-solid-svg-icons";
-
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
-import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import Select from "react-select";
 import { textFilter } from "react-bootstrap-table2-filter";
 
 //actions
@@ -31,18 +26,17 @@ import {
 
 //components
 import HeadingTwo from "../atomic-components/text/HeadingTwo";
-import { Card } from "../components/Card";
-import { FilterComponent } from "../components/FilterComponent";
-import ReactSelect from "../components/ReactSelect";
 import Table from "../components/Table";
 import DateFilter from "../components/DateFilter";
 import UsernameFilter from "../components/UsernameFilter";
+import PrimaryActionTable from "../components/PrimaryActionTable";
 
 // action control
 import AccessControl from "../components/AccessControl";
 
 // socket io
 import io from "socket.io-client";
+import PreviewFormatterTable from "../components/PreviewFormatterTable";
 
 //connect to server
 const socket = io("http://localhost:8080/");
@@ -68,6 +62,7 @@ class PostsTable extends Component {
     this.refresh = this.refresh.bind(this);
     this.onSearchByDate = this.onSearchByDate.bind(this);
     this.onSearchByTimeAndUser = this.onSearchByTimeAndUser.bind(this);
+    this.onFilterItemSelect = this.onFilterItemSelect.bind(this);
   }
 
   onStartDateChange(date) {
@@ -82,40 +77,16 @@ class PostsTable extends Component {
     });
   }
 
+  // todo: REFACTORING THIS IS SHOWING ERROR WHEN TEXT TYPE IS IMAGE OR VIDEO
+  // TO REPRODUCE THIS , NAVIGATE TO PAGE 8
   previewFormatter(cell, row) {
     // console.log("this ", this);
     // console.log("row");
     // console.log(row);
     // console.log("cell");
     // console.log(cell);
-    if (row.type == "image") {
-      return (
-        <div className="card" style={prev}>
-          <img
-            src={`https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${cell}?alt=media&token=88192814-45bb-4302-b409-b5c26e90390b`}
-            alt="preview"
-          />
-        </div>
-      );
-    } else if (row.type == "video") {
-      return (
-        // <video
-        //   // src={`https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${cell}?alt=media&token=88192814-45bb-4302-b409-b5c26e90390b`}
-        //   // src={"https://youtu.be/DBXH9jJRaDk"}
-        // />
-        <div className="card" style={prev}>
-          <iframe src="https://www.youtube.com/embed/hZFNVj505HQ" />
-        </div>
-      );
-    } else if (row.type == "text") {
-      return (
-        <div className="card" style={prev}>
-          <div className="card-text">{row.data}</div>
-        </div>
-      );
-    }
+    return <PreviewFormatterTable row={row} cell={cell} />;
   }
-
   actionIconsFormatter(cell, row, rowIndex, props) {
     // console.log("this ", this);
     return (
@@ -311,81 +282,38 @@ class PostsTable extends Component {
     return (
       <div className="container">
         <HeadingTwo text="Posts" />
-        <div className="my-3">
-          <button className="btn btn-sm btn-color-white-one mr-3">
-            <FontAwesomeIcon icon={faUpload} /> Upload
-          </button>
-          <Button
-            variant="light"
-            size="sm"
-            onClick={this.refresh}
-            className="mr-3"
-          >
-            <FontAwesomeIcon icon={faSync} />
-          </Button>
-          <Button variant="color-primary-one" size="sm">
-            <FontAwesomeIcon icon={faDownload} /> Download
-          </Button>
-          <span className="float-right">
-            <Dropdown>
-              <Dropdown.Toggle
-                variant="color-primary-one"
-                size="sm"
-                id="dropdown-basic"
-              >
-                Filter
-                <FontAwesomeIcon icon={faFilter} />
-              </Dropdown.Toggle>
+        <PrimaryActionTable
+          faUpload={eval(faUpload)}
+          faDownload={eval(faDownload)}
+          faFilter={eval(faFilter)}
+          faSync={eval(faSync)}
+          refresh={this.refresh}
+          onFilterItemSelect={this.onFilterItemSelect}
+        />
+        {this.state.filter === "date" ? (
+          <DateFilter
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            onSearch={this.onSearchByDate}
+            onStartDate={this.onStartDateChange}
+            onEndDate={this.onEndDateChange}
+            icons={eval(faSearch)}
+          />
+        ) : this.state.filter === "name" ? (
+          <UsernameFilter
+            users={this.state.users}
+            selectedUsers={this.state.selectedUsers}
+            onUserSelect={this.onUserSelect}
+            icon={eval(faSearch)}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            onSearch={this.onSearchByDate}
+            onStartDate={this.onStartDateChange}
+            onEndDate={this.onEndDateChange}
+            onSearchbyTimeAndUser={this.onSearchByTimeAndUser}
+          />
+        ) : null}
 
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  name="date"
-                  onClick={this.onFilterItemSelect.bind(this)}
-                >
-                  Filter by Date
-                </Dropdown.Item>
-                <Dropdown.Item
-                  name="name"
-                  onClick={this.onFilterItemSelect.bind(this)}
-                >
-                  Filter by Username
-                </Dropdown.Item>
-                <Dropdown.Item
-                  name="label"
-                  onClick={this.onFilterItemSelect.bind(this)}
-                >
-                  Filter by Label
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </span>
-        </div>
-        <div>
-          {this.state.filter === "date" ? (
-            <div>
-              <DateFilter
-                startDate={this.state.startDate}
-                endDate={this.state.endDate}
-                onSearch={this.onSearchByDate}
-                onStartDate={this.onStartDateChange}
-                onEndDate={this.onEndDateChange}
-                icons={eval(faSearch)}
-              />
-            </div>
-          ) : this.state.filter === "name" ? (
-            <UsernameFilter
-              users={this.state.users}
-              selectedUsers={this.state.selectedUsers}
-              onUserSelect={this.onUserSelect}
-              icon={eval(faSearch)}
-              startDate={this.state.startDate}
-              endDate={this.state.endDate}
-              onSearch={this.onSearchByDate}
-              onStartDate={this.onStartDateChange}
-              onEndDate={this.onEndDateChange}
-            />
-          ) : null}
-        </div>
         <Table
           data={this.state.posts}
           columns={columns}
@@ -406,10 +334,6 @@ const mapStateToProps = state => ({
   users: state.users,
   refresh: state.refresh
 });
-
-const prev = {
-  width: "300px"
-};
 
 const PostsTablePage = withRouter(
   connect(
