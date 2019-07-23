@@ -41,6 +41,7 @@ app.use(
         origin: "*"
     })
 );
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.header(
@@ -139,7 +140,9 @@ app.post("/auth/login", (req: Request, res: Response) => {
     }
     loginController
         .login(username, password)
-        .then(response => res.send(response))
+        .then(response => {
+            res.send(response);
+        })
         .catch(err => console.log(err));
     // todo : fix loginResponse
     // .then(response => res.send(new LoginResponse(response).get()));

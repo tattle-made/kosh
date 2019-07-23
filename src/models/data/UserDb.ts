@@ -1,6 +1,7 @@
 import * as Sequelize from "sequelize";
 import db from "../../service/db";
 import ExistsResponse from "../data/ExistsResponse";
+import ExistsResponseToken from "../data/ExistsResponseToken";
 import { UserCreateRequest } from "../request/UserCreateRequest";
 
 export class User extends Sequelize.Model {}

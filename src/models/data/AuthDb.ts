@@ -3,6 +3,7 @@ import db from "../../service/db";
 import { v1 as uuid } from "uuid";
 import { logError } from "../../service/logger";
 import ExistsResponse from "./ExistsResponse";
+import ExistsResponseToken from "./ExistsResponseToken";
 
 export class Auth extends Sequelize.Model {}
 
@@ -42,8 +43,26 @@ export function createOrUpdateTokenForUserId(userId: number): Promise<string> {
         { returning: true }
     )
         .then(val => {
-            console.log("token craet ", token);
+            // console.log("token craet ", token);
             return token;
+        })
+        .catch(err => console.log(err));
+}
+
+export function createOrUpdateTokenForUserIdToken(
+    userId: number
+): Promise<ExistsResponseToken> {
+    // return Promise.resolve(uuid());
+    const token = uuid();
+    return Auth.upsert(
+        {
+            token,
+            user_id: userId
+        },
+        { returning: true }
+    )
+        .then(val => {
+            return new ExistsResponseToken(true, userId, token);
         })
         .catch(err => console.log(err));
 }
