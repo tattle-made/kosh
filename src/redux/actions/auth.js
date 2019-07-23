@@ -6,32 +6,32 @@ const loginUser = userData => {
   return dispatch => {
     request
       .then(res => {
-        const token = res.data.token;
-        // if token received
-        if (token) {
+        const auth = res.data.auth;
+        if (auth) {
+          const { userId, token } = res.data;
           // storing the token in local storage
           localStorage.setItem("token", token);
           console.log("token", token);
           dispatch(isValid(true));
-          dispatch(setCurrentUser(token));
+          dispatch(setCurrentUser(userId));
+        } else {
+          dispatch({
+            type: ERRORS,
+            payload: { message: "Invalid Username or Password" }
+          });
         }
       })
       .catch(err => {
-        // // const error = err.hasOwnProperty("response") ? err.response.data : err;
-        // console.log(
-        //   "login error ",
-        //   err.response.hasOwnProperty("data"),
-        //   err.response
-        // );
-        let error;
-        if (err.response.hasOwnProperty("data")) {
-          error = err.response.data;
+        console.log("errrrrrrrrrorrrrrrrr ", err.response.data.username);
+        let message = "";
+        if (err) {
+          message = "Invalid Username or Password";
         } else {
-          error = err;
+          message = "Server Down";
         }
         dispatch({
           type: ERRORS,
-          payload: error
+          payload: { message }
         });
       });
   };
