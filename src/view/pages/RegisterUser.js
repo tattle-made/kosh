@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { SubmitFormButton } from "../reusableComponents";
-import { HeadingText } from "../reusableComponents/text";
+import { SubmitFormButton } from "../atomic-components";
+import { HeadingText } from "../atomic-components/text";
 
-import { Dropdown } from "../reusableComponents/Dropdown";
-import { TextFieldGroup } from "../reusableComponents/TextFieldGroup";
-import { UploadInput } from "../reusableComponents/UploadInput";
+import { Dropdown } from "../atomic-components/Dropdown";
+import { TextFieldGroup } from "../atomic-components/TextFieldGroup";
+import { UploadInput } from "../atomic-components/UploadInput";
 
 class RegisterUser extends Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Footer from "../reusableComponents/Footer";
+import Footer from "../atomic-components/Footer";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import IsEmpty from "is-empty";

@@ -16,14 +16,13 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
-import paginationFactory from "react-bootstrap-table2-paginator";
-import overlayFactory from "react-bootstrap-table2-overlay";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
+import { textFilter } from "react-bootstrap-table2-filter";
+
 //actions
-import { fetchPosts, fetchUsers } from "../../redux/actions/fetchData";
+import { fetchUsers } from "../../redux/actions/fetchData";
+import { fetchPosts } from "../../redux/actions/post";
 import {
   postDelete,
   postByTime,
@@ -35,14 +34,15 @@ import HeadingTwo from "../atomic-components/text/HeadingTwo";
 import { Card } from "../components/Card";
 import { FilterComponent } from "../components/FilterComponent";
 import ReactSelect from "../components/ReactSelect";
+import Table from "../components/Table";
+import DateFilter from "../components/DateFilter";
+import UsernameFilter from "../components/UsernameFilter";
+
 // action control
 import AccessControl from "../components/AccessControl";
 
 // socket io
 import io from "socket.io-client";
-
-//todo import from an external file;
-const SHELL_SERVER_API_ENDPOINT = "http://13.233.110.23:8080/posts";
 
 //connect to server
 const socket = io("http://localhost:8080/");
@@ -50,12 +50,6 @@ const socket = io("http://localhost:8080/");
 class PostsTable extends Component {
   constructor(props) {
     super(props);
-    /**
-     * consists of 3 state:
-     * 1. data
-     * 2. loading
-     *
-     */
     this.state = {
       posts: [],
       page: 1,
@@ -68,20 +62,21 @@ class PostsTable extends Component {
       selectedUsers: [],
       refresh: false
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChange2 = this.handleChange2.bind(this);
+    this.onStartDateChange = this.onStartDateChange.bind(this);
+    this.onEndDateChange = this.onEndDateChange.bind(this);
     this.previewFormatter = this.previewFormatter.bind(this);
     this.refresh = this.refresh.bind(this);
     this.onSearchByDate = this.onSearchByDate.bind(this);
     this.onSearchByTimeAndUser = this.onSearchByTimeAndUser.bind(this);
   }
 
-  handleChange(date) {
+  onStartDateChange(date) {
+    console.log("start date change", date);
     this.setState({
       startDate: date
     });
   }
-  handleChange2(date) {
+  onEndDateChange(date) {
     this.setState({
       endDate: date
     });
@@ -174,7 +169,7 @@ class PostsTable extends Component {
     }
     if (nextProps.users !== this.props.users) {
       const users = [];
-      nextProps.users.forEach(user => {
+      nextProps.users.data.forEach(user => {
         users.push({ label: user.username, value: user.id });
       });
       this.setState({
@@ -194,7 +189,7 @@ class PostsTable extends Component {
     this.props.fetchPosts(this.state.page);
   }
 
-  //TODO : change this life cycle method.
+  //TODO : change to this life cycle method.
 
   // static getDerivedStateFromProps(nextProps, prevState) {
   //   if (nextProps.fetch) {
@@ -245,19 +240,6 @@ class PostsTable extends Component {
       this.state.endDate.getTime()
     );
   }
-  onTableChange() {
-    console.log("table change");
-  }
-
-  onPageChange = (page, sizePerPage) => {
-    console.log("inside page ", page);
-    this.setState({
-      page
-    });
-    // return <Redirect to={`/posts/${page}`} />;
-    this.props.history.push(`/posts/${page}`);
-    this.props.fetchPosts(page);
-  };
 
   onFilterItemSelect(e) {
     this.setState({
@@ -294,14 +276,11 @@ class PostsTable extends Component {
       console.log("new Data received", value.name);
       this.refresh();
     });
-    // let selected = [...this.refs.collegeList.selectedOptions].map(o => o.value);
-    // console.log("selected ", selected);
 
     const columns = [
       {
         dataField: "type",
         text: "Title"
-        // sort: true
       },
       {
         dataField: "filename",
@@ -318,28 +297,17 @@ class PostsTable extends Component {
       {
         dataField: "tags",
         text: "Tags",
-        // sort: true,
         filter: textFilter(),
         headerAlign: "center"
       },
       {
         dataField: "actions",
         text: "Actions",
-        // sort: true
         formatter: this.actionIconsFormatter,
         formatExtraData: this.props
       }
     ];
-    // console.log("fasfasf", typeof this.state.page);
-    const options = [
-      { name: "Swedish", value: "sv" },
-      { name: "English", value: "en" },
-      {
-        type: "group",
-        name: "Group name",
-        items: [{ name: "Spanish", value: "es" }]
-      }
-    ];
+
     return (
       <div className="container">
         <HeadingTwo text="Posts" />
@@ -395,150 +363,34 @@ class PostsTable extends Component {
         <div>
           {this.state.filter === "date" ? (
             <div>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
-                // popperPlacement="botom-start"
-                popperModifiers={{
-                  flip: {
-                    enabled: false
-                  },
-                  preventOverflow: {
-                    enabled: true,
-                    escapeWithReference: false
-                  }
-                }}
+              <DateFilter
+                startDate={this.state.startDate}
+                endDate={this.state.endDate}
+                onSearch={this.onSearchByDate}
+                onStartDate={this.onStartDateChange}
+                onEndDate={this.onEndDateChange}
+                icons={eval(faSearch)}
               />
-              <DatePicker
-                selected={this.state.endDate}
-                onChange={this.handleChange2}
-                popperModifiers={{
-                  flip: {
-                    enabled: false
-                  },
-                  preventOverflow: {
-                    enabled: true,
-                    escapeWithReference: false
-                  }
-                }}
-              />
-              <Button
-                variant="color-primary-one"
-                size="sm"
-                onClick={this.onSearchByDate}
-              >
-                <FontAwesomeIcon icon={faSearch} />
-              </Button>
             </div>
           ) : this.state.filter === "name" ? (
-            <div className="filter-box">
-              <div className="react-select">
-                <Select
-                  isMulti
-                  value={this.state.selectedUsers}
-                  onChange={this.onUserSelect}
-                  options={this.state.users}
-                  //
-                  // styeles={{ width: "500px" }}
-                  theme={theme => ({
-                    ...theme,
-                    // borderRadius: {"4px"},
-                    colors: {
-                      ...theme.colors,
-                      primary25: "white",
-                      primary: "#B3B3B3"
-                    }
-                  })}
-                />
-              </div>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
-                // popperPlacement="botom-start"
-                popperModifiers={{
-                  flip: {
-                    enabled: false
-                  },
-                  preventOverflow: {
-                    enabled: true,
-                    escapeWithReference: false
-                  }
-                }}
-              />
-              <DatePicker
-                selected={this.state.endDate}
-                onChange={this.handleChange2}
-                popperModifiers={{
-                  flip: {
-                    enabled: false
-                  },
-                  preventOverflow: {
-                    enabled: true,
-                    escapeWithReference: false
-                  }
-                }}
-              />
-              <Button
-                variant="color-primary-one"
-                size="sm"
-                onClick={this.onSearchByTimeAndUser}
-              >
-                <FontAwesomeIcon icon={faSearch} />
-              </Button>
-            </div>
+            <UsernameFilter
+              users={this.state.users}
+              selectedUsers={this.state.selectedUsers}
+              onUserSelect={this.onUserSelect}
+              icon={eval(faSearch)}
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              onSearch={this.onSearchByDate}
+              onStartDate={this.onStartDateChange}
+              onEndDate={this.onEndDateChange}
+            />
           ) : null}
         </div>
-        <BootstrapTable
-          striped
-          hover
-          keyField="id"
-          data={this.state.posts ? this.state.posts : []}
+        <Table
+          data={this.state.posts}
           columns={columns}
-          filter={filterFactory()}
-          remote={{ sort: true, pagination: true }}
-          pagination={paginationFactory({
-            page: parseInt(this.state.page), // Specify the current page. It's necessary when remote is enabled
-            sizePerPage: 10, // Specify the size per page. It's necessary when remote is enabled
-            totalSize: this.state.count, // Total data size. It's necessary when remote is enabled
-            pageStartIndex: 1, // first page will be 0, default is 1
-            paginationSize: 5, // the pagination bar size, default is 5
-            showTotal: true, // display pagination information
-            sizePerPageList: [
-              {
-                text: "5",
-                value: 5
-              },
-              {
-                text: "10",
-                value: 10
-              },
-              {
-                text: "All",
-                value: this.state.count
-              }
-            ], // A numeric array is also available: [5, 10]. the purpose of above example is custom the text
-            withFirstAndLast: false, // hide the going to first and last page button
-            alwaysShowAllBtns: true, // always show the next and previous page button
-            firstPageText: "First", // the text of first page button
-            prePageText: "Prev", // the text of previous page button
-            nextPageText: "Next", // the text of next page button
-            lastPageText: "Last", // the text of last page button
-            nextPageTitle: "Go to next", // the title of next page button
-            prePageTitle: "Go to previous", // the title of previous page button
-            firstPageTitle: "Go to first", // the title of first page button
-            lastPageTitle: "Go to last", // the title of last page button
-            hideSizePerPage: true, // hide the size per page dropdown
-            hidePageListOnlyOnePage: true, // hide pagination bar when only one page, default is false
-            onPageChange: this.onPageChange, // callback function when page was changing
-            // onSizePerPageChange: (sizePerPage, page) => {}, // callback function when page size was changing
-            paginationTotalRenderer: (from, to, size) => {
-              return `Showing ${from} to ${to} of ${size} Results`;
-            } // custom the pagination total
-          })}
-          onTableChange={this.onTableChange}
-          // rowEvents={rowEvents}
-          // loading={this.state.loading} //only loading is true, react-bootstrap-table will render overlay
-          // overlay={overlayFactory()}
+          page={this.state.page}
+          count={this.state.count}
         />
       </div>
     );
@@ -565,4 +417,5 @@ const PostsTablePage = withRouter(
     { fetchPosts, postDelete, postByTime, fetchUsers, postByTimeAndUsers }
   )(PostsTable)
 );
+
 export default PostsTablePage;
