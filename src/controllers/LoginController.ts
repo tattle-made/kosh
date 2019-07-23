@@ -23,7 +23,10 @@ export class LoginController extends _BaseController {
                     let token;
                     let user;
                     createOrUpdateTokenForUserId(result.userId).then(result => {
-                        console.log("login fs ", result);
+                        console.log(
+                            "login fs111111111111111111111111111111114444444444444444 ",
+                            result
+                        );
                         token = result;
                         console.log("login fs ", token);
                     });
