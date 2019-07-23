@@ -194,7 +194,7 @@ class PostsTable extends Component {
     );
   }
   onSearchByTimeAndUser() {
-    console.log("search by date and user");
+    console.log("search by date and userrrrrrrrrrrrrrrrrrrr");
     const path = this.props.location.pathname;
     let page = path.split("/posts/")[1];
     if (page === "") {
@@ -310,7 +310,7 @@ class PostsTable extends Component {
             onSearch={this.onSearchByDate}
             onStartDate={this.onStartDateChange}
             onEndDate={this.onEndDateChange}
-            onSearchbyTimeAndUser={this.onSearchByTimeAndUser}
+            onSearchFinal={this.onSearchByTimeAndUser}
           />
         ) : null}
 

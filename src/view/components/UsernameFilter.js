@@ -37,11 +37,11 @@ class UsernameFilter extends Component {
           date={this.props.endDate}
           onDateChange={this.props.onEndDate}
         />
-        <div onClick={this.props.onSearchByTimeAndUser}>
+        <div>
           <Button
             variant="color-primary-one"
             size="sm"
-            // onClick={() => this.props.onSearchByTimeAndUser}
+            onClick={this.props.onSearchFinal}
           >
             <FontAwesomeIcon icon={this.props.icon} />
           </Button>
