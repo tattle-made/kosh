@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,20 +8,21 @@ import {
   faVideo,
   faUpload
 } from "@fortawesome/free-solid-svg-icons";
-
 import { connect } from "react-redux";
-
 import PropTypes from "prop-types";
 
 // actions
-import { search, contentLoading, error } from "../../redux/actions/fetchData";
+import { search, contentLoading } from "../../redux/actions/fetchData";
 
 // components
-import { Card } from "../components/Card";
+// // import { Card } from "../components/Card";
 // import Loading from "../components/Loading";
-import Spinner from "../components/Spinner";
-import { UploadInput } from "../atomic-components/UploadInput";
-import { HeadingTwo, BodyOne } from "../atomic-components/text";
+
+import HeadingTwo from "../atomic-components/text/HeadingTwo";
+import BodyOne from "../atomic-components/text/BodyOne";
+import BreadCrumb from "../atomic-components/BreadCrumb";
+import SearchForm from "../components/SearchForm";
+import SearchResult from "../components/SearchResult";
 
 const options = [
   { value: "text", label: <FontAwesomeIcon icon={faFileAlt} /> },
@@ -29,190 +30,120 @@ const options = [
   { value: "video", label: <FontAwesomeIcon icon={faVideo} /> }
 ];
 
-function SearchInput(props) {
-  return <div>I am broke</div>;
-  // // // const accessibility = SearchInputCapabilities(props.user.role);
-  // // console.log("accessibility ", accessibility);
+class SearchInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchInput: "",
+      loading: false,
+      data: [],
+      selectedOption: "text",
+      content_type: []
+    };
+  }
 
-  // const [selectedOption, setSelectedOption] = useState("text");
-  // const [content_type, setContent_type] = useState([]);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.fetch) {
+      this.setState({
+        data: nextProps.fetch.data,
+        loading: nextProps.fetch.loading
+      });
+    }
+  }
 
-  // const handleChange = e => {
-  //   setSelectedOption(e.value);
-  // };
-
-  // const onSearch = e => {
-  //   e.preventDefault();
-  //   props.contentLoading();
-  //   setTimeout(() => props.search(), 3000);
-  //   contentLoading();
-  // };
-
-  // const displayResults = cards => {
-  //   return cards.map(card => (
-  //     <Card
-  //       key={card.id}
-  //       card={card}
-  //       display={content_type.includes(card.type)}
-  //     />
-  //   ));
-  // };
-
-  // // useEffect(() => {
-  // //   console.log("fired");
-  // //   // return displayResults(props.fetch.data);
-  // // }, [content_type]);
-
-  // const checkboxToggle = e => {
-  //   const new_list = content_type;
-  //   if (new_list.includes(e)) {
-  //     new_list.splice(new_list.indexOf(e), 1);
-  //   } else {
-  //     new_list.push(e);
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (nextProps.fetch) {
+  //     return {
+  //       data: nextProps.fetch.data,
+  //       loading: nextProps.fetch.loading
+  //     };
   //   }
-  //   setContent_type(new_list);
-  // };
-
-  // if (true) {
-  //   return (
-  //     <div>
-  //       <div className="container search-box">
-  //         <form className="search-form">
-  //           <div className="form-inline">
-  //             {/* <Select
-  //               className="mr-2"
-  //               placeholder={<FontAwesomeIcon icon={faFileAlt} />}
-  //               value={selectedOption}
-  //               onChange={handleChange}
-  //               options={options}
-  //             />
-  //             {selectedOption === "text" ? (
-  //               <div className="search-content">
-  //                 <input
-  //                   className="form-control mr-2"
-  //                   type="text"
-  //                   id="search-input"
-  //                   placeholder="Search"
-  //                 />
-  //               </div>
-  //             ) : selectedOption === "image" ? (
-  //               <div className="search-content">
-  //                 <UploadInput label="Upload Image" />
-  //               </div>
-  //             ) : (
-  //               <div className="search-content">
-  //                 <UploadInput label="Upload Video" />
-  //               </div>
-  //             )}
-  //             <button
-  //               className="btn search-btn ml-2"
-  //               type="button"
-  //               onClick={onSearch}
-  //             >
-  //               <FontAwesomeIcon icon={faSearch} color="#fff" />
-  //             </button>
-  //           </div> */}
-  //             <div className="search-input">
-  //               <div className="search-input-input">
-  //                 <input type="text" placeholder="Enter Search Term" />
-  //                 <HeadingTwo text="or" />
-  //                 <button className="btn  btn-color-white-one">
-  //                   <FontAwesomeIcon icon={faUpload} /> Upload File
-  //                 </button>
-  //               </div>
-
-  //               <div className="search-input-checkbox">
-  //                 <BodyOne text="include" />
-  //                 <label className="checkbox-box">
-  //                   <BodyOne text="text" />
-  //                   <input
-  //                     type="checkbox"
-  //                     onClick={() => this.checkboxToggle("text")}
-  //                   />
-  //                   <span className="checkmark" />
-  //                 </label>
-  //                 <label className="checkbox-box">
-  //                   <BodyOne text="image" />
-  //                   <input
-  //                     type="checkbox"
-  //                     onClick={() => this.checkboxToggle("image")}
-  //                   />
-  //                   <span className="checkmark" />
-  //                 </label>
-  //                 <label className="checkbox-box">
-  //                   <BodyOne text="video" />
-  //                   <input
-  //                     type="checkbox"
-  //                     onClick={() => this.checkboxToggle("video")}
-  //                   />
-  //                   <span className="checkmark" />
-  //                 </label>
-  //               </div>
-  //               <button
-  //                 className="btn btn-color-primary-one text-white"
-  //                 type="submit"
-  //                 onClick={this.onFormSubmit.bind(this)}
-  //               >
-  //                 Search <FontAwesomeIcon icon={faSearch} color="#fff" />
-  //               </button>
-  //             </div>
-  //           </div>
-  //           <div className="form-inline mt-3">
-  //             <label className="checkbox-box">
-  //               text
-  //               <input type="checkbox" onClick={() => checkboxToggle("text")} />
-  //               <span className="checkmark" />
-  //             </label>
-  //             <label className="checkbox-box">
-  //               image
-  //               <input
-  //                 type="checkbox"
-  //                 onClick={() => checkboxToggle("image")}
-  //               />
-  //               <span className="checkmark" />
-  //             </label>
-  //             <label className="checkbox-box">
-  //               video
-  //               <input
-  //                 type="checkbox"
-  //                 onClick={() => checkboxToggle("video")}
-  //               />
-  //               <span className="checkmark" />
-  //             </label>
-  //           </div>
-  //         </form>
-  //       </div>
-  //       <div className="search-result container mt-5">
-  //         {/* empty cards for loading */}
-  //         {/* {props.fetch.loading ? <Loading /> : null} */}
-  //         {/* spinner for loading */}
-  //         {props.fetch.loading ? <Spinner /> : null}
-  //         <div className="card-columns">{displayResults([props.fetch])}</div>
-  //       </div>
-  //     </div>
-  //   );
-  // } else {
-  //   props.error("Permission denied");
-  //   return null;
+  //   else return null;
   // }
+  // componentDidUpdate(prevProps, prevState){
+  //   if(prevProps.)
+  // }
+
+  handleChange(e) {
+    this.setState({ selectedOption: e.value });
+  }
+
+  displayResults(cards) {
+    // return cards.map(card => (
+    //   <Card
+    //     key={card.id}
+    //     card={card}
+    //     display={this.state.content_type.includes(card.type)}
+    //   />
+    // ));
+  }
+
+  checkboxToggle(e) {
+    const new_list = this.state.content_type;
+    if (new_list.includes(e)) {
+      new_list.splice(new_list.indexOf(e), 1);
+    } else {
+      new_list.push(e);
+    }
+    this.setState({
+      content_type: new_list
+    });
+  }
+
+  // inputvalue(e) {
+  //   console.log("INPUT ", e.target.value);
+  // }
+  onInputChange(e) {
+    this.setState({
+      searchInput: e.target.value
+    });
+  }
+
+  onFormSubmit(e) {
+    e.preventDefault();
+    // this.props.contentLoading();
+    // console.log("search ", this.state.searchInput);
+    // this.props.contentLoading();
+    // const url = `http://13.233.110.23:8080/search?type=${
+    //   this.state.content_type
+    // }&query=${this.state.searchInput}`;
+    // console.log(url);
+    // this.props.search(url);
+    // // this.setState({
+    // //   loading: false
+    // // });
+  }
+
+  render() {
+    const { selectedOption, data } = this.state;
+    return (
+      <div className="container">
+        <BreadCrumb />
+        <SearchForm
+          faUpload={eval(faUpload)}
+          faSearch={eval(faSearch)}
+          onFormSubmit={this.onFormSubmit}
+        />
+        <SearchResult
+          displayResults={this.displayResults(data)}
+          checkboxToggle={this.checkboxToggle}
+        />
+      </div>
+    );
+  }
 }
 
-SearchInput.propTypes = {
-  data: PropTypes.array,
+SearchInput.prototypes = {
+  data: PropTypes.array.isRequired,
   search: PropTypes.func.isRequired,
-  contentLoading: PropTypes.func.isRequired,
-  error: PropTypes.func.isRequired,
-  user: PropTypes.object
+  contentLoading: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  fetch: state.fetch,
-  user: state.user
+  fetch: state.fetch
 });
 
-const SearchPage = connect(
+export default connect(
   mapStateToProps,
-  { search, contentLoading, error }
+  { search, contentLoading }
 )(SearchInput);
-
-export default SearchPage;
