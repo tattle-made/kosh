@@ -37,6 +37,7 @@ import AccessControl from "../../components/AccessControl";
 // socket io
 import io from "socket.io-client";
 import PreviewFormatterTable from "../../components/PreviewFormatterTable";
+import SearchPostFilterParameters from "../../components/SearchPostFilterParameters";
 
 //connect to server
 const socket = io("http://localhost:8080/");
@@ -85,6 +86,7 @@ class PostsTable extends Component {
     // console.log(cell);
     return <PreviewFormatterTable row={row} cell={cell} />;
   }
+
   actionIconsFormatter(cell, row, rowIndex, props) {
     // console.log("this ", this);
     return (
@@ -107,6 +109,7 @@ class PostsTable extends Component {
       </div>
     );
   }
+
   componentDidMount() {
     // console.log("mounted");
     // console.log("props", this.props);
@@ -288,30 +291,25 @@ class PostsTable extends Component {
           refresh={this.refresh}
           onFilterItemSelect={this.onFilterItemSelect}
         />
-        {this.state.filter === "date" ? (
-          <DateFilter
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            onSearch={this.onSearchByDate}
-            onStartDate={this.onStartDateChange}
-            onEndDate={this.onEndDateChange}
-            icons={eval(faSearch)}
-          />
-        ) : this.state.filter === "name" ? (
-          <UsernameFilter
-            users={this.state.users}
-            selectedUsers={this.state.selectedUsers}
-            onUserSelect={this.onUserSelect}
-            icon={eval(faSearch)}
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            onSearch={this.onSearchByDate}
-            onStartDate={this.onStartDateChange}
-            onEndDate={this.onEndDateChange}
-            onSearchFinal={this.onSearchByTimeAndUser}
-          />
-        ) : null}
 
+        <SearchPostFilterParameters
+          filter={this.state.filter}
+          startDate2={this.state.startDate}
+          endDate2={this.state.endDate}
+          onSearch={this.onSearchByDate}
+          onStartDate2={this.onStartDateChange}
+          onEndDate2={this.onEndDateChange}
+          icon={eval(faSearch)}
+          users={this.state.users}
+          selectedUsers={this.state.selectedUsers}
+          onUserSelect={this.onUserSelect}
+          startDateUsernameFilter={this.state.startDate}
+          endDateUsernameFilter={this.state.endDate}
+          onSearchUsernameFilter={this.onSearchByDate}
+          onStartDateUsernameFilter={this.onStartDateChange}
+          onEndDateUsernameFilter={this.onEndDateChange}
+          onSearchFinalUsernameFilter={this.onSearchByTimeAndUser}
+        />
         <Table
           data={this.state.posts}
           columns={columns}

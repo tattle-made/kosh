@@ -20,7 +20,7 @@ class DateFilter extends Component {
           // onDateChanget={() => console.log("2")}
         />
         <DatePickerComponent
-          date={this.props.endDate}
+          date={this.props.endDate1}
           onDateChange={this.props.onEndDate1}
         />
         <Button
