@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { textFilter } from "react-bootstrap-table2-filter";
-
+import { Redirect } from "react-router-dom";
 //actions
 import { userDelete, selectedUser, fetchUsers } from "../../redux/actions/user";
 
@@ -76,14 +76,17 @@ class UsersTable extends Component {
   }
 
   componentDidMount() {
-    console.log("mounted");
-    this.props.fetchUsers();
-    this.setState({
-      users: this.props.users
-    });
+    const path = this.props.location.pathname;
+    let page = path.split("/users/")[1];
+    if (page === "") {
+      page = 1;
+    }
+    console.log("insidde mount page ", page);
+    this.props.fetchUsers(page);
+
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
-    socket.on("users/newData", value => {
+    socket.on("posts/newData", value => {
       console.log("new Data received", value.name);
       this.refresh();
     });
@@ -129,6 +132,9 @@ class UsersTable extends Component {
   // }
 
   render() {
+    if (this.props.location.pathname === "/users") {
+      return <Redirect to="/users/1" />;
+    }
     const columns = [
       {
         dataField: "username",

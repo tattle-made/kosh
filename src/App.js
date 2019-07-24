@@ -32,6 +32,7 @@ function App() {
           <Route exact path="/search" component={SideNav} />
           <Route exact path="/infoPanel" component={InfoPanel} />
           <Route exact path="/users" component={SideNav} />
+          <Route exact path="/users/:page" component={SideNav} />
           <Switch>
             <PrivateRoute exact path={"/posts"} component={SideNav} />
             <Route exact path="/posts/:page" component={SideNav} />

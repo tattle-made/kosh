@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUpload,
   faDownload,
   faSync,
-  faTrashAlt,
-  faCheck,
   faSearch,
   faFilter
 } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +10,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
-import { textFilter } from "react-bootstrap-table2-filter";
 
 //actions
 import { fetchUsers } from "../../../redux/actions/user";
@@ -27,17 +23,12 @@ import {
 //components
 import HeadingTwo from "../../atomic-components/text/HeadingTwo";
 import Table from "../../components/Table";
-import DateFilter from "../../atomic-components/DateFilter";
-import UsernameFilter from "../../atomic-components/UsernameFilter";
 import PrimaryActionTable from "../../components/PrimaryActionTable";
-
-// action control
-import AccessControl from "../../components/AccessControl";
+import columnFactory from "./column-data";
+import SearchPostFilterParameters from "../../components/SearchPostFilterParameters";
 
 // socket io
 import io from "socket.io-client";
-import PreviewFormatterTable from "../../components/PreviewFormatterTable";
-import SearchPostFilterParameters from "../../components/SearchPostFilterParameters";
 
 //connect to server
 const socket = io("http://localhost:8080/");
@@ -59,7 +50,6 @@ class PostsTable extends Component {
     };
     this.onStartDateChange = this.onStartDateChange.bind(this);
     this.onEndDateChange = this.onEndDateChange.bind(this);
-    this.previewFormatter = this.previewFormatter.bind(this);
     this.refresh = this.refresh.bind(this);
     this.onSearchByDate = this.onSearchByDate.bind(this);
     this.onSearchByTimeAndUser = this.onSearchByTimeAndUser.bind(this);
@@ -76,38 +66,6 @@ class PostsTable extends Component {
     this.setState({
       endDate: date
     });
-  }
-
-  previewFormatter(cell, row) {
-    // console.log("this ", this);
-    // console.log("row");
-    // console.log(row);
-    // console.log("cell");
-    // console.log(cell);
-    return <PreviewFormatterTable row={row} cell={cell} />;
-  }
-
-  actionIconsFormatter(cell, row, rowIndex, props) {
-    // console.log("this ", this);
-    return (
-      <div>
-        <AccessControl
-          allowedPermissions={["user:canView"]}
-          renderNoAccess={() => console.log("u dont have permission")}
-        >
-          <FontAwesomeIcon
-            icon={faTrashAlt}
-            className="mr-5"
-            onClick={() => {
-              props.postDelete(row.id, row.id);
-              console.log("delete");
-              // this.refresh();
-            }}
-          />
-        </AccessControl>
-        <FontAwesomeIcon icon={faCheck} />
-      </div>
-    );
   }
 
   componentDidMount() {
@@ -249,36 +207,7 @@ class PostsTable extends Component {
       this.refresh();
     });
 
-    const columns = [
-      {
-        dataField: "type",
-        text: "Title"
-      },
-      {
-        dataField: "filename",
-        text: "Description",
-        formatter: this.previewFormatter,
-        formatExtraData: this.state.posts,
-        events: {
-          onClick: (e, column, columnIndex, row, rowIndex) => {
-            const url = `/post/${row.id}`;
-            this.props.history.push(url);
-          }
-        }
-      },
-      {
-        dataField: "tags",
-        text: "Tags",
-        filter: textFilter(),
-        headerAlign: "center"
-      },
-      {
-        dataField: "actions",
-        text: "Actions",
-        formatter: this.actionIconsFormatter,
-        formatExtraData: this.props
-      }
-    ];
+    const columns = columnFactory(this.props, this.props.history);
 
     return (
       <div className="container">
@@ -301,7 +230,7 @@ class PostsTable extends Component {
           onEndDate2={this.onEndDateChange}
           icon={eval(faSearch)}
           users={this.state.users}
-          selectedUsers={this.state.selectedUsers}
+          selectedUsersUsernameFilter={this.state.selectedUsers}
           onUserSelect={this.onUserSelect}
           startDateUsernameFilter={this.state.startDate}
           endDateUsernameFilter={this.state.endDate}

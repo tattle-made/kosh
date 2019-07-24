@@ -81,7 +81,7 @@ const updateUser = (id, userData) => {
 };
 
 const fetchAllUsers = () => {
-  const url = "http://localhost:8080/users";
+  const url = "http://localhost:8080/userList";
   const request = axios.get(url, {
     headers: headers
   });
@@ -97,8 +97,8 @@ const fetchAllUsers = () => {
   };
 };
 
-const fetchUsers = () => {
-  const url = "http://localhost:8080/users";
+const fetchUsers = page => {
+  const url = `http://localhost:8080/users/${page}`;
   const request = axios.get(url, {
     headers: headers
   });
@@ -107,7 +107,7 @@ const fetchUsers = () => {
       .then(res => {
         dispatch({
           type: USERS,
-          payload: res
+          payload: res.data
         });
       })
       .catch(err => console.log("fetch Users ", err));

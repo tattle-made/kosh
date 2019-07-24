@@ -1,11 +1,14 @@
 import { USERS } from "../actions/types";
 
-const usersData = [];
+const usersData = {
+  list: [],
+  count: 0
+};
 
 const users = (state = usersData, action) => {
   switch (action.type) {
     case USERS:
-      return action.payload;
+      return [...state, action.payload];
     default:
       return state;
   }
