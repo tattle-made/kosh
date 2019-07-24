@@ -12,20 +12,16 @@ import {
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import { Breadcrumb } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
-import paginationFactory from "react-bootstrap-table2-paginator";
-import axios from "axios";
+import { textFilter } from "react-bootstrap-table2-filter";
 
 //actions
 import { fetchUsers } from "../../redux/actions/fetchData";
 import { userDelete, selectedUser } from "../../redux/actions/user";
 
 //components
-import HeadingTwo from "../atomic-components/text/HeadingTwo";
-import { Card } from "../components/Card";
+import BreadCrumb from "../atomic-components/BreadCrumb";
+import Table from "../components/Table";
+import PrimaryActionUser from "../components/PrimaryActionUser";
 
 // action control
 import AccessControl from "../components/AccessControl";
@@ -33,58 +29,17 @@ import AccessControl from "../components/AccessControl";
 // socket io
 import io from "socket.io-client";
 
-//todo import from an external file;
-const SHELL_SERVER_API_ENDPOINT = "http://13.233.110.23:8080/posts";
-
 //connect to server
 const socket = io("http://localhost:3001/");
 
 class UsersTable extends Component {
   constructor(props) {
     super(props);
-    /**
-     * consists of 3 state:
-     * 1. data
-     * 2. loading
-     * 3. columns
-     */
+
     this.state = {
       users: [],
       loading: true,
-      refresh: false,
-      columns: [
-        {
-          dataField: "username",
-          text: "Username"
-          // sort: true
-        },
-        {
-          dataField: "email",
-          text: "Email",
-          formatter: this.previewFormatter
-        },
-        {
-          dataField: "role",
-          text: "Role",
-          // sort: true,
-          filter: textFilter(),
-          headerAlign: "center"
-        },
-        {
-          dataField: "posts",
-          text: "Posts",
-          // sort: true,
-          filter: textFilter(),
-          headerAlign: "center"
-        },
-        {
-          dataField: "actions",
-          text: "Actions",
-          // sort: true
-          formatter: this.actionIconsFormatter,
-          formatExtraData: this.props
-        }
-      ]
+      refresh: false
     };
 
     this.refresh = this.refresh.bind(this);
@@ -175,63 +130,53 @@ class UsersTable extends Component {
   // }
 
   render() {
-    // const rowEvents = {
-    //   onClick: (e, row, rowIndex) => {
-    //     // console.log(e);
-    //     // console.log(row);
-    //     // console.log(rowIndex);
-    //     const url = `/posts/${row.id}`;
-    //     this.props.history.push(url);
-    //   }
-    // };
+    const columns = [
+      {
+        dataField: "username",
+        text: "Username"
+        // sort: true
+      },
+      {
+        dataField: "email",
+        text: "Email",
+        formatter: this.previewFormatter
+      },
+      {
+        dataField: "role",
+        text: "Role",
+        // sort: true,
+        filter: textFilter(),
+        headerAlign: "center"
+      },
+      {
+        dataField: "posts",
+        text: "Posts",
+        // sort: true,
+        filter: textFilter(),
+        headerAlign: "center"
+      },
+      {
+        dataField: "actions",
+        text: "Actions",
+        // sort: true
+        formatter: this.actionIconsFormatter,
+        formatExtraData: this.props
+      }
+    ];
 
     console.log("hello state", this.state.users);
     console.log("hello props", this.props.users);
     return (
       <div className="container">
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
-
-        <Breadcrumb>
-          <Breadcrumb.Item href="/users">
-            <span>
-              <HeadingTwo text="Users" />
-            </span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item href="/users/create">
-            <HeadingTwo text="Create" />
-          </Breadcrumb.Item>
-          {/* <Breadcrumb.Item active>Data</Breadcrumb.Item> */}
-        </Breadcrumb>
-        <div className="my-3">
-          <button className="btn btn-sm btn-color-white-one mr-3">
-            <FontAwesomeIcon icon={faUpload} /> Upload
-          </button>
-          <Button
-            variant="light"
-            size="sm"
-            onClick={this.refresh}
-            className="mr-3"
-          >
-            <FontAwesomeIcon icon={faSync} />
-          </Button>
-          <Button variant="color-primary-one" size="sm">
-            <FontAwesomeIcon icon={faDownload} /> Download
-          </Button>
-        </div>
-        <BootstrapTable
-          striped
-          hover
-          keyField="id"
-          // we cannot directly use this.props.fetchUsers, this will give data=[] empty array
-          // we need to set the data using state, and whever new data from fetchUsers is arrived via
-          // props.users defined in mapStateToProps we can use lifecycle method to update the state
-          // which will re-render the component and will show the updated data in the table.
-          data={this.state.users}
-          columns={this.state.columns}
-          filter={filterFactory()}
-          pagination={paginationFactory()}
-          // rowEvents={rowEvents}
+        <BreadCrumb />
+        <PrimaryActionUser
+          faUpload={eval(faUpload)}
+          faDownload={eval(faDownload)}
+          faSync={eval(faSync)}
+          refresh={this.refresh}
         />
+        <Table data={this.state.users} columns={columns} page={1} count={10} />
       </div>
     );
   }
