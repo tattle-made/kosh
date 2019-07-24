@@ -8,17 +8,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
 import { withRouter, Redirect } from "react-router-dom";
-import tattle_monogram_dark from "../../img/tattle_monogram_dark.png";
+import tattle_monogram_dark from "../../assets/img/tattle_monogram_dark.png";
 
 //components
-import SearchInput from "../pages/SearchInput";
-import PostsTable from "../pages/PostsTable";
-import UsersTable from "../pages/UsersTable";
+import SearchInput from "../pages/Search";
+import PostsTable from "../pages/Posts";
+import UsersTable from "../pages/Users";
 import UserCreate from "../pages/UserCreate";
 import UserUpdate from "../pages/UserUpdate";
-import PostsTableItem from "./PostsTableItem";
+import PostsTableItem from "./PostData";
 import MenuItem from "../atomic-components/MenuItem";
-import tattle1 from "../../img/tattle1.svg";
 
 // access control
 import AccessControl from "./AccessControl";

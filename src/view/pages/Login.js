@@ -10,7 +10,7 @@ import { IsEmpty } from "is-empty";
 import { loginUser } from "../../redux/actions/auth";
 
 //components
-import tattleLogo from "../../img/logo_logomark.png";
+import tattleLogo from "../../assets/img/logo_logomark.png";
 import HeadingThree from "../atomic-components/text/HeadingThree";
 import BodyOne from "../atomic-components/text/BodyOne";
 

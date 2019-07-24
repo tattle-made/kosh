@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import DatePickerComponent from "../atomic-components/DatePicker";
+import DatePickerComponent from "./DatePicker";
 import Select from "react-select";
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 

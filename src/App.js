@@ -10,15 +10,14 @@ import Cards from "./view/components/Cards";
 import CardDetails from "./view/components/CardDetails";
 import FooterSite from "./view/components/Footer";
 import InfoPanel from "./view/components/InfoPanel";
-import UsersTable from "./view/pages/UsersTable";
-import PostsTable from "./view/pages/PostsTable";
+import UsersTable from "./view/pages/Users";
+import PostsTable from "./view/pages/Posts";
 import SideNav from "./view/components/SideNav";
-import PostsTableItem from "./view/components/PostsTableItem";
-import LoginCard from "./view/pages/LoginCard";
+import PostsTableItem from "./view/components/PostData";
+import LoginCard from "./view/pages/Login";
 import UserCreate from "./view/pages/UserCreate";
 import UserUpdate from "./view/pages/UserUpdate";
 import PrivateRoute from "./view/components/PrivateRoute";
-import ReactSelect from "./view/components/ReactSelect";
 function App() {
   return (
     <Provider store={store}>
@@ -38,11 +37,9 @@ function App() {
           <Route exact path="/post/:id" component={SideNav} />
           <Route exact path="/sidenav" component={SideNav} />
           <Route exact path="/login" component={LoginCard} />
-
           <Route exact path="/users/create" component={SideNav} />
           <Route exact path="/users/update/:id" component={SideNav} />
           <Route exact path="/users/delete/:id" component={SideNav} />
-          <Route exact path="/test" component={ReactSelect} />
         </div>
       </Router>
     </Provider>
