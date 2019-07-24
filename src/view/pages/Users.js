@@ -15,8 +15,7 @@ import { withRouter } from "react-router-dom";
 import { textFilter } from "react-bootstrap-table2-filter";
 
 //actions
-import { fetchUsers } from "../../redux/actions/fetchData";
-import { userDelete, selectedUser } from "../../redux/actions/user";
+import { userDelete, selectedUser, fetchUsers } from "../../redux/actions/user";
 
 //components
 import BreadCrumb from "../atomic-components/BreadCrumb";

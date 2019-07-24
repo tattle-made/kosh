@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, USER, IS_VALID, SET_USER, ERRORS } from "./types";
+import { SET_CURRENT_USER, USER, IS_VALID, SET_USER, ERROR } from "./types";
 import axios from "axios";
 
 const loginUser = userData => {
@@ -13,24 +13,28 @@ const loginUser = userData => {
           localStorage.setItem("token", token);
           console.log("token", token);
           dispatch(isValid(true));
+          dispatch({
+            type: ERROR,
+            payload: null
+          });
           dispatch(setCurrentUser(userId));
         } else {
           dispatch({
-            type: ERRORS,
+            type: ERROR,
             payload: { message: "Invalid Username or Password" }
           });
         }
       })
       .catch(err => {
-        console.log("errrrrrrrrrorrrrrrrr ", err.response.data.username);
+        console.log("errrrrrrrrrorrrrrrrr ", err.response);
         let message = "";
-        if (err) {
-          message = "Invalid Username or Password";
+        if (err.response) {
+          message = "Username and Password Cannot Be Empty";
         } else {
           message = "Server Down";
         }
         dispatch({
-          type: ERRORS,
+          type: ERROR,
           payload: { message }
         });
       });

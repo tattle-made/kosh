@@ -1,4 +1,4 @@
-const ERRORS = "ERRORS";
+const ERROR = "ERROR";
 const CONTENT_LOADING = "CONTENT_LOADING";
 const SEARCH = "SEARCH";
 const POSTS = "POSTS";
@@ -17,7 +17,7 @@ const IS_VALID = "IS_VALID";
 const REFRESH = "REFRESH";
 
 export {
-  ERRORS,
+  ERROR,
   CONTENT_LOADING,
   SEARCH,
   POSTS,

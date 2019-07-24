@@ -2,14 +2,15 @@ import {
   SET_USER,
   GET_USER,
   USER_DELETE,
-  ERRORS,
+  ERROR,
   USER_SELECT,
   USER_UPDATE,
-  ALL_USERS
+  ALL_USERS,
+  USERS
 } from "./types";
 import axios from "axios";
 import headers from "../../core-utils/headers";
-import { triggerRefresh } from "./fetchData";
+import { triggerRefresh } from "./utils";
 
 const setUser = role => {
   return {
@@ -40,7 +41,7 @@ const createUser = userData => {
       })
       .catch(err =>
         dispatch({
-          type: ERRORS,
+          type: ERROR,
           payload: err
         })
       );
@@ -96,6 +97,23 @@ const fetchAllUsers = () => {
   };
 };
 
+const fetchUsers = () => {
+  const url = "http://localhost:8080/users";
+  const request = axios.get(url, {
+    headers: headers
+  });
+  return dispatch => {
+    request
+      .then(res => {
+        dispatch({
+          type: USERS,
+          payload: res
+        });
+      })
+      .catch(err => console.log("fetch Users ", err));
+  };
+};
+
 export {
   setUser,
   getUser,
@@ -103,5 +121,6 @@ export {
   userDelete,
   selectedUser,
   updateUser,
-  fetchAllUsers
+  fetchAllUsers,
+  fetchUsers
 };

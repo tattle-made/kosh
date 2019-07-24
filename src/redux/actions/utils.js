@@ -1,17 +1,10 @@
-import {
-  ERRORS,
-  SEARCH,
-  CONTENT_LOADING,
-  POSTS,
-  USERS,
-  REFRESH
-} from "./types";
+import { ERROR, CONTENT_LOADING, POSTS, REFRESH } from "./types";
 import axios from "axios";
 import headers from "../../core-utils/headers";
 
 const error = error => {
   return {
-    type: ERRORS,
+    type: ERROR,
     payload: error
   };
 };
@@ -37,22 +30,6 @@ const search = url => {
       .catch(err => console.log(err));
   };
 };
-const fetchUsers = () => {
-  const url = "http://localhost:8080/users";
-  const request = axios.get(url, {
-    headers: headers
-  });
-  return dispatch => {
-    request
-      .then(res => {
-        dispatch({
-          type: USERS,
-          payload: res
-        });
-      })
-      .catch(err => console.log("fetch Users ", err));
-  };
-};
 
 const triggerRefresh = id => {
   return dispatch => {
@@ -63,4 +40,4 @@ const triggerRefresh = id => {
   };
 };
 
-export { error, contentLoading, search, fetchUsers, triggerRefresh };
+export { error, contentLoading, search, triggerRefresh };

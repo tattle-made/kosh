@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // actions
-import { search, contentLoading } from "../../redux/actions/fetchData";
+import { search, contentLoading } from "../../redux/actions/utils";
 
 // components
 // // import { Card } from "../components/Card";

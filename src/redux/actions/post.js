@@ -1,7 +1,7 @@
 import { POST_DELETE, POSTS } from "./types";
 import axios from "axios";
 import headers from "../../core-utils/headers";
-import { triggerRefresh } from "./fetchData";
+import { triggerRefresh } from "./utils";
 
 const postDelete = (id, refresh) => {
   const url = `http://localhost:8080/posts/${id}`;

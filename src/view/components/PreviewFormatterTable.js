@@ -30,6 +30,8 @@ class PreviewFormatterTable extends Component {
           <div className="card-text">{this.props.row.data}</div>
         </div>
       );
+    } else {
+      return null;
     }
   }
 }

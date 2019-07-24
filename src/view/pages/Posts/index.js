@@ -16,7 +16,7 @@ import { Redirect } from "react-router";
 import { textFilter } from "react-bootstrap-table2-filter";
 
 //actions
-import { fetchUsers } from "../../../redux/actions/fetchData";
+import { fetchUsers } from "../../../redux/actions/user";
 import { fetchPosts } from "../../../redux/actions/post";
 import {
   postDelete,
@@ -77,8 +77,6 @@ class PostsTable extends Component {
     });
   }
 
-  // todo: REFACTORING THIS IS SHOWING ERROR WHEN TEXT TYPE IS IMAGE OR VIDEO
-  // TO REPRODUCE THIS , NAVIGATE TO PAGE 8
   previewFormatter(cell, row) {
     // console.log("this ", this);
     // console.log("row");
