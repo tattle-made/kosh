@@ -6,10 +6,14 @@ const loginUser = userData => {
   return dispatch => {
     request
       .then(res => {
+        console.log("dispatch1 ", dispatch);
         const auth = res.data.auth;
         if (auth) {
           const { userId, token } = res.data;
           // storing the token in local storage
+          const userDataRequest = axios.get(
+            `http://localhost:8080/user/${userId}`
+          );
           localStorage.setItem("token", token);
           console.log("token", token);
           dispatch(isValid(true));
@@ -17,7 +21,11 @@ const loginUser = userData => {
             type: ERROR,
             payload: null
           });
-          dispatch(setCurrentUser(userId));
+          userDataRequest.then(res => {
+            console.log("dispatch2 ", dispatch);
+            console.log("user data", res.data);
+            dispatch(setCurrentUser(userData));
+          });
         } else {
           dispatch({
             type: ERROR,
@@ -42,10 +50,10 @@ const loginUser = userData => {
 };
 
 // setting logged in user
-const setCurrentUser = decoded => {
+const setCurrentUser = userData => {
   return {
-    type: USER,
-    payload: decoded
+    type: SET_USER,
+    payload: userData
   };
 };
 
