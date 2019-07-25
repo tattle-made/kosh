@@ -5,7 +5,9 @@ import {
     update,
     deleteUser,
     getAll,
-    getUserRole
+    getUserRole,
+    getCompleteList,
+    getById
 } from "../models/data/UserDb";
 import {
     createOrUpdateTokenForUserId,
@@ -40,10 +42,17 @@ export class UserController extends _BaseController {
     //     });
     // }
 
-    public getAll() {
-        return getAll();
+    public getById(id: number) {
+        return getById(id);
     }
 
+    public getAll(page: number) {
+        return getAll(page);
+    }
+
+    public getCompleteList() {
+        return getCompleteList();
+    }
     public create(param: UserCreateRequest) {
         return create(param);
     }

@@ -44,6 +44,7 @@ export function exists(
         }
     })
         .then(result => {
+            console.log("result ", result);
             if (result.count === 0) {
                 return new ExistsResponse(false, -1);
             } else {
@@ -58,14 +59,55 @@ export function exists(
     // .then((user) => user.id != undefined ? true : false;)
 }
 
-export function getAll() {
-    return User.findAll({
+// export function getAll() {
+//     return User.findAll({
+//         order: [["createdAt", "DESC"]]
+//     })
+//         .map(el => el.get({ plain: true }))
+//         .catch(err => {
+//             return Promise.resolve({
+//                 message: "Error creating Post",
+//                 error: err
+//             });
+//         });
+// }
+
+export function getCompleteList() {
+    return User.findAndCountAll({
         order: [["createdAt", "DESC"]]
     })
-        .map(el => el.get({ plain: true }))
+        .then(result => {
+            return {
+                users: result.rows,
+                count: result.count
+            };
+        })
         .catch(err => {
             return Promise.resolve({
-                message: "Error creating Post",
+                message: "Error Fetching Post",
+                error: err
+            });
+        });
+}
+
+export function getAll(page: number) {
+    const pageSize = 10;
+    return User.findAndCountAll({
+        offset: page * pageSize - pageSize,
+        limit: 10,
+        order: [["createdAt", "DESC"]]
+    })
+        .then(result => {
+            return {
+                page: page,
+                totalPages: Math.ceil(result.count / pageSize),
+                count: result.count,
+                users: result.rows
+            };
+        })
+        .catch(err => {
+            return Promise.resolve({
+                message: "Error Fetching Post",
                 error: err
             });
         });

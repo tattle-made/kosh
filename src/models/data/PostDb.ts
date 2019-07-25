@@ -56,8 +56,8 @@ export function getAll(page: number) {
             return {
                 page: page,
                 totalPages: Math.ceil(result.count / pageSize),
-                posts: result.rows,
-                count: result.count
+                count: result.count,
+                posts: result.rows
             };
         })
         .catch(err => {

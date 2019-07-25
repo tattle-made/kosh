@@ -153,8 +153,22 @@ app.post("/auth/logout", (req: Request, res: Response) => {
     loginController.logout(token).then(response => res.send(response));
 });
 
-app.get("/users", (req: Request, res: Response) => {
-    userController.getAll().then(users => {
+app.get("/user/:id", (req: Request, res: Response) => {
+    const id = req.params.id;
+    userController.getById(id).then(user => {
+        res.send(user);
+    });
+});
+
+app.get("/users/:page", (req: Request, res: Response) => {
+    const page = req.params.page || 1;
+    userController.getAll(page).then(users => {
+        res.send(users);
+    });
+});
+
+app.get("/userList", (req: Request, res: Response) => {
+    userController.getCompleteList().then(users => {
         res.send(users);
     });
 });
