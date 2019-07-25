@@ -87,10 +87,10 @@ const logoutUser = () => {
   localStorage.removeItem("token");
   // delete auth header token.
   // remove current user
-  // TODO : this does not seems to work, need to fix it soon.
-  //   return dispatch => {
-  //     dispatch(setCurrentUser({}));
-  //   };
+  return dispatch => {
+    dispatch(setCurrentUser({}));
+    dispatch(toggleAuthentication(false));
+  };
 };
 
 const toggleAuthentication = bool => {

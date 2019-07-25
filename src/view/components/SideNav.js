@@ -4,10 +4,12 @@ import {
   faCloud,
   faUsers,
   faSearch,
-  faTimes
+  faTimes,
+  faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import tattle_monogram_dark from "../../assets/img/tattle_monogram_dark.png";
 
 //components
@@ -19,6 +21,9 @@ import UserUpdate from "../pages/UserUpdate";
 import PostsTableItem from "./PostData";
 import MenuItem from "../atomic-components/MenuItem";
 
+//action
+import { logoutUser } from "../../redux/actions/auth";
+
 // access control
 import AccessControl from "./AccessControl";
 
@@ -28,6 +33,7 @@ class SideNav extends Component {
     this.state = {
       open: false
     };
+    this.onUserOptionClick = this.onUserOptionClick.bind(this);
   }
   closeSideNav(e) {
     console.log("hi this is");
@@ -44,7 +50,11 @@ class SideNav extends Component {
     console.log("menuItem");
     e.stopPropagation();
   }
-
+  onUserOptionClick(e) {
+    console.log("user options");
+    this.props.logoutUser();
+    e.stopPropagation();
+  }
   mainContent(route) {
     if (route === "/posts" || route.includes("/posts/")) {
       return <PostsTable />;
@@ -116,6 +126,12 @@ class SideNav extends Component {
                   />
                 </AccessControl>
               </div>
+              <div
+                onClick={e => this.onUserOptionClick(e)}
+                className="user-options"
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} size="lg" />
+              </div>
             </div>
           </div>
 
@@ -128,6 +144,11 @@ class SideNav extends Component {
   }
 }
 
-const SideNavBar = withRouter(SideNav);
+const SideNavBar = withRouter(
+  connect(
+    () => {},
+    { logoutUser }
+  )(SideNav)
+);
 
 export default SideNavBar;
