@@ -49,7 +49,8 @@ class PostsTable extends Component {
       totalPages: 5,
       count: 10,
       loading: true,
-      refresh: false
+      refresh: false,
+      filter: ""
     };
   }
 
@@ -116,6 +117,12 @@ class PostsTable extends Component {
     onSearch(data, this.state.filter, this.props.location);
   }
 
+  onFilterItemSelect(filter) {
+    this.setState({
+      filter
+    });
+  }
+
   render() {
     if (this.props.location.pathname === "/posts") {
       return <Redirect to="/posts/1" />;
@@ -140,7 +147,7 @@ class PostsTable extends Component {
           faFilter={eval(faFilter)}
           faSync={eval(faSync)}
           refresh={triggerRefresh(9098)}
-          filter={this.onFilterItemSelect}
+          filter={filterType => this.onFilterItemSelect(filterType)}
         />
         <SearchPostFilterParameters
           type={this.state.filter}

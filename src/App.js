@@ -20,22 +20,45 @@ function App() {
       <Router>
         <div>
           <Route exact path="/" component={LoginCard} />
-          <Route exact path="/cards" component={Cards} />
-          <Route exact path="/card/:id" component={CardDetails} />
+          <Route exact path="/login" component={LoginCard} />
           <Route path="/" component={FooterSite} />
-          <Route exact path="/search" component={SideNav} />
-          <Route exact path="/infoPanel" component={InfoPanel} />
-          <Route exact path="/users" component={SideNav} />
-          <Route exact path="/users/:page" component={SideNav} />
+          <Switch>
+            <PrivateRoute exact path="/cards" component={Cards} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/card/:id" component={CardDetails} />
+          </Switch>
+
+          <Switch>
+            <PrivateRoute exact path="/search" component={SideNav} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/infoPanel" component={InfoPanel} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/users" component={SideNav} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/users/:page" component={SideNav} />
+          </Switch>
           <Switch>
             <PrivateRoute exact path={"/posts"} component={SideNav} />
-            <Route exact path="/posts/:page" component={SideNav} />
           </Switch>
-          <Route exact path="/post/:id" component={SideNav} />
-          <Route exact path="/sidenav" component={SideNav} />
-          <Route exact path="/login" component={LoginCard} />
-          <Route exact path="/users/update/:id" component={SideNav} />
-          <Route exact path="/users/delete/:id" component={SideNav} />
+          <Switch>
+            <PrivateRoute exact path={"/posts/:page"} component={SideNav} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/post/:id" component={SideNav} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/sidenav" component={SideNav} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/users/update/:id" component={SideNav} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/users/delete/:id" component={SideNav} />
+          </Switch>
         </div>
       </Router>
     </Provider>

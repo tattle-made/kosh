@@ -27,8 +27,11 @@ const getUser = () => {
 
 const createUser = userData => {
   console.log("create user action", userData);
+  const token = localStorage.getItem("token");
   const request = axios.post("http://localhost:8080/users/create", userData, {
-    headers: headers
+    headers: {
+      token
+    }
   });
   return dispatch => {
     request
@@ -51,8 +54,11 @@ const createUser = userData => {
 const userDelete = (id, refresh) => {
   console.log("inside delete action", refresh);
   const url = `http://localhost:8080/users/delete/${id}`;
+  const token = localStorage.getItem("token");
   const request = axios.post(url, {
-    headers: headers
+    headers: {
+      token
+    }
   });
   return dispatch => {
     dispatch({
@@ -71,9 +77,12 @@ const selectedUser = userData => {
 
 const updateUser = (id, userData) => {
   const url = `http://localhost:8080/users/update/${id}`;
+  const token = localStorage.getItem("token");
   console.log("inside action", userData);
   const request = axios.post(url, userData, {
-    headers: headers
+    headers: {
+      token
+    }
   });
   return {
     type: USER_UPDATE
@@ -82,8 +91,11 @@ const updateUser = (id, userData) => {
 
 const fetchAllUsers = () => {
   const url = "http://localhost:8080/userList";
+  const token = localStorage.getItem("token");
   const request = axios.get(url, {
-    headers: headers
+    headers: {
+      token
+    }
   });
   return dispatch => {
     request
@@ -99,8 +111,11 @@ const fetchAllUsers = () => {
 
 const fetchUsers = page => {
   const url = `http://localhost:8080/users/${page}`;
+  const token = localStorage.getItem("token");
   const request = axios.get(url, {
-    headers: headers
+    headers: {
+      token
+    }
   });
   return dispatch => {
     request

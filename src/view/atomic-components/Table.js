@@ -8,6 +8,7 @@ import overlayFactory from "react-bootstrap-table2-overlay";
 
 //action
 import { fetchPosts } from "../../redux/actions/post";
+import { fetchUsers } from "../../redux/actions/user";
 
 class Table extends Component {
   constructor(props) {
@@ -43,10 +44,16 @@ class Table extends Component {
     this.setState({
       page
     });
-    // return <Redirect to={`/posts/${page}`} />;
-    this.props.history.push(`/posts/${page}`);
-    this.props.fetchPosts(page);
-    // this.props.check(page, sizePerPage);
+
+    if (this.props.location.pathname.includes("/posts")) {
+      this.props.history.push(`/posts/${page}`);
+      this.props.fetchPosts(page);
+    } else if (this.props.location.pathname.includes("/users")) {
+      this.props.history.push(`/users/${page}`);
+      this.props.fetchUsers(page);
+    } else {
+      console.log("check table component");
+    }
   };
 
   render() {
@@ -112,7 +119,7 @@ class Table extends Component {
 const TableData = withRouter(
   connect(
     () => ({}),
-    { fetchPosts }
+    { fetchPosts, fetchUsers }
   )(Table)
 );
 export default TableData;

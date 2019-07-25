@@ -11,7 +11,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
       render={props =>
         auth.isAuthenticated === true ? (
           auth.isAuthorized === true ? (
-            <Component />
+            <Component {...props} />
           ) : (
             // <component />
             <Spinner />

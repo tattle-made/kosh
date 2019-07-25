@@ -1,20 +1,38 @@
-import { SET_CURRENT_USER, USER, IS_VALID, SET_USER, ERROR } from "./types";
+import {
+  SET_CURRENT_USER,
+  USER,
+  IS_VALID,
+  SET_USER,
+  ERROR,
+  AUTHENTICATE
+} from "./types";
 import axios from "axios";
+import headers from "../../core-utils/headers";
 
 const loginUser = userData => {
   const request = axios.post("http://localhost:8080/auth/login", userData);
   return dispatch => {
     request
       .then(res => {
+        console.log("headers", headers);
         console.log("dispatch1 ", dispatch);
         const auth = res.data.auth;
         if (auth) {
+          dispatch(toggleAuthentication(true));
           const { userId, token } = res.data;
           // storing the token in local storage
-          const userDataRequest = axios.get(
-            `http://localhost:8080/user/${userId}`
-          );
+
           localStorage.setItem("token", token);
+
+          const userDataRequest = axios.get(
+            `http://localhost:8080/user/${userId}`,
+            {
+              headers: {
+                token
+              }
+            }
+          );
+
           console.log("token", token);
           dispatch(isValid(true));
           dispatch({
@@ -73,6 +91,13 @@ const logoutUser = () => {
   //   return dispatch => {
   //     dispatch(setCurrentUser({}));
   //   };
+};
+
+const toggleAuthentication = bool => {
+  return {
+    type: AUTHENTICATE,
+    payload: bool
+  };
 };
 
 export { logoutUser, loginUser, setCurrentUser, isValid };

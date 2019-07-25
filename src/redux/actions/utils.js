@@ -2,10 +2,10 @@ import { ERROR, CONTENT_LOADING, POSTS, REFRESH } from "./types";
 import axios from "axios";
 import headers from "../../core-utils/headers";
 
-const error = error => {
+const error = message => {
   return {
     type: ERROR,
-    payload: error
+    payload: message
   };
 };
 
@@ -16,8 +16,11 @@ const contentLoading = () => {
 };
 
 const search = url => {
+  const token = localStorage.getItem("token");
   const request = axios.get(url, {
-    headers: headers
+    headers: {
+      token
+    }
   });
   return dispatch => {
     request
