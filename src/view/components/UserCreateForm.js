@@ -1,19 +1,49 @@
 import React, { Component } from "react";
 import { Button, Form } from "react-bootstrap";
+import { withRouter } from "react-router-dom";
 
 class UserCreateForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      email: "",
+      role: "subscriber",
+      password: ""
+    };
+  }
+
+  onInputChange(e) {
+    console.log("e ", e);
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+  onFormSubmit(e) {
+    e.preventDefault();
+    console.log("create user submit");
+    const userData = {
+      username: this.state.username,
+      email: this.state.email,
+      role: this.state.role.toLowerCase(),
+      password: this.state.password
+    };
+    this.props.data(userData);
+    this.props.history.push("/users");
+  }
+
   render() {
     return (
       <div>
-        <Form onSubmit={this.props.onFormSubmit}>
+        <Form onSubmit={this.onFormSubmit}>
           <Form.Group controlId="username">
             {/* <Form.Label>Email address</Form.Label> */}
             <Form.Control
               name="username"
               type="text"
               placeholder="Username"
-              value={this.props.username}
-              onChange={this.props.onInputChange}
+              value={this.state.username}
+              onChange={this.state.onInputChange}
             />
           </Form.Group>
           <Form.Group controlId="email">
@@ -22,8 +52,8 @@ class UserCreateForm extends Component {
               name="email"
               type="email"
               placeholder="Email"
-              value={this.props.email}
-              onChange={this.props.onInputChange}
+              value={this.state.email}
+              onChange={this.onInputChange}
             />
           </Form.Group>
           <Form.Group controlId="roles">
@@ -31,11 +61,11 @@ class UserCreateForm extends Component {
             <Form.Control
               name="role"
               as="select"
-              value={this.props.role}
-              onChange={this.props.onInputChange}
+              value={this.state.role}
+              onChange={this.onInputChange}
             >
-              <option>Admin</option>
               <option>Subscriber</option>
+              <option>Admin</option>
               <option>Super Admin</option>
               <option>Editor</option>
               <option>Author</option>
@@ -48,8 +78,8 @@ class UserCreateForm extends Component {
               name="password"
               type="password"
               placeholder="Password"
-              value={this.props.password}
-              onChange={this.props.onInputChange}
+              value={this.state.password}
+              onChange={this.onInputChange}
             />
           </Form.Group>
           <Form.Group controlId="submit">
@@ -63,4 +93,6 @@ class UserCreateForm extends Component {
   }
 }
 
-export default UserCreateForm;
+const UserForm = withRouter(UserCreateForm);
+
+export default UserForm;

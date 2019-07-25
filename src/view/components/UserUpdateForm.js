@@ -1,19 +1,61 @@
 import React, { Component } from "react";
 import { Button, Form } from "react-bootstrap";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class UserUpdateForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: this.props.selectedUser.id,
+      username: this.props.selectedUser.username,
+      email: this.props.selectedUser.email,
+      role: this.props.selectedUser.role
+    };
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedUser !== this.props.selectedUser) {
+      this.setState({
+        username: nextProps.user.username,
+        email: nextProps.user.email,
+        role: nextProps.user.role
+      });
+    }
+  }
+
+  onInputChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  onFormSubmit(e) {
+    e.preventDefault();
+    console.log("update user submit");
+    const userData = {
+      username: this.state.username,
+      email: this.state.email,
+      role: this.state.role
+    };
+    this.props.data(this.state.id, userData);
+    this.props.history.push("/users");
+  }
+
   render() {
     return (
       <div>
-        <Form onSubmit={this.props.onFormSubmit}>
+        <Form onSubmit={this.onFormSubmit}>
           <Form.Group controlId="username">
             {/* <Form.Label>Email address</Form.Label> */}
             <Form.Control
               name="username"
               type="text"
               placeholder="Username"
-              value={this.props.username}
-              onChange={this.props.onInputChange}
+              value={this.state.username}
+              onChange={this.onInputChange}
             />
           </Form.Group>
           <Form.Group controlId="email">
@@ -22,8 +64,8 @@ class UserUpdateForm extends Component {
               name="email"
               type="email"
               placeholder="Email"
-              value={this.props.email}
-              onChange={this.props.onInputChange}
+              value={this.state.email}
+              onChange={this.onInputChange}
             />
           </Form.Group>
           <Form.Group controlId="roles">
@@ -31,11 +73,11 @@ class UserUpdateForm extends Component {
             <Form.Control
               name="role"
               as="select"
-              value={this.props.role}
-              onChange={this.props.onInputChange}
+              value={this.state.role}
+              onChange={this.onInputChange}
             >
-              <option>Admin</option>
               <option>Subscriber</option>
+              <option>Admin</option>
               <option>Super Admin</option>
               <option>Editor</option>
               <option>Author</option>
@@ -53,4 +95,15 @@ class UserUpdateForm extends Component {
   }
 }
 
-export default UserUpdateForm;
+const maptStateToProps = state => ({
+  selectedUser: state.selectedUser
+});
+
+const UserUpdate = withRouter(
+  connect(
+    maptStateToProps,
+    {}
+  )(UserUpdateForm)
+);
+
+export default UserUpdate;

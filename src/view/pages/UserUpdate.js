@@ -13,59 +13,24 @@ import UserUpdateForm from "../components/UserUpdateForm";
 class UserUpdate extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: this.props.selectedUser.id,
-      username: this.props.selectedUser.username,
-      email: this.props.selectedUser.email,
-      role: this.props.selectedUser.role
-    };
-  }
-  onInputChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
-  onFormSubmit(e) {
-    e.preventDefault();
-    console.log("update user submit");
-    const userData = {
-      username: this.state.username,
-      email: this.state.email,
-      role: this.state.role
-    };
-    this.props.updateUser(this.state.id, userData);
-    this.props.history.push("/users");
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedUser !== this.props.selectedUser) {
-      this.setState({
-        username: nextProps.user.username,
-        email: nextProps.user.email,
-        role: nextProps.user.role
-      });
-    }
+  onFormSubmit(id, userData) {
+    this.props.updateUser(id, userData);
   }
+
   render() {
     return (
       <div className="container">
         <BreadCrumb />
         <UserUpdateForm
-          username={this.state.username}
-          password={this.state.password}
-          role={this.state.role}
-          email={this.state.email}
-          onInputChange={this.onInputChange}
-          onFormSubmit={this.onFormSubmit}
+          data={(id, userData) => this.onFormSubmit(id, userData)}
         />
       </div>
     );
   }
 }
-
-const maptStateToProps = state => ({
-  selectedUser: state.selectedUser
-});
 
 UserUpdate.propTypes = {
   updateUser: PropTypes.func.isRequired
@@ -73,7 +38,7 @@ UserUpdate.propTypes = {
 
 const UserUpdateUser = withRouter(
   connect(
-    maptStateToProps,
+    () => {},
     { updateUser }
   )(UserUpdate)
 );

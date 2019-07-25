@@ -37,6 +37,8 @@ class UsersTable extends Component {
 
     this.state = {
       users: [],
+      page: 1,
+      count: 0,
       loading: true,
       refresh: false
     };
@@ -96,9 +98,12 @@ class UsersTable extends Component {
     console.log("will recieve new props", nextProps);
     if (nextProps.users !== this.props.users) {
       this.setState({
-        users: nextProps.users.data
+        users: nextProps.users.users,
+        page: nextProps.users.page,
+        count: nextProps.users.count
       });
     }
+
     if (nextProps.refresh !== this.props.refresh) {
       this.setState({
         refresh: nextProps.refresh
@@ -181,7 +186,12 @@ class UsersTable extends Component {
           faSync={eval(faSync)}
           refresh={this.refresh}
         />
-        <Table data={this.state.users} columns={columns} page={1} count={10} />
+        <Table
+          data={this.state.users}
+          columns={columns}
+          page={this.state.page}
+          count={this.state.count}
+        />
       </div>
     );
   }
