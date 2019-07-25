@@ -22,8 +22,8 @@ import {
 
 //components
 import HeadingTwo from "../../atomic-components/text/HeadingTwo";
-import Table from "../../components/Table";
-import PrimaryActionTable from "../../components/PrimaryActionTable";
+import Table from "../../atomic-components/Table";
+import PrimaryActionTable from "../../components/PrimaryActionPostTable";
 import columnFactory from "./column-data";
 import SearchPostFilterParameters from "../../components/SearchPostFilterParameters";
 

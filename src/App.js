@@ -10,13 +10,8 @@ import Cards from "./view/components/Cards";
 import CardDetails from "./view/components/CardDetails";
 import FooterSite from "./view/components/Footer";
 import InfoPanel from "./view/components/InfoPanel";
-import UsersTable from "./view/pages/Users";
-import PostsTable from "./view/pages/Posts";
 import SideNav from "./view/components/SideNav";
-import PostsTableItem from "./view/components/PostData";
 import LoginCard from "./view/pages/Login";
-import UserCreate from "./view/pages/UserCreate";
-import UserUpdate from "./view/pages/UserUpdate";
 import PrivateRoute from "./view/components/PrivateRoute";
 
 function App() {

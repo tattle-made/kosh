@@ -19,8 +19,8 @@ import { userDelete, selectedUser, fetchUsers } from "../../redux/actions/user";
 
 //components
 import BreadCrumb from "../atomic-components/BreadCrumb";
-import Table from "../components/Table";
-import PrimaryActionUser from "../components/PrimaryActionUser";
+import Table from "../atomic-components/Table";
+import PrimaryActionUser from "../components/PrimaryActionUserTable";
 
 // action control
 import AccessControl from "../components/AccessControl";
