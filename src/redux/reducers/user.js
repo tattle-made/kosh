@@ -1,17 +1,19 @@
-import { GET_USER, SET_USER, USER_SELECT } from "../actions/types";
+import { SET_USER, USERS, ALL_USERS } from "../actions/types";
 
-const userData = {
+const loginUserInitialState = {
   id: "",
   username: "",
   email: "",
   role: "ADMIN",
-  team: "fact check team delhi"
+  team: ""
 };
 
-const user = (state = userData, action) => {
+const allUsersInitialState = {};
+
+const usersInitialState = {};
+
+const loginUser = (state = loginUserInitialState, action) => {
   switch (action.type) {
-    case GET_USER:
-      return state;
     case SET_USER:
       return { ...state, ...action.payload };
     default:
@@ -19,4 +21,22 @@ const user = (state = userData, action) => {
   }
 };
 
-export default user;
+const allUsers = (state = allUsersInitialState, action) => {
+  switch (action.type) {
+    case ALL_USERS:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+const users = (state = usersInitialState, action) => {
+  switch (action.type) {
+    case USERS:
+      return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+};
+
+export { loginUser, users, allUsers };

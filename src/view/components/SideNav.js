@@ -50,7 +50,7 @@ class SideNav extends Component {
       return <PostsTable />;
     } else if (route === "/search") {
       return <SearchInput />;
-    } else if (route === "/users") {
+    } else if (route === "/users" || route.includes("/users/")) {
       return <UsersTable />;
     } else if (route === "/users/create") {
       return <UserCreate />;

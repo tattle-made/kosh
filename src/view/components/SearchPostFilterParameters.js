@@ -1,33 +1,69 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import DateFilter from "../atomic-components/DateFilter";
 import UsernameFilter from "../atomic-components/UsernameFilter";
 
+import { fetchAllUsers } from "../../redux/actions/user";
+
 class SearchPostFilterParameters extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      selectedUsers: []
+    };
+    this.onUserSelect = this.onUserSelect.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.users !== this.props.users) {
+      const users = [];
+      nextProps.users.forEach(user => {
+        users.push({ label: user.username, value: user.id });
+      });
+      this.setState({
+        users
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.props.fetchAllUsers();
+  }
+
+  onSearch(data) {
+    const { type } = this.props;
+
+    if (type === "date") {
+      this.props.payload(data);
+    } else if (type === "name") {
+      this.props.payload({
+        username: this.state.selectedUsers,
+        from: data.from,
+        to: data.to
+      });
+    }
+  }
+
+  onUserSelect(selectedUsers) {
+    this.setState({
+      selectedUsers
+    });
+  }
+
   render() {
     console.log("props search para", this.props);
     return (
       <div>
-        {this.props.filter === "date" ? (
-          <DateFilter
-            startDate1={this.props.startDate2}
-            endDate1={this.props.endDate2}
-            onSearch={this.props.onSearch}
-            onStartDate1={this.props.onStartDate2}
-            onEndDate1={this.props.onEndDate2}
-            icon={this.props.icon}
-          />
-        ) : this.props.filter === "name" ? (
+        {this.props.type === "date" ? (
+          <DateFilter time={data => this.onSearch(data)} />
+        ) : this.props.type === "name" ? (
           <UsernameFilter
-            users={this.props.users}
-            selectedUsers={this.props.selectedUsersUsernameFilter}
+            users={this.state.users}
+            selectedUsers={this.state.selectedUsers}
             onUserSelect={this.onUserSelect}
-            icon={this.props.icon}
-            startDate={this.props.startDateUsernameFilter}
-            endDate={this.props.endDateUsernameFilter}
-            onSearch={this.props.onSearchUsernameFilter}
-            onStartDate={this.props.onStartDateUsernameFilter}
-            onEndDate={this.onEndDateUsernameFilter}
-            onSearchFinal={this.props.onSearchFinalUsernameFilter}
+            time={data => this.onSearch(data)}
           />
         ) : null}
       </div>
@@ -35,4 +71,12 @@ class SearchPostFilterParameters extends Component {
   }
 }
 
-export default SearchPostFilterParameters;
+const mapStateToProps = state => ({
+  users: state.allUsers.users
+});
+
+const SearchPostFilter = connect(
+  mapStateToProps,
+  { fetchAllUsers }
+)(SearchPostFilterParameters);
+export default SearchPostFilter;

@@ -32,11 +32,9 @@ const search = url => {
 };
 
 const triggerRefresh = id => {
-  return dispatch => {
-    dispatch({
-      type: REFRESH,
-      payload: id
-    });
+  return {
+    type: REFRESH,
+    payload: id
   };
 };
 

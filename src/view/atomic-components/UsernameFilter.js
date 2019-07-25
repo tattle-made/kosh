@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import DatePickerComponent from "./DatePicker";
+import DateFilter from "./DateFilter";
 import Select from "react-select";
-import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 
 class UsernameFilter extends Component {
   constructor(props) {
     super(props);
+    this.onSearch = this.onSearch.bind(this);
+  }
+  onSearch(data) {
+    this.props.time(data);
   }
   render() {
     return (
@@ -29,22 +31,8 @@ class UsernameFilter extends Component {
             })}
           />
         </div>
-        <DatePickerComponent
-          date={this.props.startDate}
-          onDateChange={this.props.onStartDate}
-        />
-        <DatePickerComponent
-          date={this.props.endDate}
-          onDateChange={this.props.onEndDate}
-        />
         <div>
-          <Button
-            variant="color-primary-one"
-            size="sm"
-            onClick={this.props.onSearchFinal}
-          >
-            <FontAwesomeIcon icon={this.props.icon} />
-          </Button>
+          <DateFilter time={data => this.onSearch(data)} />
         </div>
       </div>
     );

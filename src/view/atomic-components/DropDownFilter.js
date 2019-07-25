@@ -3,6 +3,15 @@ import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class DropDownFilter extends Component {
+  constructor(props) {
+    super(props);
+    this.onFilterItemSelect = this.onFilterItemSelect.bind(this);
+  }
+
+  onFilterItemSelect(e) {
+    this.props.selectedItem(e.target.name);
+  }
+
   render() {
     return (
       <div>
@@ -17,13 +26,13 @@ class DropDownFilter extends Component {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item name="date" onClick={this.props.onFilterItemSelect}>
+            <Dropdown.Item name="date" onClick={this.onFilterItemSelect}>
               Filter by Date
             </Dropdown.Item>
-            <Dropdown.Item name="name" onClick={this.props.onFilterItemSelect}>
+            <Dropdown.Item name="name" onClick={this.onFilterItemSelect}>
               Filter by Username
             </Dropdown.Item>
-            <Dropdown.Item name="label" onClick={this.props.onFilterItemSelect}>
+            <Dropdown.Item name="label" onClick={this.onFilterItemSelect}>
               Filter by Label
             </Dropdown.Item>
           </Dropdown.Menu>

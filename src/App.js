@@ -18,12 +18,11 @@ import LoginCard from "./view/pages/Login";
 import UserCreate from "./view/pages/UserCreate";
 import UserUpdate from "./view/pages/UserUpdate";
 import PrivateRoute from "./view/components/PrivateRoute";
-import history from "./core-utils/history";
 
 function App() {
   return (
     <Provider store={store}>
-      <Router history={history}>
+      <Router>
         <div>
           <Route exact path="/" component={LoginCard} />
           <Route exact path="/cards" component={Cards} />

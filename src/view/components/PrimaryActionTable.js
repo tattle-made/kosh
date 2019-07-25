@@ -4,6 +4,13 @@ import DropDownFilter from "../atomic-components/DropDownFilter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class PrimaryActionTable extends Component {
+  constructor(props) {
+    super(props);
+    this.filterType = this.filterType.bind(this);
+  }
+  filterType(val) {
+    this.props.filter(val);
+  }
   render() {
     return (
       <div className="my-3">
@@ -23,7 +30,7 @@ class PrimaryActionTable extends Component {
         </Button>
         <span className="float-right">
           <DropDownFilter
-            onFilterItemSelect={this.props.onFilterItemSelect}
+            selectedItem={this.filterType}
             icon={this.props.faFilter}
           />
         </span>

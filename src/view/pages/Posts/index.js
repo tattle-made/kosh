@@ -12,8 +12,8 @@ import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
 
 //actions
-import { fetchUsers } from "../../../redux/actions/user";
 import { fetchPosts } from "../../../redux/actions/post";
+import { triggerRefresh } from "../../../redux/actions/utils";
 import {
   postDelete,
   postByTime,
@@ -26,6 +26,13 @@ import Table from "../../components/Table";
 import PrimaryActionTable from "../../components/PrimaryActionTable";
 import columnFactory from "./column-data";
 import SearchPostFilterParameters from "../../components/SearchPostFilterParameters";
+
+import {
+  onSearch,
+  onSearchByDate,
+  onSearchByTimeAndUser,
+  refresh
+} from "./post-controller";
 
 // socket io
 import io from "socket.io-client";
@@ -42,30 +49,8 @@ class PostsTable extends Component {
       totalPages: 5,
       count: 10,
       loading: true,
-      startDate: new Date(),
-      endDate: new Date(),
-      users: [],
-      selectedUsers: [],
       refresh: false
     };
-    this.onStartDateChange = this.onStartDateChange.bind(this);
-    this.onEndDateChange = this.onEndDateChange.bind(this);
-    this.refresh = this.refresh.bind(this);
-    this.onSearchByDate = this.onSearchByDate.bind(this);
-    this.onSearchByTimeAndUser = this.onSearchByTimeAndUser.bind(this);
-    this.onFilterItemSelect = this.onFilterItemSelect.bind(this);
-  }
-
-  onStartDateChange(date) {
-    console.log("start date change", date);
-    this.setState({
-      startDate: date
-    });
-  }
-  onEndDateChange(date) {
-    this.setState({
-      endDate: date
-    });
   }
 
   componentDidMount() {
@@ -83,9 +68,8 @@ class PostsTable extends Component {
     // so when new data is received the page will refresh automatically.
     socket.on("posts/newData", value => {
       console.log("new Data received", value.name);
-      this.refresh();
+      triggerRefresh(54454);
     });
-    this.props.fetchUsers();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,26 +81,15 @@ class PostsTable extends Component {
         count: nextProps.fetch.count
       });
     }
-    if (nextProps.users !== this.props.users) {
-      const users = [];
-      nextProps.users.data.forEach(user => {
-        users.push({ label: user.username, value: user.id });
-      });
-      this.setState({
-        users
-      });
-    }
-    if (nextProps.refresh !== this.props.refresh) {
-      this.setState({
-        refresh: nextProps.refresh
-      });
-      this.refresh();
-    }
-  }
 
-  refresh() {
-    console.log("refreshing");
-    this.props.fetchPosts(this.state.page);
+    if (nextProps.refresh !== this.props.refresh) {
+      // this.setState({
+      //   refresh: nextProps.refresh
+      // });
+      console.log("ander hai bhia refresh props");
+      this.props.fetchPosts(this.state.page);
+      // refresh(this.state.page);
+    }
   }
 
   //TODO : change to this life cycle method.
@@ -139,60 +112,9 @@ class PostsTable extends Component {
   //   console.log("row");
   // }
 
-  onSearchByDate() {
-    console.log("search by date");
-    const path = this.props.location.pathname;
-    let page = path.split("/posts/")[1];
-    if (page === "") {
-      page = 1;
-    }
-    this.props.postByTime(
-      page,
-      this.state.startDate.getTime(),
-      this.state.endDate.getTime()
-    );
+  onSearch(data) {
+    onSearch(data, this.state.filter, this.props.location);
   }
-  onSearchByTimeAndUser() {
-    console.log("search by date and userrrrrrrrrrrrrrrrrrrr");
-    const path = this.props.location.pathname;
-    let page = path.split("/posts/")[1];
-    if (page === "") {
-      page = 1;
-    }
-
-    const users_id = [];
-    console.log();
-    this.state.selectedUsers.forEach(user => users_id.push(user.value));
-    this.props.postByTimeAndUsers(
-      page,
-      users_id,
-      this.state.startDate.getTime(),
-      this.state.endDate.getTime()
-    );
-  }
-
-  onFilterItemSelect(e) {
-    this.setState({
-      filter: e.target.name
-    });
-  }
-  filterComponent() {
-    const filter = this.state.filter;
-    if (filter === "date") {
-      return <div />;
-    } else if (filter === "name") {
-      return <div>name</div>;
-    } else if (filter === "label") {
-      return <div>label</div>;
-    } else {
-      return null;
-    }
-  }
-
-  onUserSelect = selectedUsers => {
-    this.setState({ selectedUsers });
-    console.log(`Option selected:`, selectedUsers);
-  };
 
   render() {
     if (this.props.location.pathname === "/posts") {
@@ -200,12 +122,12 @@ class PostsTable extends Component {
     }
     console.log("page ", this.state.page);
 
-    // SOCKET IO
-    // so when new data is received the page will refresh automatically.
-    socket.on("posts/newData", value => {
-      console.log("new Data received", value.name);
-      this.refresh();
-    });
+    // // SOCKET IO
+    // // so when new data is received the page will refresh automatically.
+    // socket.on("posts/newData", value => {
+    //   console.log("new Data received", value.name);
+    //   refresh(this.state.page);
+    // });
 
     const columns = columnFactory(this.props, this.props.history);
 
@@ -217,27 +139,14 @@ class PostsTable extends Component {
           faDownload={eval(faDownload)}
           faFilter={eval(faFilter)}
           faSync={eval(faSync)}
-          refresh={this.refresh}
-          onFilterItemSelect={this.onFilterItemSelect}
+          refresh={triggerRefresh(9098)}
+          filter={this.onFilterItemSelect}
         />
-
         <SearchPostFilterParameters
-          filter={this.state.filter}
-          startDate2={this.state.startDate}
-          endDate2={this.state.endDate}
-          onSearch={this.onSearchByDate}
-          onStartDate2={this.onStartDateChange}
-          onEndDate2={this.onEndDateChange}
-          icon={eval(faSearch)}
-          users={this.state.users}
-          selectedUsersUsernameFilter={this.state.selectedUsers}
-          onUserSelect={this.onUserSelect}
-          startDateUsernameFilter={this.state.startDate}
-          endDateUsernameFilter={this.state.endDate}
-          onSearchUsernameFilter={this.onSearchByDate}
-          onStartDateUsernameFilter={this.onStartDateChange}
-          onEndDateUsernameFilter={this.onEndDateChange}
-          onSearchFinalUsernameFilter={this.onSearchByTimeAndUser}
+          type={this.state.filter}
+          payload={data =>
+            this.onSearch(data, this.state.filter, this.props.location)
+          }
         />
         <Table
           data={this.state.posts}
@@ -256,14 +165,13 @@ PostsTable.propTypes = {
 
 const mapStateToProps = state => ({
   fetch: state.fetch,
-  users: state.users,
   refresh: state.refresh
 });
 
 const PostsTablePage = withRouter(
   connect(
     mapStateToProps,
-    { fetchPosts, postDelete, postByTime, fetchUsers, postByTimeAndUsers }
+    { fetchPosts, postDelete, triggerRefresh }
   )(PostsTable)
 );
 

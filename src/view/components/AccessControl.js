@@ -43,7 +43,7 @@ AccessControl.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  userRole: state.user.role
+  userRole: state.loginUser.role
 });
 
 const AccessControlWithRedux = connect(
