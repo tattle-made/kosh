@@ -17,7 +17,7 @@ const IS_VALID = "IS_VALID";
 const REFRESH = "REFRESH";
 const AUTHENTICATE = "AUTHENTICATE";
 const AUTHORIZE = "AUTHORIZE";
-
+const PURGE = "PURGE";
 export {
   ERROR,
   CONTENT_LOADING,
@@ -37,5 +37,6 @@ export {
   IS_VALID,
   REFRESH,
   AUTHENTICATE,
-  AUTHORIZE
+  AUTHORIZE,
+  PURGE
 };

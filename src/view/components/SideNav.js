@@ -50,11 +50,13 @@ class SideNav extends Component {
     console.log("menuItem");
     e.stopPropagation();
   }
+
   onUserOptionClick(e) {
     console.log("user options");
     this.props.logoutUser();
     e.stopPropagation();
   }
+
   mainContent(route) {
     if (route === "/posts" || route.includes("/posts/")) {
       return <PostsTable />;
@@ -70,6 +72,7 @@ class SideNav extends Component {
       return <PostsTableItem />;
     }
   }
+
   render() {
     console.log("sidenav route", this.props.location.pathname);
     return (

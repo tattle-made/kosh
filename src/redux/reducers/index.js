@@ -4,9 +4,10 @@ import dataReducer from "./dataReducer";
 import { users, loginUser, allUsers } from "./user";
 import selectedUser from "./selectedUser";
 import auth from "./auth";
-import isValid from "./isValid";
+// import isValid from "./isValid";
 import refresh from "./refresh";
 import posts from "./posts";
+
 export default combineReducers({
   error: errorReducer,
   fetch: dataReducer,
@@ -16,6 +17,5 @@ export default combineReducers({
   selectedUser,
   posts: posts,
   auth,
-  isValid,
   refresh
 });

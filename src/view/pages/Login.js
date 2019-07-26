@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import { IsEmpty } from "is-empty";
@@ -21,7 +21,7 @@ class LoginPage extends Component {
       username: "",
       password: "",
       errors: {},
-      isValid: false
+      auth: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -33,9 +33,9 @@ class LoginPage extends Component {
         errors: nextProps.errors
       });
     }
-    if (nextProps.isValid !== this.props.isValid) {
+    if (nextProps.auth !== this.props.auth) {
       this.setState({
-        isValid: nextProps.isValid
+        auth: nextProps.auth
       });
     }
   }
@@ -51,19 +51,21 @@ class LoginPage extends Component {
     };
     console.log("submitted");
     this.props.loginUser(userData);
-    if (true) {
-      // this.props.history.push("/posts");
-    }
+    // if (true) {
+    //   this.props.history.push("/posts");
+    //   // this.props.history.push("/posts");
+    // }
   }
 
-  redirect(isValid) {
-    if (isValid) {
+  redirect(auth) {
+    console.log("redirecting to post");
+    if (auth) {
       this.props.history.push("/posts");
     }
   }
 
   render() {
-    this.redirect(this.state.isValid);
+    this.redirect(this.state.auth);
     const errors = this.state.errors;
     console.log("eeeeeeeee", errors);
     return (
@@ -83,7 +85,7 @@ class LoginPage extends Component {
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  isValid: state.isValid
+  auth: state.auth.isAuthenticated
 });
 
 const Login = withRouter(

@@ -6,6 +6,7 @@ import {
   ERROR,
   AUTHENTICATE
 } from "./types";
+import { PURGE } from "redux-persist";
 import axios from "axios";
 import headers from "../../core-utils/headers";
 
@@ -34,7 +35,6 @@ const loginUser = userData => {
           );
 
           console.log("token", token);
-          dispatch(isValid(true));
           dispatch({
             type: ERROR,
             payload: null
@@ -75,19 +75,25 @@ const setCurrentUser = userData => {
   };
 };
 
-const isValid = boolValue => {
-  return {
-    type: IS_VALID,
-    payload: boolValue
-  };
-};
+// const isValid = boolValue => {
+//   return {
+//     type: IS_VALID,
+//     payload: boolValue
+//   };
+// };
 // logout action
 const logoutUser = () => {
   //remove token from local storage
   localStorage.removeItem("token");
+  localStorage.removeItem("persist:root");
   // delete auth header token.
   // remove current user
   return dispatch => {
+    dispatch({
+      type: PURGE,
+      key: "key",
+      result: () => console.log("logged out")
+    });
     dispatch(setCurrentUser({}));
     dispatch(toggleAuthentication(false));
   };
@@ -100,4 +106,4 @@ const toggleAuthentication = bool => {
   };
 };
 
-export { logoutUser, loginUser, setCurrentUser, isValid };
+export { logoutUser, loginUser, setCurrentUser };
