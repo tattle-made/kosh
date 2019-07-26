@@ -82,6 +82,7 @@ export function existsToken(token: string): Promise<ExistsResponse> {
         }
     })
         .then(data => {
+            console.log("auth db 00dasfsdsssssssss", data);
             if (data) {
                 const user_id = data.get("user_id") as number;
                 return new ExistsResponse(true, user_id);

@@ -52,8 +52,8 @@ app.use(function(req, res, next) {
 });
 app.use(Sentry.Handlers.requestHandler());
 app.use(express.json());
-// app.use(authenticate);
-// app.use(authorize);
+app.use(authenticate);
+app.use(authorize);
 
 // import logger from './logger-core';
 const postController = new PostController();
@@ -67,7 +67,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.get("/posts/:page", (req: Request, res: Response) => {
     const page = req.params.page || 1;
-
+    console.log("reqdddddddddddllllddddddddddddddddddddddd", req.headers);
     postController.getAll(page).then(posts => res.send(posts));
 });
 
@@ -167,7 +167,7 @@ app.get("/users/:page", (req: Request, res: Response) => {
     });
 });
 
-app.get("/userList", (req: Request, res: Response) => {
+app.get(/^\/userList\/?$/, (req: Request, res: Response) => {
     userController.getCompleteList().then(users => {
         res.send(users);
     });

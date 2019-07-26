@@ -11,21 +11,28 @@ export const authenticate = (req: Request, res: Response, next: Function) => {
         loginController
             .existsToken(token)
             .then(data => {
+                console.log("data000000000000000000 ", data);
                 if (data.status === true) {
                     const userId = data.userId;
                     res.locals.userId = userId;
                     console.log("hai user");
                     next();
                 } else {
-                    console.log("nhi hai bhai");
-                    res.status(401).json({ error: "authentication failed" });
+                    console.log("user nhi hai bhai");
+                    res.status(401).json({ message: "authentication failed" });
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log("auth middlware ", err);
+                res.status(501).json({
+                    message:
+                        "Unable to connect[ this error when unable to connect to database, to reproduce, try connecting without internet]"
+                });
+            });
     } else if (req.originalUrl === "/auth/login") {
         console.log("passed ");
         next();
     } else {
-        res.json({ error: "No token Provided" });
+        res.json({ message: "No token Provided" });
     }
 };
