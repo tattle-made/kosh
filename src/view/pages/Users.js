@@ -39,8 +39,7 @@ class UsersTable extends Component {
       users: [],
       page: 1,
       count: 0,
-      loading: true,
-      refresh: false
+      loading: true
     };
 
     this.refresh = this.refresh.bind(this);
@@ -109,14 +108,6 @@ class UsersTable extends Component {
         count: nextProps.users.count
       });
     }
-
-    // if (nextProps.refresh !== this.props.refresh) {
-    //   this.setState({
-    //     refresh: nextProps.refresh
-    //   });
-    //   console.log("refreshing");
-    //   this.refresh();
-    // }
   }
   refresh() {
     console.log("refreshing");
@@ -212,13 +203,8 @@ UsersTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  users: state.users,
-  refresh: state.refresh
+  users: state.users
 });
-
-const prev = {
-  width: "300px"
-};
 
 const UsersTablePage = withRouter(
   connect(

@@ -17,8 +17,6 @@ const actionIconsFormatter = (cell, row, rowIndex, extraData) => {
           icon={faTrashAlt}
           className="mr-5"
           onClick={() => {
-            // extraData[0][0].postDelete(row.id, this.state.page);
-            console.log("extradata ", extraData[0][0]);
             data.postDelete(row.id, page);
           }}
         />

@@ -46,12 +46,11 @@ class PostsTable extends Component {
     this.state = {
       posts: [],
       page: 1,
-      totalPages: 5,
       count: 10,
       loading: true,
-      refresh: false,
       filter: ""
     };
+    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
@@ -71,7 +70,7 @@ class PostsTable extends Component {
     // so when new data is received the page will refresh automatically.
     socket.on("posts/newData", value => {
       console.log("new Data received", value.name);
-      triggerRefresh(54454);
+      this.refresh();
     });
   }
 
@@ -81,31 +80,14 @@ class PostsTable extends Component {
       this.setState({
         posts: nextProps.posts.posts,
         page: nextProps.posts.page,
-        // totalPages: nextProps.posts.totalPages,
         count: nextProps.posts.count
       });
-    }
-
-    // if (nextProps.refresh !== this.props.refresh) {
-    //   // this.setState({
-    //   //   refresh: nextProps.refresh
-    //   // });
-    //   console.log("ander hai bhia refresh props");
-    //   this.props.fetchPosts(this.state.page);
-    //   // refresh(this.state.page);
-    // }
-    if (nextProps.refresh !== this.props.refresh) {
-      this.setState({
-        refresh: nextProps.refresh
-      });
-      console.log("refreshing");
-      this.refresh();
     }
   }
 
   refresh() {
     console.log("refreshing");
-    this.props.fetchPosts();
+    this.props.fetchPosts(this.state.page);
   }
 
   //TODO : change to this life cycle method.
@@ -164,7 +146,7 @@ class PostsTable extends Component {
           faDownload={eval(faDownload)}
           faFilter={eval(faFilter)}
           faSync={eval(faSync)}
-          refresh={triggerRefresh(9098)}
+          refresh={this.refresh}
           filter={filterType => this.onFilterItemSelect(filterType)}
         />
         <SearchPostFilterParameters
@@ -189,14 +171,13 @@ PostsTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  posts: state.posts,
-  refresh: state.refresh
+  posts: state.posts
 });
 
 const PostsTablePage = withRouter(
   connect(
     mapStateToProps,
-    { fetchPosts, postByTime, postByTimeAndUsers, postDelete, triggerRefresh }
+    { fetchPosts, postByTime, postByTimeAndUsers, postDelete }
   )(PostsTable)
 );
 
