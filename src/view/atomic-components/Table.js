@@ -109,7 +109,9 @@ class Table extends Component {
           // rowEvents={rowEvents}
           // loading={this.state.loading} //only loading is true, react-bootstrap-table will render overlay
           // overlay={overlayFactory()}
-          onTableChange={() => {}}
+          onTableChange={() => {
+            console.log("table change hua hai ,,.s.");
+          }}
         />
       </div>
     );

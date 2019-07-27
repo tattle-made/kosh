@@ -46,20 +46,28 @@ const createUser = userData => {
   };
 };
 
-const userDelete = (id, refresh) => {
-  console.log("inside delete action", refresh);
+const userDelete = (id, page) => {
+  console.log("inside delete action and page", page);
   const url = `http://localhost:8080/api/users/delete/${id}`;
   const token = localStorage.getItem("token");
-  const request = axios.post(url, {
+  const request = axios.delete(url, {
     headers: {
       token
     }
   });
   return dispatch => {
-    dispatch({
-      type: USER_DELETE
-    });
-    dispatch(triggerRefresh(refresh));
+    request
+      .then(res => {
+        console.log(res);
+        dispatch({
+          type: USER_DELETE,
+          payload: res.data
+        });
+        dispatch(fetchUsers(page));
+      })
+      .catch(err => console.log(err));
+
+    // dispatch(triggerRefresh(refresh));
   };
 };
 

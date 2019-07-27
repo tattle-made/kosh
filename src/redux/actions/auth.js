@@ -63,6 +63,7 @@ const loginUser = userData => {
         } else {
           message = "Server Down";
         }
+        dispatch(toggleAuthentication(false));
         dispatch({
           type: ERROR,
           payload: { message }
@@ -110,4 +111,4 @@ const toggleAuthentication = bool => {
   };
 };
 
-export { logoutUser, loginUser, setCurrentUser };
+export { logoutUser, loginUser, setCurrentUser, toggleAuthentication };

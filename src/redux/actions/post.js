@@ -1,20 +1,31 @@
 import { POST_DELETE, POSTS } from "./types";
 import axios from "axios";
 import { triggerRefresh, error } from "./utils";
+import { toggleAuthentication } from "./auth";
 
-const postDelete = (id, refresh) => {
-  const url = `http://localhost:8080/api/posts/${id}`;
+const postDelete = (id, page) => {
+  const url = `http://localhost:8080/api/posts/delete/${id}`;
   const token = localStorage.getItem("token");
-  const request = axios.post(url, {
+  console.log("token delete post and url", token, url);
+  const request = axios.delete(url, {
     headers: {
       token
     }
   });
+
   return dispatch => {
-    dispatch({
-      type: POST_DELETE
-    });
-    dispatch(triggerRefresh(refresh));
+    request
+      .then(res => {
+        console.log("res ", res);
+        dispatch({
+          type: POST_DELETE,
+          payload: res.data
+        });
+        dispatch(fetchPosts(page));
+      })
+      .catch(err => console.log(err));
+
+    // dispatch(triggerRefresh(refresh));
   };
 };
 
@@ -99,6 +110,7 @@ const fetchPosts = page => {
       })
       .catch(err => {
         console.log(err.response);
+        dispatch(toggleAuthentication(false));
         dispatch(error(err.response.data));
       });
   };

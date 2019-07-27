@@ -4,7 +4,9 @@ import AccessControl from "../../components/AccessControl";
 import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 import PreviewFormatterTable from "../../components/PreviewFormatterTable";
 
-const actionIconsFormatter = (cell, row, rowIndex, props) => {
+const actionIconsFormatter = (cell, row, rowIndex, extraData) => {
+  const data = extraData[0][0];
+  const page = extraData[1];
   return (
     <div>
       <AccessControl
@@ -15,9 +17,9 @@ const actionIconsFormatter = (cell, row, rowIndex, props) => {
           icon={faTrashAlt}
           className="mr-5"
           onClick={() => {
-            props.postDelete(row.id, row.id);
-            console.log("delete");
-            // this.refresh();
+            // extraData[0][0].postDelete(row.id, this.state.page);
+            console.log("extradata ", extraData[0][0]);
+            data.postDelete(row.id, page);
           }}
         />
       </AccessControl>

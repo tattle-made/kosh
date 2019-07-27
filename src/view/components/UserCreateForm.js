@@ -11,10 +11,12 @@ class UserCreateForm extends Component {
       role: "subscriber",
       password: ""
     };
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   onInputChange(e) {
-    console.log("e ", e);
+    // console.log("e ", e);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -43,7 +45,7 @@ class UserCreateForm extends Component {
               type="text"
               placeholder="Username"
               value={this.state.username}
-              onChange={this.state.onInputChange}
+              onChange={this.onInputChange}
             />
           </Form.Group>
           <Form.Group controlId="email">

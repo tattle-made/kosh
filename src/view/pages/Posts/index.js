@@ -151,7 +151,10 @@ class PostsTable extends Component {
     //   refresh(this.state.page);
     // });
 
-    const columns = columnFactory(this.props, this.props.history);
+    const columns = columnFactory(
+      [this.props, this.state.page],
+      this.props.history
+    );
 
     return (
       <div className="container">

@@ -48,7 +48,7 @@ class UsersTable extends Component {
   }
 
   actionIconsFormatter(cell, row, rowIndex, props) {
-    console.log("props actonformatter", props);
+    // console.log("props actonformatter", props);
     return (
       <div>
         <AccessControl
@@ -60,7 +60,8 @@ class UsersTable extends Component {
             icon={faTrashAlt}
             className="mr-2"
             onClick={() => {
-              props.userDelete(row.id, row.id);
+              props.userDelete(row.id, this.state.page);
+              // this.refresh();
             }}
           />
         </AccessControl>
@@ -109,17 +110,17 @@ class UsersTable extends Component {
       });
     }
 
-    if (nextProps.refresh !== this.props.refresh) {
-      this.setState({
-        refresh: nextProps.refresh
-      });
-      console.log("refreshing");
-      this.refresh();
-    }
+    // if (nextProps.refresh !== this.props.refresh) {
+    //   this.setState({
+    //     refresh: nextProps.refresh
+    //   });
+    //   console.log("refreshing");
+    //   this.refresh();
+    // }
   }
   refresh() {
     console.log("refreshing");
-    this.props.fetchUsers();
+    this.props.fetchUsers(this.state.page);
   }
 
   //TODO : change this life cycle method.
@@ -143,6 +144,7 @@ class UsersTable extends Component {
   // }
 
   render() {
+    console.log("renderrrrrrrrrrrrrrrrrrring user page");
     if (this.props.location.pathname === "/users") {
       return <Redirect to="/users/1" />;
     }

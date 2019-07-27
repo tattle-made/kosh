@@ -51,10 +51,10 @@ function App() {
               <PrivateRoute exact path="/users/:page" component={SideNav} />
             </Switch>
             <Switch>
-              <PrivateRoute exact path={"/posts"} component={SideNav} />
+              <PrivateRoute exact path="/posts" component={SideNav} />
             </Switch>
             <Switch>
-              <PrivateRoute exact path={"/posts/:page"} component={SideNav} />
+              <PrivateRoute exact path="/posts/:page" component={SideNav} />
             </Switch>
             <Switch>
               <PrivateRoute exact path="/post/:id" component={SideNav} />

@@ -3,7 +3,12 @@ import { ADMIN, SUBSCRIBER, EDITOR } from "./roleTypes";
 const getUserPermissions = role => {
   switch (role) {
     case ADMIN:
-      return ["post:canDelete", "post:canUpload", "user:canView"];
+      return [
+        "post:canDelete",
+        "post:canUpload",
+        "user:canView",
+        "user:canDelete"
+      ];
     case EDITOR:
       return ["user:canView"];
     case SUBSCRIBER:

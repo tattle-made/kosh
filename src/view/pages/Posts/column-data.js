@@ -1,7 +1,7 @@
 import { textFilter } from "react-bootstrap-table2-filter";
 import { actionIconsFormatter, previewFormatter } from "./column-formatter";
 
-const column = (props, history) => {
+const column = (extraData, history) => {
   return [
     {
       dataField: "type",
@@ -11,7 +11,7 @@ const column = (props, history) => {
       dataField: "filename",
       text: "Description",
       formatter: previewFormatter,
-      formatExtraData: props.posts,
+      formatExtraData: extraData[0].posts,
       events: {
         onClick: (e, column, columnIndex, row, rowIndex) => {
           const url = `/post/${row.id}`;
@@ -29,7 +29,7 @@ const column = (props, history) => {
       dataField: "actions",
       text: "Actions",
       formatter: actionIconsFormatter,
-      formatExtraData: props
+      formatExtraData: [extraData]
     }
   ];
 };
