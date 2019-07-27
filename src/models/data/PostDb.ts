@@ -89,6 +89,7 @@ export function getByTime(page: number, d1: string, d2: string) {
         order: [["createdAt", "DESC"]]
     })
         .then(result => {
+            console.log("result inside db  fdsdfaaff", result);
             return {
                 page: page,
                 count: result.count,

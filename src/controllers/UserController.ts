@@ -81,7 +81,7 @@ export class UserController extends _BaseController {
             if (route.includes("/users/update")) {
                 return ["editor", "admin"];
             }
-            return ["admin"];
+            return ["admin", "subscriber", "editor"];
         }
     }
 

@@ -19,12 +19,18 @@ const application = new Application();
 
 export const authorize = (req: Request, res: Response, next: Function) => {
     console.log("req ", res.locals.userId);
+    console.log("url inside authorizeeeeeeeeeee", req.originalUrl);
     // console.log("route ", req.originalUrl);
     // console.log("method ", req.method);
     // console.log(res.locals);
-    if (req.originalUrl === "/auth/login") {
+    if (req.originalUrl === "/api/auth/login") {
+        console.log("login route hai", req.originalUrl);
         return next();
     }
+    console.log(
+        "token autorizzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+        req.headers["token"]
+    );
     application.addToRouteToControllerMap(req.originalUrl, userController);
     userController
         .getUserRole(res.locals.userId)

@@ -62,6 +62,7 @@ export function createOrUpdateTokenForUserIdToken(
         { returning: true }
     )
         .then(val => {
+            console.log("create or update ");
             return new ExistsResponseToken(true, userId, token);
         })
         .catch(err => console.log(err));

@@ -6,8 +6,15 @@ const loginController = new LoginController();
 export const authenticate = (req: Request, res: Response, next: Function) => {
     const token = req.headers["token"];
     // console.log("req ", req);
-    console.log("token ", token);
-    if (token) {
+    if (req.originalUrl === "/api/auth/login") {
+        console.log("passed ");
+        next();
+    } else if (token) {
+        console.log(
+            "authenticaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            token,
+            req.body.originalUrl
+        );
         loginController
             .existsToken(token)
             .then(data => {
@@ -29,9 +36,6 @@ export const authenticate = (req: Request, res: Response, next: Function) => {
                         "Unable to connect[ this error when unable to connect to database, to reproduce, try connecting without internet]"
                 });
             });
-    } else if (req.originalUrl === "/auth/login") {
-        console.log("passed ");
-        next();
     } else {
         res.json({ message: "No token Provided" });
     }

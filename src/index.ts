@@ -65,13 +65,13 @@ app.get("/", (req: Request, res: Response) => {
     res.send("pong");
 });
 
-app.get("/posts/:page", (req: Request, res: Response) => {
+app.get("/api/posts/:page", (req: Request, res: Response) => {
     const page = req.params.page || 1;
     console.log("reqdddddddddddllllddddddddddddddddddddddd", req.headers);
     postController.getAll(page).then(posts => res.send(posts));
 });
 
-app.post("/postByTime/:page", (req: Request, res: Response) => {
+app.post("/api/postByTime/:page", (req: Request, res: Response) => {
     const page = req.params.page || 1;
     const { startDate, endDate } = req.body;
     const d1 = new Date(startDate).toISOString();
@@ -79,12 +79,13 @@ app.post("/postByTime/:page", (req: Request, res: Response) => {
     postController
         .getByTime(page, d1, d2)
         .then(posts => {
+            console.log("post indexxxxxxxxxxx", posts);
             res.send(posts);
         })
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/postByTimeAndUsers/:page", (req: Request, res: Response) => {
+app.post("/api/postByTimeAndUsers/:page", (req: Request, res: Response) => {
     const page = req.params.page || 1;
     const { users_id, startDate, endDate } = req.body;
     console.log(req.body);
@@ -104,7 +105,7 @@ app.post("/postByTimeAndUsers/:page", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/posts", (req: Request, res: Response) => {
+app.post("/api/posts", (req: Request, res: Response) => {
     const post = new PostCreateRequest(req.body);
     console.log("post received ", post);
     const io = req.app.get("socketio");
@@ -117,21 +118,21 @@ app.post("/posts", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.get("/posts/:id", (req: Request, res: Response) => {
+app.get("/api/posts/:id", (req: Request, res: Response) => {
     const { id } = req.params;
     postController.get(id).then(post => res.send(post));
 });
 
-app.post("/posts/:id", (req: Request, res: Response) => {
+app.post("/api/posts/:id", (req: Request, res: Response) => {
     const { id } = req.params;
     postController.delete(id).then(post => res.send(post));
 });
 
-app.get("/search", (req: Request, res: Response) => {
+app.get("/api/search", (req: Request, res: Response) => {
     res.send(searchController.search(req.query));
 });
 
-app.post("/auth/login", (req: Request, res: Response) => {
+app.post("/api/auth/login", (req: Request, res: Response) => {
     const { username, password } = req.body;
     const { errors, isValid } = loginValidator(req.body);
     console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrror sssssssss ", errors);
@@ -144,36 +145,37 @@ app.post("/auth/login", (req: Request, res: Response) => {
             res.send(response);
         })
         .catch(err => console.log(err));
+    console.log("login sucessssssssssssss");
     // todo : fix loginResponse
     // .then(response => res.send(new LoginResponse(response).get()));
 });
 
-app.post("/auth/logout", (req: Request, res: Response) => {
+app.post("/api/auth/logout", (req: Request, res: Response) => {
     const { token } = req.body;
     loginController.logout(token).then(response => res.send(response));
 });
 
-app.get("/user/:id", (req: Request, res: Response) => {
+app.get("/api/user/:id", (req: Request, res: Response) => {
     const id = req.params.id;
     userController.getById(id).then(user => {
         res.send(user);
     });
 });
 
-app.get("/users/:page", (req: Request, res: Response) => {
+app.get("/api/users/:page", (req: Request, res: Response) => {
     const page = req.params.page || 1;
     userController.getAll(page).then(users => {
         res.send(users);
     });
 });
 
-app.get(/^\/userList\/?$/, (req: Request, res: Response) => {
+app.get("/api/userList", (req: Request, res: Response) => {
     userController.getCompleteList().then(users => {
         res.send(users);
     });
 });
 
-app.post("/users/create", (req: Request, res: Response) => {
+app.post("/api/users/create", (req: Request, res: Response) => {
     const user = new UserCreateRequest(req.body);
     userController
         .create(user)
@@ -181,7 +183,7 @@ app.post("/users/create", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/users/update/:id", (req: Request, res: Response) => {
+app.post("/api/users/update/:id", (req: Request, res: Response) => {
     const user = new UserCreateRequest(req.body);
     const { id } = req.params;
     userController
@@ -190,7 +192,7 @@ app.post("/users/update/:id", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/users/delete/:id", (req: Request, res: Response) => {
+app.post("/api/users/delete/:id", (req: Request, res: Response) => {
     const { id } = req.params;
     userController
         .delete(id)

@@ -22,8 +22,11 @@ export class LoginController extends _BaseController {
         return exists(username, password)
             .then(result => {
                 if (result.status) {
+                    console.log("exists karta hai bhaiya", result);
+                    console.log("user id is ", result.userId);
                     return createOrUpdateTokenForUserIdToken(result.userId);
                 } else {
+                    console.log("user not exists ", result);
                     return new ExistsResponseToken(false, -1, "");
                 }
             })
