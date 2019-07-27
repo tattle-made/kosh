@@ -149,7 +149,7 @@ class SideNav extends Component {
 
 const SideNavBar = withRouter(
   connect(
-    () => {},
+    null,
     { logoutUser }
   )(SideNav)
 );

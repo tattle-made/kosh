@@ -52,7 +52,7 @@ class UsersTable extends Component {
     return (
       <div>
         <AccessControl
-          allowedPermissions={["user:canView"]}
+          allowedPermissions={["user:canDelete"]}
           text={() => this.dothis()}
           renderNoAccess={() => console.log("u dont have permission")}
         >
@@ -64,14 +64,19 @@ class UsersTable extends Component {
             }}
           />
         </AccessControl>
-        <FontAwesomeIcon
-          icon={faEdit}
-          className="mr-2"
-          onClick={() => {
-            props.selectedUser(row);
-            props.history.push(`/users/update/${row.id}`);
-          }}
-        />
+        <AccessControl
+          allowedPermissions={["user:canView"]}
+          renderNoAccess={() => console.log("u dont have permission")}
+        >
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="mr-2"
+            onClick={() => {
+              props.selectedUser(row);
+              props.history.push(`/users/update/${row.id}`);
+            }}
+          />
+        </AccessControl>
         <FontAwesomeIcon icon={faCheck} />
       </div>
     );
@@ -108,6 +113,7 @@ class UsersTable extends Component {
       this.setState({
         refresh: nextProps.refresh
       });
+      console.log("refreshing");
       this.refresh();
     }
   }
@@ -140,6 +146,7 @@ class UsersTable extends Component {
     if (this.props.location.pathname === "/users") {
       return <Redirect to="/users/1" />;
     }
+    console.log("page ", this.state.page);
     const columns = [
       {
         dataField: "username",

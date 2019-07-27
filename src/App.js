@@ -15,6 +15,7 @@ import LoginCard from "./view/pages/Login";
 import PrivateRoute from "./view/components/PrivateRoute";
 
 import { PersistGate } from "redux-persist/integration/react";
+import { connect } from "net";
 
 function App() {
   return (
@@ -26,9 +27,9 @@ function App() {
               <Route exact path="/" component={LoginCard} />
             </Switch>
 
-            <Switch>
+            {/* <Switch>
               <Route exact path="/login" component={LoginCard} />
-            </Switch>
+            </Switch> */}
             <Route path="/" component={FooterSite} />
             <Switch>
               <PrivateRoute exact path="/cards" component={Cards} />
@@ -82,4 +83,9 @@ function App() {
   );
 }
 
+// const mapStateToProps = ({
+//   state
+// })
+
+// const AppMain = connect(mapStateToProps,{})(App);
 export default App;

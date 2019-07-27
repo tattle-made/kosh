@@ -1,6 +1,5 @@
 import { ERROR, CONTENT_LOADING, POSTS, REFRESH } from "./types";
 import axios from "axios";
-import headers from "../../core-utils/headers";
 
 const error = message => {
   return {

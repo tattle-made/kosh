@@ -63,7 +63,9 @@ class PostsTable extends Component {
       page = 1;
     }
     console.log("insidde mount page ", page);
-    this.props.fetchPosts(page);
+    setTimeout(() => {
+      this.props.fetchPosts(page);
+    }, 1000);
 
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
@@ -74,23 +76,36 @@ class PostsTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.fetch !== this.props.fetch) {
+    console.log("will recieve new props", nextProps);
+    if (nextProps.posts !== this.props.posts) {
       this.setState({
-        posts: nextProps.fetch.posts,
-        page: nextProps.fetch.page,
-        totalPages: nextProps.fetch.totalPages,
-        count: nextProps.fetch.count
+        posts: nextProps.posts.posts,
+        page: nextProps.posts.page,
+        // totalPages: nextProps.posts.totalPages,
+        count: nextProps.posts.count
       });
     }
 
+    // if (nextProps.refresh !== this.props.refresh) {
+    //   // this.setState({
+    //   //   refresh: nextProps.refresh
+    //   // });
+    //   console.log("ander hai bhia refresh props");
+    //   this.props.fetchPosts(this.state.page);
+    //   // refresh(this.state.page);
+    // }
     if (nextProps.refresh !== this.props.refresh) {
-      // this.setState({
-      //   refresh: nextProps.refresh
-      // });
-      console.log("ander hai bhia refresh props");
-      this.props.fetchPosts(this.state.page);
-      // refresh(this.state.page);
+      this.setState({
+        refresh: nextProps.refresh
+      });
+      console.log("refreshing");
+      this.refresh();
     }
+  }
+
+  refresh() {
+    console.log("refreshing");
+    this.props.fetchPosts();
   }
 
   //TODO : change to this life cycle method.
@@ -114,7 +129,7 @@ class PostsTable extends Component {
   // }
 
   onSearch(data) {
-    onSearch(data, this.state.filter, this.props.location);
+    onSearch(data, this.state.filter, this.props);
   }
 
   onFilterItemSelect(filter) {
@@ -171,14 +186,14 @@ PostsTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  fetch: state.fetch,
+  posts: state.posts,
   refresh: state.refresh
 });
 
 const PostsTablePage = withRouter(
   connect(
     mapStateToProps,
-    { fetchPosts, postDelete, triggerRefresh }
+    { fetchPosts, postByTime, postByTimeAndUsers, postDelete, triggerRefresh }
   )(PostsTable)
 );
 

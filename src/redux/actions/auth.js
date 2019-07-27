@@ -8,25 +8,29 @@ import {
 } from "./types";
 import { PURGE } from "redux-persist";
 import axios from "axios";
-import headers from "../../core-utils/headers";
+import { fetchPosts } from "./post";
 
 const loginUser = userData => {
-  const request = axios.post("http://localhost:8080/auth/login", userData);
+  const request = axios.post("http://localhost:8080/api/auth/login", userData);
   return dispatch => {
     request
       .then(res => {
-        console.log("headers", headers);
         console.log("dispatch1 ", dispatch);
         const auth = res.data.auth;
+
         if (auth) {
           dispatch(toggleAuthentication(true));
           const { userId, token } = res.data;
           // storing the token in local storage
 
           localStorage.setItem("token", token);
+          console.log("token before set itemmmmmmmmmm", token);
+          const value = localStorage.getItem("token");
+          console.log("token afer gettttttt itemmmmmmmmmm", value);
+          // dispatch(fetchPosts(1));
 
           const userDataRequest = axios.get(
-            `http://localhost:8080/user/${userId}`,
+            `http://localhost:8080/api/user/${userId}`,
             {
               headers: {
                 token
@@ -42,7 +46,7 @@ const loginUser = userData => {
           userDataRequest.then(res => {
             console.log("dispatch2 ", dispatch);
             console.log("user data", res.data);
-            dispatch(setCurrentUser(userData));
+            dispatch(setCurrentUser(res.data));
           });
         } else {
           dispatch({

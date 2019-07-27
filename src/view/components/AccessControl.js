@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import getUserPermissions from "../../core-utils/permissions";
+import { getUserPermissions } from "../../core-utils/permissions";
 
 class AccessControl extends Component {
   checkPermissions(userPermissions, allowedPermissions) {

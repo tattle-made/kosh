@@ -4,7 +4,7 @@ const loginUserInitialState = {
   id: "",
   username: "",
   email: "",
-  role: "ADMIN",
+  role: "",
   team: ""
 };
 

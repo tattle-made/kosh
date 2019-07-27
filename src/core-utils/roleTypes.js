@@ -1,4 +1,5 @@
-const ADMIN = "ADMIN";
-const SUBSCRIBER = "SUBSCRIBER";
+const ADMIN = "admin";
+const SUBSCRIBER = "subscriber";
+const EDITOR = "editor";
 
-export { ADMIN, SUBSCRIBER };
+export { ADMIN, SUBSCRIBER, EDITOR };

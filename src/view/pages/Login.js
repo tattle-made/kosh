@@ -58,14 +58,14 @@ class LoginPage extends Component {
   }
 
   redirect(auth) {
-    console.log("redirecting to post");
+    console.log("redirecting to post and auth is ", auth);
     if (auth) {
       this.props.history.push("/posts");
     }
   }
 
   render() {
-    this.redirect(this.state.auth);
+    this.redirect(this.props.auth);
     const errors = this.state.errors;
     console.log("eeeeeeeee", errors);
     return (

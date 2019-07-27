@@ -8,7 +8,7 @@ const actionIconsFormatter = (cell, row, rowIndex, props) => {
   return (
     <div>
       <AccessControl
-        allowedPermissions={["user:canView"]}
+        allowedPermissions={["user:canDelete"]}
         renderNoAccess={() => console.log("u dont have permission")}
       >
         <FontAwesomeIcon

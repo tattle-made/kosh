@@ -4,14 +4,14 @@ import {
   fetchPosts
 } from "../../../redux/actions/post";
 
-const onSearchByDate = (location, startDate, endDate, page) => {
+const onSearchByDate = (props, startDate, endDate, page) => {
   console.log("search by date");
 
-  postByTime(page, startDate.getTime(), endDate.getTime());
+  props.postByTime(page, startDate.getTime(), endDate.getTime());
 };
 
 const onSearchByTimeAndUser = (
-  location,
+  props,
   selectedUsers,
   startDate,
   endDate,
@@ -22,7 +22,12 @@ const onSearchByTimeAndUser = (
   const users_id = [];
   console.log();
   selectedUsers.forEach(user => users_id.push(user.value));
-  postByTimeAndUsers(page, users_id, startDate.getTime(), endDate.getTime());
+  props.postByTimeAndUsers(
+    page,
+    users_id,
+    startDate.getTime(),
+    endDate.getTime()
+  );
 };
 
 // const refresh = page => {
@@ -30,9 +35,9 @@ const onSearchByTimeAndUser = (
 //   fetchPosts(page);
 // };
 
-const onSearch = (data, filter, location) => {
+const onSearch = (data, filter, props) => {
   // console.log("final data", data);
-  const path = this.props.location.pathname;
+  const path = props.location.pathname;
   let page = path.split("/posts/")[1];
   if (page === "") {
     page = 1;
@@ -40,9 +45,9 @@ const onSearch = (data, filter, location) => {
 
   const { username, from, to } = data;
   if (filter === "date") {
-    return onSearchByDate(location, from, to, page);
+    return onSearchByDate(props, from, to, page);
   } else if (filter === "name") {
-    return onSearchByTimeAndUser(location, username, from, username, page);
+    return onSearchByTimeAndUser(props, username, from, to, page);
   } else {
     return null;
   }

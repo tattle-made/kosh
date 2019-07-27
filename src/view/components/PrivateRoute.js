@@ -3,21 +3,34 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../atomic-components/Spinner";
+import { getRoutePermissions } from "../../core-utils/permissions";
+import PermissionDenied from "./PermissionDenied";
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+const PrivateRoute = ({ component: Component, auth, userRole, ...rest }) => {
+  let authorized = false;
+  let allowedRoles = getRoutePermissions(rest.path);
+  // if (allowedRoles.included(userRole)) {
+  //   authorized = true;
+  // }
+  console.log("path ", rest.path);
+  console.log("user role", userRole);
+  console.log("allowed roles ", allowedRoles);
+  if (allowedRoles.includes(userRole)) {
+    authorized = true;
+  }
   return (
     <Route
       {...rest}
       render={props =>
         auth.isAuthenticated === true ? (
-          auth.isAuthorized === true ? (
+          authorized === true ? (
             <Component {...props} />
           ) : (
             // <component />
-            <Spinner />
+            <PermissionDenied />
           )
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/" />
         )
       }
     />
@@ -29,9 +42,13 @@ PrivateRoute.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  userRole: state.loginUser.role
 });
 
-const PrivateRouteItem = connect(mapStateToProps)(PrivateRoute);
+const PrivateRouteItem = connect(
+  mapStateToProps,
+  {}
+)(PrivateRoute);
 
 export default PrivateRouteItem;

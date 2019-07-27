@@ -1,5 +1,4 @@
 import {
-  SET_USER,
   GET_USER,
   USER_DELETE,
   ERROR,
@@ -9,15 +8,7 @@ import {
   USERS
 } from "./types";
 import axios from "axios";
-import headers from "../../core-utils/headers";
 import { triggerRefresh } from "./utils";
-
-const setUser = role => {
-  return {
-    type: SET_USER,
-    payload: role
-  };
-};
 
 const getUser = () => {
   return {
@@ -28,11 +19,15 @@ const getUser = () => {
 const createUser = userData => {
   console.log("create user action", userData);
   const token = localStorage.getItem("token");
-  const request = axios.post("http://localhost:8080/users/create", userData, {
-    headers: {
-      token
+  const request = axios.post(
+    "http://localhost:8080/api/users/create",
+    userData,
+    {
+      headers: {
+        token
+      }
     }
-  });
+  );
   return dispatch => {
     request
       .then(res => {
@@ -53,7 +48,7 @@ const createUser = userData => {
 
 const userDelete = (id, refresh) => {
   console.log("inside delete action", refresh);
-  const url = `http://localhost:8080/users/delete/${id}`;
+  const url = `http://localhost:8080/api/users/delete/${id}`;
   const token = localStorage.getItem("token");
   const request = axios.post(url, {
     headers: {
@@ -76,7 +71,7 @@ const selectedUser = userData => {
 };
 
 const updateUser = (id, userData) => {
-  const url = `http://localhost:8080/users/update/${id}`;
+  const url = `http://localhost:8080/api/users/update/${id}`;
   const token = localStorage.getItem("token");
   console.log("inside action", userData);
   const request = axios.post(url, userData, {
@@ -90,7 +85,7 @@ const updateUser = (id, userData) => {
 };
 
 const fetchAllUsers = () => {
-  const url = "http://localhost:8080/userList";
+  const url = "http://localhost:8080/api/userList";
   const token = localStorage.getItem("token");
   const request = axios.get(url, {
     headers: {
@@ -107,10 +102,15 @@ const fetchAllUsers = () => {
       })
       .catch(err => console.log(err));
   };
+  // return {
+  //   type: ALL_USERS,
+  //   payload: []
+  // };
 };
 
 const fetchUsers = page => {
-  const url = `http://localhost:8080/users/${page}`;
+  console.log("action fetch users page ", page);
+  const url = `http://localhost:8080/api/users/${page}`;
   const token = localStorage.getItem("token");
   const request = axios.get(url, {
     headers: {
@@ -130,7 +130,6 @@ const fetchUsers = page => {
 };
 
 export {
-  setUser,
   getUser,
   createUser,
   userDelete,
