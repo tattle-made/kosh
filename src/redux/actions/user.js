@@ -8,7 +8,7 @@ import {
   USERS
 } from "./types";
 import axios from "axios";
-import { triggerRefresh } from "./utils";
+import { error } from "./utils";
 
 const getUser = () => {
   return {
@@ -37,12 +37,7 @@ const createUser = userData => {
         //   payload: res.data
         // });
       })
-      .catch(err =>
-        dispatch({
-          type: ERROR,
-          payload: err
-        })
-      );
+      .catch(err => dispatch(error(err.response.data)));
   };
 };
 
@@ -65,7 +60,9 @@ const userDelete = (id, page) => {
         });
         dispatch(fetchUsers(page));
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        dispatch(error(err.response.data));
+      });
 
     // dispatch(triggerRefresh(refresh));
   };
@@ -108,7 +105,9 @@ const fetchAllUsers = () => {
           payload: res.data
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        dispatch(error(err.response.data));
+      });
   };
   // return {
   //   type: ALL_USERS,
@@ -133,7 +132,9 @@ const fetchUsers = page => {
           payload: res.data
         });
       })
-      .catch(err => console.log("fetch Users ", err));
+      .catch(err => {
+        dispatch(error(err.response.data));
+      });
   };
 };
 

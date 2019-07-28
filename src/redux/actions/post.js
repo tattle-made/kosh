@@ -24,7 +24,7 @@ const postDelete = (id, page) => {
         dispatch(fetchPosts(page));
       })
       .catch(err => {
-        dispatch(error(err.respnse));
+        dispatch(error(err.respnse.data));
       });
 
     // dispatch(triggerRefresh(refresh));
@@ -55,7 +55,9 @@ const postByTime = (page, startDate, endDate) => {
           payload: res.data
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        dispatch(error(err.response.data));
+      });
   };
 };
 
@@ -83,7 +85,9 @@ const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
           payload: res.data
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        dispatch(error(err.response.data));
+      });
   };
 };
 
