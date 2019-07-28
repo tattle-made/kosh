@@ -1,6 +1,6 @@
 import { POST_DELETE, POSTS } from "./types";
 import axios from "axios";
-import { triggerRefresh, error } from "./utils";
+import { error } from "./utils";
 import { toggleAuthentication } from "./auth";
 
 const postDelete = (id, page) => {
@@ -23,7 +23,9 @@ const postDelete = (id, page) => {
         });
         dispatch(fetchPosts(page));
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        dispatch(error(err.respnse));
+      });
 
     // dispatch(triggerRefresh(refresh));
   };

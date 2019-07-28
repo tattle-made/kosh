@@ -58,7 +58,7 @@ class LoginPage extends Component {
   }
 
   redirect(auth) {
-    console.log("redirecting to post and auth is ", auth);
+    // console.log("redirecting to post and auth is ", auth);
     if (auth) {
       this.props.history.push("/posts");
     }

@@ -39,12 +39,13 @@ class DateFilter extends Component {
   render() {
     console.log("inside filter ", this.props);
     return (
-      <span>
+      <div className="filter-box">
         <DatePickerComponent
           name="startDate"
           date={this.state.startDate}
           onDateChange={this.onStartDateChange}
         />
+
         <DatePickerComponent
           name="endDate"
           date={this.state.endDate}
@@ -53,7 +54,7 @@ class DateFilter extends Component {
         <Button variant="color-primary-one" size="sm" onClick={this.onSearch}>
           <FontAwesomeIcon icon={faSearch} />
         </Button>
-      </span>
+      </div>
     );
   }
 }

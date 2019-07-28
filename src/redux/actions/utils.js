@@ -4,7 +4,7 @@ import axios from "axios";
 const error = message => {
   return {
     type: ERROR,
-    payload: message
+    payload: { message: message }
   };
 };
 

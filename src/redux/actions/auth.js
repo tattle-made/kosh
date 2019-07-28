@@ -9,7 +9,7 @@ import {
 import { PURGE } from "redux-persist";
 import axios from "axios";
 import { fetchPosts } from "./post";
-
+import { error } from "./utils";
 const loginUser = userData => {
   const request = axios.post("http://localhost:8080/api/auth/login", userData);
   return dispatch => {
@@ -19,7 +19,6 @@ const loginUser = userData => {
         const auth = res.data.auth;
 
         if (auth) {
-          dispatch(toggleAuthentication(true));
           const { userId, token } = res.data;
           // storing the token in local storage
 
@@ -47,12 +46,10 @@ const loginUser = userData => {
             console.log("dispatch2 ", dispatch);
             console.log("user data", res.data);
             dispatch(setCurrentUser(res.data));
+            dispatch(toggleAuthentication(true));
           });
         } else {
-          dispatch({
-            type: ERROR,
-            payload: { message: "Invalid Username or Password" }
-          });
+          dispatch(error("Invalid Username or Password"));
         }
       })
       .catch(err => {
@@ -64,10 +61,7 @@ const loginUser = userData => {
           message = "Server Down";
         }
         dispatch(toggleAuthentication(false));
-        dispatch({
-          type: ERROR,
-          payload: { message }
-        });
+        dispatch(error(message));
       });
   };
 };
