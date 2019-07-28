@@ -38,10 +38,6 @@ const loginUser = userData => {
           );
 
           console.log("token", token);
-          dispatch({
-            type: ERROR,
-            payload: null
-          });
           userDataRequest.then(res => {
             console.log("dispatch2 ", dispatch);
             console.log("user data", res.data);
