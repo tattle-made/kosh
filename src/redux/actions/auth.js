@@ -53,16 +53,24 @@ const loginUser = userData => {
         }
       })
       .catch(err => {
-        console.log("errrrrrrrrrorrrrrrrr ", err);
-        let message = "";
-        if (err) {
-          console.log(err.response);
-          message = "Username and Password Cannot Be Empty";
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(toggleAuthentication(false));
+          dispatch(error("Network Error"));
         } else {
-          message = "Server Down";
+          dispatch(toggleAuthentication(false));
+          dispatch(error(err.response.data));
         }
-        dispatch(toggleAuthentication(false));
-        dispatch(error(message));
+        // console.log("errrrrrrrrrorrrrrrrr ", err);
+        // let message = "";
+        // if (err) {
+        //   console.log(err.response);
+        //   message = "Username and Password Cannot Be Empty";
+        // } else {
+        //   message = "Server Down";
+        // }
+        // dispatch(toggleAuthentication(false));
+        // dispatch(error(message));
       });
   };
 };

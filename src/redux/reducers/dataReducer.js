@@ -9,8 +9,6 @@ const dataReducer = (state = initialState, action) => {
       return { ...state, loading: true };
     case SEARCH:
       return { ...state, loading: false, data: action.payload };
-    case POSTS:
-      return { ...state, loading: false, ...action.payload };
     default:
       return state;
   }

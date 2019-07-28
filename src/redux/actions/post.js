@@ -24,7 +24,12 @@ const postDelete = (id, page) => {
         dispatch(fetchPosts(page));
       })
       .catch(err => {
-        dispatch(error(err.respnse.data));
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
       });
 
     // dispatch(triggerRefresh(refresh));
@@ -56,7 +61,12 @@ const postByTime = (page, startDate, endDate) => {
         });
       })
       .catch(err => {
-        dispatch(error(err.response.data));
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
       });
   };
 };
@@ -86,7 +96,12 @@ const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
         });
       })
       .catch(err => {
-        dispatch(error(err.response.data));
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
       });
   };
 };
@@ -117,7 +132,12 @@ const fetchPosts = page => {
       .catch(err => {
         console.log(err.response);
         dispatch(toggleAuthentication(false));
-        dispatch(error(err.response.data));
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
       });
   };
   // return {

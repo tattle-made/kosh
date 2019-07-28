@@ -1,6 +1,6 @@
 import { ERROR } from "../actions/types";
 
-const initialState = {};
+const initialState = "";
 
 const errorReducer = (state = initialState, action) => {
   switch (action.type) {

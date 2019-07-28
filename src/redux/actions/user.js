@@ -37,7 +37,14 @@ const createUser = userData => {
         //   payload: res.data
         // });
       })
-      .catch(err => dispatch(error(err.response.data)));
+      .catch(err => {
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
+      });
   };
 };
 
@@ -61,7 +68,12 @@ const userDelete = (id, page) => {
         dispatch(fetchUsers(page));
       })
       .catch(err => {
-        dispatch(error(err.response.data));
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
       });
 
     // dispatch(triggerRefresh(refresh));
@@ -106,7 +118,12 @@ const fetchAllUsers = () => {
         });
       })
       .catch(err => {
-        dispatch(error(err.response.data));
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
       });
   };
   // return {
@@ -133,7 +150,12 @@ const fetchUsers = page => {
         });
       })
       .catch(err => {
-        dispatch(error(err.response.data));
+        console.log("err", err);
+        if (err.response === undefined) {
+          dispatch(error("Network Error"));
+        } else {
+          dispatch(error(err.response.data));
+        }
       });
   };
 };
