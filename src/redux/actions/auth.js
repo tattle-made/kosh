@@ -56,6 +56,7 @@ const loginUser = userData => {
         console.log("errrrrrrrrrorrrrrrrr ", err);
         let message = "";
         if (err) {
+          console.log(err.response);
           message = "Username and Password Cannot Be Empty";
         } else {
           message = "Server Down";

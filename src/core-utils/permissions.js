@@ -7,7 +7,8 @@ const getUserPermissions = role => {
         "post:canDelete",
         "post:canUpload",
         "user:canView",
-        "user:canDelete"
+        "user:canDelete",
+        "user:canCreate"
       ];
     case EDITOR:
       return ["user:canView"];

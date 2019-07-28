@@ -76,6 +76,13 @@ function App() {
                 component={SideNav}
               />
             </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/users/create"
+                component={SideNav}
+              />
+            </Switch>
           </div>
         </Router>
       </PersistGate>
