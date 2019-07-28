@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Select from "react-select";
+import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -115,10 +115,11 @@ class SearchInput extends Component {
   }
 
   render() {
+    // console.log(this.props);
     const { selectedOption, data } = this.state;
     return (
       <div className="container">
-        <BreadCrumb />
+        <BreadCrumb path={this.props.match.path} />
         <SearchForm
           faUpload={eval(faUpload)}
           faSearch={eval(faSearch)}
@@ -143,7 +144,11 @@ const mapStateToProps = state => ({
   fetch: state.fetch
 });
 
-export default connect(
-  mapStateToProps,
-  { search, contentLoading }
-)(SearchInput);
+const Search = withRouter(
+  connect(
+    mapStateToProps,
+    { search, contentLoading }
+  )(SearchInput)
+);
+
+export default Search;

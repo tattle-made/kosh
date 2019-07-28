@@ -23,7 +23,7 @@ class UserUpdate extends Component {
   render() {
     return (
       <div className="container">
-        <BreadCrumb />
+        <BreadCrumb path={this.props.location.pathname} />
         <UserUpdateForm
           data={(id, userData) => this.onFormSubmit(id, userData)}
         />

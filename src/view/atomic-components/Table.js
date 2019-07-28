@@ -21,9 +21,9 @@ class Table extends Component {
     // };
   }
   componentWillReceiveProps(nextProps) {
-    console.log("inside table component next props", nextProps);
+    // console.log("inside table component next props", nextProps);
     if (nextProps.data !== this.props.data) {
-      console.log("inside table component", nextProps.data);
+      // console.log("inside table component", nextProps.data);
       this.setState({
         data: nextProps.data
       });
@@ -40,7 +40,7 @@ class Table extends Component {
   }
 
   onPageChange = (page, sizePerPage) => {
-    console.log("inside page table ", page);
+    // console.log("inside page table ", page);
     this.setState({
       page
     });

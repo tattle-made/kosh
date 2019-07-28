@@ -21,7 +21,7 @@ import {
 } from "../../../redux/actions/post";
 
 //components
-import HeadingTwo from "../../atomic-components/text/HeadingTwo";
+import BreadCrumb from "../../atomic-components/BreadCrumb";
 import Table from "../../atomic-components/Table";
 import PrimaryActionTable from "../../components/PrimaryActionPostTable";
 import columnFactory from "./column-data";
@@ -137,10 +137,10 @@ class PostsTable extends Component {
       [this.props, this.state.page],
       this.props.history
     );
-
+    console.log("props", this.props);
     return (
       <div className="container">
-        <HeadingTwo text="Posts" />
+        <BreadCrumb path={this.props.match.path} />
         <PrimaryActionTable
           faUpload={eval(faUpload)}
           faDownload={eval(faDownload)}

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
 
@@ -19,6 +20,14 @@ class PrimaryActionUser extends Component {
         </Button>
         <Button variant="color-primary-one" size="sm">
           <FontAwesomeIcon icon={this.props.faDownload} /> Download
+        </Button>
+        <Button
+          variant="color-primary-one"
+          size="sm"
+          href="/users/create"
+          className="float-right"
+        >
+          <FontAwesomeIcon icon={this.props.faUser} /> Create New User
         </Button>
       </div>
     );

@@ -21,9 +21,10 @@ class UserCreate extends Component {
   }
 
   render() {
+    console.log("props", this.props);
     return (
       <div className="container">
-        <BreadCrumb />
+        <BreadCrumb path={this.props.location.pathname} />
         <UserCreateForm data={userData => this.onFormSubmit(userData)} />
       </div>
     );

@@ -6,7 +6,8 @@ import {
   faSync,
   faTrashAlt,
   faCheck,
-  faEdit
+  faEdit,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
@@ -173,17 +174,19 @@ class UsersTable extends Component {
         formatExtraData: this.props
       }
     ];
-
-    console.log("hello state", this.state.users);
-    console.log("hello props", this.props.users);
+    // console.log("path", this.props);
+    // console.log("hello state", this.state.users);
+    // console.log("hello props", this.props.users);
     return (
       <div className="container">
+        {/* console.log(this.pr) */}
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
-        <BreadCrumb />
+        <BreadCrumb path={this.props.match.path} />
         <PrimaryActionUser
           faUpload={eval(faUpload)}
           faDownload={eval(faDownload)}
           faSync={eval(faSync)}
+          faUser={eval(faUser)}
           refresh={this.refresh}
         />
         <Table
