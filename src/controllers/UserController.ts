@@ -73,7 +73,7 @@ export class UserController extends _BaseController {
 
     public getPermissions(route: string, method: string) {
         if (method === "GET") {
-            if (route.includes("/users") || route.includes("/user")) {
+            if (route.includes("/users")) {
                 return ["admin", "editor"];
             }
             return ["subscriber", "admin", "editor"];

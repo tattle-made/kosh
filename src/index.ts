@@ -123,7 +123,7 @@ app.get("/api/posts/:id", (req: Request, res: Response) => {
     postController.get(id).then(post => res.send(post));
 });
 
-app.post("/api/posts/:id", (req: Request, res: Response) => {
+app.delete("/api/posts/delete/:id", (req: Request, res: Response) => {
     const { id } = req.params;
     postController.delete(id).then(post => res.send(post));
 });
@@ -192,7 +192,7 @@ app.post("/api/users/update/:id", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/api/users/delete/:id", (req: Request, res: Response) => {
+app.delete("/api/users/delete/:id", (req: Request, res: Response) => {
     const { id } = req.params;
     userController
         .delete(id)

@@ -146,7 +146,15 @@ export function deletePost(id: number): Promise<any> {
         }
     })
         .then(post => {
-            return post;
+            if (post) {
+                console.log(
+                    "delete post dbbbbbbbbbbbbb delete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbb",
+                    post
+                );
+                return "post deleted";
+            } else {
+                return "no post found";
+            }
         })
         .catch(err =>
             Promise.resolve({

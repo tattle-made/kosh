@@ -5,7 +5,13 @@ const loginController = new LoginController();
 
 export const authenticate = (req: Request, res: Response, next: Function) => {
     const token = req.headers["token"];
-    // console.log("req ", req);
+    console.log(
+        "route and tokenn,,,,,,,,,,,,,,,,fffffffffffffffff#############",
+        req.originalUrl,
+        token
+    );
+
+    console.log("req ", req);
     if (req.originalUrl === "/api/auth/login") {
         console.log("passed ");
         next();

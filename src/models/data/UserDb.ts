@@ -171,7 +171,13 @@ export function deleteUser(id: number): Promise<any> {
         }
     })
         .then(user => {
-            return user;
+            if(user){
+                return "user deleted"
+            }
+            else{
+                return "user not found"
+            }
+            
         })
         .catch(err =>
             Promise.resolve({
