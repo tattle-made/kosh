@@ -53,9 +53,9 @@ const loginUser = userData => {
         }
       })
       .catch(err => {
-        console.log("errrrrrrrrrorrrrrrrr ", err.response);
+        console.log("errrrrrrrrrorrrrrrrr ", err);
         let message = "";
-        if (err.response) {
+        if (err) {
           message = "Username and Password Cannot Be Empty";
         } else {
           message = "Server Down";
