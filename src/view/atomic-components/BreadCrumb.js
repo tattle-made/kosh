@@ -10,9 +10,11 @@ class BreadCrumb extends Component {
   }
 
   display(items) {
+    let link = "";
     return items.map(item => {
+      link += `/${item}`;
       return (
-        <Breadcrumb.Item href={this.props.location.path} key={item}>
+        <Breadcrumb.Item href={link} key={item}>
           <HeadingTwo text={item} />
         </Breadcrumb.Item>
       );
