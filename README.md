@@ -1,2 +1,2 @@
 # shell
-A gateway into all tattle services
+A gateway into all tattle services.
