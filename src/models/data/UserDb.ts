@@ -1,8 +1,10 @@
 import * as Sequelize from "sequelize";
+import * as bcrypt from "bcrypt";
 import db from "../../service/db";
 import ExistsResponse from "../data/ExistsResponse";
 import ExistsResponseToken from "../data/ExistsResponseToken";
 import { UserCreateRequest } from "../request/UserCreateRequest";
+import { UserCreateResponse } from "../response/UserCreateResponse";
 
 export class User extends Sequelize.Model {}
 
@@ -39,8 +41,7 @@ export function exists(
 ): Promise<ExistsResponse> {
     return User.findAndCountAll({
         where: {
-            username,
-            password
+            username
         }
     })
         .then(result => {
@@ -48,9 +49,18 @@ export function exists(
             if (result.count === 0) {
                 return new ExistsResponse(false, -1);
             } else {
-                return new ExistsResponse(true, result.rows[0].get(
-                    "id"
-                ) as number);
+                return bcrypt
+                    .compare(password, result.rows[0].get("password") as string)
+                    .then(res => {
+                        if (res === true) {
+                            return new ExistsResponse(true, result.rows[0].get(
+                                "id"
+                            ) as number);
+                        } else {
+                            return new ExistsResponse(false, -1);
+                        }
+                    })
+                    .catch(err => console.log(err));
             }
         })
         .catch(err => {
@@ -125,20 +135,27 @@ export function getById(id: number) {
         .catch(err => console.log(err));
 }
 
-export function create(param: UserCreateRequest): Promise<any> {
+export function create(param: UserCreateRequest): Promise<UserCreateResponse> {
     return User.create(param.getAll())
-        .then((user: User) => {
-            return user.get();
+        .then((user: any) => {
+            console.log("usssssssssssssssssrrrrrrrr ", user);
+            return new UserCreateResponse(
+                user.id,
+                user.username,
+                user.email,
+                user.role
+            );
         })
-        .catch(err =>
+        .catch(err => {
+            console.log("userrrrrrrrrrrrrrrrr ", err);
             Promise.resolve({
                 message: "Error creating User",
                 error: err.toJSON()
-            })
-        );
+            });
+        });
 }
 
-export function update(id: number, param: UserCreateRequest): Promise<any> {
+export function update(id: number, param: UserCreateRequest) {
     return User.update(
         {
             username: param.username,
@@ -164,20 +181,18 @@ export function update(id: number, param: UserCreateRequest): Promise<any> {
         );
 }
 
-export function deleteUser(id: number): Promise<any> {
+export function deleteUser(id: number) {
     return User.destroy({
         where: {
             id
         }
     })
         .then(user => {
-            if(user){
-                return "user deleted"
+            if (user) {
+                return "user deleted";
+            } else {
+                return "user not found";
             }
-            else{
-                return "user not found"
-            }
-            
         })
         .catch(err =>
             Promise.resolve({

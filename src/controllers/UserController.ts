@@ -1,4 +1,5 @@
 import _BaseController from "./_BaseController";
+import * as bcrypt from "bcrypt";
 import {
     exists,
     create,
@@ -7,7 +8,8 @@ import {
     getAll,
     getUserRole,
     getCompleteList,
-    getById
+    getById,
+    User
 } from "../models/data/UserDb";
 import {
     createOrUpdateTokenForUserId,
@@ -18,6 +20,7 @@ import LogoutResponse from "../models/response/LogoutResponse";
 
 import { logError } from "../service/logger";
 import { UserCreateRequest } from "src/models/request/UserCreateRequest";
+import { UserCreateResponse } from "src/models/response/UserCreateResponse";
 
 export class UserController extends _BaseController {
     constructor() {
@@ -53,8 +56,15 @@ export class UserController extends _BaseController {
     public getCompleteList() {
         return getCompleteList();
     }
+
     public create(param: UserCreateRequest) {
-        return create(param);
+        return bcrypt
+            .hash(param.password, 10)
+            .then(hash => {
+                param.password = hash;
+                return create(param);
+            })
+            .catch(err => console.log(err));
     }
 
     public update(id: number, param: UserCreateRequest) {
