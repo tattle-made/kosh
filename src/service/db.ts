@@ -1,13 +1,13 @@
-import * as config from "config";
-import { Sequelize } from "sequelize";
+import * as config from 'config';
+import { Sequelize } from 'sequelize';
 
 class DB {
     private sequelize: Sequelize;
     constructor() {
-        const { host, port, username, password, table } = config.get("db");
+        const { host, port, username, password, table } = config.get('db');
         this.sequelize = new Sequelize(table, username, password, {
             host,
-            dialect: "mysql"
+            dialect: 'mysql'
         });
     }
 
@@ -15,7 +15,7 @@ class DB {
         this.sequelize
             .authenticate()
             .then(() => {
-                console.log("connection yes");
+                console.log('connection yes');
             })
             .catch((err: any) => {
                 console.log(err);

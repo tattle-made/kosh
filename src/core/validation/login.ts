@@ -1,5 +1,3 @@
-import { Json } from "sequelize/types/lib/utils";
-
 const validator = require("validator");
 const isEmpty = require("is-empty");
 

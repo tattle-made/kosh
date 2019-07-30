@@ -1,4 +1,4 @@
-import BaseController from "./controllers/_BaseController";
+import BaseController from './controllers/_BaseController';
 
 export class Application {
     private routeToController = new Map<string, BaseController>();

@@ -1,4 +1,4 @@
-import BaseServerResponse from "./BaseServerResponse";
+import BaseServerResponse from './BaseServerResponse';
 
 export default class LogoutResponse extends BaseServerResponse {
     private numOfRows: number;

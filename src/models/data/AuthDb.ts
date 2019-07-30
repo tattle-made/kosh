@@ -43,7 +43,6 @@ export function createOrUpdateTokenForUserId(userId: number): Promise<string> {
         { returning: true }
     )
         .then(val => {
-            // console.log("token craet ", token);
             return token;
         })
         .catch(err => console.log(err));
@@ -62,7 +61,6 @@ export function createOrUpdateTokenForUserIdToken(
         { returning: true }
     )
         .then(val => {
-            console.log("create or update ");
             return new ExistsResponseToken(true, userId, token);
         })
         .catch(err => console.log(err));
@@ -72,10 +70,6 @@ export function deleteToken(token: string): Promise<number> {
     return Auth.destroy({ where: { token } }).catch(err => logError(err));
 }
 
-// createOrUpdateTokenForUserId(1)
-// .then((val) => console.log(val))
-// .catch((err) => console.log(err));
-
 export function existsToken(token: string): Promise<ExistsResponse> {
     return Auth.findOne({
         where: {
@@ -83,7 +77,6 @@ export function existsToken(token: string): Promise<ExistsResponse> {
         }
     })
         .then(data => {
-            console.log("auth db 00dasfsdsssssssss", data);
             if (data) {
                 const user_id = data.get("user_id") as number;
                 return new ExistsResponse(true, user_id);

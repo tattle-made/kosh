@@ -1,10 +1,10 @@
-import * as Sequelize from "sequelize";
-import * as bcrypt from "bcrypt";
-import db from "../../service/db";
-import ExistsResponse from "../data/ExistsResponse";
-import ExistsResponseToken from "../data/ExistsResponseToken";
-import { UserCreateRequest } from "../request/UserCreateRequest";
-import { UserCreateResponse } from "../response/UserCreateResponse";
+import * as Sequelize from 'sequelize';
+import * as bcrypt from 'bcrypt';
+import db from '../../service/db';
+import ExistsResponse from '../data/ExistsResponse';
+import ExistsResponseToken from '../data/ExistsResponseToken';
+import { UserCreateRequest } from '../request/UserCreateRequest';
+import { UserCreateResponse } from '../response/UserCreateResponse';
 
 export class User extends Sequelize.Model {}
 
@@ -17,7 +17,7 @@ User.init(
     },
     {
         sequelize: db.get(),
-        modelName: "user"
+        modelName: 'user'
     }
 );
 
@@ -45,16 +45,16 @@ export function exists(
         }
     })
         .then(result => {
-            console.log("result ", result);
+            console.log('result ', result);
             if (result.count === 0) {
                 return new ExistsResponse(false, -1);
             } else {
                 return bcrypt
-                    .compare(password, result.rows[0].get("password") as string)
+                    .compare(password, result.rows[0].get('password') as string)
                     .then(res => {
                         if (res === true) {
                             return new ExistsResponse(true, result.rows[0].get(
-                                "id"
+                                'id'
                             ) as number);
                         } else {
                             return new ExistsResponse(false, -1);
@@ -84,7 +84,7 @@ export function exists(
 
 export function getCompleteList() {
     return User.findAndCountAll({
-        order: [["createdAt", "DESC"]]
+        order: [['createdAt', 'DESC']]
     })
         .then(result => {
             return {
@@ -94,7 +94,7 @@ export function getCompleteList() {
         })
         .catch(err => {
             return Promise.resolve({
-                message: "Error Fetching Post",
+                message: 'Error Fetching Post',
                 error: err
             });
         });
@@ -105,7 +105,7 @@ export function getAll(page: number) {
     return User.findAndCountAll({
         offset: page * pageSize - pageSize,
         limit: 10,
-        order: [["createdAt", "DESC"]]
+        order: [['createdAt', 'DESC']]
     })
         .then(result => {
             return {
@@ -117,7 +117,7 @@ export function getAll(page: number) {
         })
         .catch(err => {
             return Promise.resolve({
-                message: "Error Fetching Post",
+                message: 'Error Fetching Post',
                 error: err
             });
         });
@@ -138,7 +138,6 @@ export function getById(id: number) {
 export function create(param: UserCreateRequest): Promise<UserCreateResponse> {
     return User.create(param.getAll())
         .then((user: any) => {
-            console.log("usssssssssssssssssrrrrrrrr ", user);
             return new UserCreateResponse(
                 user.id,
                 user.username,
@@ -147,9 +146,8 @@ export function create(param: UserCreateRequest): Promise<UserCreateResponse> {
             );
         })
         .catch(err => {
-            console.log("userrrrrrrrrrrrrrrrr ", err);
             Promise.resolve({
-                message: "Error creating User",
+                message: 'Error creating User',
                 error: err.toJSON()
             });
         });
@@ -170,12 +168,12 @@ export function update(id: number, param: UserCreateRequest) {
         }
     )
         .then(user => {
-            console.log("updated");
+            console.log('updated');
             console.log(user);
         })
         .catch(err =>
             Promise.resolve({
-                message: "Error Updating User",
+                message: 'Error Updating User',
                 error: err.toJSON()
             })
         );
@@ -189,14 +187,14 @@ export function deleteUser(id: number) {
     })
         .then(user => {
             if (user) {
-                return "user deleted";
+                return 'user deleted';
             } else {
-                return "user not found";
+                return 'user not found';
             }
         })
         .catch(err =>
             Promise.resolve({
-                message: "Error Deleting User",
+                message: 'Error Deleting User',
                 error: err.toJSON()
             })
         );
@@ -210,9 +208,9 @@ export function getUserRole(id: number): Promise<any> {
     })
         .then(user => {
             if (user) {
-                return user.get("role");
+                return user.get('role');
             } else {
-                console.log("user role not found");
+                console.log('user role not found');
             }
         })
         .catch(err => console.log(err));

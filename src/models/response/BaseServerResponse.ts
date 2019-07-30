@@ -1,8 +1,8 @@
-import * as config from "config";
+import * as config from 'config';
 
 export default abstract class BaseServerResponse {
-    public greeting = config.get("greeting");
-    public apiVersion = config.get("version");
+    public greeting = config.get('greeting');
+    public apiVersion = config.get('version');
 
     public getResponse(message: object): object {
         return {

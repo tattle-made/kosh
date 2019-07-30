@@ -1,52 +1,52 @@
-import * as express from "express";
-import * as cors from "cors";
-import * as Sentry from "@sentry/node";
+import * as express from 'express';
+import * as cors from 'cors';
+import * as Sentry from '@sentry/node';
 //socket.io
-import * as socketio from "socket.io";
-import { Request, Response } from "express";
-import { PostController } from "./controllers/PostController";
-import { SearchController } from "./controllers/SearchController";
-import { LoginController } from "./controllers/LoginController";
+import * as socketio from 'socket.io';
+import { Request, Response } from 'express';
+import { PostController } from './controllers/PostController';
+import { SearchController } from './controllers/SearchController';
+import { LoginController } from './controllers/LoginController';
 
-import { PostCreateRequest } from "./models/request/PostCreateRequest";
+import { PostCreateRequest } from './models/request/PostCreateRequest';
 
-import LoginResponse from "./models/response/LoginResponse";
-import { UserController } from "./controllers/UserController";
-import { UserCreateRequest } from "./models/request/UserCreateRequest";
+import LoginResponse from './models/response/LoginResponse';
+import { UserController } from './controllers/UserController';
+import { UserCreateRequest } from './models/request/UserCreateRequest';
 
 //validator
-import { loginValidator } from "./core/validation/login";
+import { loginValidator } from './core/validation/login';
 
 //middleware
-import { authenticate } from "./core/middleware/authenticate";
-import { authorize } from "./core/middleware/authorize";
+import { authenticate } from './core/middleware/authenticate';
+import { authorize } from './core/middleware/authorize';
 
 const app = express();
 const port = 8080;
 const server = app.listen(port, () => {
-    console.log("server is listening to ", port);
+    console.log('server is listening to ', port);
 });
 const io = socketio(server);
-app.set("socketio", io);
-io.on("connection", client => {
-    console.log("Client is connected");
+app.set('socketio', io);
+io.on('connection', client => {
+    console.log('Client is connected');
 });
 
 Sentry.init({
-    dsn: "https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856"
+    dsn: 'https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856'
 });
 
 app.use(
     cors({
-        origin: "*"
+        origin: '*'
     })
 );
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
     res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
     );
     next();
 });
@@ -61,17 +61,16 @@ const searchController = new SearchController();
 const loginController = new LoginController();
 const userController = new UserController();
 
-app.get("/", (req: Request, res: Response) => {
-    res.send("pong");
+app.get('/', (req: Request, res: Response) => {
+    res.send('pong');
 });
 
-app.get("/api/posts/:page", (req: Request, res: Response) => {
+app.get('/api/posts/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;
-    console.log("reqdddddddddddllllddddddddddddddddddddddd", req.headers);
     postController.getAll(page).then(posts => res.send(posts));
 });
 
-app.post("/api/postByTime/:page", (req: Request, res: Response) => {
+app.post('/api/postByTime/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;
     const { startDate, endDate } = req.body;
     const d1 = new Date(startDate).toISOString();
@@ -79,24 +78,17 @@ app.post("/api/postByTime/:page", (req: Request, res: Response) => {
     postController
         .getByTime(page, d1, d2)
         .then(posts => {
-            console.log("post indexxxxxxxxxxx", posts);
             res.send(posts);
         })
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/api/postByTimeAndUsers/:page", (req: Request, res: Response) => {
+app.post('/api/postByTimeAndUsers/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;
     const { users_id, startDate, endDate } = req.body;
-    console.log(req.body);
     const d1 = new Date(startDate).toISOString();
     const d2 = new Date(endDate).toISOString();
     users_id as Array<number>;
-    console.log(
-        "insidedlksjffffffffffffffffffl  llllllllllllllllllllllllllllllllllllll ",
-        typeof users_id,
-        users_id
-    );
     postController
         .getByTimeAndUsers(users_id, page, d1, d2)
         .then(posts => {
@@ -105,37 +97,35 @@ app.post("/api/postByTimeAndUsers/:page", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/api/posts", (req: Request, res: Response) => {
+app.post('/api/posts', (req: Request, res: Response) => {
     const post = new PostCreateRequest(req.body);
-    console.log("post received ", post);
-    const io = req.app.get("socketio");
+    const io = req.app.get('socketio');
     postController
         .create(post)
         .then((response: JSON) => {
-            io.emit("posts/newData", { name: "gully" });
+            io.emit('posts/newData', { name: 'gully' });
             res.send(response);
         })
         .catch(err => res.send(err.JSON));
 });
 
-app.get("/api/posts/:id", (req: Request, res: Response) => {
+app.get('/api/posts/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     postController.get(id).then(post => res.send(post));
 });
 
-app.delete("/api/posts/delete/:id", (req: Request, res: Response) => {
+app.delete('/api/posts/delete/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     postController.delete(id).then(post => res.send(post));
 });
 
-app.get("/api/search", (req: Request, res: Response) => {
+app.get('/api/search', (req: Request, res: Response) => {
     res.send(searchController.search(req.query));
 });
 
-app.post("/api/auth/login", (req: Request, res: Response) => {
+app.post('/api/auth/login', (req: Request, res: Response) => {
     const { username, password } = req.body;
     const { errors, isValid } = loginValidator(req.body);
-    console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrror sssssssss ", errors);
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -145,37 +135,36 @@ app.post("/api/auth/login", (req: Request, res: Response) => {
             res.send(response);
         })
         .catch(err => console.log(err));
-    console.log("login sucessssssssssssss");
     // todo : fix loginResponse
     // .then(response => res.send(new LoginResponse(response).get()));
 });
 
-app.post("/api/auth/logout", (req: Request, res: Response) => {
+app.post('/api/auth/logout', (req: Request, res: Response) => {
     const { token } = req.body;
     loginController.logout(token).then(response => res.send(response));
 });
 
-app.get("/api/user/:id", (req: Request, res: Response) => {
+app.get('/api/user/:id', (req: Request, res: Response) => {
     const id = req.params.id;
     userController.getById(id).then(user => {
         res.send(user);
     });
 });
 
-app.get("/api/users/:page", (req: Request, res: Response) => {
+app.get('/api/users/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;
     userController.getAll(page).then(users => {
         res.send(users);
     });
 });
 
-app.get("/api/userList", (req: Request, res: Response) => {
+app.get('/api/userList', (req: Request, res: Response) => {
     userController.getCompleteList().then(users => {
         res.send(users);
     });
 });
 
-app.post("/api/users/create", (req: Request, res: Response) => {
+app.post('/api/users/create', (req: Request, res: Response) => {
     const user = new UserCreateRequest(req.body);
     userController
         .create(user)
@@ -183,7 +172,7 @@ app.post("/api/users/create", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.post("/api/users/update/:id", (req: Request, res: Response) => {
+app.post('/api/users/update/:id', (req: Request, res: Response) => {
     const user = new UserCreateRequest(req.body);
     const { id } = req.params;
     userController
@@ -192,7 +181,7 @@ app.post("/api/users/update/:id", (req: Request, res: Response) => {
         .catch(err => res.send(err.JSON));
 });
 
-app.delete("/api/users/delete/:id", (req: Request, res: Response) => {
+app.delete('/api/users/delete/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     userController
         .delete(id)

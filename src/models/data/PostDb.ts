@@ -1,13 +1,13 @@
-import * as Sequelize from "sequelize";
-import db from "../../service/db";
-import { PostCreateRequest } from "../request/PostCreateRequest";
+import * as Sequelize from 'sequelize';
+import db from '../../service/db';
+import { PostCreateRequest } from '../request/PostCreateRequest';
 
 export class Post extends Sequelize.Model {}
 const Op = Sequelize.Op;
 
 Post.init(
     {
-        type: Sequelize.ENUM("text", "image", "video"),
+        type: Sequelize.ENUM('text', 'image', 'video'),
         data: Sequelize.STRING,
         filename: Sequelize.STRING,
         source: Sequelize.INTEGER,
@@ -16,12 +16,12 @@ Post.init(
     },
     {
         sequelize: db.get(),
-        modelName: "post"
+        modelName: 'post'
     }
 );
 
 Post.afterCreate(function() {
-    console.log("post Created");
+    console.log('post Created');
 });
 
 // Post.sync({force: true})
@@ -39,7 +39,7 @@ export function create(param: PostCreateRequest): Promise<JSON> {
         .then((post: Post) => post.get({ plain: true }))
         .catch(err =>
             Promise.resolve({
-                message: "Error creating Post",
+                message: 'Error creating Post',
                 error: err.toJSON()
             })
         );
@@ -50,7 +50,7 @@ export function getAll(page: number) {
     return Post.findAndCountAll({
         offset: page * pageSize - pageSize,
         limit: 10,
-        order: [["createdAt", "DESC"]]
+        order: [['createdAt', 'DESC']]
     })
         .then(result => {
             return {
@@ -62,7 +62,7 @@ export function getAll(page: number) {
         })
         .catch(err => {
             return Promise.resolve({
-                message: "Error Fetching Post",
+                message: 'Error Fetching Post',
                 error: err
             });
         });
@@ -86,10 +86,9 @@ export function getByTime(page: number, d1: string, d2: string) {
         },
         offset: page * pageSize - pageSize,
         limit: 10,
-        order: [["createdAt", "DESC"]]
+        order: [['createdAt', 'DESC']]
     })
         .then(result => {
-            console.log("result inside db  fdsdfaaff", result);
             return {
                 page: page,
                 count: result.count,
@@ -99,7 +98,7 @@ export function getByTime(page: number, d1: string, d2: string) {
         })
         .catch(err => {
             return Promise.resolve({
-                message: "Error Fetching Post",
+                message: 'Error Fetching Post',
                 error: err
             });
         });
@@ -121,7 +120,7 @@ export function getByTimeAndUsers(
         },
         offset: page * pageSize - pageSize,
         limit: 10,
-        order: [["createdAt", "DESC"]]
+        order: [['createdAt', 'DESC']]
     })
         .then(result => {
             return {
@@ -133,7 +132,7 @@ export function getByTimeAndUsers(
         })
         .catch(err => {
             return Promise.resolve({
-                message: "Error Fetching Post",
+                message: 'Error Fetching Post',
                 error: err
             });
         });
@@ -147,18 +146,14 @@ export function deletePost(id: number): Promise<any> {
     })
         .then(post => {
             if (post) {
-                console.log(
-                    "delete post dbbbbbbbbbbbbb delete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbbdelete post dbbbbbbbbbbbbb",
-                    post
-                );
-                return "post deleted";
+                return 'post deleted';
             } else {
-                return "no post found";
+                return 'no post found';
             }
         })
         .catch(err =>
             Promise.resolve({
-                message: "Error Deleting Post",
+                message: 'Error Deleting Post',
                 error: err.toJSON()
             })
         );

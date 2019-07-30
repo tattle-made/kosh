@@ -1,4 +1,4 @@
-import BaseController from "./_BaseController";
+import BaseController from './_BaseController';
 import {
     Post,
     create,
@@ -7,13 +7,13 @@ import {
     getByTime,
     getByTimeAndUsers,
     deletePost
-} from "../models/data/PostDb";
+} from '../models/data/PostDb';
 
-import { PostCreateRequest } from "../models/request/PostCreateRequest";
+import { PostCreateRequest } from '../models/request/PostCreateRequest';
 
 export class PostController extends BaseController {
     constructor() {
-        super("temp");
+        super('temp');
     }
 
     public getAll(page: number) {
