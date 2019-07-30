@@ -77,11 +77,7 @@ function App() {
               />
             </Switch>
             <Switch>
-              <PrivateRoute
-                exact
-                path="/users/create"
-                component={SideNav}
-              />
+              <PrivateRoute exact path="/users/create" component={SideNav} />
             </Switch>
           </div>
         </Router>

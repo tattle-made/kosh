@@ -1,21 +1,19 @@
-import { combineReducers } from "redux";
-import errorReducer from "./errorReducer";
-import dataReducer from "./dataReducer";
-import { users, loginUser, allUsers } from "./user";
-import selectedUser from "./selectedUser";
-import auth from "./auth";
+import { combineReducers } from 'redux';
+import error from './error';
+import loading from './loading';
+import { users, loginUser, allUsers } from './user';
+import selectedUser from './selectedUser';
+import auth from './auth';
 // import isValid from "./isValid";
-import refresh from "./refresh";
-import posts from "./posts";
+import posts from './posts';
 
 export default combineReducers({
-  error: errorReducer,
-  fetch: dataReducer,
+  error,
+  loading,
   loginUser,
   allUsers,
   users,
   selectedUser,
-  posts: posts,
-  auth,
-  refresh
+  posts,
+  auth
 });

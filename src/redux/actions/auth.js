@@ -5,27 +5,27 @@ import {
   SET_USER,
   ERROR,
   AUTHENTICATE
-} from "./types";
-import { PURGE } from "redux-persist";
-import axios from "axios";
-import { fetchPosts } from "./post";
-import { error } from "./utils";
+} from './types';
+import { PURGE } from 'redux-persist';
+import axios from 'axios';
+import { fetchPosts } from './post';
+import { error } from './utils';
 const loginUser = userData => {
-  const request = axios.post("http://localhost:8080/api/auth/login", userData);
+  const request = axios.post('http://localhost:8080/api/auth/login', userData);
   return dispatch => {
     request
       .then(res => {
-        console.log("dispatch1 ", dispatch);
+        console.log('dispatch1 ', dispatch);
         const auth = res.data.auth;
 
         if (auth) {
           const { userId, token } = res.data;
           // storing the token in local storage
 
-          localStorage.setItem("token", token);
-          console.log("token before set itemmmmmmmmmm", token);
-          const value = localStorage.getItem("token");
-          console.log("token afer gettttttt itemmmmmmmmmm", value);
+          localStorage.setItem('token', token);
+          console.log('token before set itemmmmmmmmmm', token);
+          const value = localStorage.getItem('token');
+          console.log('token afer gettttttt itemmmmmmmmmm', value);
           // dispatch(fetchPosts(1));
 
           const userDataRequest = axios.get(
@@ -36,23 +36,22 @@ const loginUser = userData => {
               }
             }
           );
-
-          console.log("token", token);
+          console.log('token', token);
           userDataRequest.then(res => {
-            console.log("dispatch2 ", dispatch);
-            console.log("user data", res.data);
+            console.log('dispatch2 ', dispatch);
+            console.log('user data', res.data);
             dispatch(setCurrentUser(res.data));
             dispatch(toggleAuthentication(true));
           });
         } else {
-          dispatch(error("Invalid Username or Password"));
+          dispatch(error('Invalid Username or Password'));
         }
       })
       .catch(err => {
-        console.log("err", err);
+        console.log('err', err);
         if (err.response === undefined) {
           dispatch(toggleAuthentication(false));
-          dispatch(error("Network Error"));
+          dispatch(error('Network Error'));
         } else {
           dispatch(toggleAuthentication(false));
           dispatch(error(err.response.data));
@@ -88,15 +87,15 @@ const setCurrentUser = userData => {
 // logout action
 const logoutUser = () => {
   //remove token from local storage
-  localStorage.removeItem("token");
-  localStorage.removeItem("persist:root");
+  localStorage.removeItem('token');
+  localStorage.removeItem('persist:root');
   // delete auth header token.
   // remove current user
   return dispatch => {
     dispatch({
       type: PURGE,
-      key: "key",
-      result: () => console.log("logged out")
+      key: 'key',
+      result: () => console.log('logged out')
     });
     dispatch(setCurrentUser({}));
     dispatch(toggleAuthentication(false));

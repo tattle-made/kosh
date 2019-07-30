@@ -1,43 +1,43 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
   faFileAlt,
   faCamera,
   faVideo,
   faUpload
-} from "@fortawesome/free-solid-svg-icons";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+} from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // actions
-import { search, contentLoading } from "../../redux/actions/utils";
+import { search, triggerLoading } from '../../redux/actions/utils';
 
 // components
 // // import { Card } from "../components/Card";
 // import Loading from "../components/Loading";
 
-import HeadingTwo from "../atomic-components/text/HeadingTwo";
-import BodyOne from "../atomic-components/text/BodyOne";
-import BreadCrumb from "../atomic-components/BreadCrumb";
-import SearchForm from "../components/SearchForm";
-import SearchResult from "../components/SearchResult";
+import HeadingTwo from '../atomic-components/text/HeadingTwo';
+import BodyOne from '../atomic-components/text/BodyOne';
+import BreadCrumb from '../atomic-components/BreadCrumb';
+import SearchForm from '../components/SearchForm';
+import SearchResult from '../components/SearchResult';
 
 const options = [
-  { value: "text", label: <FontAwesomeIcon icon={faFileAlt} /> },
-  { value: "image", label: <FontAwesomeIcon icon={faCamera} /> },
-  { value: "video", label: <FontAwesomeIcon icon={faVideo} /> }
+  { value: 'text', label: <FontAwesomeIcon icon={faFileAlt} /> },
+  { value: 'image', label: <FontAwesomeIcon icon={faCamera} /> },
+  { value: 'video', label: <FontAwesomeIcon icon={faVideo} /> }
 ];
 
 class SearchInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchInput: "",
+      searchInput: '',
       loading: false,
       data: [],
-      selectedOption: "text",
+      selectedOption: 'text',
       content_type: []
     };
   }
@@ -118,7 +118,7 @@ class SearchInput extends Component {
     // console.log(this.props);
     const { selectedOption, data } = this.state;
     return (
-      <div className="container">
+      <div className='container'>
         <BreadCrumb path={this.props.match.path} />
         <SearchForm
           faUpload={eval(faUpload)}
@@ -137,7 +137,7 @@ class SearchInput extends Component {
 SearchInput.prototypes = {
   data: PropTypes.array.isRequired,
   search: PropTypes.func.isRequired,
-  contentLoading: PropTypes.func.isRequired
+  triggerLoading: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -147,7 +147,7 @@ const mapStateToProps = state => ({
 const Search = withRouter(
   connect(
     mapStateToProps,
-    { search, contentLoading }
+    { search, triggerLoading }
   )(SearchInput)
 );
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const Card = props => {
   // console.log("card details ", props.card, props.display);
@@ -51,15 +51,15 @@ const Card = props => {
   //   );
   // }
   //  else
-  if (props.title !== "") {
-    return <div className="card text-center">{props.title}</div>;
+  if (props.title !== '') {
+    return <div className='card text-center'>{props.title}</div>;
   } else {
     return (
-      <div className="card card-modify text-center">
+      <div className='card card-modify text-center'>
         {/* <div className="card-header bg-dark text-white">Card with Text</div> */}
-        <div className="card-body">
+        <div className='card-body'>
           {/* <div className="card-title"> Lok Sabha elections</div> */}
-          <div className="card-text text-white">
+          <div className='card-text text-white'>
             <p>{props.card.title}</p>
           </div>
         </div>

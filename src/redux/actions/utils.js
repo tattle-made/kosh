@@ -1,5 +1,5 @@
-import { ERROR, CONTENT_LOADING, POSTS, REFRESH } from "./types";
-import axios from "axios";
+import { ERROR, LOADING, POSTS, REFRESH } from './types';
+import axios from 'axios';
 
 const error = message => {
   return {
@@ -8,14 +8,15 @@ const error = message => {
   };
 };
 
-const contentLoading = () => {
+const triggerLoading = bool => {
   return {
-    type: CONTENT_LOADING
+    type: LOADING,
+    payload: bool
   };
 };
 
 const search = url => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const request = axios.get(url, {
     headers: {
       token
@@ -40,4 +41,4 @@ const triggerRefresh = id => {
   };
 };
 
-export { error, contentLoading, search, triggerRefresh };
+export { error, triggerLoading, search, triggerRefresh };

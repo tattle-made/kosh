@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUpload,
   faDownload,
@@ -8,29 +8,29 @@ import {
   faCheck,
   faEdit,
   faUser
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import { textFilter } from "react-bootstrap-table2-filter";
-import { Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { textFilter } from 'react-bootstrap-table2-filter';
+import { Redirect } from 'react-router-dom';
 //actions
-import { userDelete, selectedUser, fetchUsers } from "../../redux/actions/user";
+import { userDelete, selectedUser, fetchUsers } from '../../redux/actions/user';
 
 //components
-import BreadCrumb from "../atomic-components/BreadCrumb";
-import Table from "../atomic-components/Table";
-import PrimaryActionUser from "../components/PrimaryActionUserTable";
+import BreadCrumb from '../atomic-components/BreadCrumb';
+import Table from '../atomic-components/Table';
+import PrimaryActionUser from '../components/PrimaryActionUserTable';
 
 // action control
-import AccessControl from "../components/AccessControl";
+import AccessControl from '../components/AccessControl';
 
 // socket io
-import io from "socket.io-client";
+import io from 'socket.io-client';
 
 //connect to server
-const socket = io("http://localhost:3001/");
+const socket = io('http://localhost:3001/');
 
 class UsersTable extends Component {
   constructor(props) {
@@ -52,13 +52,13 @@ class UsersTable extends Component {
     return (
       <div>
         <AccessControl
-          allowedPermissions={["user:canDelete"]}
+          allowedPermissions={['user:canDelete']}
           text={() => this.dothis()}
-          renderNoAccess={() => console.log("u dont have permission")}
+          renderNoAccess={() => console.log('u dont have permission')}
         >
           <FontAwesomeIcon
             icon={faTrashAlt}
-            className="mr-2"
+            className='mr-2'
             onClick={() => {
               props.userDelete(row.id, this.state.page);
               // this.refresh();
@@ -66,12 +66,12 @@ class UsersTable extends Component {
           />
         </AccessControl>
         <AccessControl
-          allowedPermissions={["user:canView"]}
-          renderNoAccess={() => console.log("u dont have permission")}
+          allowedPermissions={['user:canView']}
+          renderNoAccess={() => console.log('u dont have permission')}
         >
           <FontAwesomeIcon
             icon={faEdit}
-            className="mr-2"
+            className='mr-2'
             onClick={() => {
               props.selectedUser(row);
               props.history.push(`/users/update/${row.id}`);
@@ -85,23 +85,23 @@ class UsersTable extends Component {
 
   componentDidMount() {
     const path = this.props.location.pathname;
-    let page = path.split("/users/")[1];
-    if (page === "") {
+    let page = path.split('/users/')[1];
+    if (page === '') {
       page = 1;
     }
-    console.log("insidde mount page ", page);
+    console.log('insidde mount page ', page);
     this.props.fetchUsers(page);
 
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
-    socket.on("posts/newData", value => {
-      console.log("new Data received", value.name);
+    socket.on('posts/newData', value => {
+      console.log('new Data received', value.name);
       this.refresh();
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("will recieve new props", nextProps);
+    console.log('will recieve new props', nextProps);
     if (nextProps.users !== this.props.users) {
       this.setState({
         users: nextProps.users.users,
@@ -111,7 +111,7 @@ class UsersTable extends Component {
     }
   }
   refresh() {
-    console.log("refreshing");
+    console.log('refreshing');
     this.props.fetchUsers(this.state.page);
   }
 
@@ -136,39 +136,39 @@ class UsersTable extends Component {
   // }
 
   render() {
-    console.log("renderrrrrrrrrrrrrrrrrrring user page");
-    if (this.props.location.pathname === "/users") {
-      return <Redirect to="/users/1" />;
+    console.log('renderrrrrrrrrrrrrrrrrrring user page');
+    if (this.props.location.pathname === '/users') {
+      return <Redirect to='/users/1' />;
     }
-    console.log("page ", this.state.page);
+    console.log('page ', this.state.page);
     const columns = [
       {
-        dataField: "username",
-        text: "Username"
+        dataField: 'username',
+        text: 'Username'
         // sort: true
       },
       {
-        dataField: "email",
-        text: "Email",
+        dataField: 'email',
+        text: 'Email',
         formatter: this.previewFormatter
       },
       {
-        dataField: "role",
-        text: "Role",
+        dataField: 'role',
+        text: 'Role',
         // sort: true,
         filter: textFilter(),
-        headerAlign: "center"
+        headerAlign: 'center'
       },
       {
-        dataField: "posts",
-        text: "Posts",
+        dataField: 'posts',
+        text: 'Posts',
         // sort: true,
         filter: textFilter(),
-        headerAlign: "center"
+        headerAlign: 'center'
       },
       {
-        dataField: "actions",
-        text: "Actions",
+        dataField: 'actions',
+        text: 'Actions',
         // sort: true
         formatter: this.actionIconsFormatter,
         formatExtraData: this.props
@@ -178,7 +178,7 @@ class UsersTable extends Component {
     // console.log("hello state", this.state.users);
     // console.log("hello props", this.props.users);
     return (
-      <div className="container">
+      <div className='container'>
         {/* console.log(this.pr) */}
         {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
         <BreadCrumb path={this.props.match.path} />
