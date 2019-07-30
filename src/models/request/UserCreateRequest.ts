@@ -16,7 +16,7 @@ export class UserCreateRequest {
             username: this.username,
             password: this.password,
             email: this.email,
-            role: this.role
+            role: this.role,
         };
     }
 }
