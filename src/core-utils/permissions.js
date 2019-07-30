@@ -1,17 +1,17 @@
-import { ADMIN, SUBSCRIBER, EDITOR } from "./roleTypes";
+import { ADMIN, SUBSCRIBER, EDITOR } from './roleTypes';
 
 const getUserPermissions = role => {
   switch (role) {
     case ADMIN:
       return [
-        "post:canDelete",
-        "post:canUpload",
-        "user:canView",
-        "user:canDelete",
-        "user:canCreate"
+        'post:canDelete',
+        'post:canUpload',
+        'user:canView',
+        'user:canDelete',
+        'user:canCreate'
       ];
     case EDITOR:
-      return ["user:canView"];
+      return ['user:canView'];
     case SUBSCRIBER:
       return [];
     default:
@@ -21,29 +21,29 @@ const getUserPermissions = role => {
 
 const getRoutePermissions = route => {
   switch (route) {
-    case "/search":
+    case '/search':
       return [ADMIN, EDITOR, SUBSCRIBER];
-    case "/posts/:page":
+    case '/posts/:page':
       return [ADMIN, EDITOR, SUBSCRIBER];
-    case "/post/:id":
+    case '/post/:id':
       return [ADMIN, EDITOR, SUBSCRIBER];
-    case "/posts":
+    case '/posts':
       return [ADMIN, EDITOR, SUBSCRIBER];
-    case "/users":
+    case '/users':
       return [ADMIN, EDITOR];
-    case "/users/:page":
+    case '/users/page/:page':
       return [ADMIN, EDITOR];
-    case "user/:id":
+    case 'user/:id':
       return [ADMIN, EDITOR];
-    case "/users/update/:id":
+    case '/users/update/:id':
       return [ADMIN, EDITOR];
-    case "users/delete/:id":
+    case 'users/delete/:id':
       return [ADMIN];
-    case "/users/:page":
+    case '/users/:page':
       return [ADMIN, EDITOR];
-    case "/users/:page":
+    case '/users/:page':
       return [ADMIN, EDITOR];
-    case "/users/create":
+    case '/users/create':
       return [ADMIN];
     default:
       return [SUBSCRIBER];

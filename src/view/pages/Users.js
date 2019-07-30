@@ -85,7 +85,7 @@ class UsersTable extends Component {
 
   componentDidMount() {
     const path = this.props.location.pathname;
-    let page = path.split('/users/')[1];
+    let page = path.split('/users/page/')[1];
     if (page === '') {
       page = 1;
     }
@@ -138,7 +138,7 @@ class UsersTable extends Component {
   render() {
     console.log('renderrrrrrrrrrrrrrrrrrring user page');
     if (this.props.location.pathname === '/users') {
-      return <Redirect to='/users/1' />;
+      return <Redirect to='/users/page/1' />;
     }
     console.log('page ', this.state.page);
     const columns = [

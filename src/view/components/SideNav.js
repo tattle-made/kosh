@@ -1,31 +1,31 @@
-import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCloud,
   faUsers,
   faSearch,
   faTimes,
   faSignOutAlt
-} from "@fortawesome/free-solid-svg-icons";
-import classnames from "classnames";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import tattle_monogram_dark from "../../assets/img/tattle_monogram_dark.png";
+} from '@fortawesome/free-solid-svg-icons';
+import classnames from 'classnames';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import tattle_monogram_dark from '../../assets/img/tattle_monogram_dark.png';
 
 //components
-import SearchInput from "../pages/Search";
-import PostsTable from "../pages/Posts";
-import UsersTable from "../pages/Users";
-import UserCreate from "../pages/UserCreate";
-import UserUpdate from "../pages/UserUpdate";
-import PostsTableItem from "./PostData";
-import MenuItem from "../atomic-components/MenuItem";
+import SearchInput from '../pages/Search';
+import PostsTable from '../pages/Posts';
+import UsersTable from '../pages/Users';
+import UserCreate from '../pages/UserCreate';
+import UserUpdate from '../pages/UserUpdate';
+import PostsTableItem from './PostData';
+import MenuItem from '../atomic-components/MenuItem';
 
 //action
-import { logoutUser } from "../../redux/actions/auth";
+import { logoutUser } from '../../redux/actions/auth';
 
 // access control
-import AccessControl from "./AccessControl";
+import AccessControl from './AccessControl';
 
 class SideNav extends Component {
   constructor(props) {
@@ -36,37 +36,41 @@ class SideNav extends Component {
     this.onUserOptionClick = this.onUserOptionClick.bind(this);
   }
   closeSideNav(e) {
-    console.log("hi this is");
+    console.log('hi this is');
   }
 
   toggle(e) {
-    console.log("toggle");
+    console.log('toggle');
     this.setState({
       open: !this.state.open
     });
   }
 
   onMenuItemClick(e) {
-    console.log("menuItem");
+    console.log('menuItem');
     e.stopPropagation();
   }
 
   onUserOptionClick(e) {
-    console.log("user options");
+    console.log('user options');
     this.props.logoutUser();
     e.stopPropagation();
   }
 
   mainContent(route) {
-    if (route === "/posts" || route.includes("/posts/")) {
+    if (route === '/posts' || route.includes('/posts/')) {
       return <PostsTable />;
-    } else if (route === "/search") {
+    } else if (route === '/search') {
       return <SearchInput />;
-    } else if (route === "/users/create") {
+    } else if (route === '/users/create') {
       return <UserCreate />;
-    } else if (route.includes("/users/update")) {
+    } else if (route.includes('/users/update')) {
       return <UserUpdate />;
-    } else if (route === "/users" || route.includes("/users/")) {
+    } else if (
+      route === '/users' ||
+      route === '/users/page' ||
+      route.includes('/users/page/')
+    ) {
       return <UsersTable />;
     } else {
       return <PostsTableItem />;
@@ -74,71 +78,71 @@ class SideNav extends Component {
   }
 
   render() {
-    console.log("sidenav route", this.props.location.pathname);
+    console.log('sidenav route', this.props.location.pathname);
     return (
       <div
-        className={classnames("main", {
-          "sidenav-open": this.state.open,
-          "sidenav-close": !this.state.open
+        className={classnames('main', {
+          'sidenav-open': this.state.open,
+          'sidenav-close': !this.state.open
         })}
       >
-        <div className="content-container">
-          <div className="sidenav-container" onClick={() => this.toggle()}>
+        <div className='content-container'>
+          <div className='sidenav-container' onClick={() => this.toggle()}>
             <div>
-              <div className="app-logo-container">
-                <img className="logo" src={tattle_monogram_dark} alt="logo" />
+              <div className='app-logo-container'>
+                <img className='logo' src={tattle_monogram_dark} alt='logo' />
                 <h1>Tattle</h1>
                 <span
-                  className="sideNav-cross"
+                  className='sideNav-cross'
                   onClick={() => this.closeSideNav()}
                 >
                   <FontAwesomeIcon icon={faTimes} />
                 </span>
               </div>
-              <div className="links" onClick={e => this.onMenuItemClick(e)}>
+              <div className='links' onClick={e => this.onMenuItemClick(e)}>
                 <MenuItem
-                  route={"/posts"}
+                  route={'/posts'}
                   icon={eval(faCloud)}
-                  label={"Posts"}
+                  label={'Posts'}
                   className={classnames({
                     active:
-                      this.props.location.pathname.includes("/posts") ||
-                      this.props.location.pathname.includes("/post")
+                      this.props.location.pathname.includes('/posts') ||
+                      this.props.location.pathname.includes('/post')
                   })}
                 />
                 <MenuItem
-                  route={"/search"}
+                  route={'/search'}
                   icon={eval(faSearch)}
-                  label={"Search"}
+                  label={'Search'}
                   className={classnames({
-                    active: this.props.location.pathname.includes("/search")
+                    active: this.props.location.pathname.includes('/search')
                   })}
                 />
                 <AccessControl
-                  allowedPermissions={["user:canView"]}
+                  allowedPermissions={['user:canView']}
                   text={() => this.dothis()}
-                  renderNoAccess={() => console.log("u dont have permission")}
+                  renderNoAccess={() => console.log('u dont have permission')}
                 >
                   <MenuItem
-                    route={"/users"}
+                    route={'/users'}
                     icon={eval(faUsers)}
-                    label={"Users"}
+                    label={'Users'}
                     className={classnames({
-                      active: this.props.location.pathname.includes("/users")
+                      active: this.props.location.pathname.includes('/users')
                     })}
                   />
                 </AccessControl>
               </div>
               <div
                 onClick={e => this.onUserOptionClick(e)}
-                className="user-options"
+                className='user-options'
               >
-                <FontAwesomeIcon icon={faSignOutAlt} size="lg" />
+                <FontAwesomeIcon icon={faSignOutAlt} size='lg' />
               </div>
             </div>
           </div>
 
-          <div className="main-content-container">
+          <div className='main-content-container'>
             {this.mainContent(this.props.location.pathname)}
           </div>
         </div>
