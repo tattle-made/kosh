@@ -6,10 +6,12 @@ import {
   ERROR,
   AUTHENTICATE
 } from './types';
+
 import { PURGE } from 'redux-persist';
 import axios from 'axios';
 import { fetchPosts } from './post';
 import { error } from './utils';
+
 const loginUser = userData => {
   const request = axios.post('http://localhost:8080/api/auth/login', userData);
   return dispatch => {
@@ -19,6 +21,7 @@ const loginUser = userData => {
         const auth = res.data.auth;
 
         if (auth) {
+          dispatch(error(''));
           const { userId, token } = res.data;
           // storing the token in local storage
 
