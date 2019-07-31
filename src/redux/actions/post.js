@@ -1,4 +1,4 @@
-import { POST_DELETE, POSTS } from './types';
+import { POST_DELETE, POSTS, POST_UPLOAD } from './types';
 import axios from 'axios';
 import { error } from './utils';
 import { toggleAuthentication } from './auth';
@@ -114,8 +114,6 @@ const fetchPosts = page => {
   console.log('fetchposts page ', page);
   const url = `http://localhost:8080/api/posts/${page}`;
   const token = localStorage.getItem('token');
-  console.log('tokennnnnnnnnnnnnnnnnnnnnn fetch postttttttt', token);
-  console.log('url action posts', url);
   const request = axios.get(url, {
     headers: {
       token
@@ -140,10 +138,51 @@ const fetchPosts = page => {
         }
       });
   };
-  // return {
-  //   type: POSTS,
-  //   payload: []
-  // };
 };
 
-export { postByTime, postByTimeAndUsers, postDelete, fetchPosts };
+const uploadToS3 = (file, fileName, fileType) => {
+  const token = localStorage.getItem('token');
+  return dispatch =>
+    axios
+      .post(
+        'http://localhost:8080/api/uploadToS3',
+        {
+          fileName: fileName,
+          fileType: fileType
+        },
+        {
+          headers: {
+            token
+          }
+        }
+      )
+      .then(response => {
+        const info = response.data.data.info;
+        const signedRequest = info.signedRequest;
+        const url = info.url;
+        const success = info.success;
+        console.log('s3 file url', url);
+        const options = {
+          headers: {
+            'Content-Type': fileType
+          }
+        };
+        axios
+          .put(signedRequest, file, options)
+          .then(result => {
+            console.log('Response from s3');
+            return {
+              type: POST_UPLOAD,
+              payload: success
+            };
+          })
+          .catch(err => {
+            dispatch(error(err));
+          });
+      })
+      .catch(err => {
+        dispatch(error(err));
+      });
+};
+
+export { postByTime, postByTimeAndUsers, postDelete, fetchPosts, uploadToS3 };

@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import DateFilter from "./DateFilter";
-import Select from "react-select";
+import React, { Component } from 'react';
+import DateFilter from './DateFilter';
+import Select from 'react-select';
 
 class UsernameFilter extends Component {
   constructor(props) {
@@ -12,8 +12,8 @@ class UsernameFilter extends Component {
   }
   render() {
     return (
-      <div className="filter-box">
-        <div className="react-select">
+      <span className='filter-box'>
+        <div className='react-select'>
           <Select
             isMulti
             value={this.props.selectedUsers}
@@ -25,8 +25,8 @@ class UsernameFilter extends Component {
               // borderRadius: {"4px"},
               colors: {
                 ...theme.colors,
-                primary25: "white",
-                primary: "#B3B3B3"
+                primary25: 'white',
+                primary: '#B3B3B3'
               }
             })}
           />
@@ -34,7 +34,7 @@ class UsernameFilter extends Component {
         <div>
           <DateFilter time={data => this.onSearch(data)} />
         </div>
-      </div>
+      </span>
     );
   }
 }

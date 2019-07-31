@@ -18,6 +18,8 @@ const REFRESH = 'REFRESH';
 const AUTHENTICATE = 'AUTHENTICATE';
 const AUTHORIZE = 'AUTHORIZE';
 const PURGE = 'PURGE';
+const POST_UPLOAD = 'POST_UPLOAD';
+
 export {
   ERROR,
   LOADING,
@@ -38,5 +40,6 @@ export {
   REFRESH,
   AUTHENTICATE,
   AUTHORIZE,
-  PURGE
+  PURGE,
+  POST_UPLOAD
 };

@@ -7399,6 +7399,13 @@ a.text-dark:hover, a.text-dark:focus {
   100% {
     bottom: -15px; } }
 
+.primary-action-post-table {
+  display: flex;
+  margin-left: auto; }
+
+.primary-action-post-table-drop-down {
+  margin-left: auto; }
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import DatePickerComponent from "./DatePicker";
+import React, { Component } from 'react';
+import { Button, ButtonGroup, Dropdown, Form } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import DatePickerComponent from './DatePicker';
 
 class DateFilter extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class DateFilter extends Component {
   }
 
   onSearch() {
-    console.log("datefilter");
+    console.log('datefilter');
     this.props.time({
       from: this.state.startDate,
       to: this.state.endDate
@@ -37,24 +37,24 @@ class DateFilter extends Component {
   }
 
   render() {
-    console.log("inside filter ", this.props);
+    console.log('inside filter ', this.props);
     return (
-      <div className="filter-box">
+      <span className='filter-box'>
         <DatePickerComponent
-          name="startDate"
+          name='startDate'
           date={this.state.startDate}
           onDateChange={this.onStartDateChange}
         />
 
         <DatePickerComponent
-          name="endDate"
+          name='endDate'
           date={this.state.endDate}
           onDateChange={this.onEndDateChange}
         />
-        <Button variant="color-primary-one" size="sm" onClick={this.onSearch}>
+        <Button variant='color-primary-one' size='sm' onClick={this.onSearch}>
           <FontAwesomeIcon icon={faSearch} />
         </Button>
-      </div>
+      </span>
     );
   }
 }

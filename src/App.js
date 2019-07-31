@@ -15,7 +15,6 @@ import LoginCard from './view/pages/Login';
 import PrivateRoute from './view/components/PrivateRoute';
 
 import { PersistGate } from 'redux-persist/integration/react';
-import { connect } from 'net';
 
 function App() {
   return (
@@ -90,9 +89,4 @@ function App() {
   );
 }
 
-// const mapStateToProps = ({
-//   state
-// })
-
-// const AppMain = connect(mapStateToProps,{})(App);
 export default App;
