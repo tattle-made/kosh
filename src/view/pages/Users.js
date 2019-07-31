@@ -48,13 +48,12 @@ class UsersTable extends Component {
   }
 
   actionIconsFormatter(cell, row, rowIndex, props) {
-    // console.log("props actonformatter", props);
     return (
       <div>
         <AccessControl
           allowedPermissions={['user:canDelete']}
           text={() => this.dothis()}
-          renderNoAccess={() => console.log('u dont have permission')}
+          renderNoAccess={() => {}}
         >
           <FontAwesomeIcon
             icon={faTrashAlt}
@@ -67,7 +66,7 @@ class UsersTable extends Component {
         </AccessControl>
         <AccessControl
           allowedPermissions={['user:canView']}
-          renderNoAccess={() => console.log('u dont have permission')}
+          renderNoAccess={() => {}}
         >
           <FontAwesomeIcon
             icon={faEdit}
@@ -89,19 +88,17 @@ class UsersTable extends Component {
     if (page === '') {
       page = 1;
     }
-    console.log('insidde mount page ', page);
+
     this.props.fetchUsers(page);
 
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
     socket.on('posts/newData', value => {
-      console.log('new Data received', value.name);
       this.refresh();
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('will recieve new props', nextProps);
     if (nextProps.users !== this.props.users) {
       this.setState({
         users: nextProps.users.users,
@@ -111,7 +108,6 @@ class UsersTable extends Component {
     }
   }
   refresh() {
-    console.log('refreshing');
     this.props.fetchUsers(this.state.page);
   }
 
@@ -131,16 +127,11 @@ class UsersTable extends Component {
   //   if(prevProps.fetch !== )
   // // }
 
-  // rowEvents() {
-  //   console.log("row");
-  // }
-
   render() {
-    console.log('renderrrrrrrrrrrrrrrrrrring user page');
     if (this.props.location.pathname === '/users') {
       return <Redirect to='/users/page/1' />;
     }
-    console.log('page ', this.state.page);
+
     const columns = [
       {
         dataField: 'username',
@@ -174,13 +165,9 @@ class UsersTable extends Component {
         formatExtraData: this.props
       }
     ];
-    // console.log("path", this.props);
-    // console.log("hello state", this.state.users);
-    // console.log("hello props", this.props.users);
+
     return (
       <div className='container'>
-        {/* console.log(this.pr) */}
-        {/* {//the color of posts in heading 2 is black , and in spec file posts title color is # #060D42;} */}
         <BreadCrumb path={this.props.match.path} />
         <PrimaryActionUser
           faUpload={eval(faUpload)}

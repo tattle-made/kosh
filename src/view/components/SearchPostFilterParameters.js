@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import DateFilter from "../atomic-components/DateFilter";
-import UsernameFilter from "../atomic-components/UsernameFilter";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import DateFilter from '../atomic-components/DateFilter';
+import UsernameFilter from '../atomic-components/UsernameFilter';
 
-import { fetchAllUsers } from "../../redux/actions/user";
+import { fetchAllUsers } from '../../redux/actions/user';
 
 class SearchPostFilterParameters extends Component {
   constructor(props) {
@@ -35,9 +35,9 @@ class SearchPostFilterParameters extends Component {
   onSearch(data) {
     const { type } = this.props;
 
-    if (type === "date") {
+    if (type === 'date') {
       this.props.payload(data);
-    } else if (type === "name") {
+    } else if (type === 'name') {
       this.props.payload({
         username: this.state.selectedUsers,
         from: data.from,
@@ -53,12 +53,11 @@ class SearchPostFilterParameters extends Component {
   }
 
   render() {
-    console.log("props search para", this.props);
     return (
       <div>
-        {this.props.type === "date" ? (
+        {this.props.type === 'date' ? (
           <DateFilter time={data => this.onSearch(data)} />
-        ) : this.props.type === "name" ? (
+        ) : this.props.type === 'name' ? (
           <UsernameFilter
             users={this.state.users}
             selectedUsers={this.state.selectedUsers}

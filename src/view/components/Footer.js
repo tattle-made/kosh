@@ -1,41 +1,38 @@
-import React, { Component } from "react";
-import Footer from "../atomic-components/Footer";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import IsEmpty from "is-empty";
+import React, { Component } from 'react';
+import Footer from '../atomic-components/Footer';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import IsEmpty from 'is-empty';
 
 //action
-import { error } from "../../redux/actions/utils";
-import { String } from "es6-shim";
+import { error } from '../../redux/actions/utils';
+import { String } from 'es6-shim';
 
 class FooterSite extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: "",
+      message: '',
       visible: false
     };
     this.onFooterClose = this.onFooterClose.bind(this);
   }
 
   onFooterClose() {
-    console.log("close");
     this.setState({
-      message: ""
+      message: ''
     });
     this.props.error(this.props.error);
   }
 
   componentWillReceiveProps(nextProps) {
-    let msg = "";
-    console.log(typeof nextProps.message);
+    let msg = '';
+
     if (nextProps.message !== this.props.message) {
-      let msg = "";
-      if (typeof nextProps.message === "string") {
-        console.log("sting type error received");
+      let msg = '';
+      if (typeof nextProps.message === 'string') {
         msg = nextProps.message;
-      } else if (typeof nextProps.message === "object") {
-        console.log("object type error received");
+      } else if (typeof nextProps.message === 'object') {
         msg = JSON.stringify(nextProps.message);
       }
       this.setState({
@@ -47,13 +44,10 @@ class FooterSite extends Component {
 
   render() {
     const { message } = this.state;
-    console.log(message);
-    console.log("visible ", this.state.visible);
     if (!IsEmpty(message)) {
-      console.log("error hai FOOTER ", message);
       return (
         <Footer
-          alert_type=""
+          alert_type=''
           message={message}
           visible={this.state.visible}
           closeFooter={this.onFooterClose}

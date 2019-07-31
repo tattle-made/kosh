@@ -13,17 +13,10 @@ import { fetchUsers } from '../../redux/actions/user';
 class Table extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   data: [],
-    //   page: 1,
-    //   count: 0,
-    //   columns: []
-    // };
   }
+
   componentWillReceiveProps(nextProps) {
-    // console.log("inside table component next props", nextProps);
     if (nextProps.data !== this.props.data) {
-      // console.log("inside table component", nextProps.data);
       this.setState({
         data: nextProps.data
       });
@@ -40,7 +33,6 @@ class Table extends Component {
   }
 
   onPageChange = (page, sizePerPage) => {
-    // console.log("inside page table ", page);
     this.setState({
       page
     });
@@ -52,7 +44,6 @@ class Table extends Component {
       this.props.history.push(`/users/page/${page}`);
       this.props.fetchUsers(page);
     } else {
-      console.log('check table component');
     }
   };
 
@@ -109,9 +100,7 @@ class Table extends Component {
           // rowEvents={rowEvents}
           // loading={this.state.loading} //only loading is true, react-bootstrap-table will render overlay
           // overlay={overlayFactory()}
-          onTableChange={() => {
-            console.log('table change hua hai ,,.s.');
-          }}
+          onTableChange={() => {}}
         />
       </div>
     );
@@ -124,4 +113,5 @@ const TableData = withRouter(
     { fetchPosts, fetchUsers }
   )(Table)
 );
+
 export default TableData;

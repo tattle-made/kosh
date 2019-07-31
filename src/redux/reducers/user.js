@@ -1,11 +1,11 @@
-import { SET_USER, USERS, ALL_USERS } from "../actions/types";
+import { SET_USER, USERS, ALL_USERS } from '../actions/types';
 
 const loginUserInitialState = {
-  id: "",
-  username: "",
-  email: "",
-  role: "",
-  team: ""
+  id: '',
+  username: '',
+  email: '',
+  role: '',
+  team: ''
 };
 
 const allUsersInitialState = {};

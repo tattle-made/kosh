@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { Breadcrumb } from "react-bootstrap";
-import HeadingTwo from "../atomic-components/text/HeadingTwo";
-import itemList from "../../core-utils/breadcrumbItems";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Breadcrumb } from 'react-bootstrap';
+import HeadingTwo from '../atomic-components/text/HeadingTwo';
+import itemList from '../../core-utils/breadcrumbItems';
 
 class BreadCrumb extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class BreadCrumb extends Component {
   }
 
   display(items) {
-    let link = "";
+    let link = '';
     return items.map(item => {
       link += `/${item}`;
       return (
@@ -21,9 +21,7 @@ class BreadCrumb extends Component {
     });
   }
   render() {
-    // console.log("breadcrumb ", this.props);
     const items = itemList(this.props.path);
-    // console.log("items", items);
 
     return (
       <div>

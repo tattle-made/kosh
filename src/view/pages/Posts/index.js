@@ -3,7 +3,6 @@ import {
   faUpload,
   faDownload,
   faSync,
-  faSearch,
   faFilter
 } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
@@ -13,7 +12,6 @@ import { Redirect } from 'react-router';
 
 //actions
 import { fetchPosts } from '../../../redux/actions/post';
-import { triggerRefresh } from '../../../redux/actions/utils';
 import {
   postDelete,
   postByTime,
@@ -27,12 +25,7 @@ import PrimaryActionTable from '../../components/PrimaryActionPostTable';
 import columnFactory from './column-data';
 import SearchPostFilterParameters from '../../components/SearchPostFilterParameters';
 
-import {
-  onSearch,
-  onSearchByDate,
-  onSearchByTimeAndUser,
-  refresh
-} from './post-controller';
+import { onSearch } from './post-controller';
 
 // socket io
 import io from 'socket.io-client';
@@ -54,14 +47,12 @@ class PostsTable extends Component {
   }
 
   componentDidMount() {
-    // console.log("mounted");
-    // console.log("props", this.props);
     const path = this.props.location.pathname;
     let page = path.split('/posts/')[1];
     if (page === '') {
       page = 1;
     }
-    console.log('insidde mount page ', page);
+
     setTimeout(() => {
       this.props.fetchPosts(page);
     }, 1000);
@@ -69,13 +60,11 @@ class PostsTable extends Component {
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
     socket.on('posts/newData', value => {
-      console.log('new Data received', value.name);
       this.refresh();
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('will recieve new props', nextProps);
     if (nextProps.posts !== this.props.posts) {
       this.setState({
         posts: nextProps.posts.posts,
@@ -86,7 +75,6 @@ class PostsTable extends Component {
   }
 
   refresh() {
-    console.log('refreshing');
     this.props.fetchPosts(this.state.page);
   }
 
@@ -106,10 +94,6 @@ class PostsTable extends Component {
   //   if(prevProps.fetch !== )
   // // }
 
-  // rowEvents() {
-  //   console.log("row");
-  // }
-
   onSearch(data) {
     onSearch(data, this.state.filter, this.props);
   }
@@ -124,20 +108,12 @@ class PostsTable extends Component {
     if (this.props.location.pathname === '/posts') {
       return <Redirect to='/posts/1' />;
     }
-    console.log('page ', this.state.page);
-
-    // // SOCKET IO
-    // // so when new data is received the page will refresh automatically.
-    // socket.on("posts/newData", value => {
-    //   console.log("new Data received", value.name);
-    //   refresh(this.state.page);
-    // });
 
     const columns = columnFactory(
       [this.props, this.state.page],
       this.props.history
     );
-    console.log('props', this.props);
+
     return (
       <div className='container'>
         <BreadCrumb path={this.props.match.path} />

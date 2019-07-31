@@ -35,24 +35,18 @@ class SideNav extends Component {
     };
     this.onUserOptionClick = this.onUserOptionClick.bind(this);
   }
-  closeSideNav(e) {
-    console.log('hi this is');
-  }
 
   toggle(e) {
-    console.log('toggle');
     this.setState({
       open: !this.state.open
     });
   }
 
   onMenuItemClick(e) {
-    console.log('menuItem');
     e.stopPropagation();
   }
 
   onUserOptionClick(e) {
-    console.log('user options');
     this.props.logoutUser();
     e.stopPropagation();
   }
@@ -78,7 +72,6 @@ class SideNav extends Component {
   }
 
   render() {
-    console.log('sidenav route', this.props.location.pathname);
     return (
       <div
         className={classnames('main', {
@@ -92,10 +85,7 @@ class SideNav extends Component {
               <div className='app-logo-container'>
                 <img className='logo' src={tattle_monogram_dark} alt='logo' />
                 <h1>Tattle</h1>
-                <span
-                  className='sideNav-cross'
-                  onClick={() => this.closeSideNav()}
-                >
+                <span className='sideNav-cross'>
                   <FontAwesomeIcon icon={faTimes} />
                 </span>
               </div>
@@ -121,7 +111,7 @@ class SideNav extends Component {
                 <AccessControl
                   allowedPermissions={['user:canView']}
                   text={() => this.dothis()}
-                  renderNoAccess={() => console.log('u dont have permission')}
+                  renderNoAccess={() => {}}
                 >
                   <MenuItem
                     route={'/users'}

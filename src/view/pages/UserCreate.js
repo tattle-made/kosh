@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 //components
 
-import UserCreateForm from "../components/UserCreateForm";
+import UserCreateForm from '../components/UserCreateForm';
 //actions
-import { createUser } from "../../redux/actions/user";
-import BreadCrumb from "../atomic-components/BreadCrumb";
+import { createUser } from '../../redux/actions/user';
+import BreadCrumb from '../atomic-components/BreadCrumb';
 
 class UserCreate extends Component {
   constructor(props) {
@@ -21,9 +21,8 @@ class UserCreate extends Component {
   }
 
   render() {
-    console.log("props", this.props);
     return (
-      <div className="container">
+      <div className='container'>
         <BreadCrumb path={this.props.location.pathname} />
         <UserCreateForm data={userData => this.onFormSubmit(userData)} />
       </div>

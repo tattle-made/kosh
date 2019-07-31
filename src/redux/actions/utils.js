@@ -1,4 +1,4 @@
-import { ERROR, LOADING, POSTS, REFRESH } from './types';
+import { ERROR, LOADING, POSTS } from './types';
 import axios from 'axios';
 
 const error = message => {
@@ -34,11 +34,4 @@ const search = url => {
   };
 };
 
-const triggerRefresh = id => {
-  return {
-    type: REFRESH,
-    payload: id
-  };
-};
-
-export { error, triggerLoading, search, triggerRefresh };
+export { error, triggerLoading, search };

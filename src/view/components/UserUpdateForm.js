@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Button, Form } from "react-bootstrap";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class UserUpdateForm extends Component {
   constructor(props) {
@@ -34,45 +34,45 @@ class UserUpdateForm extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    console.log("update user submit");
+
     const userData = {
       username: this.state.username,
       email: this.state.email,
       role: this.state.role
     };
     this.props.data(this.state.id, userData);
-    this.props.history.push("/users");
+    this.props.history.push('/users');
   }
 
   render() {
     return (
       <div>
         <Form onSubmit={this.onFormSubmit}>
-          <Form.Group controlId="username">
+          <Form.Group controlId='username'>
             {/* <Form.Label>Email address</Form.Label> */}
             <Form.Control
-              name="username"
-              type="text"
-              placeholder="Username"
+              name='username'
+              type='text'
+              placeholder='Username'
               value={this.state.username}
               onChange={this.onInputChange}
             />
           </Form.Group>
-          <Form.Group controlId="email">
+          <Form.Group controlId='email'>
             {/* <Form.Label>Email address</Form.Label> */}
             <Form.Control
-              name="email"
-              type="email"
-              placeholder="Email"
+              name='email'
+              type='email'
+              placeholder='Email'
               value={this.state.email}
               onChange={this.onInputChange}
             />
           </Form.Group>
-          <Form.Group controlId="roles">
+          <Form.Group controlId='roles'>
             <Form.Label>Role</Form.Label>
             <Form.Control
-              name="role"
-              as="select"
+              name='role'
+              as='select'
               value={this.state.role}
               onChange={this.onInputChange}
             >
@@ -84,8 +84,8 @@ class UserUpdateForm extends Component {
               <option>Contributer</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group controlId="submit">
-            <Button variant="color-primary-one" type="submit">
+          <Form.Group controlId='submit'>
+            <Button variant='color-primary-one' type='submit'>
               Update
             </Button>
           </Form.Group>

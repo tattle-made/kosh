@@ -1,23 +1,15 @@
 import {
-  GET_USER,
   USER_DELETE,
-  ERROR,
   USER_SELECT,
   USER_UPDATE,
   ALL_USERS,
   USERS
 } from './types';
+
 import axios from 'axios';
 import { error } from './utils';
 
-const getUser = () => {
-  return {
-    type: GET_USER
-  };
-};
-
 const createUser = userData => {
-  console.log('create user action', userData);
   const token = localStorage.getItem('token');
   const request = axios.post(
     'http://localhost:8080/api/users/create',
@@ -31,14 +23,12 @@ const createUser = userData => {
   return dispatch => {
     request
       .then(res => {
-        console.log('inside action', res);
         // dispatch({
         //   type: SET_USER,
         //   payload: res.data
         // });
       })
       .catch(err => {
-        console.log('err', err);
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -49,7 +39,6 @@ const createUser = userData => {
 };
 
 const userDelete = (id, page) => {
-  console.log('inside delete action and page', page);
   const url = `http://localhost:8080/api/users/delete/${id}`;
   const token = localStorage.getItem('token');
   const request = axios.delete(url, {
@@ -60,7 +49,6 @@ const userDelete = (id, page) => {
   return dispatch => {
     request
       .then(res => {
-        console.log(res);
         dispatch({
           type: USER_DELETE,
           payload: res.data
@@ -68,7 +56,6 @@ const userDelete = (id, page) => {
         dispatch(fetchUsers(1));
       })
       .catch(err => {
-        console.log('err', err);
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -90,7 +77,7 @@ const selectedUser = userData => {
 const updateUser = (id, userData) => {
   const url = `http://localhost:8080/api/users/update/${id}`;
   const token = localStorage.getItem('token');
-  console.log('inside action', userData);
+
   const request = axios.post(url, userData, {
     headers: {
       token
@@ -118,7 +105,6 @@ const fetchAllUsers = () => {
         });
       })
       .catch(err => {
-        console.log('err', err);
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -133,7 +119,6 @@ const fetchAllUsers = () => {
 };
 
 const fetchUsers = page => {
-  console.log('action fetch users page ', page);
   const url = `http://localhost:8080/api/users/${page}`;
   const token = localStorage.getItem('token');
   const request = axios.get(url, {
@@ -150,7 +135,6 @@ const fetchUsers = page => {
         });
       })
       .catch(err => {
-        console.log('err', err);
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -161,7 +145,6 @@ const fetchUsers = page => {
 };
 
 export {
-  getUser,
   createUser,
   userDelete,
   selectedUser,

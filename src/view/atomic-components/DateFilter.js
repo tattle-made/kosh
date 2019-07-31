@@ -29,7 +29,6 @@ class DateFilter extends Component {
   }
 
   onSearch() {
-    console.log('datefilter');
     this.props.time({
       from: this.state.startDate,
       to: this.state.endDate
@@ -37,7 +36,6 @@ class DateFilter extends Component {
   }
 
   render() {
-    console.log('inside filter ', this.props);
     return (
       <span className='filter-box'>
         <DatePickerComponent

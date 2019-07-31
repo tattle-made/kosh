@@ -6,7 +6,6 @@ import { toggleAuthentication } from './auth';
 const postDelete = (id, page) => {
   const url = `http://localhost:8080/api/posts/delete/${id}`;
   const token = localStorage.getItem('token');
-  console.log('token delete post and url', token, url);
   const request = axios.delete(url, {
     headers: {
       token
@@ -16,7 +15,6 @@ const postDelete = (id, page) => {
   return dispatch => {
     request
       .then(res => {
-        console.log('res ', res);
         dispatch({
           type: POST_DELETE,
           payload: res.data
@@ -24,7 +22,6 @@ const postDelete = (id, page) => {
         dispatch(fetchPosts(1));
       })
       .catch(err => {
-        console.log('err', err);
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -38,7 +35,7 @@ const postDelete = (id, page) => {
 
 const postByTime = (page, startDate, endDate) => {
   const url = `http://localhost:8080/api/postByTime/${page}`;
-  console.log('action postybytime ', url);
+
   const token = localStorage.getItem('token');
   const time = {
     startDate,
@@ -50,18 +47,15 @@ const postByTime = (page, startDate, endDate) => {
     }
   });
 
-  console.log('request posy by time', request);
   return dispatch => {
     request
       .then(res => {
-        console.log('posybytime res', res.data);
         dispatch({
           type: POSTS,
           payload: res.data
         });
       })
       .catch(err => {
-        console.log('err', err);
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -72,9 +66,8 @@ const postByTime = (page, startDate, endDate) => {
 };
 
 const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
-  console.log(users_id);
   const url = `http://localhost:8080/api/postByTimeAndUsers/${page}`;
-  console.log('action user and time url', url);
+
   const token = localStorage.getItem('token');
   const data = {
     users_id,
@@ -86,7 +79,7 @@ const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
       token
     }
   });
-  console.log(request);
+
   return dispatch => {
     request
       .then(res => {
@@ -96,7 +89,6 @@ const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
         });
       })
       .catch(err => {
-        console.log('err', err);
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -107,11 +99,10 @@ const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
 };
 
 const fetchPosts = page => {
-  console.log('action posts page ', page);
   if (page === undefined) {
     page = 1;
   }
-  console.log('fetchposts page ', page);
+
   const url = `http://localhost:8080/api/posts/${page}`;
   const token = localStorage.getItem('token');
   const request = axios.get(url, {
@@ -128,9 +119,8 @@ const fetchPosts = page => {
         });
       })
       .catch(err => {
-        console.log(err.response);
         dispatch(toggleAuthentication(false));
-        console.log('err', err);
+
         if (err.response === undefined) {
           dispatch(error('Network Error'));
         } else {
@@ -160,25 +150,24 @@ const uploadToS3 = (file, fileName, fileType) => {
         const info = response.data.data.info;
         const signedRequest = info.signedRequest;
         const url = info.url;
-        const success = info.success;
-        console.log('s3 file url', url);
+        const success = response.data.success;
+
         const options = {
           headers: {
             'Content-Type': fileType
           }
         };
-        axios
-          .put(signedRequest, file, options)
-          .then(result => {
-            console.log('Response from s3');
-            return {
-              type: POST_UPLOAD,
-              payload: success
-            };
-          })
-          .catch(err => {
-            dispatch(error(err));
+
+        const data = {
+          success,
+          url
+        };
+        axios.put(signedRequest, file, options).then(result => {
+          dispatch({
+            type: POST_UPLOAD,
+            payload: data
           });
+        });
       })
       .catch(err => {
         dispatch(error(err));

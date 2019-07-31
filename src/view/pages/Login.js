@@ -1,25 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter, Redirect } from "react-router-dom";
-import classnames from "classnames";
-import PropTypes from "prop-types";
-import { IsEmpty } from "is-empty";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 //actions
-import { loginUser } from "../../redux/actions/auth";
+import { loginUser } from '../../redux/actions/auth';
 
 //components
-import tattleLogo from "../../assets/img/logo_logomark.png";
-import LoginHeader from "../components/LoginHeader";
-import LoginFooter from "../components/LoginFooter";
-import LoginCard from "../components/LoginCard";
+import tattleLogo from '../../assets/img/logo_logomark.png';
+import LoginHeader from '../components/LoginHeader';
+import LoginFooter from '../components/LoginFooter';
+import LoginCard from '../components/LoginCard';
 
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
       errors: {},
       auth: false
     };
@@ -49,28 +47,22 @@ class LoginPage extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    console.log("submitted");
+
     this.props.loginUser(userData);
-    // if (true) {
-    //   this.props.history.push("/posts");
-    //   // this.props.history.push("/posts");
-    // }
   }
 
   redirect(auth) {
-    // console.log("redirecting to post and auth is ", auth);
     if (auth) {
-      this.props.history.push("/posts");
+      this.props.history.push('/posts');
     }
   }
 
   render() {
     this.redirect(this.props.auth);
-    const errors = this.state.errors;
-    console.log("eeeeeeeee", errors);
+
     return (
-      <div className="login-page">
-        <LoginHeader img={tattleLogo} alt="tattle-logo" />
+      <div className='login-page'>
+        <LoginHeader img={tattleLogo} alt='tattle-logo' />
         <LoginCard
           username={this.state.username}
           password={this.state.password}

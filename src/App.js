@@ -25,10 +25,6 @@ function App() {
             <Switch>
               <Route exact path='/' component={LoginCard} />
             </Switch>
-
-            {/* <Switch>
-              <Route exact path="/login" component={LoginCard} />
-            </Switch> */}
             <Route path='/' component={FooterSite} />
             <Switch>
               <PrivateRoute exact path='/cards' component={Cards} />

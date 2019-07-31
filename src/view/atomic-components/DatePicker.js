@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import DatePicker from "react-datepicker";
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
 
 class DatePickerComponent extends Component {
   render() {
@@ -8,7 +8,6 @@ class DatePickerComponent extends Component {
         <DatePicker
           selected={this.props.date}
           onChange={this.props.onDateChange}
-          // onChange={() => console.log("1")}
           popperModifiers={{
             flip: {
               enabled: false

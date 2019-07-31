@@ -90,9 +90,6 @@ class SearchInput extends Component {
     });
   }
 
-  // inputvalue(e) {
-  //   console.log("INPUT ", e.target.value);
-  // }
   onInputChange(e) {
     this.setState({
       searchInput: e.target.value
@@ -101,22 +98,12 @@ class SearchInput extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    // this.props.contentLoading();
-    // console.log("search ", this.state.searchInput);
-    // this.props.contentLoading();
-    // const url = `http://13.233.110.23:8080/search?type=${
-    //   this.state.content_type
-    // }&query=${this.state.searchInput}`;
-    // console.log(url);
-    // this.props.search(url);
-    // // this.setState({
-    // //   loading: false
-    // // });
+  
   }
 
   render() {
-    // console.log(this.props);
-    const { selectedOption, data } = this.state;
+
+    const { data } = this.state;
     return (
       <div className='container'>
         <BreadCrumb path={this.props.match.path} />
