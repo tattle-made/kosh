@@ -7,7 +7,7 @@ export default class LoginResponse {
 
     public get() {
         return {
-            token: this.token
+            token: this.token,
         };
     }
 }

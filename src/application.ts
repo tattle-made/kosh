@@ -5,12 +5,12 @@ export class Application {
 
     public addToRouteToControllerMap(
         route: string,
-        controller: BaseController
+        controller: BaseController,
     ) {
         this.routeToController.set(route, controller);
     }
 
-    public getController(route: any) {
+    public getController(route: string) {
         return this.routeToController.get(route);
     }
 

@@ -1,6 +1,6 @@
 {
   "arrowParens": "always",
-  "trailingComma": "es5",
+  "trailingComma": "all",
   "singleQuote": true,
   "tabWidth": 2,
   "overrides": [

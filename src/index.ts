@@ -12,7 +12,6 @@ import { LoginController } from './controllers/LoginController';
 
 import { PostCreateRequest } from './models/request/PostCreateRequest';
 
-import LoginResponse from './models/response/LoginResponse';
 import { UserController } from './controllers/UserController';
 import { UserCreateRequest } from './models/request/UserCreateRequest';
 
@@ -41,15 +40,14 @@ Sentry.init({
 app.use(
     cors({
         origin: '*',
-    })
+    }),
 );
 
 app.use((req, res, next) => {
-    // update to match the domain you will make the request from
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
+        'Origin, X-Requested-With, Content-Type, Accept',
     );
     next();
 });

@@ -1,7 +1,6 @@
-import _BaseController from "./_BaseController";
-import * as bcrypt from "bcrypt";
+import _BaseController from './_BaseController';
+import * as bcrypt from 'bcrypt';
 import {
-    exists,
     create,
     update,
     deleteUser,
@@ -9,41 +8,18 @@ import {
     getUserRole,
     getCompleteList,
     getById,
-    User
-} from "../models/data/UserDb";
-import {
-    createOrUpdateTokenForUserId,
-    deleteToken
-} from "../models/data/AuthDb";
-import ExistsResponse from "../models/data/ExistsResponse";
-import LogoutResponse from "../models/response/LogoutResponse";
+} from '../models/data/UserDb';
+import { deleteToken } from '../models/data/AuthDb';
 
-import { logError } from "../service/logger";
-import { UserCreateRequest } from "src/models/request/UserCreateRequest";
-import { UserCreateResponse } from "src/models/response/UserCreateResponse";
+import LogoutResponse from '../models/response/LogoutResponse';
+
+import { logError } from '../service/logger';
+import { UserCreateRequest } from 'src/models/request/UserCreateRequest';
 
 export class UserController extends _BaseController {
     constructor() {
-        super("user controller");
+        super('user controller');
     }
-
-    // public create(username: string, password: string, email: string, role: string): Promise<string> {
-    //     return exists(username, password)
-    //     .then((result: ExistsResponse) => {
-    //         if (result.status) {
-    //             // return createOrUpdateTokenForUserId(result.userId);
-    //             return {
-
-    //             }
-    //         } else {
-    //             return Promise.resolve('zzzz-zzzz-zzzzzz-zzz');
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //         return 'failure token';
-    //     });
-    // }
 
     public getById(id: number) {
         return getById(id);
@@ -60,11 +36,16 @@ export class UserController extends _BaseController {
     public create(param: UserCreateRequest) {
         return bcrypt
             .hash(param.password, 10)
-            .then(hash => {
+            .then((hash) => {
                 param.password = hash;
                 return create(param);
             })
-            .catch(err => console.log(err));
+            .catch((err) => {
+                return Promise.resolve({
+                    message: 'Error Creating User',
+                    error: err,
+                });
+            });
     }
 
     public update(id: number, param: UserCreateRequest) {
@@ -78,20 +59,20 @@ export class UserController extends _BaseController {
     public logout(token: string) {
         return deleteToken(token)
             .then((numOfRows: number) => LogoutResponse.create(numOfRows).get())
-            .catch(err => logError(err));
+            .catch((err) => logError(err));
     }
 
-    public getPermissions(route: string, method: string) {
-        if (method === "GET") {
-            if (route.includes("/users")) {
-                return ["admin", "editor"];
+    public getPermissions(route: string, method: string): string[] {
+        if (method === 'GET') {
+            if (route.includes('/users')) {
+                return ['admin', 'editor'];
             }
-            return ["subscriber", "admin", "editor"];
+            return ['subscriber', 'admin', 'editor'];
         } else {
-            if (route.includes("/users/update")) {
-                return ["editor", "admin"];
+            if (route.includes('/users/update')) {
+                return ['editor', 'admin'];
             }
-            return ["admin", "subscriber", "editor"];
+            return ['admin', 'subscriber', 'editor'];
         }
     }
 

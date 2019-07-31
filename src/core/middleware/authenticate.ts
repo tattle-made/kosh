@@ -3,8 +3,8 @@ import { LoginController } from '../../controllers/LoginController';
 
 const loginController = new LoginController();
 
-export const authenticate = (req: Request, res: Response, next: Function) => {
-    const token = req.headers['token'];
+export const authenticate = (req: Request, res: Response, next: () => void) => {
+    const token = req.headers['token'] as string;
     if (req.originalUrl === '/api/auth/login') {
         next();
     } else if (token) {

@@ -13,7 +13,7 @@ export default class LogoutResponse extends BaseServerResponse {
 
     public get(): object {
         return this.getResponse({
-            message: `${this.numOfRows} rows were deleted`
+            message: `${this.numOfRows} rows were deleted`,
         });
     }
 }

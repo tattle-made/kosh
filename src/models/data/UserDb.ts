@@ -1,8 +1,7 @@
 import * as Sequelize from 'sequelize';
 import * as bcrypt from 'bcrypt';
 import db from '../../service/db';
-import ExistsResponse from '../data/ExistsResponse';
-import ExistsResponseToken from '../data/ExistsResponseToken';
+import ExistsResponse from '../response/ExistsResponse';
 import { UserCreateRequest } from '../request/UserCreateRequest';
 import { UserCreateResponse } from '../response/UserCreateResponse';
 
@@ -18,7 +17,7 @@ User.init(
     {
         sequelize: db.get(),
         modelName: 'user',
-    }
+    },
 );
 
 // User.sync()
@@ -37,7 +36,7 @@ User.init(
 
 export function exists(
     username: string,
-    password: string
+    password: string,
 ): Promise<ExistsResponse> {
     return User.findAndCountAll({
         where: {
@@ -45,7 +44,6 @@ export function exists(
         },
     })
         .then((result) => {
-            console.log('result ', result);
             if (result.count === 0) {
                 return new ExistsResponse(false, -1);
             } else {
@@ -54,17 +52,25 @@ export function exists(
                     .then((res) => {
                         if (res === true) {
                             return new ExistsResponse(true, result.rows[0].get(
-                                'id'
+                                'id',
                             ) as number);
                         } else {
                             return new ExistsResponse(false, -1);
                         }
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => {
+                        return Promise.resolve({
+                            message: 'Error Fetching Post',
+                            error: err,
+                        });
+                    });
             }
         })
         .catch((err) => {
-            console.log(err);
+            return Promise.resolve({
+                message: 'Error Fetching Post',
+                error: err,
+            });
         });
     // .then((user) => user.id != undefined ? true : false;)
 }
@@ -109,7 +115,7 @@ export function getAll(page: number) {
     })
         .then((result) => {
             return {
-                page: page,
+                page,
                 totalPages: Math.ceil(result.count / pageSize),
                 count: result.count,
                 users: result.rows,
@@ -132,7 +138,12 @@ export function getById(id: number) {
         .then((user) => {
             return user;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            return Promise.resolve({
+                message: 'Error Fetching Post',
+                error: err,
+            });
+        });
 }
 
 export function create(param: UserCreateRequest): Promise<UserCreateResponse> {
@@ -142,7 +153,7 @@ export function create(param: UserCreateRequest): Promise<UserCreateResponse> {
                 user.id,
                 user.username,
                 user.email,
-                user.role
+                user.role,
             );
         })
         .catch((err) => {
@@ -165,17 +176,16 @@ export function update(id: number, param: UserCreateRequest) {
             where: {
                 id,
             },
-        }
+        },
     )
         .then((user) => {
-            console.log('updated');
-            console.log(user);
+            return user;
         })
         .catch((err) =>
             Promise.resolve({
                 message: 'Error Updating User',
                 error: err.toJSON(),
-            })
+            }),
         );
 }
 
@@ -196,11 +206,11 @@ export function deleteUser(id: number) {
             Promise.resolve({
                 message: 'Error Deleting User',
                 error: err.toJSON(),
-            })
+            }),
         );
 }
 
-export function getUserRole(id: number): Promise<any> {
+export function getUserRole(id: number): Promise<string> {
     return User.findOne({
         where: {
             id,
@@ -209,9 +219,12 @@ export function getUserRole(id: number): Promise<any> {
         .then((user) => {
             if (user) {
                 return user.get('role');
-            } else {
-                console.log('user role not found');
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            return Promise.resolve({
+                message: 'Error Fetching Post',
+                error: err,
+            });
+        });
 }

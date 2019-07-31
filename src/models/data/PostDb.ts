@@ -17,7 +17,7 @@ Post.init(
     {
         sequelize: db.get(),
         modelName: 'post',
-    }
+    },
 );
 
 // Post.afterCreate( () => {
@@ -39,13 +39,13 @@ export function create(param: PostCreateRequest): Promise<JSON> {
         .then((post: Post) => post.get({ plain: true }))
         .catch((err) =>
             Promise.resolve({
-                message: 'Error creating Post',
+                message: 'Error Creating Post',
                 error: err.toJSON(),
-            })
+            }),
         );
 }
 
-export function getAll(page: number) {
+export function getAll(page: number): Promise<object> {
     const pageSize = 10;
     return Post.findAndCountAll({
         offset: page * pageSize - pageSize,
@@ -73,10 +73,19 @@ export function get(id: number) {
         where: {
             id,
         },
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+        return Promise.resolve({
+            message: 'Error Fetching Post',
+            error: err,
+        });
+    });
 }
 
-export function getByTime(page: number, d1: string, d2: string) {
+export function getByTime(
+    page: number,
+    d1: string,
+    d2: string,
+): Promise<object> {
     const pageSize = 10;
     return Post.findAndCountAll({
         where: {
@@ -90,7 +99,7 @@ export function getByTime(page: number, d1: string, d2: string) {
     })
         .then((result) => {
             return {
-                page: page,
+                page,
                 count: result.count,
                 totalPages: Math.ceil(result.count / pageSize),
                 posts: result.rows,
@@ -105,15 +114,15 @@ export function getByTime(page: number, d1: string, d2: string) {
 }
 
 export function getByTimeAndUsers(
-    user_id: number,
+    userId: number,
     page: number,
     d1: string,
-    d2: string
-) {
+    d2: string,
+): Promise<object> {
     const pageSize = 10;
     return Post.findAndCountAll({
         where: {
-            user_id,
+            user_id: userId,
             createdAt: {
                 [Op.between]: [d1, d2],
             },
@@ -155,6 +164,6 @@ export function deletePost(id: number) {
             Promise.resolve({
                 message: 'Error Deleting Post',
                 error: err.toJSON(),
-            })
+            }),
         );
 }

@@ -1,9 +1,9 @@
-import * as Sequelize from "sequelize";
-import db from "../../service/db";
-import { v1 as uuid } from "uuid";
-import { logError } from "../../service/logger";
-import ExistsResponse from "./ExistsResponse";
-import ExistsResponseToken from "./ExistsResponseToken";
+import * as Sequelize from 'sequelize';
+import db from '../../service/db';
+import { v1 as uuid } from 'uuid';
+import { logError } from '../../service/logger';
+import ExistsResponse from '../response/ExistsResponse';
+import ExistsResponseToken from '../response/ExistsResponseToken';
 
 export class Auth extends Sequelize.Model {}
 
@@ -12,13 +12,13 @@ Auth.init(
         token: Sequelize.STRING,
         user_id: {
             type: Sequelize.INTEGER,
-            primaryKey: true
-        }
+            primaryKey: true,
+        },
     },
     {
         sequelize: db.get(),
-        modelName: "token"
-    }
+        modelName: 'token',
+    },
 );
 
 // Auth.sync({force:true})
@@ -33,56 +33,69 @@ Auth.init(
 // });
 
 export function createOrUpdateTokenForUserId(userId: number): Promise<string> {
-    // return Promise.resolve(uuid());
     const token = uuid();
     return Auth.upsert(
         {
             token,
-            user_id: userId
+            user_id: userId,
         },
-        { returning: true }
+        { returning: true },
     )
-        .then(val => {
+        .then((val) => {
             return token;
         })
-        .catch(err => console.log(err));
+        .catch((err) => {
+            return Promise.resolve({
+                message: 'Error Fetching Post',
+                error: err,
+            });
+        });
 }
 
 export function createOrUpdateTokenForUserIdToken(
-    userId: number
+    userId: number,
 ): Promise<ExistsResponseToken> {
-    // return Promise.resolve(uuid());
     const token = uuid();
     return Auth.upsert(
         {
             token,
-            user_id: userId
+            user_id: userId,
         },
-        { returning: true }
+        { returning: true },
     )
-        .then(val => {
+        .then((val) => {
             return new ExistsResponseToken(true, userId, token);
         })
-        .catch(err => console.log(err));
+        .catch((err) => {
+            return Promise.resolve({
+                message: 'Error Fetching Post',
+                error: err,
+            });
+        });
 }
 
 export function deleteToken(token: string): Promise<number> {
-    return Auth.destroy({ where: { token } }).catch(err => logError(err));
+    return Auth.destroy({ where: { token } }).catch((err) => logError(err));
 }
 
 export function existsToken(token: string): Promise<ExistsResponse> {
     return Auth.findOne({
         where: {
-            token
-        }
+            token,
+        },
     })
-        .then(data => {
+        .then((data) => {
             if (data) {
-                const user_id = data.get("user_id") as number;
-                return new ExistsResponse(true, user_id);
+                const userId = data.get('user_id') as number;
+                return new ExistsResponse(true, userId);
             } else {
                 return new ExistsResponse(false, -1);
             }
         })
-        .catch(err => console.log(err));
+        .catch((err) => {
+            return Promise.resolve({
+                message: 'Error Fetching Post',
+                error: err,
+            });
+        });
 }

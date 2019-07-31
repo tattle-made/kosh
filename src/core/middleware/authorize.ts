@@ -5,7 +5,7 @@ import { Application } from '../../application';
 const userController = new UserController();
 const application = new Application();
 
-export const authorize = (req: Request, res: Response, next: Function) => {
+export const authorize = (req: Request, res: Response, next: () => void) => {
     if (req.originalUrl === '/api/auth/login') {
         return next();
     }
@@ -16,8 +16,7 @@ export const authorize = (req: Request, res: Response, next: Function) => {
         .then((role) => {
             const value = application.getController(req.originalUrl);
             let permission;
-
-            if (value != undefined) {
+            if (value !== undefined) {
                 permission = value.getPermissions(req.originalUrl, req.method);
             }
 

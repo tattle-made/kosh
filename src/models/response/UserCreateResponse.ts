@@ -16,7 +16,7 @@ export class UserCreateResponse {
             id: this.id,
             username: this.username,
             email: this.email,
-            role: this.role
+            role: this.role,
         };
     }
 }

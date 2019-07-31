@@ -1,12 +1,11 @@
 import BaseController from './_BaseController';
 import {
-    Post,
     create,
     getAll,
     get,
     getByTime,
     getByTimeAndUsers,
-    deletePost
+    deletePost,
 } from '../models/data/PostDb';
 
 import { PostCreateRequest } from '../models/request/PostCreateRequest';
@@ -29,15 +28,15 @@ export class PostController extends BaseController {
     }
 
     public getByTimeAndUsers(
-        user_id: any,
+        userId: number,
         page: number,
         d1: string,
-        d2: string
+        d2: string,
     ) {
-        return getByTimeAndUsers(user_id, page, d1, d2);
+        return getByTimeAndUsers(userId, page, d1, d2);
     }
 
-    public create(param: PostCreateRequest): Promise<JSON> {
+    public create(param: PostCreateRequest) {
         return create(param);
     }
 
