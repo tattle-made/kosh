@@ -12,17 +12,17 @@ Post.init(
         filename: Sequelize.STRING,
         source: Sequelize.INTEGER,
         campaign_id: Sequelize.INTEGER,
-        user_id: Sequelize.INTEGER
+        user_id: Sequelize.INTEGER,
     },
     {
         sequelize: db.get(),
-        modelName: 'post'
+        modelName: 'post',
     }
 );
 
-Post.afterCreate(function() {
-    console.log('post Created');
-});
+// Post.afterCreate( () => {
+//     console.log('post Created');
+// });
 
 // Post.sync({force: true})
 // .then(() => {
@@ -37,10 +37,10 @@ Post.afterCreate(function() {
 export function create(param: PostCreateRequest): Promise<JSON> {
     return Post.create(param.getAll())
         .then((post: Post) => post.get({ plain: true }))
-        .catch(err =>
+        .catch((err) =>
             Promise.resolve({
                 message: 'Error creating Post',
-                error: err.toJSON()
+                error: err.toJSON(),
             })
         );
 }
@@ -50,20 +50,20 @@ export function getAll(page: number) {
     return Post.findAndCountAll({
         offset: page * pageSize - pageSize,
         limit: 10,
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
     })
-        .then(result => {
+        .then((result) => {
             return {
-                page: page,
+                page,
                 totalPages: Math.ceil(result.count / pageSize),
                 count: result.count,
-                posts: result.rows
+                posts: result.rows,
             };
         })
-        .catch(err => {
+        .catch((err) => {
             return Promise.resolve({
                 message: 'Error Fetching Post',
-                error: err
+                error: err,
             });
         });
 }
@@ -71,9 +71,9 @@ export function getAll(page: number) {
 export function get(id: number) {
     return Post.findOne({
         where: {
-            id
-        }
-    }).catch(err => console.log(err));
+            id,
+        },
+    }).catch((err) => console.log(err));
 }
 
 export function getByTime(page: number, d1: string, d2: string) {
@@ -81,31 +81,31 @@ export function getByTime(page: number, d1: string, d2: string) {
     return Post.findAndCountAll({
         where: {
             createdAt: {
-                [Op.between]: [d1, d2]
-            }
+                [Op.between]: [d1, d2],
+            },
         },
         offset: page * pageSize - pageSize,
         limit: 10,
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
     })
-        .then(result => {
+        .then((result) => {
             return {
                 page: page,
                 count: result.count,
                 totalPages: Math.ceil(result.count / pageSize),
-                posts: result.rows
+                posts: result.rows,
             };
         })
-        .catch(err => {
+        .catch((err) => {
             return Promise.resolve({
                 message: 'Error Fetching Post',
-                error: err
+                error: err,
             });
         });
 }
 
 export function getByTimeAndUsers(
-    user_id: any,
+    user_id: number,
     page: number,
     d1: string,
     d2: string
@@ -113,48 +113,48 @@ export function getByTimeAndUsers(
     const pageSize = 10;
     return Post.findAndCountAll({
         where: {
-            user_id: user_id,
+            user_id,
             createdAt: {
-                [Op.between]: [d1, d2]
-            }
+                [Op.between]: [d1, d2],
+            },
         },
         offset: page * pageSize - pageSize,
         limit: 10,
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
     })
-        .then(result => {
+        .then((result) => {
             return {
-                page: page,
+                page,
                 count: result.count,
                 totalPages: Math.ceil(result.count / pageSize),
-                posts: result.rows
+                posts: result.rows,
             };
         })
-        .catch(err => {
+        .catch((err) => {
             return Promise.resolve({
                 message: 'Error Fetching Post',
-                error: err
+                error: err,
             });
         });
 }
 
-export function deletePost(id: number): Promise<any> {
+export function deletePost(id: number) {
     return Post.destroy({
         where: {
-            id
-        }
+            id,
+        },
     })
-        .then(post => {
+        .then((post) => {
             if (post) {
                 return 'post deleted';
             } else {
                 return 'no post found';
             }
         })
-        .catch(err =>
+        .catch((err) =>
             Promise.resolve({
                 message: 'Error Deleting Post',
-                error: err.toJSON()
+                error: err.toJSON(),
             })
         );
 }

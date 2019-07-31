@@ -1,7 +1,9 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import * as Sentry from '@sentry/node';
-//socket.io
+import * as aws from 'aws-sdk';
+
+// socket.io
 import * as socketio from 'socket.io';
 import { Request, Response } from 'express';
 import { PostController } from './controllers/PostController';
@@ -14,10 +16,10 @@ import LoginResponse from './models/response/LoginResponse';
 import { UserController } from './controllers/UserController';
 import { UserCreateRequest } from './models/request/UserCreateRequest';
 
-//validator
+// validator
 import { loginValidator } from './core/validation/login';
 
-//middleware
+// middleware
 import { authenticate } from './core/middleware/authenticate';
 import { authorize } from './core/middleware/authorize';
 
@@ -28,28 +30,30 @@ const server = app.listen(port, () => {
 });
 const io = socketio(server);
 app.set('socketio', io);
-io.on('connection', client => {
+io.on('connection', (client) => {
     console.log('Client is connected');
 });
 
 Sentry.init({
-    dsn: 'https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856'
+    dsn: 'https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856',
 });
 
 app.use(
     cors({
-        origin: '*'
+        origin: '*',
     })
 );
 
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
+app.use((req, res, next) => {
+    // update to match the domain you will make the request from
+    res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept'
     );
     next();
 });
+
 app.use(Sentry.Handlers.requestHandler());
 app.use(express.json());
 app.use(authenticate);
@@ -67,7 +71,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;
-    postController.getAll(page).then(posts => res.send(posts));
+    postController.getAll(page).then((posts) => res.send(posts));
 });
 
 app.post('/api/postByTime/:page', (req: Request, res: Response) => {
@@ -77,10 +81,10 @@ app.post('/api/postByTime/:page', (req: Request, res: Response) => {
     const d2 = new Date(endDate).toISOString();
     postController
         .getByTime(page, d1, d2)
-        .then(posts => {
+        .then((posts) => {
             res.send(posts);
         })
-        .catch(err => res.send(err.JSON));
+        .catch((err) => res.send(err.JSON));
 });
 
 app.post('/api/postByTimeAndUsers/:page', (req: Request, res: Response) => {
@@ -88,35 +92,35 @@ app.post('/api/postByTimeAndUsers/:page', (req: Request, res: Response) => {
     const { users_id, startDate, endDate } = req.body;
     const d1 = new Date(startDate).toISOString();
     const d2 = new Date(endDate).toISOString();
-    users_id as Array<number>;
+    // users_id as Array<number>;
     postController
         .getByTimeAndUsers(users_id, page, d1, d2)
-        .then(posts => {
+        .then((posts) => {
             res.send(posts);
         })
-        .catch(err => res.send(err.JSON));
+        .catch((err) => res.send(err.JSON));
 });
 
 app.post('/api/posts', (req: Request, res: Response) => {
     const post = new PostCreateRequest(req.body);
-    const io = req.app.get('socketio');
+    const ioPost = req.app.get('socketio');
     postController
         .create(post)
         .then((response: JSON) => {
-            io.emit('posts/newData', { name: 'gully' });
+            ioPost.emit('posts/newData', { name: 'gully' });
             res.send(response);
         })
-        .catch(err => res.send(err.JSON));
+        .catch((err) => res.send(err.JSON));
 });
 
 app.get('/api/posts/:id', (req: Request, res: Response) => {
     const { id } = req.params;
-    postController.get(id).then(post => res.send(post));
+    postController.get(id).then((post) => res.send(post));
 });
 
 app.delete('/api/posts/delete/:id', (req: Request, res: Response) => {
     const { id } = req.params;
-    postController.delete(id).then(post => res.send(post));
+    postController.delete(id).then((post) => res.send(post));
 });
 
 app.get('/api/search', (req: Request, res: Response) => {
@@ -131,35 +135,33 @@ app.post('/api/auth/login', (req: Request, res: Response) => {
     }
     loginController
         .login(username, password)
-        .then(response => {
+        .then((response) => {
             res.send(response);
         })
-        .catch(err => console.log(err));
-    // todo : fix loginResponse
-    // .then(response => res.send(new LoginResponse(response).get()));
+        .catch((err) => console.log(err));
 });
 
 app.post('/api/auth/logout', (req: Request, res: Response) => {
     const { token } = req.body;
-    loginController.logout(token).then(response => res.send(response));
+    loginController.logout(token).then((response) => res.send(response));
 });
 
 app.get('/api/user/:id', (req: Request, res: Response) => {
     const id = req.params.id;
-    userController.getById(id).then(user => {
+    userController.getById(id).then((user) => {
         res.send(user);
     });
 });
 
 app.get('/api/users/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;
-    userController.getAll(page).then(users => {
+    userController.getAll(page).then((users) => {
         res.send(users);
     });
 });
 
 app.get('/api/userList', (req: Request, res: Response) => {
-    userController.getCompleteList().then(users => {
+    userController.getCompleteList().then((users) => {
         res.send(users);
     });
 });
@@ -168,8 +170,8 @@ app.post('/api/users/create', (req: Request, res: Response) => {
     const user = new UserCreateRequest(req.body);
     userController
         .create(user)
-        .then(response => res.send(response))
-        .catch(err => res.send(err.JSON));
+        .then((response) => res.send(response))
+        .catch((err) => res.send(err.JSON));
 });
 
 app.post('/api/users/update/:id', (req: Request, res: Response) => {
@@ -177,16 +179,50 @@ app.post('/api/users/update/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     userController
         .update(id, user)
-        .then(response => res.send(response))
-        .catch(err => res.send(err.JSON));
+        .then((response) => res.send(response))
+        .catch((err) => res.send(err.JSON));
 });
 
 app.delete('/api/users/delete/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     userController
         .delete(id)
-        .then(response => res.send(response))
-        .catch(err => res.send(err.JSON));
+        .then((response) => res.send(response))
+        .catch((err) => res.send(err.JSON));
+});
+
+app.post('/api/uploadToS3', (req: Request, res: Response) => {
+    aws.config.update({
+        region: 'ap-south-1',
+        accessKeyId: 'AKIAZEOQEMFTM3RHNM4T',
+        secretAccessKey: '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',
+    });
+
+    const S3_BUCKET = 'shell-tattle';
+    const s3 = new aws.S3();
+    const fileName = req.body.fileName;
+    const fileType = req.body.fileType;
+
+    const params = {
+        Bucket: S3_BUCKET,
+        Key: fileName,
+        Expires: 500,
+        ContentType: fileType,
+        ACL: 'public-read',
+    };
+
+    s3.getSignedUrl('putObject', params, (err, data) => {
+        if (err) {
+            res.json({ success: false, error: err });
+        }
+
+        const info = {
+            signedRequest: data,
+            url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`,
+        };
+
+        res.json({ success: true, data: { info } });
+    });
 });
 
 app.use(Sentry.Handlers.errorHandler());

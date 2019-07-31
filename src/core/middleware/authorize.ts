@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
-import { UserController } from "../../controllers/UserController";
-import { Application } from "../../application";
+import { Request, Response } from 'express';
+import { UserController } from '../../controllers/UserController';
+import { Application } from '../../application';
 
 const userController = new UserController();
 const application = new Application();
 
 export const authorize = (req: Request, res: Response, next: Function) => {
-    if (req.originalUrl === "/api/auth/login") {
+    if (req.originalUrl === '/api/auth/login') {
         return next();
     }
 
     application.addToRouteToControllerMap(req.originalUrl, userController);
     userController
         .getUserRole(res.locals.userId)
-        .then(role => {
+        .then((role) => {
             const value = application.getController(req.originalUrl);
             let permission;
 
@@ -24,8 +24,8 @@ export const authorize = (req: Request, res: Response, next: Function) => {
             if (permission.includes(role)) {
                 next();
             } else {
-                return res.status(403).json({ message: "Permission Denied" });
+                return res.status(403).send('Permission Denied');
             }
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
 };
