@@ -36,7 +36,12 @@ class PrimaryActionTable extends Component {
     return (
       <div className='primary-action-post-table'>
         <Form.Group>
-          <Form.Label for='fileUpload'>Upload</Form.Label>
+          <Form.Label
+            className='mr-3 primary-action-post-table-upload'
+            for='fileUpload'
+          >
+            <FontAwesomeIcon icon={this.props.faUpload} /> Upload
+          </Form.Label>
           <Form.Control
             id='fileUpload'
             type='file'
@@ -45,19 +50,21 @@ class PrimaryActionTable extends Component {
             style={{ display: 'none' }}
           />
         </Form.Group>
-
-        <Button
-          variant='light'
-          size='sm'
-          onClick={this.props.refresh}
-          className='mr-3'
-        >
-          <FontAwesomeIcon icon={this.props.faSync} />
-        </Button>
-        <Button variant='color-primary-one' size='sm'>
-          <FontAwesomeIcon icon={this.props.faDownload} /> Download
-        </Button>
-
+        <div>
+          <Button
+            variant='light'
+            size='sm'
+            onClick={this.props.refresh}
+            className='mr-3'
+          >
+            <FontAwesomeIcon icon={this.props.faSync} />
+          </Button>
+        </div>
+        <div>
+          <Button variant='color-primary-one' size='sm'>
+            <FontAwesomeIcon icon={this.props.faDownload} /> Download
+          </Button>
+        </div>
         <span className='primary-action-post-table-drop-down'>
           <DropDownFilter
             selectedItem={this.filterType}
