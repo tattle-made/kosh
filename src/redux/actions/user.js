@@ -23,10 +23,7 @@ const createUser = userData => {
   return dispatch => {
     request
       .then(res => {
-        // dispatch({
-        //   type: SET_USER,
-        //   payload: res.data
-        // });
+        dispatch(fetchUsers(1));
       })
       .catch(err => {
         if (err.response === undefined) {
@@ -62,8 +59,6 @@ const userDelete = (id, page) => {
           dispatch(error(err.response.data));
         }
       });
-
-    // dispatch(triggerRefresh(refresh));
   };
 };
 
@@ -83,8 +78,22 @@ const updateUser = (id, userData) => {
       token
     }
   });
-  return {
-    type: USER_UPDATE
+
+  return dispatch => {
+    request
+      .then(res => {
+        dispatch({
+          type: USER_UPDATE
+        });
+        dispatch(fetchUsers(1));
+      })
+      .catch(err => {
+        if (err.response === undefined) {
+          dispatch(error('Network Error'));
+        } else {
+          dispatch(error(err.response.data));
+        }
+      });
   };
 };
 

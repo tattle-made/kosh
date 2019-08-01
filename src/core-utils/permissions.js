@@ -41,8 +41,6 @@ const getRoutePermissions = route => {
       return [ADMIN];
     case '/users/:page':
       return [ADMIN, EDITOR];
-    case '/users/:page':
-      return [ADMIN, EDITOR];
     case '/users/create':
       return [ADMIN];
     default:

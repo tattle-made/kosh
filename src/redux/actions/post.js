@@ -28,8 +28,6 @@ const postDelete = (id, page) => {
           dispatch(error(err.response.data));
         }
       });
-
-    // dispatch(triggerRefresh(refresh));
   };
 };
 

@@ -1,14 +1,14 @@
-import { applyMiddleware, createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
-import rootReducer from "./redux/reducers/index.js";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import rootReducer from './redux/reducers/index.js';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: storage,
-  whitelist: ["auth", "loginUser"]
+  whitelist: ['auth', 'loginUser']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

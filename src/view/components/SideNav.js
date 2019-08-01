@@ -11,6 +11,7 @@ import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import tattle_monogram_dark from '../../assets/img/tattle_monogram_dark.png';
+import PropTypes from 'prop-types';
 
 //components
 import SearchInput from '../pages/Search';
@@ -140,6 +141,11 @@ class SideNav extends Component {
     );
   }
 }
+
+SideNav.propTypes = {
+  // logoutUser: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
+};
 
 const SideNavBar = withRouter(
   connect(

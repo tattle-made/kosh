@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUserPermissions } from '../../core-utils/permissions';
@@ -39,7 +39,8 @@ class AccessControl extends Component {
 
 AccessControl.propTypes = {
   allowedPermissions: PropTypes.array,
-  renderNoAccess: PropTypes.func
+  renderNoAccess: PropTypes.func,
+  userRole: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

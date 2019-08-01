@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import PropTypes from 'prop-types';
 
 class DatePickerComponent extends Component {
   render() {
@@ -22,5 +23,10 @@ class DatePickerComponent extends Component {
     );
   }
 }
+
+DatePickerComponent.propTypes = {
+  data: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired
+};
 
 export default DatePickerComponent;

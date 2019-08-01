@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import DateFilter from '../atomic-components/DateFilter';
 import UsernameFilter from '../atomic-components/UsernameFilter';
 
@@ -69,6 +70,13 @@ class SearchPostFilterParameters extends Component {
     );
   }
 }
+
+SearchPostFilterParameters.propTypes = {
+  fetchAllUsers: PropTypes.func.isRequired,
+  payload: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  users: PropTypes.array
+};
 
 const mapStateToProps = state => ({
   users: state.allUsers.users

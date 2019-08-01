@@ -9,7 +9,6 @@ const loginUser = userData => {
   return dispatch => {
     request
       .then(res => {
-        console.log('dispatch1 ', dispatch);
         const auth = res.data.auth;
 
         if (auth) {
@@ -53,13 +52,6 @@ const setCurrentUser = userData => {
   };
 };
 
-// const isValid = boolValue => {
-//   return {
-//     type: IS_VALID,
-//     payload: boolValue
-//   };
-// };
-
 const logoutUser = () => {
   //remove token from local storage
   localStorage.removeItem('token');
@@ -68,8 +60,8 @@ const logoutUser = () => {
   return dispatch => {
     dispatch({
       type: PURGE,
-      key: 'key'
-      // result: () => console.log('logged out')
+      key: 'key',
+      result: () => null
     });
     dispatch(setCurrentUser({}));
     dispatch(toggleAuthentication(false));

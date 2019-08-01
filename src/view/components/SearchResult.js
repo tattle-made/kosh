@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import Spinner from "../atomic-components/Spinner";
+import React, { Component } from 'react';
+// import Spinner from "../atomic-components/Spinner";
 
 class SearchResult extends Component {
   render() {
     return (
-      <div className="search-result container mt-5">
+      <div className='search-result container mt-5'>
         {/* empty cards for loading
         {/* {this.state.loading ? <Loading /> : null} */}
         {/* spinner for loading */}
@@ -12,7 +12,7 @@ class SearchResult extends Component {
           <Spinner />
         ) : (
           <div className="card-columns">{this.props.displayResults}</div>
-        )} */}{" "}
+        )} */}{' '}
       </div>
     );
   }

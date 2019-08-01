@@ -116,7 +116,10 @@ class PostsTable extends Component {
 
     return (
       <div className='container'>
-        <BreadCrumb path={this.props.match.path} />
+        <BreadCrumb
+          path={this.props.match.path}
+          page={parseInt(this.state.page)}
+        />
         <PrimaryActionTable
           faUpload={eval(faUpload)}
           faDownload={eval(faDownload)}
@@ -134,7 +137,7 @@ class PostsTable extends Component {
         <Table
           data={this.state.posts}
           columns={columns}
-          page={this.state.page}
+          page={parseInt(this.state.page)}
           count={this.state.count}
         />
       </div>
@@ -143,7 +146,11 @@ class PostsTable extends Component {
 }
 
 PostsTable.propTypes = {
-  fetchPosts: PropTypes.func
+  fetchPosts: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

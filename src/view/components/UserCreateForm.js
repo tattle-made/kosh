@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class UserCreateForm extends Component {
   constructor(props) {
@@ -94,6 +95,11 @@ class UserCreateForm extends Component {
   }
 }
 
+UserCreateForm.propTypes = {
+  data: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
+};
+
 const UserForm = withRouter(UserCreateForm);
 
-export default UserForm;
+export default withRouter(UserForm);

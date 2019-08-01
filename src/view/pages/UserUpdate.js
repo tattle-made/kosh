@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 //actions
-import { updateUser } from "../../redux/actions/user";
+import { updateUser } from '../../redux/actions/user';
 
 //components
-import BreadCrumb from "../atomic-components/BreadCrumb";
-import UserUpdateForm from "../components/UserUpdateForm";
+import BreadCrumb from '../atomic-components/BreadCrumb';
+import UserUpdateForm from '../components/UserUpdateForm';
 
 class UserUpdate extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class UserUpdate extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className='container'>
         <BreadCrumb path={this.props.location.pathname} />
         <UserUpdateForm
           data={(id, userData) => this.onFormSubmit(id, userData)}
@@ -33,12 +33,13 @@ class UserUpdate extends Component {
 }
 
 UserUpdate.propTypes = {
-  updateUser: PropTypes.func.isRequired
+  updateUser: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const UserUpdateUser = withRouter(
   connect(
-    () => {},
+    () => ({}),
     { updateUser }
   )(UserUpdate)
 );

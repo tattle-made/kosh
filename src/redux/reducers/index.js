@@ -4,7 +4,6 @@ import loading from './loading';
 import { users, loginUser, allUsers } from './user';
 import selectedUser from './selectedUser';
 import auth from './auth';
-// import isValid from "./isValid";
 import posts from './posts';
 import upload from './upload';
 

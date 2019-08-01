@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class UserUpdateForm extends Component {
   constructor(props) {
@@ -95,13 +96,19 @@ class UserUpdateForm extends Component {
   }
 }
 
-const maptStateToProps = state => ({
+UserUpdateForm.propTypes = {
+  selectedUser: PropTypes.object.isRequired,
+  data: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
   selectedUser: state.selectedUser
 });
 
 const UserUpdate = withRouter(
   connect(
-    maptStateToProps,
+    mapStateToProps,
     {}
   )(UserUpdateForm)
 );

@@ -2,36 +2,16 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import overlayFactory from 'react-bootstrap-table2-overlay';
+// import overlayFactory from 'react-bootstrap-table2-overlay';
+import PropTypes from 'prop-types';
 
 //action
 import { fetchPosts } from '../../redux/actions/post';
 import { fetchUsers } from '../../redux/actions/user';
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.props.data) {
-      this.setState({
-        data: nextProps.data
-      });
-    }
-    if (nextProps.page !== this.props.page) {
-      this.setState({ page: nextProps.page });
-    }
-    if (nextProps.count !== this.props.count) {
-      this.setState({ count: nextProps.count });
-    }
-    if (nextProps.columns !== this.props.columns) {
-      this.setState({ columns: nextProps.columns });
-    }
-  }
-
   onPageChange = (page, sizePerPage) => {
     this.setState({
       page
@@ -106,6 +86,17 @@ class Table extends Component {
     );
   }
 }
+
+Table.propTypes = {
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  fetchUsers: PropTypes.func.isRequired,
+  fetchPosts: PropTypes.func.isRequired,
+  data: PropTypes.array,
+  columns: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  count: PropTypes.number
+};
 
 const TableData = withRouter(
   connect(

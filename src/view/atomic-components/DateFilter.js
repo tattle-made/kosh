@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Dropdown, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import DatePickerComponent from './DatePicker';
+import PropTypes from 'prop-types';
 
 class DateFilter extends Component {
   constructor(props) {
@@ -56,5 +57,9 @@ class DateFilter extends Component {
     );
   }
 }
+
+DateFilter.propTypes = {
+  time: PropTypes.func.isRequired
+};
 
 export default DateFilter;

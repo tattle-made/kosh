@@ -1,8 +1,7 @@
-import { AUTHENTICATE, AUTHORIZE } from "../actions/types";
+import { AUTHENTICATE } from '../actions/types';
 
 const initialState = {
-  isAuthenticated: false,
-  isAuthorized: true
+  isAuthenticated: false
 };
 
 export default function(state = initialState, action) {

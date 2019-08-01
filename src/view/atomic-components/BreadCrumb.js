@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Breadcrumb } from 'react-bootstrap';
 import HeadingTwo from '../atomic-components/text/HeadingTwo';
 import itemList from '../../core-utils/breadcrumbItems';
+import PropTypes from 'prop-types';
 
 class BreadCrumb extends Component {
   constructor(props) {
@@ -10,15 +11,25 @@ class BreadCrumb extends Component {
   }
 
   display(items) {
+    const len = items.length;
     let link = '';
-    return items.map(item => {
-      link += `/${item}`;
-      return (
+    let display = '';
+    items.forEach((item, index) => {
+      if (index === len - 1 && this.props.page !== undefined) {
+        display = item + this.props.page;
+        link += `/${item}/${this.props.page}`;
+      } else {
+        display = item;
+        link += `/${item}`;
+      }
+
+      return (items[index] = (
         <Breadcrumb.Item href={link} key={item}>
-          <HeadingTwo text={item} />
+          <HeadingTwo text={display} />
         </Breadcrumb.Item>
-      );
+      ));
     });
+    return items;
   }
   render() {
     const items = itemList(this.props.path);
@@ -30,6 +41,11 @@ class BreadCrumb extends Component {
     );
   }
 }
+
+BreadCrumb.propTypes = {
+  path: PropTypes.string.isRequired,
+  page: PropTypes.number
+};
 
 const BreadCrumbItem = withRouter(BreadCrumb);
 

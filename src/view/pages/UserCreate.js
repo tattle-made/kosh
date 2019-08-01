@@ -31,7 +31,8 @@ class UserCreate extends Component {
 }
 
 UserCreate.propTypes = {
-  createUser: PropTypes.func.isRequired
+  createUser: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const UserCreateUser = withRouter(

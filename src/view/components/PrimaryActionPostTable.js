@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  Button,
-  ButtonGroup,
-  FormGroup,
-  Form,
-  FormControl,
-  Input
-} from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import DropDownFilter from '../atomic-components/DropDownFilter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -38,7 +32,7 @@ class PrimaryActionTable extends Component {
         <Form.Group>
           <Form.Label
             className='mr-3 primary-action-post-table-upload'
-            for='fileUpload'
+            htmlFor='fileUpload'
           >
             <FontAwesomeIcon icon={this.props.faUpload} /> Upload
           </Form.Label>
@@ -75,6 +69,12 @@ class PrimaryActionTable extends Component {
     );
   }
 }
+
+PrimaryActionTable.propTypes = {
+  refresh: PropTypes.func.isRequired,
+  filter: PropTypes.func.isRequired,
+  uploadToS3: PropTypes.func.isRequired
+};
 
 const PrimaryAction = connect(
   () => ({}),

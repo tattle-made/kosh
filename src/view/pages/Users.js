@@ -30,7 +30,7 @@ import AccessControl from '../components/AccessControl';
 import io from 'socket.io-client';
 
 //connect to server
-const socket = io('http://localhost:3001/');
+const socket = io('http://localhost:8080/');
 
 class UsersTable extends Component {
   constructor(props) {
@@ -136,7 +136,6 @@ class UsersTable extends Component {
       {
         dataField: 'username',
         text: 'Username'
-        // sort: true
       },
       {
         dataField: 'email',
@@ -146,21 +145,18 @@ class UsersTable extends Component {
       {
         dataField: 'role',
         text: 'Role',
-        // sort: true,
         filter: textFilter(),
         headerAlign: 'center'
       },
       {
         dataField: 'posts',
         text: 'Posts',
-        // sort: true,
         filter: textFilter(),
         headerAlign: 'center'
       },
       {
         dataField: 'actions',
         text: 'Actions',
-        // sort: true
         formatter: this.actionIconsFormatter,
         formatExtraData: this.props
       }
@@ -168,7 +164,10 @@ class UsersTable extends Component {
 
     return (
       <div className='container'>
-        <BreadCrumb path={this.props.match.path} />
+        <BreadCrumb
+          path={this.props.match.path}
+          page={parseInt(this.state.page)}
+        />
         <PrimaryActionUser
           faUpload={eval(faUpload)}
           faDownload={eval(faDownload)}
@@ -179,7 +178,7 @@ class UsersTable extends Component {
         <Table
           data={this.state.users}
           columns={columns}
-          page={this.state.page}
+          page={parseInt(this.state.page)}
           count={this.state.count}
         />
       </div>
@@ -188,8 +187,11 @@ class UsersTable extends Component {
 }
 
 UsersTable.propTypes = {
-  fetchUsers: PropTypes.func,
-  userDelete: PropTypes.func
+  fetchUsers: PropTypes.func.isRequired,
+  userDelete: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSearch,
-  faFileAlt,
-  faCamera,
-  faVideo,
-  faUpload
-} from '@fortawesome/free-solid-svg-icons';
+
+import { faSearch, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,17 +12,15 @@ import { search, triggerLoading } from '../../redux/actions/utils';
 // // import { Card } from "../components/Card";
 // import Loading from "../components/Loading";
 
-import HeadingTwo from '../atomic-components/text/HeadingTwo';
-import BodyOne from '../atomic-components/text/BodyOne';
 import BreadCrumb from '../atomic-components/BreadCrumb';
 import SearchForm from '../components/SearchForm';
 import SearchResult from '../components/SearchResult';
 
-const options = [
-  { value: 'text', label: <FontAwesomeIcon icon={faFileAlt} /> },
-  { value: 'image', label: <FontAwesomeIcon icon={faCamera} /> },
-  { value: 'video', label: <FontAwesomeIcon icon={faVideo} /> }
-];
+// const options = [
+//   { value: 'text', label: <FontAwesomeIcon icon={faFileAlt} /> },
+//   { value: 'image', label: <FontAwesomeIcon icon={faCamera} /> },
+//   { value: 'video', label: <FontAwesomeIcon icon={faVideo} /> }
+// ];
 
 class SearchInput extends Component {
   constructor(props) {
@@ -98,11 +90,9 @@ class SearchInput extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-  
   }
 
   render() {
-
     const { data } = this.state;
     return (
       <div className='container'>
@@ -121,8 +111,8 @@ class SearchInput extends Component {
   }
 }
 
-SearchInput.prototypes = {
-  data: PropTypes.array.isRequired,
+SearchInput.propTypes = {
+  data: PropTypes.array,
   search: PropTypes.func.isRequired,
   triggerLoading: PropTypes.func.isRequired
 };

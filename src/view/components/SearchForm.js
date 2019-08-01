@@ -3,6 +3,7 @@ import HeadingTwo from '../atomic-components/text/HeadingTwo';
 import BodyOne from '../atomic-components/text/BodyOne';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 class SearchForm extends Component {
   render() {
@@ -46,5 +47,10 @@ class SearchForm extends Component {
     );
   }
 }
+
+SearchForm.propTypes = {
+  checkboxToggle: PropTypes.func,
+  onFormSubmit: PropTypes.func.isRequired
+};
 
 export default SearchForm;

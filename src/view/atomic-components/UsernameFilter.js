@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DateFilter from './DateFilter';
 import Select from 'react-select';
+import PropTypes from 'prop-types';
 
 class UsernameFilter extends Component {
   constructor(props) {
@@ -38,5 +39,12 @@ class UsernameFilter extends Component {
     );
   }
 }
+
+UsernameFilter.propTypes = {
+  users: PropTypes.object,
+  time: PropTypes.func.isRequired,
+  selectedUsers: PropTypes.object,
+  onUserSelect: PropTypes.func.isRequired
+};
 
 export default UsernameFilter;

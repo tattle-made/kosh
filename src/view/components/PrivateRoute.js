@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Spinner from '../atomic-components/Spinner';
 import { getRoutePermissions } from '../../core-utils/permissions';
 import PermissionDenied from './PermissionDenied';
 
@@ -32,7 +31,8 @@ const PrivateRoute = ({ component: Component, auth, userRole, ...rest }) => {
 };
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  userRole: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

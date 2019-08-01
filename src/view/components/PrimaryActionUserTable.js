@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 // access control
 import AccessControl from './AccessControl';
 
@@ -41,5 +41,9 @@ class PrimaryActionUser extends Component {
     );
   }
 }
+
+PrimaryActionUser.propTypes = {
+  refresh: PropTypes.func.isRequired
+};
 
 export default PrimaryActionUser;

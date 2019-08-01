@@ -6,7 +6,6 @@ import IsEmpty from 'is-empty';
 
 //action
 import { error } from '../../redux/actions/utils';
-import { String } from 'es6-shim';
 
 class FooterSite extends Component {
   constructor(props) {
@@ -22,14 +21,13 @@ class FooterSite extends Component {
     this.setState({
       message: ''
     });
-    this.props.error(this.props.error);
+    this.props.error('');
   }
 
   componentWillReceiveProps(nextProps) {
     let msg = '';
 
     if (nextProps.message !== this.props.message) {
-      let msg = '';
       if (typeof nextProps.message === 'string') {
         msg = nextProps.message;
       } else if (typeof nextProps.message === 'object') {
@@ -60,7 +58,8 @@ class FooterSite extends Component {
 }
 
 FooterSite.prototypes = {
-  message: PropTypes.string.isRequired
+  message: PropTypes.string,
+  error: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
