@@ -12,9 +12,12 @@ export class SearchController extends _BaseController {
         const params = new SearchRequest(param);
 
         return [
-            new SearchItem('asdfasdf-asdfadsf-adsf', 'Adasdf', 'text'),
-            new SearchItem('asdfasd', 'Adasdddf', 'text'),
-            new SearchItem('asdfasdfsf', 'Ada', 'text'),
+            new SearchItem('asdfasdf-asdfadsf-adsf', 'Adasdf', 'text', [
+                'india',
+                'cows',
+            ]),
+            new SearchItem('asdfasd', 'Adasdddf', 'text', ['bihar']),
+            new SearchItem('asdfasdfsf', 'Ada', 'text', ['modi', 'politics']),
         ];
     }
 }
