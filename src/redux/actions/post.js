@@ -1,6 +1,6 @@
 import { POST_DELETE, POSTS, POST_UPLOAD, SEARCH } from './types';
 import axios from 'axios';
-import { error } from './utils';
+import { error, triggerLoading } from './utils';
 import { toggleAuthentication } from './auth';
 
 const postDelete = (id, page) => {
@@ -188,6 +188,7 @@ const search = () => {
           type: SEARCH,
           payload: res.data
         });
+        dispatch(triggerLoading(false));
       })
       .catch(err => {
         if (err.response === undefined) {

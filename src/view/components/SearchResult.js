@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 // import Spinner from "../atomic-components/Spinner";
 import Card from '../components/Card';
+import Spinner from '../atomic-components/Spinner';
 
 class SearchResult extends Component {
   constructor(props) {
@@ -18,6 +20,7 @@ class SearchResult extends Component {
       });
     }
   }
+
   displayResults(cards) {
     console.log('cards ', cards);
     return cards.map(card => (
@@ -32,7 +35,11 @@ class SearchResult extends Component {
     return (
       <div className='search-result container mt-5'>
         <div className='card-columns'>
-          {this.displayResults(this.state.search)}
+          {this.props.loading ? (
+            <Spinner />
+          ) : (
+            this.displayResults(this.state.search)
+          )}
         </div>
       </div>
     );
@@ -40,8 +47,15 @@ class SearchResult extends Component {
 }
 
 const mapStateToProps = state => ({
-  search: state.search
+  search: state.search,
+  loading: state.loading
 });
+
+SearchResult.propTypes = {
+  search: PropTypes.array.isRequired,
+  content_type: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired
+};
 
 const Search = connect(
   mapStateToProps,

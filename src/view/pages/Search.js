@@ -8,11 +8,6 @@ import PropTypes from 'prop-types';
 import { triggerLoading } from '../../redux/actions/utils';
 import { search } from '../../redux/actions/post';
 
-// components
-import Card from '../components/Card';
-import Cards from '../components/Cards';
-// import Loading from "../components/Loading";
-
 import BreadCrumb from '../atomic-components/BreadCrumb';
 import SearchForm from '../components/SearchForm';
 import SearchResult from '../components/SearchResult';
@@ -51,9 +46,13 @@ class SearchInput extends Component {
   // }
 
   onSubmit(query) {
-    console.log('submit');
+    console.log('submit', query);
+    this.setState({
+      content_type: query.content_type
+    });
     // query to pass in search
     // when search in backend is functional
+    this.props.triggerLoading(true);
     this.props.search();
   }
 

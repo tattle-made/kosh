@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './store';
 
 //components
-import Cards from './view/components/Cards';
-import CardDetails from './view/components/CardDetails';
 import FooterSite from './view/components/Footer';
 import InfoPanel from './view/components/InfoPanel';
 import SideNav from './view/components/SideNav';
@@ -26,13 +24,6 @@ function App() {
               <Route exact path='/' component={LoginCard} />
             </Switch>
             <Route path='/' component={FooterSite} />
-            <Switch>
-              <PrivateRoute exact path='/cards' component={Cards} />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/card/:id' component={CardDetails} />
-            </Switch>
-
             <Switch>
               <PrivateRoute exact path='/search' component={SideNav} />
             </Switch>

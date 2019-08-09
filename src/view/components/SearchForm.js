@@ -24,13 +24,14 @@ class SearchForm extends Component {
   }
 
   checkboxToggle(e) {
-    console.log('e ', e);
+    const type = e.target.name;
     const new_list = this.state.content_type;
-    if (new_list.includes(e)) {
-      new_list.splice(new_list.indexOf(e), 1);
+    if (new_list.includes(type)) {
+      new_list.splice(new_list.indexOf(type), 1);
     } else {
-      new_list.push(e);
+      new_list.push(type);
     }
+    console.log('new list ', new_list);
     this.setState({
       content_type: new_list
     });
@@ -55,17 +56,17 @@ class SearchForm extends Component {
           <BodyOne text='include' />
           <label className='checkbox-box'>
             <BodyOne text='text' />
-            <input type='checkbox' onClick={this.checkboxToggle} />
+            <input name='text' type='checkbox' onClick={this.checkboxToggle} />
             <span className='checkmark' />
           </label>
           <label className='checkbox-box'>
             <BodyOne text='image' />
-            <input type='checkbox' onClick={this.checkboxToggle} />
+            <input name='image' type='checkbox' onClick={this.checkboxToggle} />
             <span className='checkmark' />
           </label>
           <label className='checkbox-box'>
             <BodyOne text='video' />
-            <input type='checkbox' onClick={this.checkboxToggle} />
+            <input name='video' type='checkbox' onClick={this.checkboxToggle} />
             <span className='checkmark' />
           </label>
         </div>
@@ -73,7 +74,12 @@ class SearchForm extends Component {
           variant='color-primary-one'
           className='text-white'
           type='submit'
-          onClick={this.props.onFormSubmit}
+          onClick={() =>
+            this.props.onFormSubmit({
+              searchInput: this.state.searchInput,
+              content_type: this.state.content_type
+            })
+          }
         >
           Search <FontAwesomeIcon icon={faSearch} color='#fff' />
         </Button>

@@ -7412,6 +7412,15 @@ a.text-dark:hover, a.text-dark:focus {
   border-radius: 0.2rem;
   cursor: pointer; }
 
+.card-modify:hover {
+  box-shadow: 10px 5px 5px #3f3e3e;
+  cursor: pointer; }
+
+.badge {
+  background-color: #e65447;
+  color: #fff;
+  font-size: 15px !important; }
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
