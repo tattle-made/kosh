@@ -15,23 +15,4 @@ const triggerLoading = bool => {
   };
 };
 
-const search = url => {
-  const token = localStorage.getItem('token');
-  const request = axios.get(url, {
-    headers: {
-      token
-    }
-  });
-  return dispatch => {
-    request
-      .then(res => {
-        dispatch({
-          type: POSTS,
-          payload: res.data
-        });
-      })
-      .catch(err => console.log(err));
-  };
-};
-
-export { error, triggerLoading, search };
+export { error, triggerLoading };

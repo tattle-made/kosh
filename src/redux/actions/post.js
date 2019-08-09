@@ -1,4 +1,4 @@
-import { POST_DELETE, POSTS, POST_UPLOAD } from './types';
+import { POST_DELETE, POSTS, POST_UPLOAD, SEARCH } from './types';
 import axios from 'axios';
 import { error } from './utils';
 import { toggleAuthentication } from './auth';
@@ -172,4 +172,38 @@ const uploadToS3 = (file, fileName, fileType) => {
       });
 };
 
-export { postByTime, postByTimeAndUsers, postDelete, fetchPosts, uploadToS3 };
+const search = () => {
+  const url = `http://localhost:8080/api/search`;
+  const token = localStorage.getItem('token');
+  const request = axios.get(url, {
+    headers: {
+      token
+    }
+  });
+
+  return dispatch => {
+    request
+      .then(res => {
+        dispatch({
+          type: SEARCH,
+          payload: res.data
+        });
+      })
+      .catch(err => {
+        if (err.response === undefined) {
+          dispatch(error('Network Error'));
+        } else {
+          dispatch(error(err.response.data));
+        }
+      });
+  };
+};
+
+export {
+  postByTime,
+  postByTimeAndUsers,
+  postDelete,
+  fetchPosts,
+  uploadToS3,
+  search
+};

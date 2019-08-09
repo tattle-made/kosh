@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 class Cards extends Component {
   constructor() {
@@ -69,4 +70,4 @@ Cards.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-export default Cards;
+export default withRouter(Cards);

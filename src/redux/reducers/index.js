@@ -6,6 +6,7 @@ import selectedUser from './selectedUser';
 import auth from './auth';
 import posts from './posts';
 import upload from './upload';
+import search from './search';
 
 export default combineReducers({
   error,
@@ -15,6 +16,7 @@ export default combineReducers({
   users,
   selectedUser,
   posts,
+  search,
   auth,
   upload
 });

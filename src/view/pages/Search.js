@@ -1,37 +1,31 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { faSearch, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // actions
-import { search, triggerLoading } from '../../redux/actions/utils';
+import { triggerLoading } from '../../redux/actions/utils';
+import { search } from '../../redux/actions/post';
 
 // components
-// // import { Card } from "../components/Card";
+import Card from '../components/Card';
+import Cards from '../components/Cards';
 // import Loading from "../components/Loading";
 
 import BreadCrumb from '../atomic-components/BreadCrumb';
 import SearchForm from '../components/SearchForm';
 import SearchResult from '../components/SearchResult';
 
-// const options = [
-//   { value: 'text', label: <FontAwesomeIcon icon={faFileAlt} /> },
-//   { value: 'image', label: <FontAwesomeIcon icon={faCamera} /> },
-//   { value: 'video', label: <FontAwesomeIcon icon={faVideo} /> }
-// ];
-
 class SearchInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchInput: '',
       loading: false,
-      data: [],
-      selectedOption: 'text',
       content_type: []
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,55 +50,21 @@ class SearchInput extends Component {
   //   if(prevProps.)
   // }
 
-  handleChange(e) {
-    this.setState({ selectedOption: e.value });
-  }
-
-  displayResults(cards) {
-    // return cards.map(card => (
-    //   <Card
-    //     key={card.id}
-    //     card={card}
-    //     display={this.state.content_type.includes(card.type)}
-    //   />
-    // ));
-  }
-
-  checkboxToggle(e) {
-    const new_list = this.state.content_type;
-    if (new_list.includes(e)) {
-      new_list.splice(new_list.indexOf(e), 1);
-    } else {
-      new_list.push(e);
-    }
-    this.setState({
-      content_type: new_list
-    });
-  }
-
-  onInputChange(e) {
-    this.setState({
-      searchInput: e.target.value
-    });
-  }
-
-  onFormSubmit(e) {
-    e.preventDefault();
+  onSubmit(query) {
+    console.log('submit');
+    // query to pass in search
+    // when search in backend is functional
+    this.props.search();
   }
 
   render() {
-    const { data } = this.state;
     return (
       <div className='container'>
         <BreadCrumb path={this.props.match.path} />
-        <SearchForm
-          faUpload={eval(faUpload)}
-          faSearch={eval(faSearch)}
-          onFormSubmit={this.onFormSubmit}
-        />
+        <SearchForm onFormSubmit={query => this.onSubmit(query)} />
         <SearchResult
-          displayResults={this.displayResults(data)}
-          checkboxToggle={this.checkboxToggle}
+          data={this.state.data}
+          content_type={this.state.content_type}
         />
       </div>
     );
@@ -112,18 +72,13 @@ class SearchInput extends Component {
 }
 
 SearchInput.propTypes = {
-  data: PropTypes.array,
   search: PropTypes.func.isRequired,
   triggerLoading: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  fetch: state.fetch
-});
-
 const Search = withRouter(
   connect(
-    mapStateToProps,
+    null,
     { search, triggerLoading }
   )(SearchInput)
 );
