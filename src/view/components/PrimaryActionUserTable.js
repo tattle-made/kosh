@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import {
+  faUpload,
+  faSync,
+  faDownload,
+  faUser
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -10,7 +16,7 @@ class PrimaryActionUser extends Component {
     return (
       <div className='my-3'>
         <button className='btn btn-sm btn-color-white-one mr-3'>
-          <FontAwesomeIcon icon={this.props.faUpload} /> Upload
+          <FontAwesomeIcon icon={faUpload} /> Upload
         </button>
         <Button
           variant='light'
@@ -18,10 +24,10 @@ class PrimaryActionUser extends Component {
           onClick={this.props.refresh}
           className='mr-3'
         >
-          <FontAwesomeIcon icon={this.props.faSync} />
+          <FontAwesomeIcon icon={faSync} />
         </Button>
         <Button variant='color-primary-one' size='sm'>
-          <FontAwesomeIcon icon={this.props.faDownload} /> Download
+          <FontAwesomeIcon icon={faDownload} /> Download
         </Button>
         <AccessControl
           allowedPermissions={['user:canCreate']}
@@ -34,7 +40,7 @@ class PrimaryActionUser extends Component {
             href='/users/create'
             className='float-right'
           >
-            <FontAwesomeIcon icon={this.props.faUser} /> Create New User
+            <FontAwesomeIcon icon={faUser} /> Create New User
           </Button>
         </AccessControl>
       </div>

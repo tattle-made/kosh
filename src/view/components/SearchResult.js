@@ -22,25 +22,30 @@ class SearchResult extends Component {
   }
 
   displayResults(cards) {
-    console.log('cards ', cards);
-    return cards.map(card => (
-      <Card
-        key={card.id}
-        card={card}
-        display={this.props.content_type.includes(card.type)}
-      />
-    ));
+    if (this.props.content_type.length === 0) {
+      return <div>Please select at least one content type and search</div>;
+    } else {
+      return cards.map(card => (
+        <Card
+          key={card.id}
+          card={card}
+          display={this.props.content_type.includes(card.type)}
+        />
+      ));
+    }
   }
   render() {
     return (
-      <div className='search-result container mt-5'>
-        <div className='card-columns'>
-          {this.props.loading ? (
+      <div className='mt-5'>
+        {this.props.loading ? (
+          <div className='text-center'>
             <Spinner />
-          ) : (
-            this.displayResults(this.state.search)
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className='card-columns '>
+            {this.displayResults(this.state.search)}
+          </div>
+        )}
       </div>
     );
   }

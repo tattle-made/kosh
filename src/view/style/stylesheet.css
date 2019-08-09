@@ -7341,7 +7341,12 @@ a.text-dark:hover, a.text-dark:focus {
   display: flex;
   align-items: start;
   justify-content: space-between;
-  margin-left: -7px; }
+  margin-top: 14px;
+  margin-left: -5px; }
+
+.search-input-button {
+  margin-top: 4px;
+  margin-left: -6px; }
 
 .checkbox-box input {
   display: none; }
@@ -7369,7 +7374,15 @@ a.text-dark:hover, a.text-dark:focus {
 .checkbox-box:hover .checkmark {
   background-color: #ebebeb; }
 
-/* OLD SEARCH BAR CSS , REMOVE IF NOT USING THAT COMPONENT*/
+.card:hover {
+  box-shadow: 10px 5px 5px #3f3e3e;
+  cursor: pointer; }
+
+.badge {
+  background-color: #e65447;
+  color: #fff;
+  font-size: 15px !important; }
+
 .react-select {
   width: 400px; }
 
@@ -7411,15 +7424,6 @@ a.text-dark:hover, a.text-dark:focus {
   padding: 3.9px;
   border-radius: 0.2rem;
   cursor: pointer; }
-
-.card-modify:hover {
-  box-shadow: 10px 5px 5px #3f3e3e;
-  cursor: pointer; }
-
-.badge {
-  background-color: #e65447;
-  color: #fff;
-  font-size: 15px !important; }
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)

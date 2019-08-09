@@ -34,7 +34,7 @@ const Card = ({ card, display }) => {
       <div className='card text-center'>
         <div className='card-image'>
           <div className='embed-responsive embed-responsive-16by9'>
-            <iframe src={card.url} />
+            <iframe title='card.title' src={card.url} />
           </div>
         </div>
         <div className='card-body' />

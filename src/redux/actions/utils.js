@@ -1,5 +1,4 @@
-import { ERROR, LOADING, POSTS } from './types';
-import axios from 'axios';
+import { ERROR, LOADING } from './types';
 
 const error = message => {
   return {

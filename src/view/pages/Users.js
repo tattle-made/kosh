@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faUpload,
-  faDownload,
-  faSync,
-  faTrashAlt,
-  faCheck,
-  faEdit,
-  faUser
-} from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -168,13 +160,7 @@ class UsersTable extends Component {
           path={this.props.match.path}
           page={parseInt(this.state.page)}
         />
-        <PrimaryActionUser
-          faUpload={eval(faUpload)}
-          faDownload={eval(faDownload)}
-          faSync={eval(faSync)}
-          faUser={eval(faUser)}
-          refresh={this.refresh}
-        />
+        <PrimaryActionUser refresh={this.refresh} />
         <Table
           data={this.state.users}
           columns={columns}

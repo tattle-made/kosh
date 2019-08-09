@@ -4,6 +4,7 @@
 @import 'login';
 @import 'fonts';
 @import 'searchInput';
+@import 'search-result';
 @import 'card';
 @import 'breadcrumb';
 @import '~react-datepicker/dist/react-datepicker.css';
@@ -11,7 +12,6 @@
 @import 'post-table';
 @import 'footer';
 @import 'primary-action';
-@import 'search';
 
 // modifying bootstrap constants value
 $theme-colors: (

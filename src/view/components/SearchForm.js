@@ -70,19 +70,21 @@ class SearchForm extends Component {
             <span className='checkmark' />
           </label>
         </div>
-        <Button
-          variant='color-primary-one'
-          className='text-white'
-          type='submit'
-          onClick={() =>
-            this.props.onFormSubmit({
-              searchInput: this.state.searchInput,
-              content_type: this.state.content_type
-            })
-          }
-        >
-          Search <FontAwesomeIcon icon={faSearch} color='#fff' />
-        </Button>
+        <div className='search-input-button'>
+          <Button
+            variant='color-primary-one'
+            className='text-white'
+            type='submit'
+            onClick={() =>
+              this.props.onFormSubmit({
+                searchInput: this.state.searchInput,
+                content_type: this.state.content_type
+              })
+            }
+          >
+            Search <FontAwesomeIcon icon={faSearch} color='#fff' />
+          </Button>
+        </div>
       </div>
     );
   }

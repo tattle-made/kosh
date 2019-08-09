@@ -6,10 +6,6 @@ import itemList from '../../core-utils/breadcrumbItems';
 import PropTypes from 'prop-types';
 
 class BreadCrumb extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   display(items) {
     const len = items.length;
     let link = '';

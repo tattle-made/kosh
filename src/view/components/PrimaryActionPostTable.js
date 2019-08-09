@@ -4,6 +4,12 @@ import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import DropDownFilter from '../atomic-components/DropDownFilter';
+import {
+  faUpload,
+  faDownload,
+  faSync,
+  faFilter
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { uploadToS3 } from '../../redux/actions/post';
 
@@ -34,7 +40,7 @@ class PrimaryActionTable extends Component {
             className='mr-3 primary-action-post-table-upload'
             htmlFor='fileUpload'
           >
-            <FontAwesomeIcon icon={this.props.faUpload} /> Upload
+            <FontAwesomeIcon icon={faUpload} /> Upload
           </Form.Label>
           <Form.Control
             id='fileUpload'
@@ -51,19 +57,16 @@ class PrimaryActionTable extends Component {
             onClick={this.props.refresh}
             className='mr-3'
           >
-            <FontAwesomeIcon icon={this.props.faSync} />
+            <FontAwesomeIcon icon={faSync} />
           </Button>
         </div>
         <div>
           <Button variant='color-primary-one' size='sm'>
-            <FontAwesomeIcon icon={this.props.faDownload} /> Download
+            <FontAwesomeIcon icon={faDownload} /> Download
           </Button>
         </div>
         <span className='primary-action-post-table-drop-down'>
-          <DropDownFilter
-            selectedItem={this.filterType}
-            icon={this.props.faFilter}
-          />
+          <DropDownFilter selectedItem={this.filterType} icon={faFilter} />
         </span>
       </div>
     );
@@ -71,7 +74,7 @@ class PrimaryActionTable extends Component {
 }
 
 PrimaryActionTable.propTypes = {
-  refresh: PropTypes.func.isRequired,
+  refresh: PropTypes.func,
   filter: PropTypes.func.isRequired,
   uploadToS3: PropTypes.func.isRequired
 };

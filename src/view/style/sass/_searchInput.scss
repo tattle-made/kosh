@@ -13,7 +13,13 @@
   display: flex;
   align-items: start;
   justify-content: space-between;
-  margin-left: -7px;
+  margin-top: 14px;
+  margin-left: -5px;
+}
+
+.search-input-button {
+  margin-top: 4px;
+  margin-left: -6px;
 }
 
 .checkbox-box input {
@@ -46,71 +52,3 @@
 .checkbox-box:hover .checkmark {
   background-color: #ebebeb;
 }
-
-/* OLD SEARCH BAR CSS , REMOVE IF NOT USING THAT COMPONENT*/
-// .select-content > input {
-//   width: 10px;
-// }
-
-// /* THIS CLASS IS USED IN ALL FORM INPUTS, USING HERE FOR SEARCH INPUT */
-// .form-control {
-//   color: #ea6565 !important;
-//   box-shadow: none !important;
-//   border-color: #ea6565 !important;
-// }
-// .form-control::placeholder {
-//   color: #ea6565 !important;
-// }
-
-// .search-box {
-//   padding: 50px;
-//   margin-left: 5% !important;
-// }
-
-// .search-form {
-//   margin-left: 150px;
-// }
-
-// .custom-file-label {
-//   color: #ea6565 !important;
-//   border-color: #ea6565 !important;
-// }
-
-// .custom-file-label::after {
-//   background-color: #ea6565 !important;
-//   color: #fff !important;
-// }
-
-// /* these are the classes of the react-select that is taken from the web-dev tools for modifying the color */
-// .css-2b097c-container,
-// .css-tlfecz-indicatorContainer,
-// .css-yk16xz-control,
-// .css-1wa3eu0-placeholder {
-//   border-color: #ea6565 !important;
-//   color: #ea6565 !important;
-//   box-shadow: none !important;
-// }
-
-// .badge {
-//   background-color: #743333 !important;
-//   color: #fff;
-//   font-size: 15px !important;
-// }
-
-// .badge-empty {
-//   background-color: #d44b4b;
-//   width: 60px;
-//   height: 20px;
-//   border-radius: 3px;
-// }
-
-// .badge-empty-lg {
-//   background-color: #d44b4b;
-//   width: 80px;
-//   height: 20px;
-//   border-radius: 3px;
-// }
-// .tags {
-//   position: absolute;
-//   bottom: 0;
-// }

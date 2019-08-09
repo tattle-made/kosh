@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  faUpload,
-  faDownload,
-  faSync,
-  faFilter
-} from '@fortawesome/free-solid-svg-icons';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -121,11 +116,6 @@ class PostsTable extends Component {
           page={parseInt(this.state.page)}
         />
         <PrimaryActionTable
-          faUpload={eval(faUpload)}
-          faDownload={eval(faDownload)}
-          faFilter={eval(faFilter)}
-          faSync={eval(faSync)}
-          refresh={this.refresh}
           filter={filterType => this.onFilterItemSelect(filterType)}
         />
         <SearchPostFilterParameters

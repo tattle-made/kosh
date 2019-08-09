@@ -16,37 +16,13 @@ class SearchInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       content_type: []
     };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.fetch) {
-      this.setState({
-        data: nextProps.fetch.data,
-        loading: nextProps.fetch.loading
-      });
-    }
-  }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.fetch) {
-  //     return {
-  //       data: nextProps.fetch.data,
-  //       loading: nextProps.fetch.loading
-  //     };
-  //   }
-  //   else return null;
-  // }
-  // componentDidUpdate(prevProps, prevState){
-  //   if(prevProps.)
-  // }
-
   onSubmit(query) {
-    console.log('submit', query);
     this.setState({
       content_type: query.content_type
     });
