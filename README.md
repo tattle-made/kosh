@@ -7,7 +7,7 @@
 - Start the web-app using `npm start`
 
 - Install Redux  Dev tools extension for you browser (Optional)
-  ### Redux Dev tools extension
+  #### Redux Dev tools extension
   - For Chrome visit [this](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) link
   - For Mozilla visit [this](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/) link
 
@@ -30,3 +30,11 @@ running `npm start storybook` will run the storybook utility in a watch mode. Ma
 You will be able to preview components in the browser. Look at the terminal for URL (the port number changes every time you run storybook) 
 
 stories for storybook are defined in src/views/stories
+
+# Styling & Customization
+
+Styles for various components are defined in src/views/styles/sass/
+Here styles for specific component are defined in specific file for eg. style for breadcrumbs is defined in breadcrumb.scss
+All the custom variables are defined in themes.scss.
+After doing the changes in these file run `npm run sass` to compile the sass to css and reflect the changes in the ui.
+
