@@ -31,7 +31,6 @@ class SearchForm extends Component {
     } else {
       new_list.push(type);
     }
-    console.log('new list ', new_list);
     this.setState({
       content_type: new_list
     });
