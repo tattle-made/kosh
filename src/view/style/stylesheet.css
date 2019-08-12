@@ -7383,6 +7383,9 @@ a.text-dark:hover, a.text-dark:focus {
   color: #fff;
   font-size: 15px !important; }
 
+.card {
+  background-color: red; }
+
 .react-select {
   width: 400px; }
 
@@ -7424,6 +7427,10 @@ a.text-dark:hover, a.text-dark:focus {
   padding: 3.9px;
   border-radius: 0.2rem;
   cursor: pointer; }
+
+.media-card img {
+  height: 20em;
+  width: auto; }
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)

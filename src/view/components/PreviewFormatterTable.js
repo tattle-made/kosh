@@ -5,7 +5,7 @@ class PreviewFormatterTable extends Component {
   render() {
     if (this.props.row.type === 'image') {
       return (
-        <div className='card' style={prev}>
+        <div className='media-card'>
           <img
             src={`https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${
               this.props.cell
@@ -21,13 +21,13 @@ class PreviewFormatterTable extends Component {
       // />
 
       return (
-        <div className='card' style={prev}>
+        <div className='card'>
           <iframe title='d' src='https://www.youtube.com/embed/hZFNVj505HQ' />
         </div>
       );
     } else if (this.props.row.type === 'text') {
       return (
-        <div className='card' style={prev}>
+        <div className='card'>
           <div className='card-text'>{this.props.row.data}</div>
         </div>
       );
@@ -36,10 +36,6 @@ class PreviewFormatterTable extends Component {
     }
   }
 }
-
-const prev = {
-  width: '300px'
-};
 
 PreviewFormatterTable.propTypes = {
   row: PropTypes.object.isRequired,
