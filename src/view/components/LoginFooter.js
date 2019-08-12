@@ -6,7 +6,7 @@ class LoginFooter extends Component {
   render() {
     return (
       <div className="login-footer">
-        <div>
+        {/* <div>
           <HeadingThree text="Reach Out" />
           <BodyOne text="facebook" />
           <BodyOne text="facebook" />
@@ -49,7 +49,7 @@ class LoginFooter extends Component {
           <BodyOne text="facebook" />
           <BodyOne text="facebook" />
           <BodyOne text="facebook" />
-        </div>
+        </div> */}
       </div>
     );
   }

@@ -9,10 +9,10 @@ class LoginCard extends Component {
         <div className="login mx-auto">
           <div className="login-left" />
           <div className="login-right">
-            <div className="login-right-heading">
+            {/* <div className="login-right-heading">
               <HeadingOne text="Unlock your tools" />
               <HeadingOne text="to fight fake tools" />
-            </div>
+            </div> */}
             <form className="mt-2" onSubmit={this.props.onSubmit}>
               <input
                 type="text"
