@@ -7425,6 +7425,15 @@ a.text-dark:hover, a.text-dark:focus {
   border-radius: 0.2rem;
   cursor: pointer; }
 
+.permission-denied {
+  height: 100vh;
+  background-color: #ffe5e2; }
+
+.permission-denied-box {
+  color: #000637;
+  text-align: center;
+  padding-top: 30vh; }
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
