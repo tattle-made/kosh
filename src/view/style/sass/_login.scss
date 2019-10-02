@@ -29,6 +29,10 @@
     //   flex: 0 0 50%;
   }
 
+  .login-button{
+    align-self: flex-end;
+  }
+
   .login-left {
     flex: 0 0 50%;
     background-color: $color-primary-four;

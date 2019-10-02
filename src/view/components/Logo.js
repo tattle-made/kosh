@@ -8,7 +8,9 @@ class Logo extends Component {
   render() {
     return (
         <div className='logo'>
-            <img src={tattleLogo} alt='Tattle Logo' />
+            <img className='logo-image' src={tattleLogo} alt='Tattle Logo' />
+            <div className='company-title'> Tattle </div>
+            <div className='product-title'> {this.props.product!=undefined ? this.props.product : ''} </div>
         </div>
     );
   }

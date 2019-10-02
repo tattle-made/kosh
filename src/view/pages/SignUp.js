@@ -48,7 +48,7 @@ class SignUp extends Component {
         <Logo/>
         <br/>
         <HeadingOne text={'Whatsapp Data Archive'}/>
-        <SubHeadingOne text={'We are rolling out access to our data archive. Please let us know a bit about what you intend to do with the dataset.'}/>
+        <SubHeadingOne text={'We are rolling out access to our data archive. Please let us know how you intend to use this archive.'}/>
         <br/>
         <Form onSubmit={this.onFormSubmit}>
             <Form.Row>
@@ -89,7 +89,7 @@ class SignUp extends Component {
                 </Col>
 
                 <Col>
-                    <Form.Label>How did you know about us?</Form.Label>
+                    <Form.Label>How did you find out about us?</Form.Label>
                     <Form.Control 
                         name="source"
                         as="textarea" 
@@ -127,7 +127,7 @@ class SignUp extends Component {
                 :
                 this.state.status==='upload'
                 ?
-                    <Button variant="primary" disabled>
+                    <Button variant="color-primary-one" disabled>
                         <Spinner
                             as="span"
                             animation="grow"

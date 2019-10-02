@@ -7125,6 +7125,8 @@ a.text-dark:hover, a.text-dark:focus {
     margin-top: 30px;
     min-width: 250px;
     max-height: 330px; }
+  .login-button {
+    align-self: flex-end; }
   .login-left {
     flex: 0 0 50%;
     background-color: #ffe5e2;
@@ -7181,6 +7183,8 @@ a.text-dark:hover, a.text-dark:focus {
     margin-top: 30px;
     min-width: 250px;
     max-height: 330px; }
+  .login-button {
+    align-self: flex-end; }
   .login-left {
     flex: 0 0 50%;
     background-color: #ffe5e2;
@@ -7242,6 +7246,8 @@ a.text-dark:hover, a.text-dark:focus {
     margin-top: 30px;
     min-width: 250px;
     max-height: 330px; }
+  .login-button {
+    align-self: flex-end; }
   .login-left {
     flex: 0 0 50%;
     background-color: #ffe5e2;
@@ -7423,10 +7429,24 @@ a.text-dark:hover, a.text-dark:focus {
   height: 20em;
   width: auto; }
 
-.logo img {
+.logo {
+  display: flex;
+  align-items: center;
+  margin-top: 1.2em;
+  margin-bottom: 1.2em; }
+
+.logo-image {
   height: 3em;
-  padding-top: 10px;
   margin-right: 0.6em; }
+
+.company-title {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 1.4em;
+  font-weight: 500;
+  margin-right: 0.2em; }
+
+.product-title {
+  font-size: 1.0em; }
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)

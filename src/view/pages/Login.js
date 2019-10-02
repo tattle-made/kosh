@@ -9,8 +9,11 @@ import { loginUser } from '../../redux/actions/auth';
 //components
 import tattleLogo from '../../assets/img/tattle_monogram_dark.png';
 import LoginHeader from '../components/LoginHeader';
+import Logo from '../components/Logo'
 import LoginFooter from '../components/LoginFooter';
 import LoginCard from '../components/LoginCard';
+
+import {Container} from 'react-bootstrap'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -43,6 +46,7 @@ class LoginPage extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    console.log(this.state)
     const userData = {
       username: this.state.username,
       password: this.state.password
@@ -61,8 +65,11 @@ class LoginPage extends Component {
     this.redirect(this.props.auth);
 
     return (
-      <div className='login-page'>
-        <LoginHeader img={tattleLogo} alt='tattle-logo' />
+      <Container className='login-page'>
+        <Logo/>
+
+        <br/>
+
         <LoginCard
           username={this.state.username}
           password={this.state.password}
@@ -70,7 +77,7 @@ class LoginPage extends Component {
           onSubmit={this.onSubmit}
         />
         <LoginFooter />
-      </div>
+      </Container>
     );
   }
 }
