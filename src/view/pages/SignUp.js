@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {HeadingOne, HeadingTwo, HeadingThree, BodyOne, BodyTwo, SubHeadingOne} from '../atomic-components/text'
-import { Button, Form,  Container, Row } from 'react-bootstrap';
+import { Button, Form,  Container, Row, Col, Spinner } from 'react-bootstrap';
+import axios from 'axios';
 
 import Logo from '../components/Logo'
 
@@ -13,7 +14,8 @@ class SignUp extends Component {
             'emailAddress':'',
             'source':'',
             'additionalInfo':'',
-            'subscribeToUpdate':false
+            'subscribeToUpdate':false,
+            'status':'default'
         }
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this)
@@ -33,6 +35,11 @@ class SignUp extends Component {
     onFormSubmit(e){
         e.preventDefault()
         console.log(this.state);
+        this.setState({status:'upload'})
+
+        axios.post('http://localhost:9003/request-access/add', this.state)
+        .then((res)=>this.setState({'status':'success'}))
+        .catch((err)=>this.setState({'status':'error'}));
     }
 
     render(){
@@ -40,46 +47,60 @@ class SignUp extends Component {
     <Container>
         <Logo/>
         <br/>
-        <HeadingOne text={'Request Access'}/>
+        <HeadingOne text={'Whatsapp Data Archive'}/>
         <SubHeadingOne text={'We are rolling out access to our data archive. Please let us know a bit about what you intend to do with the dataset.'}/>
         <br/>
         <Form onSubmit={this.onFormSubmit}>
-            <Form.Group controlId="name">
-                <Form.Label> Name </Form.Label>
-                <Form.Control 
-                    name="name"
-                    type='text' 
-                    placeholder=''
-                    onChange={this.onInputChange}
-                />
-            </Form.Group>
-            <Form.Group controlId="affiliation">
-                <Form.Label> Affiliation </Form.Label>
-                <Form.Control 
-                    name="affiliation"
-                    type='text' 
-                    placeholder=''
-                    onChange={this.onInputChange}
-                />
-            </Form.Group>
-            <Form.Group controlId="emailAddress">
-                <Form.Label> Email Address </Form.Label>
-                <Form.Control   
-                    name="emailAddress"
-                    type='email' 
-                    placeholder=''
-                    onChange={this.onInputChange}
-                />
-            </Form.Group>
-            <Form.Group controlId="source">
-                <Form.Label>Where did you hear about us?</Form.Label>
-                <Form.Control 
-                    name="source"
-                    as="textarea" 
-                    rows="1" 
-                    onChange={this.onInputChange}
-                />
-            </Form.Group>
+            <Form.Row>
+                <Col>
+                    <Form.Label> Name*</Form.Label>
+                    <Form.Control 
+                        name="name"
+                        type='text' 
+                        placeholder=''
+                        onChange={this.onInputChange}
+                    />
+                </Col>
+                <Col>
+                    <Form.Label> Email Address* </Form.Label>
+                    <Form.Control   
+                        name="emailAddress"
+                        type='email' 
+                        placeholder=''
+                        onChange={this.onInputChange}
+                    />
+                </Col>
+            </Form.Row>
+            <Form.Text className="text-muted">
+                Fields marked * are required
+            </Form.Text>
+
+            <br/>
+
+            <Form.Row>
+                <Col>
+                    <Form.Label> Affiliation </Form.Label>
+                    <Form.Control 
+                        name="affiliation"
+                        type='text' 
+                        placeholder=''
+                        onChange={this.onInputChange}
+                    />
+                </Col>
+
+                <Col>
+                    <Form.Label>How did you know about us?</Form.Label>
+                    <Form.Control 
+                        name="source"
+                        as="textarea" 
+                        rows="1" 
+                        onChange={this.onInputChange}
+                    />
+                </Col>
+            </Form.Row>
+
+            <br/>
+
             <Form.Group controlId="additionalInfo">
                 <Form.Label>Additional Information</Form.Label>
                 <Form.Control 
@@ -97,9 +118,37 @@ class SignUp extends Component {
                     onChange={this.onInputChange}
                 />
             </Form.Group>
-            <Button variant="primary" type="submit">
-                Request Access
-            </Button>
+            {
+                this.state.status==='default' 
+                ? 
+                    <Button variant="color-primary-one" type="submit">
+                        Request Access
+                    </Button>
+                :
+                this.state.status==='upload'
+                ?
+                    <Button variant="primary" disabled>
+                        <Spinner
+                            as="span"
+                            animation="grow"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                            />
+                        Submitting...
+                    </Button>
+                :
+                this.state.status==='error'
+                ?
+                    <HeadingTwo text={'There was an error processing your request. Please try again later.'}/>
+                :
+                this.state.status==='success'
+                ?
+                    <HeadingTwo text={'Thank you! Look out for communication from us in your email.'}/>
+                :
+                    <div> Form is in unknown state </div>
+            }
+            
         </Form>
     </Container>
     )
