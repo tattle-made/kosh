@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {HeadingOne, HeadingTwo, HeadingThree, BodyOne, BodyTwo, SubHeadingOne} from '../atomic-components/text'
 import { Button, Form,  Container, Row, Col, Spinner } from 'react-bootstrap';
+import  {Link} from 'react-router-dom'
 
 class LoginCard extends Component {
   constructor(props){
@@ -68,8 +69,13 @@ class LoginCard extends Component {
             </Form.Row>
 
             <br/>
-
+            <br/>
+            
+            <Link to={'/request-access'}>
+              <Button variant="light" onClick={()=>console.log('clicked')}>Request Access </Button>
+            </Link>
           </Form>
+          
     );
   }
 }

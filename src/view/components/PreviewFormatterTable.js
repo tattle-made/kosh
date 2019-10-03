@@ -21,9 +21,10 @@ class PreviewFormatterTable extends Component {
       // />
 
       return (
-        <div className='card'>
-          <iframe title='d' src='https://www.youtube.com/embed/hZFNVj505HQ' />
-        </div>
+        <iframe title='d' src='https://www.youtube.com/embed/hZFNVj505HQ' />
+        // <div className='card'>
+        //   <iframe title='d' src='https://www.youtube.com/embed/hZFNVj505HQ' />
+        // </div>
       );
     } else if (this.props.row.type === 'text') {
       return (

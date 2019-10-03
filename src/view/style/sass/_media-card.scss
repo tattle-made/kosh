@@ -1,6 +1,15 @@
 .media-card {
     img{
-        height: 20em;
-        width: auto;
+        height: 10em;
+        width: 10em;
+        object-fit: contain;
+        object-position: center; 
+    }
+
+    iframe{
+        height: 10em;
+        width: 10em;
+        object-fit: contain;
+        object-position: center; 
     }
 }

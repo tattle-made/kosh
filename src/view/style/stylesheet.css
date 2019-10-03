@@ -7426,8 +7426,16 @@ a.text-dark:hover, a.text-dark:focus {
   cursor: pointer; }
 
 .media-card img {
-  height: 20em;
-  width: auto; }
+  height: 10em;
+  width: 10em;
+  object-fit: contain;
+  object-position: center; }
+
+.media-card iframe {
+  height: 10em;
+  width: 10em;
+  object-fit: contain;
+  object-position: center; }
 
 .logo {
   display: flex;
