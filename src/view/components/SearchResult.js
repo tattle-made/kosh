@@ -22,9 +22,6 @@ class SearchResult extends Component {
   }
 
   displayResults(cards) {
-    if (this.props.content_type.length === 0) {
-      return <div>Please select at least one content type and search</div>;
-    } else {
       return cards.map(card => (
         <Card
           key={card.id}
@@ -32,7 +29,6 @@ class SearchResult extends Component {
           display={this.props.content_type.includes(card.type)}
         />
       ));
-    }
   }
   render() {
     return (

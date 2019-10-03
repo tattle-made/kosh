@@ -7419,9 +7419,8 @@ a.text-dark:hover, a.text-dark:focus {
   margin-left: auto; }
 
 .primary-action-post-table-upload {
-  background-color: #e65447;
-  color: white;
-  padding: 3.9px;
+  background-color: #f0f0f0;
+  color: #060d42;
   border-radius: 0.2rem;
   cursor: pointer; }
 

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import HeadingTwo from '../atomic-components/text/HeadingTwo';
-import BodyOne from '../atomic-components/text/BodyOne';
+
 import { faSearch, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+
+import {HeadingOne, HeadingTwo, HeadingThree, BodyOne, BodyTwo, SubHeadingOne} from '../atomic-components/text'
+import { Button, Form,  Container, Row, Col, Spinner } from 'react-bootstrap';
+import StatefulButton from '../atomic-components/StatefulButton'
 
 class SearchForm extends Component {
   constructor(props) {
@@ -42,49 +44,72 @@ class SearchForm extends Component {
 
   render() {
     return (
-      <div className='search-input'>
-        <div className='search-input-input'>
-          <input type='text' placeholder='Enter Search Term' />
-          <HeadingTwo text='or' />
-          <button className='btn  btn-color-white-one'>
-            <FontAwesomeIcon icon={faUpload} /> Upload File
-          </button>
-        </div>
+        <Form onSubmit={this.props.onFormSubmit}>
+          <Form.Row className="mb-1">
+            <Col md={'auto'}>
+              <Form.Control 
+                name="username"
+                type='text' 
+                placeholder='Enter Search Term'
+                onChange={this.props.onChange}
+              />
+            </Col>
+            <Col md={'auto'}>
+              <BodyOne text='or'/>
+            </Col>
+            <Col block>
+              
+            <Form.Group>
+              <Form.Label
+                className='pl-4 pr-4 pt-2 pb-2 primary-action-post-table-upload'
+                htmlFor='fileUpload'
+              >
+                <FontAwesomeIcon icon={faUpload} /> Upload File
+              </Form.Label>
+              <Form.Control
+                id='fileUpload'
+                type='file'
+                // accept='.pdf'
+                onChange={this.uploadContent}
+                style={{ display: 'none' }}
+              />
+            </Form.Group>
+            </Col>
+          </Form.Row>
 
-        <div className='search-input-checkbox'>
-          <BodyOne text='include' />
-          <label className='checkbox-box'>
-            <BodyOne text='text' />
-            <input name='text' type='checkbox' onClick={this.checkboxToggle} />
-            <span className='checkmark' />
-          </label>
-          <label className='checkbox-box'>
-            <BodyOne text='image' />
-            <input name='image' type='checkbox' onClick={this.checkboxToggle} />
-            <span className='checkmark' />
-          </label>
-          <label className='checkbox-box'>
-            <BodyOne text='video' />
-            <input name='video' type='checkbox' onClick={this.checkboxToggle} />
-            <span className='checkmark' />
-          </label>
-        </div>
-        <div className='search-input-button'>
-          <Button
-            variant='color-primary-one'
-            className='text-white'
-            type='submit'
-            onClick={() =>
-              this.props.onFormSubmit({
-                searchInput: this.state.searchInput,
-                content_type: this.state.content_type
-              })
-            }
-          >
-            Search <FontAwesomeIcon icon={faSearch} color='#fff' />
-          </Button>
-        </div>
-      </div>
+          <Form.Row className="mb-4">
+            <Col>
+              <div className="d-inline mr-2">include</div>
+              <Form.Check
+                custom
+                inline
+                label="text"
+                type={'checkbox'}
+                id={`search-type-text`}
+              />
+              <Form.Check
+                custom
+                inline
+                label="image"
+                type={'checkbox'}
+                id={`search-type-image`}
+              />
+              <Form.Check
+                custom
+                inline
+                label="video"
+                type={'checkbox'}
+                id={`search-type-video`}
+              />
+            </Col>
+          </Form.Row>
+
+          <StatefulButton 
+            status='default'
+            label='Search'
+            errorMessage='There was an error'
+          />
+         </Form>
     );
   }
 }

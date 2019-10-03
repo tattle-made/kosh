@@ -12,6 +12,8 @@ import BreadCrumb from '../atomic-components/BreadCrumb';
 import SearchForm from '../components/SearchForm';
 import SearchResult from '../components/SearchResult';
 
+import {Container} from 'react-bootstrap'
+
 class SearchInput extends Component {
   constructor(props) {
     super(props);
@@ -22,26 +24,29 @@ class SearchInput extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit(query) {
-    this.setState({
-      content_type: query.content_type
-    });
-    // query to pass in search
-    // when search in backend is functional
+  onSubmit(event) {
+    event.preventDefault()
+    console.log(event)
+
+    // this.setState({
+    //   content_type: query.content_type
+    // });
+    // // query to pass in search
+    // // when search in backend is functional
     this.props.triggerLoading(true);
     this.props.search();
   }
 
   render() {
     return (
-      <div className='container'>
+      <Container>
         <BreadCrumb path={this.props.match.path} />
-        <SearchForm onFormSubmit={query => this.onSubmit(query)} />
+        <SearchForm onFormSubmit={this.onSubmit} />
         <SearchResult
           data={this.state.data}
           content_type={this.state.content_type}
         />
-      </div>
+      </Container>
     );
   }
 }
