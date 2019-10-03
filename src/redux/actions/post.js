@@ -108,13 +108,16 @@ const fetchPosts = page => {
       token
     }
   });
+  
   return dispatch => {
+    dispatch(triggerLoading(true))
     request
       .then(res => {
         dispatch({
           type: POSTS,
           payload: res.data
         });
+        dispatch(triggerLoading(false))
       })
       .catch(err => {
         dispatch(toggleAuthentication(false));

@@ -22,6 +22,8 @@ import SearchPostFilterParameters from '../../components/SearchPostFilterParamet
 
 import { onSearch } from './post-controller';
 
+import {Spinner} from 'react-bootstrap'
+
 // socket io
 import io from 'socket.io-client';
 
@@ -48,9 +50,11 @@ class PostsTable extends Component {
       page = 1;
     }
 
-    setTimeout(() => {
-      this.props.fetchPosts(page);
-    }, 1000);
+    this.props.fetchPosts(page);
+
+    // setTimeout(() => {
+     
+    // }, 1000);
 
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
@@ -124,12 +128,18 @@ class PostsTable extends Component {
             this.onSearch(data, this.state.filter, this.props.location)
           }
         />
-        <Table
-          data={this.state.posts}
-          columns={columns}
-          page={parseInt(this.state.page)}
-          count={this.state.count}
-        />
+        {
+          this.props.loading 
+          ?
+            <Spinner animation="border" />
+          :
+            <Table
+              data={this.state.posts}
+              columns={columns}
+              page={parseInt(this.state.page)}
+              count={this.state.count}
+            /> 
+        }
       </div>
     );
   }
@@ -144,7 +154,8 @@ PostsTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  posts: state.posts
+  posts: state.posts,
+  loading: state.loading
 });
 
 const PostsTablePage = withRouter(
