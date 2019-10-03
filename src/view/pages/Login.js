@@ -75,6 +75,7 @@ class LoginPage extends Component {
           password={this.state.password}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
+          loading={this.props.loading}
         />
         <LoginFooter />
       </Container>
@@ -91,7 +92,8 @@ LoginPage.propTypes = {
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  auth: state.auth.isAuthenticated
+  auth: state.auth.isAuthenticated,
+  loading: state.loading
 });
 
 const Login = withRouter(

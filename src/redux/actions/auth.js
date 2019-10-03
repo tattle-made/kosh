@@ -2,13 +2,14 @@ import { SET_USER, AUTHENTICATE } from './types';
 
 import { PURGE } from 'redux-persist';
 import axios from 'axios';
-import { error } from './utils';
+import { error, triggerLoading } from './utils';
 import {get, post} from '../../service/shell-server';
 
 const loginUser = userData => {
   
 
   return dispatch => {
+      dispatch(triggerLoading(true))
       post('/auth/login', userData)
       .then(res => {
         const auth = res.data.auth;
@@ -20,6 +21,7 @@ const loginUser = userData => {
           localStorage.setItem('token', token);
           get(`/user/${userId}`, token)
           .then(res => {
+            dispatch(triggerLoading(false))
             dispatch(setCurrentUser(res.data));
             dispatch(toggleAuthentication(true));
           });
