@@ -100,15 +100,17 @@ app.post('/api/postByTimeAndUsers/:page', (req: Request, res: Response) => {
 });
 
 app.post('/api/posts', (req: Request, res: Response) => {
+    console.log('====');
+    console.log(req.body);
     const post = new PostCreateRequest(req.body);
     const ioPost = req.app.get('socketio');
     postController
-        .create(post)
-        .then((response: JSON) => {
-            ioPost.emit('posts/newData', { name: 'gully' });
-            res.send(response);
-        })
-        .catch((err) => res.send(err.JSON));
+    .create(post)
+    .then((response: JSON) => {
+        ioPost.emit('posts/newData', { name: 'gully' });
+        res.send(response);
+    })
+    .catch((err) => res.send(err.JSON));
 });
 
 app.get('/api/posts/:id', (req: Request, res: Response) => {
