@@ -4,12 +4,12 @@ import { actionIconsFormatter, previewFormatter } from "./column-formatter";
 const column = (extraData, history) => {
   return [
     {
-      dataField: "type",
-      text: "Title"
+      dataField: "user_id",
+      text: "User Id"
     },
     {
       dataField: "filename",
-      text: "Description",
+      text: "Preview",
       formatter: previewFormatter,
       formatExtraData: extraData[0].posts,
       events: {

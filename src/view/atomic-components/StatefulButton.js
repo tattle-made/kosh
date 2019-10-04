@@ -4,13 +4,13 @@ import {HeadingTwo} from '../atomic-components/text'
 
 const StatefulButton = (props) => {
     return(
-        props.status==='default' 
+        props.status==='default' || props.status==false
         ? 
             <Button variant="color-primary-one" type="submit">
                 {props.label}
             </Button>
         :
-        props.status==='upload'
+        props.status==='upload' || props.status==true
         ?
             <Button variant="color-primary-one" disabled>
                 <Spinner
@@ -20,7 +20,7 @@ const StatefulButton = (props) => {
                     role="status"
                     aria-hidden="true"
                     />
-                Submitting...
+                {props.inProgressLabel ? props.inProgressLabel : 'Submitting'}
             </Button>
         :
         props.status==='error'

@@ -48,7 +48,7 @@ class SearchForm extends Component {
           <Form.Row className="mb-1">
             <Col md={'auto'}>
               <Form.Control 
-                name="username"
+                name="search_term"
                 type='text' 
                 placeholder='Enter Search Term'
                 onChange={this.props.onChange}
@@ -105,8 +105,9 @@ class SearchForm extends Component {
           </Form.Row>
 
           <StatefulButton 
-            status='default'
+            status={this.props.loading}
             label='Search'
+            inProgressLabel='Searching'
             errorMessage='There was an error'
           />
          </Form>

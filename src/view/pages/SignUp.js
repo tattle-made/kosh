@@ -37,7 +37,7 @@ class SignUp extends Component {
         console.log(this.state);
         this.setState({status:'upload'})
 
-        axios.post('http://localhost:9003/request-access/add', this.state)
+        axios.post('http://13.235.141.145:3002/request-access/add', this.state)
         .then((res)=>this.setState({'status':'success'}))
         .catch((err)=>this.setState({'status':'error'}));
     }

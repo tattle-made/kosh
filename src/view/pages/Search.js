@@ -11,6 +11,7 @@ import { search } from '../../redux/actions/post';
 import BreadCrumb from '../atomic-components/BreadCrumb';
 import SearchForm from '../components/SearchForm';
 import SearchResult from '../components/SearchResult';
+import SimpleSearchResult from '../components/TempImageCard'
 
 import {Container} from 'react-bootstrap'
 
@@ -22,11 +23,12 @@ class SearchInput extends Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
   onSubmit(event) {
     event.preventDefault()
-    console.log(event)
+    console.log(this.state)
 
     // this.setState({
     //   content_type: query.content_type
@@ -34,31 +36,55 @@ class SearchInput extends Component {
     // // query to pass in search
     // // when search in backend is functional
     this.props.triggerLoading(true);
-    this.props.search();
+    this.props.search({
+      search_term: this.state.search_term, 
+      image_url: this.state.image_url
+    });
+  }
+  
+  onInputChange(e) {
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
+    console.log('==test==', typeof(this.props.searchResult))
     return (
       <Container>
         <BreadCrumb path={this.props.match.path} />
-        <SearchForm onFormSubmit={this.onSubmit} />
-        <SearchResult
+        <SearchForm 
+          onFormSubmit={this.onSubmit} 
+          onChange={this.onInputChange}
+          loading={this.props.loading}
+        />
+        {/* <SearchResult
           data={this.state.data}
           content_type={this.state.content_type}
-        />
+        /> */}
+
+        {
+          this.props.searchResult.doc_id==undefined
+          ? 
+            null
+          :
+            <SimpleSearchResult docId={this.props.searchResult.doc_id}/>
+        }
       </Container>
     );
   }
 }
 
 SearchInput.propTypes = {
-  search: PropTypes.func.isRequired,
   triggerLoading: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  loading: state.loading,
+  searchResult: state.search
+});
+
 const Search = withRouter(
   connect(
-    null,
+    mapStateToProps,
     { search, triggerLoading }
   )(SearchInput)
 );
