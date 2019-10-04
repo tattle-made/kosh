@@ -113,7 +113,7 @@ app.post('/api/posts', (req: Request, res: Response) => {
     .catch((err) => res.send(err.JSON));
 });
 
-app.get('/api/posts/:id', (req: Request, res: Response) => {
+app.get('/api/posts/id/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     postController.get(id).then((post) => res.send(post));
 });
