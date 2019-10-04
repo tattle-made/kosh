@@ -23,7 +23,7 @@ import { authenticate } from './core/middleware/authenticate';
 import { authorize } from './core/middleware/authorize';
 
 const app = express();
-const port = 8080;
+const port = 3003;
 const server = app.listen(port, () => {
     console.log('server is listening to ', port);
 });
