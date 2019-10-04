@@ -24,11 +24,13 @@ import { onSearch } from './post-controller';
 
 import {Spinner} from 'react-bootstrap'
 
+import {SOCKET_URL} from '../../../service/shell-server'
+
 // socket io
 import io from 'socket.io-client';
 
 //connect to server
-const socket = io('http://localhost:8080/');
+const socket = io(`${SOCKET_URL}`);
 
 class PostsTable extends Component {
   constructor(props) {

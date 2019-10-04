@@ -1,9 +1,13 @@
 import axios from 'axios'
-const URL = 'http://localhost:8080/api';
+
+const SERVER_ENDPOINT = '13.233.84.78';
+const PORT = '3003'
+const API_URL = `http://${SERVER_ENDPOINT}:${PORT}/api`;
+const SOCKET_URL = `http://${SERVER_ENDPOINT}:${PORT}/`
 
 const get = (endpoint, token)=>{
     return axios.get(
-        `${URL}${endpoint}`,
+        `${API_URL}${endpoint}`,
         {
           headers: {
             token
@@ -13,11 +17,13 @@ const get = (endpoint, token)=>{
 }
 
 const post = (endpoint, payload)=>{
-    return axios.post(`${URL}${endpoint}`, payload)
+    return axios.post(`${API_URL}${endpoint}`, payload)
     .catch((err) => console.log('ERROR IN API CALL ',err));
 }
 
 export {
     get,
-    post
+    post,
+    API_URL,
+    SOCKET_URL
 }
