@@ -35,7 +35,6 @@ You will be able to preview components in the browser. Look at the terminal for 
 stories for storybook are defined in src/views/stories
 
 # Styling & Customization
-
 Styles for various components are defined in src/views/styles/sass/
 Here styles for specific component are defined in specific file for eg. style for breadcrumbs is defined in breadcrumb.scss
 All the custom variables are defined in themes.scss.
