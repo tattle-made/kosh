@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Video from '../atomic-components/Video'
 
 const imageSource = (userId, fileName) => {
   if(userId===159){
@@ -29,10 +30,7 @@ class PreviewFormatterTable extends Component {
         </div>
       );
     } else if (this.props.row.type === 'video') {
-      return (<video
-        src={videoSource(this.props.row.user_id, this.props.cell)}
-        controls
-      />)
+      return (<Video src={videoSource(this.props.row.user_id, this.props.cell)}/>)
 
       // return (
       //   <iframe title='d' src='https://www.youtube.com/embed/hZFNVj505HQ' />

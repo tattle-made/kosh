@@ -42,7 +42,7 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^2.2.0",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.4.0"
   },
   "homepage": "http://13.235.176.60/",
   "scripts": {
