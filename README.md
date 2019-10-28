@@ -1,3 +1,6 @@
+# Shell
+A UI gateway to all tattle services
+
 # Installation
 
 - Clone the repository locally using - `git clone git@github.com:tattle-made/shell.git`
