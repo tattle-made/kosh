@@ -22,7 +22,7 @@ Post.init(
 //     console.log('post Created');
 // });
 
-Post.sync()
+Post.sync({alter:true})
 .then(() => {
     console.log('POST SYNCED');
 });
