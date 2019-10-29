@@ -11,6 +11,7 @@ Post.init(
         data: Sequelize.STRING,
         filename: Sequelize.STRING,
         user_id: Sequelize.INTEGER,
+        indexed_for_search: {type: Sequelize.BOOLEAN, defaultValue: false},
     },
     {
         sequelize: db.get(),
