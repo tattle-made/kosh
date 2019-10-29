@@ -40,3 +40,5 @@ Here styles for specific component are defined in specific file for eg. style fo
 All the custom variables are defined in themes.scss.
 After doing the changes in these file run `npm run sass` to compile the sass to css and reflect the changes in the ui.
 
+# Deploy
+push to master and the website will be automatically deployed to shell.tattle.co.in
