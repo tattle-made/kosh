@@ -191,40 +191,6 @@ app.delete('/api/users/delete/:id', (req: Request, res: Response) => {
         .catch((err) => res.send(err.JSON));
 });
 
-app.post('/api/uploadToS3', (req: Request, res: Response) => {
-    aws.config.update({
-        region: 'ap-south-1',
-        accessKeyId: 'AKIAZEOQEMFTM3RHNM4T',
-        secretAccessKey: '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',
-    });
-
-    const S3_BUCKET = 'shell-tattle';
-    const s3 = new aws.S3();
-    const fileName = req.body.fileName;
-    const fileType = req.body.fileType;
-
-    const params = {
-        Bucket: S3_BUCKET,
-        Key: fileName,
-        Expires: 500,
-        ContentType: fileType,
-        ACL: 'public-read',
-    };
-
-    s3.getSignedUrl('putObject', params, (err, data) => {
-        if (err) {
-            res.json({ success: false, error: err });
-        }
-
-        const info = {
-            signedRequest: data,
-            url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`,
-        };
-
-        res.json({ success: true, data: { info } });
-    });
-});
-
 app.use(Sentry.Handlers.errorHandler());
 
 // app.use(function onError(err, req, res, next) {

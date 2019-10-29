@@ -10,8 +10,6 @@ Post.init(
         type: Sequelize.ENUM('text', 'image', 'video'),
         data: Sequelize.STRING,
         filename: Sequelize.STRING,
-        source: Sequelize.INTEGER,
-        campaign_id: Sequelize.INTEGER,
         user_id: Sequelize.INTEGER,
     },
     {
@@ -24,15 +22,10 @@ Post.init(
 //     console.log('post Created');
 // });
 
-// Post.sync({force: true})
-// .then(() => {
-//     Post.create({
-//         type : 'image',
-//         data : '',
-//         filename: 'asfd-asdfasdfadf-adsff-adf',
-//         source: 2
-//     });
-// });
+Post.sync()
+.then(() => {
+    console.log('POST SYNCED');
+});
 
 export function create(param: PostCreateRequest): Promise<JSON> {
     return Post.create(param.getAll())
