@@ -56,7 +56,13 @@ export function getAll(page: number): Promise<object> {
         include: [
             {
                 model: User,
-                include: [MediaSource],
+                attributes: ['username'],
+                include: [
+                    {
+                        model: MediaSource,
+                        attributes: ['serviceName', 'dirName'],
+                    },
+                ],
             },
         ],
     })
