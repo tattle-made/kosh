@@ -100,8 +100,6 @@ app.post('/api/postByTimeAndUsers/:page', (req: Request, res: Response) => {
 });
 
 app.post('/api/posts', (req: Request, res: Response) => {
-    console.log('====');
-    console.log(req.body);
     const post = new PostCreateRequest(req.body);
     const ioPost = req.app.get('socketio');
     postController
@@ -189,6 +187,14 @@ app.delete('/api/users/delete/:id', (req: Request, res: Response) => {
         .delete(id)
         .then((response) => res.send(response))
         .catch((err) => res.send(err.JSON));
+});
+
+app.post('/api/index-pending', (req: Request, res: Response) => {
+    postController.getIndexPendingPosts()
+    .then((result) => {
+        res.send(result);
+    })
+    .catch((err) => res.send(err.JSON));
 });
 
 app.use(Sentry.Handlers.errorHandler());

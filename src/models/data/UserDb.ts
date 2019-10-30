@@ -4,6 +4,7 @@ import db from '../../service/db';
 import ExistsResponse from '../response/ExistsResponse';
 import { UserCreateRequest } from '../request/UserCreateRequest';
 import { UserCreateResponse } from '../response/UserCreateResponse';
+import { MediaSource } from './MediaSource';
 
 export class User extends Sequelize.Model {}
 
@@ -20,16 +21,21 @@ User.init(
     },
 );
 
-// User.sync()
+User.belongsTo(MediaSource);
+
+// User.sync({alter: true})
+// .then(() => console.log('user synced'))
+// .catch((err) => console.log(err));
+
+// MediaSource.belongsTo(User);
+
+// db.get().sync({alter : true});
+
+// User.sync({alter : true})
 // .then(() => {
-//     User.create({
-//         username: 'user_aab',
-//         password: 'abcdf',
-//     });
+//     console.log('synced user');
 // })
-// .then((jane) => {
-//     console.log(jane);
-// });
+// .catch((err) => console.log(err));
 
 // returns false and {}
 // returns true and {userid : <id>}

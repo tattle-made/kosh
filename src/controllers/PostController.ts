@@ -6,6 +6,7 @@ import {
     getByTime,
     getByTimeAndUsers,
     deletePost,
+    indexPendingPosts,
 } from '../models/data/PostDb';
 
 import { PostCreateRequest } from '../models/request/PostCreateRequest';
@@ -42,5 +43,9 @@ export class PostController extends BaseController {
 
     public delete(id: number) {
         return deletePost(id);
+    }
+
+    public getIndexPendingPosts() {
+        return indexPendingPosts();
     }
 }

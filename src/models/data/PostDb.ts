@@ -1,16 +1,22 @@
 import * as Sequelize from 'sequelize';
 import db from '../../service/db';
 import { PostCreateRequest } from '../request/PostCreateRequest';
+import {Promise} from 'bluebird';
+import axios from 'axios';
+import * as config from 'config';
 
 export class Post extends Sequelize.Model {}
 const Op = Sequelize.Op;
+const searchServerConfig: any = config.get('search-server');
+
+import {User} from './UserDb';
+import { MediaSource } from './MediaSource';
 
 Post.init(
     {
         type: Sequelize.ENUM('text', 'image', 'video'),
         data: Sequelize.STRING,
         filename: Sequelize.STRING,
-        user_id: Sequelize.INTEGER,
         indexed_for_search: {type: Sequelize.BOOLEAN, defaultValue: false},
     },
     {
@@ -19,14 +25,16 @@ Post.init(
     },
 );
 
+Post.belongsTo(User);
+
 // Post.afterCreate( () => {
 //     console.log('post Created');
 // });
 
-Post.sync({alter:true})
-.then(() => {
-    console.log('POST SYNCED');
-});
+// Post.sync({alter:true})
+// .then(() => {
+//     console.log('POST SYNCED');
+// });
 
 export function create(param: PostCreateRequest): Promise<JSON> {
     return Post.create(param.getAll())
@@ -45,6 +53,12 @@ export function getAll(page: number): Promise<object> {
         offset: page * pageSize - pageSize,
         limit: 10,
         order: [['createdAt', 'DESC']],
+        include: [
+            {
+                model: User,
+                include: [MediaSource],
+            },
+        ],
     })
         .then((result) => {
             return {
@@ -160,4 +174,34 @@ export function deletePost(id: number) {
                 error: err.toJSON(),
             }),
         );
+}
+
+export function indexPendingPosts() {
+    console.log('****');
+    console.log(`${searchServerConfig.host}:${searchServerConfig.port}`);
+    return Post.findAll({
+        limit: 10,
+        where: {
+            indexed_for_search: false,
+        },
+    })
+    .then((posts) => {
+        console.log('=======INDEXING========');
+
+        const indexPromise = posts.map((post) => {
+            console.log(post.get('id'));
+            if (post.get('id') === 228) {
+                return Promise.resolve('error indexing 228');
+            } else {
+                return Promise.resolve(`indexing ${post.get('id')}`);
+            }
+        });
+        return Promise.each(indexPromise, (promise) => {
+            return promise;
+        });
+        
+        console.log('=======END-INDEXING========');
+    })
+    .catch((err) => ({message: 'Error operating in Database', error: err.JSON}))
+    ;
 }

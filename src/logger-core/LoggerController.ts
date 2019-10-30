@@ -6,4 +6,8 @@ export default class {
     public log(message: string) {
         console.log(message);
     }
+
+    public err(error: string) {
+        console.log(error);
+    }
 }
