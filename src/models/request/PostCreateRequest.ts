@@ -19,7 +19,7 @@ export class PostCreateRequest {
             data: this.data,
             filename: this.filename,
             campaign_id: this.campaignId,
-            user_id: this.userId,
+            userId: this.userId,
         };
     }
 }

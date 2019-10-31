@@ -8,9 +8,9 @@ todo: video api is not deployed yet
 */
 export class SearchServer {
     private host: string = `${searchServerConfig.host}:${searchServerConfig.port}`;
-    private const IMAGE_ENDPOINT: string = `${this.host}/upload_image`;
-    private const VIDEO_ENDPOINT: string = '/upload_video';
-    private const TEXT_ENDPOINT: string = '/upload_text';
+    private IMAGE_ENDPOINT: string = `${this.host}/upload_image`;
+    private VIDEO_ENDPOINT: string = '/upload_video';
+    private TEXT_ENDPOINT: string = '/upload_text';
 
     public indexPost(post: Post) {
         const type: string = post.get('type') as string;
