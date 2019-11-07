@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as Sentry from '@sentry/node';
 import * as aws from 'aws-sdk';
+import 'reflect-metadata';
 
 // socket.io
 import * as socketio from 'socket.io';
@@ -21,6 +22,10 @@ import { loginValidator } from './core/validation/login';
 // middleware
 import { authenticate } from './core/middleware/authenticate';
 import { authorize } from './core/middleware/authorize';
+
+// routes
+// tslint:disable-next-line:max-line-length
+import {register as registerFactCheckStoryRoute} from './routes/fact-checked-stories/FactCheckedStoryRoutes';
 
 const app = express();
 const port = 3003;
@@ -66,6 +71,8 @@ const userController = new UserController();
 app.get('/', (req: Request, res: Response) => {
     res.send('pong');
 });
+
+registerFactCheckStoryRoute(app);
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;

@@ -7,7 +7,8 @@ class DB {
         const { host, port, username, password, table } = config.get('db');
         this.sequelize = new Sequelize(table, username, password, {
             host,
-            dialect: 'mysql'
+            dialect: 'mysql',
+            logging: false,
         });
     }
 
