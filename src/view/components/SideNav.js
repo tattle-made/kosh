@@ -5,7 +5,8 @@ import {
   faUsers,
   faSearch,
   faTimes,
-  faSignOutAlt
+  faSignOutAlt,
+  faMicrochip
 } from '@fortawesome/free-solid-svg-icons';
 import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
@@ -27,6 +28,7 @@ import { logoutUser } from '../../redux/actions/auth';
 
 // access control
 import AccessControl from './AccessControl';
+import Queue from '../pages/Queue';
 
 class SideNav extends Component {
   constructor(props) {
@@ -67,6 +69,8 @@ class SideNav extends Component {
       route.includes('/users/page/')
     ) {
       return <UsersTable />;
+    } else if (route === '/queue') {
+      return <Queue/>
     } else {
       return <PostsTableItem />;
     }
@@ -107,6 +111,14 @@ class SideNav extends Component {
                   label={'Search'}
                   className={classnames({
                     active: this.props.location.pathname.includes('/search')
+                  })}
+                />
+                <MenuItem
+                  route={'/queue'}
+                  icon={eval(faMicrochip)}
+                  label={'Queues'}
+                  className={classnames({
+                    active: this.props.location.pathname.includes('/queue')
                   })}
                 />
                 <AccessControl

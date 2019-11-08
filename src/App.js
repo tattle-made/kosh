@@ -14,6 +14,7 @@ import SignUp from './view/pages/SignUp';
 import PrivateRoute from './view/components/PrivateRoute';
 
 import { PersistGate } from 'redux-persist/integration/react';
+import Queue from './view/pages/Queue';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
               <Route exact path='/' component={LoginCard} />
             </Switch>
             <Route path='/' component={FooterSite} />
+            <Switch>
+              <PrivateRoute exact path='/queue' component={SideNav} />
+            </Switch>
             <Switch>
               <PrivateRoute exact path='/search' component={SideNav} />
             </Switch>
