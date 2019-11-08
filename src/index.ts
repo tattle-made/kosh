@@ -27,6 +27,13 @@ import { authorize } from './core/middleware/authorize';
 // tslint:disable-next-line:max-line-length
 import {register as registerFactCheckStoryRoute} from './routes/fact-checked-stories/FactCheckedStoryRoutes';
 
+// Queue
+import queueManagerInstance from './queue';
+queueManagerInstance.setupWorker();
+// tslint:disable-next-line:no-var-requires
+const { UI } = require('bull-board');
+
+
 const app = express();
 const port = 3003;
 const server = app.listen(port, () => {
@@ -57,10 +64,13 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.static('public'));
+
 app.use(Sentry.Handlers.requestHandler());
 app.use(express.json());
 app.use(authenticate);
 app.use(authorize);
+
 
 // import logger from './logger-core';
 const postController = new PostController();
@@ -73,6 +83,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 registerFactCheckStoryRoute(app);
+
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
     const page = req.params.page || 1;
@@ -205,6 +216,9 @@ app.post('/api/index-pending', (req: Request, res: Response) => {
 });
 
 app.use(Sentry.Handlers.errorHandler());
+
+
+app.use('/ui', UI);
 
 // app.use(function onError(err, req, res, next) {
 //     // The error id is attached to `res.sentry` to be returned

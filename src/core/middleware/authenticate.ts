@@ -5,7 +5,7 @@ const loginController = new LoginController();
 
 export const authenticate = (req: Request, res: Response, next: () => void) => {
     const token = req.headers['token'] as string;
-    if (req.originalUrl === '/api/auth/login') {
+    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') ) {
         next();
     } else if (token) {
         loginController

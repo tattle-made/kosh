@@ -6,7 +6,7 @@ const userController = new UserController();
 const application = new Application();
 
 export const authorize = (req: Request, res: Response, next: () => void) => {
-    if (req.originalUrl === '/api/auth/login') {
+    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') ) {
         return next();
     }
 

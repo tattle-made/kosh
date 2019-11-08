@@ -20,4 +20,13 @@ export class CreateStoryRequestModel {
             type: this.type,
         };
     }
+
+    public getJSONForQueue() {
+        return {
+            url: this.url,
+            storyId: this.storyId,
+            docId: this.docId,
+            type: this.type,
+        };
+    }
 }
