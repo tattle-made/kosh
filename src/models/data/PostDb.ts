@@ -15,6 +15,7 @@ import { MediaSource } from './MediaSource';
 Post.init(
     {
         type: Sequelize.ENUM('text', 'image', 'video'),
+        userId: Sequelize.INTEGER,
         data: Sequelize.STRING,
         filename: Sequelize.STRING,
         indexed_for_search: {type: Sequelize.BOOLEAN, defaultValue: false},
