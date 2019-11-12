@@ -12,6 +12,30 @@ const searchServerConfig: any = config.get('search-server');
 import {User} from './UserDb';
 import { MediaSource } from './MediaSource';
 
+export function deduceMediaUrl(serviceName: string, dirName: string, fileName: string) {
+    console.log({serviceName, dirName, fileName})
+    switch (serviceName) {
+        case 'aws':
+            return `https://${dirName}.s3.ap-south-1.amazonaws.com/${fileName}`;
+        case 'firebase':
+            // tslint:disable-next-line:max-line-length
+            return `https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${fileName}?alt=media&token=bd030137-3020-42ac-be32-4eaab299dc5c`;
+    }
+}
+
+export function appendMediaUrlToPost(post: Post) {
+    if (post instanceof Post) {
+        const data: any = post.get({plain: true});
+        const mediaUrl = deduceMediaUrl(
+            data.user.mediaSource.serviceName,
+            data.user.mediaSource.dirName,
+            data.filename);
+        return { ...data, mediaUrl };
+    } else {
+        return post;
+    }
+}
+
 Post.init(
     {
         type: Sequelize.ENUM('text', 'image', 'video'),
@@ -67,20 +91,23 @@ export function getAll(page: number): Promise<object> {
             },
         ],
     })
-        .then((result) => {
-            return {
-                page,
-                totalPages: Math.ceil(result.count / pageSize),
-                count: result.count,
-                posts: result.rows,
-            };
-        })
-        .catch((err) => {
-            return Promise.resolve({
-                message: 'Error Fetching Post',
-                error: err,
-            });
+    .then((result) => {
+        const modifiedRows = result.rows.map((resultItem) => {
+            return appendMediaUrlToPost(resultItem);
         });
+        return {
+            page,
+            totalPages: Math.ceil(result.count / pageSize),
+            count: result.count,
+            posts: modifiedRows,
+        };
+    })
+    .catch((err) => {
+        return Promise.resolve({
+            message: 'Error Fetching Post',
+            error: err,
+        });
+    });
 }
 
 export function get(id: number) {
@@ -88,7 +115,21 @@ export function get(id: number) {
         where: {
             id,
         },
-    }).catch((err) => {
+        include: [
+            {
+                model: User,
+                attributes: ['username'],
+                include: [
+                    {
+                        model: MediaSource,
+                        attributes: ['serviceName', 'dirName'],
+                    },
+                ],
+            },
+        ],
+    })
+    .then((post) => post)
+    .catch((err) => {
         return Promise.resolve({
             message: 'Error Fetching Post',
             error: err,

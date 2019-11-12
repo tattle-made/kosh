@@ -1,6 +1,8 @@
 import * as config from 'config';
 import Axios from 'axios';
-import {Post} from '../models/data/PostDb';
+import {Post, get, deduceMediaUrl, appendMediaUrlToPost} from '../models/data/PostDb';
+import {User} from '../models/data/UserDb';
+import {Promise} from 'bluebird';
 const searchServerConfig: any = config.get('search-server');
 
 /*
@@ -11,6 +13,7 @@ export class SearchServer {
     private IMAGE_ENDPOINT: string = `${this.host}/upload_image`;
     private VIDEO_ENDPOINT: string = '/upload_video';
     private TEXT_ENDPOINT: string = '/upload_text';
+    private STORY_ENDPOINT: string = '/search_tags';
 
     public indexPost(post: Post) {
         const type: string = post.get('type') as string;
@@ -49,5 +52,61 @@ export class SearchServer {
             doc_id: postId,
             text,
         });
+    }
+
+    // public findSimilarStories() {
+    //     return Axios.post('/find_duplicate_by_source', {
+    //         url: 'www.google.com',
+    //         source: 'story-scraper',
+    //     })
+    //     .then((response) => response.data)
+    //     .then(({doc_id}) => get(doc_id))
+    //     .then((post) => {
+    //         return Axios.get(`http://52.66.83.191:5001/?
+    //         postId=${post.get('id')}&minimal=true`)
+    //     })
+    //     .then((metadata) => {
+    //         return({
+    //             data: 'hi',
+    //         });
+    //     })
+    //     .catch((err) => console.log('error getting data'));
+    // }
+
+    public findDuplicate(imageUrl: string, threshold: number) {
+        return Axios.post('http://3.130.147.43:7000/find_duplicate', {
+            image_url: imageUrl,
+            threshold,
+        })
+        .then((result) => result.data)
+        .then((data) => get(data.doc_id))
+        .then((result) => appendMediaUrlToPost(result as Post))
+        .catch((err) => console.log('FIND DUPLICATE ERROR', err));
+    }
+
+    public searchTag(tag: string) {
+        return Axios.post('http://3.130.147.43:7000/search_tags', {
+            tags: [tag],
+        })
+        .then((result) => { console.log('1', result); return result; })
+        .then((result) => result.data.docs.splice(0, 5))
+        .then((docIds) => Promise.all(docIds.map( (docId: number) => (
+            get(docId).then((result) => appendMediaUrlToPost(result as Post))
+        ))))
+        // .then((data) => get(data.doc_id))
+        // .then((result) => {
+        //     if (result instanceof Post) {
+        //         const data: any = result.get({plain: true});
+        //         const mediaUrl = deduceMediaUrl(
+        //             data.user.mediaSource.serviceName,
+        //             data.user.mediaSource.dirName,
+        //             data.filename);
+
+        //         return { ...data, mediaUrl };
+        //     } else {
+        //         return result;
+        //     }
+        // })
+        .catch((err) => console.log('FIND DUPLICATE ERROR', err));
     }
 }
