@@ -22,6 +22,11 @@ import { loginValidator } from './core/validation/login';
 // middleware
 import { authenticate } from './core/middleware/authenticate';
 import { authorize } from './core/middleware/authorize';
+import { SearchServer } from './service/search-server';
+import { getMetadata } from './service/story-scraper';
+
+import {Promise} from 'bluebird';
+
 
 // routes
 // tslint:disable-next-line:max-line-length
@@ -77,6 +82,42 @@ const postController = new PostController();
 const searchController = new SearchController();
 const loginController = new LoginController();
 const userController = new UserController();
+
+const searchServer = new SearchServer();
+
+
+app.post('/api/search/stories', (req: Request, res: Response) => {
+    const url = req.body.url;
+
+    const fileNames = ['6e70b1a4d2b841f0b6887e7867b4ac59',
+        '6e70b1a4d2b841f0b6887e7867b4ac59',
+        '6e70b1a4d2b841f0b6887e7867b4ac59'];
+
+    Promise.all( fileNames.map( (filename) => getMetadata(filename) ) )
+    .then((data) => ({stories: data}))
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+});
+
+app.post('/api/search/duplicate', (req: Request, res: Response) => {
+    const url = req.body.url;
+    const threshold = req.body.threshold;
+
+    searchServer.findDuplicate(url, threshold)
+    .then((result) => res.json(result))
+    .catch((err) => console.log('ERROR ', err));
+
+    console.log({url});
+});
+
+app.post('/api/search/tag', (req: Request, res: Response) => {
+    const tag = req.body.tag;
+    const source = req.body.source;
+
+    searchServer.searchTag(tag)
+    .then((result) => res.json(result))
+    .catch((err) => console.log(err));
+});
 
 app.get('/', (req: Request, res: Response) => {
     res.send('pong');
