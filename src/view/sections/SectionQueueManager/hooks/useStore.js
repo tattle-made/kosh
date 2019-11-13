@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import qs from 'querystring'
 
 const interval = 5000
-// const SERVER_BASE_PATH = 'http://13.233.84.78:3003/ui'
-const SERVER_BASE_PATH = 'http://localhost:3003/ui'
+const SERVER_BASE_PATH = 'http://13.233.84.78:3003/ui'
+// const SERVER_BASE_PATH = 'http://localhost:3003/ui'
 
 export default function useStore(basePath) {
   const [state, setState] = useState({
