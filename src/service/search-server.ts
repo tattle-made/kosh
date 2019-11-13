@@ -1,5 +1,5 @@
 import * as config from 'config';
-import Axios from 'axios';
+import Axios, {AxiosResponse} from 'axios';
 import {Post, get, deduceMediaUrl, appendMediaUrlToPost} from '../models/data/PostDb';
 import {User} from '../models/data/UserDb';
 import {Promise} from 'bluebird';
@@ -15,17 +15,25 @@ export class SearchServer {
     private TEXT_ENDPOINT: string = '/upload_text';
     private STORY_ENDPOINT: string = '/search_tags';
 
-    public indexPost(post: Post) {
-        const type: string = post.get('type') as string;
-        const postId: number = post.get('id') as number;
+    // public indexPost(post: Post) {
+    //     const type: string = post.get('type') as string;
+    //     const postId: number = post.get('id') as number;
 
-        switch (type) {
-            case 'text':
-                return this.indexText(postId, post.get('data') as string);
-            case 'image':
-                return this.indexImage(postId, 'temp_url');
-            case 'video':
-                return this.indexImage(postId, 'temp_url');
+    //     switch (type) {
+    //         case 'text':
+    //             return this.indexText(postId, post.get('data') as string);
+    //         case 'image':
+    //             return this.indexImage(postId, 'url');
+    //         case 'video':
+    //             return this.indexImage(postId, 'temp_url');
+    //     }
+    // }
+
+    public indexPostLoose(data: any): Promise<AxiosResponse<any>> {
+        if (data.type === 'image') {
+            return this.indexImage(data.postId, data.mediaUrl, data.source);
+        } else {
+            return this.indexImage(data.postId, data.mediaUrl, data.source);
         }
     }
 
@@ -33,11 +41,13 @@ export class SearchServer {
  * indexImage makes an API call to search server in order to make an image searchable
  * @param fileName name of the file in tattle's s3 bucket
  */
-    private indexImage(postId: number, imageUrl: string) {
-        return Axios.post(this.IMAGE_ENDPOINT, {
+    private indexImage(postId: number, imageUrl: string, source: string) {
+        return Axios.post('http://3.130.147.43:7000/upload_image', {
             doc_id: postId,
             image_url: imageUrl,
-        });
+            source,
+        })
+        .then((response) => response.data);
     }
 
     private indexVideo(postId: number, videoUrl: string) {
