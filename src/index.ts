@@ -31,15 +31,16 @@ import {Promise} from 'bluebird';
 // routes
 // tslint:disable-next-line:max-line-length
 import {register as registerFactCheckStoryRoute} from './routes/fact-checked-stories/FactCheckedStoryRoutes';
+import {register as registerS3AuthRoute} from './routes/s3-auth/S3AuthRoutes';
 
 // Queue
 import queueManagerInstance from './queue';
 import { plainToClass } from 'class-transformer';
 import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
+import s3 from './routes/s3-auth/S3-helper';
 queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
 const { UI } = require('bull-board');
-
 
 const app = express();
 const port = 3003;
@@ -126,6 +127,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 registerFactCheckStoryRoute(app);
+registerS3AuthRoute(app);
 
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
