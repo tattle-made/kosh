@@ -24,13 +24,13 @@ class PreviewFormatterTable extends Component {
       return (
         <div className='media-card'>
           <img
-            src={imageSource(this.props.row.user_id, this.props.cell)}
+            src={this.props.row.mediaUrl}
             alt='preview'
           />
         </div>
       );
     } else if (this.props.row.type === 'video') {
-      return (<Video src={videoSource(this.props.row.user_id, this.props.cell)}/>)
+      return (<Video src={this.props.row.mediaUrl}/>)
 
       // return (
       //   <iframe title='d' src='https://www.youtube.com/embed/hZFNVj505HQ' />

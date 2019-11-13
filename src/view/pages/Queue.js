@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap';
-import App from '../sections/SectionQueueManager/App';
+import { SectionQueue } from '../sections/SectionQueueManager';
+
 
 /**
 * @author
@@ -16,7 +17,7 @@ const Queue = () => {
 
     return (
         <Container>
-            <App basePath={'ui'}/>
+            <SectionQueue basePath={'ui/test'}/>
         </Container>
     )
 }

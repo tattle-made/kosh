@@ -42,3 +42,6 @@ After doing the changes in these file run `npm run sass` to compile the sass to 
 
 # Deploy
 push to master and the website will be automatically deployed to shell.tattle.co.in
+
+Deploy notes
+* Queue API path in useStore.js

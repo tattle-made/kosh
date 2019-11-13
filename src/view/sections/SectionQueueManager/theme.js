@@ -4,8 +4,7 @@ const TattleTheme = {
       family: 'Raleway',
     },
     colors: {
-      brand: '#E65447',
-      'brand-1': 'FFE5E2',
+      brand: '#ff00ff',
     },
   },
   heading: {

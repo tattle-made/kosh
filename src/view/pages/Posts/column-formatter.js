@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AccessControl from '../../components/AccessControl';
 import { faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 import PreviewFormatterTable from '../../components/PreviewFormatterTable';
+import { BodyOne } from '../../atomic-components/text';
+import Moment from 'moment';
 
 const actionIconsFormatter = (cell, row, rowIndex, extraData) => {
   const data = extraData[0][0];
@@ -30,4 +32,8 @@ const previewFormatter = (cell, row) => {
   return <PreviewFormatterTable row={row} cell={cell} />;
 };
 
-export { actionIconsFormatter, previewFormatter };
+const timestampFormatter = (cell, row) => {
+  return <p> {Moment(cell).format('lll')} </p>
+}
+
+export { actionIconsFormatter, previewFormatter, timestampFormatter };

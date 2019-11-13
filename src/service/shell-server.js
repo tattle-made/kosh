@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const SERVER_ENDPOINT = '13.233.84.78';
+// const SERVER_ENDPOINT = '13.233.84.78';
+const SERVER_ENDPOINT = 'localhost';
 const PORT = '3003'
 const API_URL = `http://${SERVER_ENDPOINT}:${PORT}/api`;
 const SOCKET_URL = `http://${SERVER_ENDPOINT}:${PORT}/`

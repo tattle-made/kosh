@@ -287,7 +287,7 @@ export default function Queue({
   selectedStatus,
 }) {
   return (
-    <Box>
+    <Box pad={'medium'}>
       <h3>{queue.name}</h3>
       <Box direction={'row'} gap={'medium'}>
         {statuses.map(status => (

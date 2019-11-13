@@ -52,7 +52,6 @@ class SearchInput extends Component {
   }
 
   render() {
-    console.log('==test==', typeof(this.props.searchResult))
     return (
       <Container>
         <SimpleLayout>
