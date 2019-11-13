@@ -34,6 +34,8 @@ import {register as registerFactCheckStoryRoute} from './routes/fact-checked-sto
 
 // Queue
 import queueManagerInstance from './queue';
+import { plainToClass } from 'class-transformer';
+import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
 queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
 const { UI } = require('bull-board');
@@ -161,11 +163,19 @@ app.post('/api/postByTimeAndUsers/:page', (req: Request, res: Response) => {
 app.post('/api/posts', (req: Request, res: Response) => {
     const post = new PostCreateRequest(req.body);
     const ioPost = req.app.get('socketio');
+
     postController
     .create(post)
-    .then((response: JSON) => {
+    .then((response: any) => {
         ioPost.emit('posts/newData', { name: 'gully' });
         res.send(response);
+        return response.id;
+    })
+    .then((postId) => postController.get(postId))
+    .then((postJson) => {
+        // tslint:disable-next-line:max-line-length
+        const createPostIndexJobRequestModelInstance = plainToClass(PostIndexJobCreateModel, postJson);
+        queueManagerInstance.addWhatsappPostToIndexJob(createPostIndexJobRequestModelInstance);
     })
     .catch((err) => res.send(err.JSON));
 });

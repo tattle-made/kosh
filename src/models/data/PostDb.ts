@@ -13,13 +13,12 @@ import {User} from './UserDb';
 import { MediaSource } from './MediaSource';
 
 export function deduceMediaUrl(serviceName: string, dirName: string, fileName: string) {
-    console.log({serviceName, dirName, fileName})
     switch (serviceName) {
         case 'aws':
             return `https://${dirName}.s3.ap-south-1.amazonaws.com/${fileName}`;
         case 'firebase':
             // tslint:disable-next-line:max-line-length
-            return `https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/bot-posts%2F${fileName}?alt=media&token=bd030137-3020-42ac-be32-4eaab299dc5c`;
+            return `https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/${dirName}%2F${fileName}?alt=media&token=bd030137-3020-42ac-be32-4eaab299dc5c`;
     }
 }
 
@@ -128,7 +127,7 @@ export function get(id: number) {
             },
         ],
     })
-    .then((post) => post)
+    .then((post) => appendMediaUrlToPost(post as Post))
     .catch((err) => {
         return Promise.resolve({
             message: 'Error Fetching Post',
