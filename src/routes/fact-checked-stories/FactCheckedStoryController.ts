@@ -9,6 +9,6 @@ export class FactCheckedStoryController extends _BaseController {
     }
 
     public create(data: CreateStoryRequestModel) {
-        return FactCheckedStory.create(data.getJSONForSequelize());
+        return FactCheckedStory.create(data.getJSONForStoringInFCStorySequelize());
     }
 }
