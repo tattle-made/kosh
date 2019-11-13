@@ -7,6 +7,7 @@ export class FactCheckedStory extends Sequelize.Model {}
 FactCheckedStory.init({
         storyId: Sequelize.STRING,
         docId: Sequelize.STRING,
+        postId: Sequelize.INTEGER,
         url: Sequelize.STRING,
         type: Sequelize.ENUM('text', 'image', 'video'),
     },
@@ -15,4 +16,3 @@ FactCheckedStory.init({
         modelName: 'factCheckedStory',
     },
 );
-
