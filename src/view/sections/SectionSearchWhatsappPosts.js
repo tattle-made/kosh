@@ -23,6 +23,9 @@ import { Duplicate, FactCheckedStories } from '../../redux/actions/section-searc
 import {
     findSimilarFactCheckedStories
 } from '../../redux/actions/section-search-fact-checked-stories';
+import sectionSearchTextSearch from '../../redux/reducers/section-search-text-search';
+import { findMatchingText } from '../../redux/actions/section-search-text-search';
+import { findSemanticallySimilarPosts } from '../../redux/actions/section-search-semantic-search';
 
 const {ExternalLink, MediaBlock, MultiModalInput} = Atoms;
 const {MultipleLinks} = ExternalLink;
@@ -129,6 +132,8 @@ const SectionSearchWhatsappPosts = () => {
    const test = useSelector( state => state.loginUser.username);
    const sectionSearchDuplicate = useSelector( state => state.sectionSearchDuplicate)
    const factCheckedStoriesData = useSelector( state => state.sectionSearchFactCheckedStories)
+   const sectionSearchTextSearch = useSelector( state => state.sectionSearchTextSearch)
+   const sectionSearchSemanticSearch = useSelector( state => state.sectionSearchSemanticSearch)
 
    useEffect(()=> {
       setFetching(true)
@@ -140,51 +145,18 @@ const SectionSearchWhatsappPosts = () => {
 
    const onSubmit = ((payload) => {
       console.log('searched : ', payload);
+
+      if(payload.mode==='file' || payload.mode==='url'){
+         dispatch(findDuplicateImages(payload));
+         dispatch(findSimilarFactCheckedStories(payload))
+      }else if(payload.mode==='tag'){
+         dispatch(findSemanticallySimilarPosts(payload))
+      }else if(payload.mode==='text'){
+         dispatch(findMatchingText(payload))
+      }
       
-      dispatch(findDuplicateImages());
-      dispatch(findSimilarFactCheckedStories())
 
       // dispatch( setAppStatusError('Trying to connect to network') )
-      
-      // dispatch search action
-      // while searching, dispatch set_app_State action
-      // if success, dispatch set_section_search data
-      // if fail dispatch set_app_State action with error info
-
-      // if(payload.mode == 'url'){
-      //    setDuplicateResult({status:'loading'})
-      //    post(
-      //       '/search/duplicate',
-      //       {
-      //          url: payload.data.query,
-      //          threshold: 0.6
-      //       },
-      //       '822bc900-0051-11ea-9ede-87c6fdd1a116'
-      //    )
-      //    .then((data) => {
-      //       console.log(' API RESPONSE FOR DUPLICATE ===='); 
-      //       console.log(data);
-      //       return data;
-      //    })
-      //    .then((data) => setDuplicateResult({...data, status:'data'}))
-      //    .catch((err) => console.log(err));
-      // } else if(payload.mode == 'text'){
-      //    setDuplicateResult({status:'loading'})
-      //    post(
-      //       '/search/tag',
-      //       {
-      //          tag: payload.data.query,
-      //       },
-      //       '822bc900-0051-11ea-9ede-87c6fdd1a116'
-      //    )
-      //    .then((data) => {
-      //       console.log(' API RESPONSE FOR TAG ===='); 
-      //       console.log(data);
-      //       return data;
-      //    })
-      //    .then((data) => setSemanticallySimilarResult({...data, status:'data'}))
-      //    .catch((err) => console.log(err));
-      // }
    })
 
  return (
@@ -195,40 +167,39 @@ const SectionSearchWhatsappPosts = () => {
 
          {/* <Heading level={3}>{test} </Heading> */}
 
-         {/* <MultiModalInput onSubmit={onSubmit}/> */}
-         <MultiModalInput onSubmit={onSubmit}/>
-         
-         {/* <MoleculeSearchFilterOptions
-            onSave={(options) => setOptions(options)}/> */}
+         <MultiModalInput 
+            onSubmit={onSubmit}
+            s3AuthConf={
+                  {
+                     url: 'http://localhost:3003/api/s3-auth',
+                     token: '0f4fe090-0643-11ea-bc52-1387edf2f78a'
+                  }
+            }
+         />
 
-         <Grid
-            rows={['flex']}
-            columns={['1/2', '1/2']}
-            areas={[
-               {name: 'one', start:[0,0], end:[0,0]},
-               {name: 'two', start:[1,0], end:[1,0]}
-            ]}
-         >
-            <Box gridArea={'one'} >
-               <MoleculeSinglePost
-                  visible={true}
-                  title={'Duplicate Posts'}
-                  data={sectionSearchDuplicate}
-               />
-            </Box>
+         <MoleculeSearchFilterOptions
+            onSave={(options) => setOptions(options)}/>
 
-            <Box gridArea={'two'}>
-               <MultipleLinks
-                  title={'Also seen on'}
-                  data={ factCheckedStoriesData }
-               />
-            </Box>
-         </Grid>
+         <MoleculeSinglePost
+            visible={true}
+            title={'Duplicate Posts'}
+            data={sectionSearchDuplicate}
+         />
 
-         {/* <MoleculeMultiplePosts
-            title={'Semantically Similar Posts'}
-            data={multipleMediaBlockDefaultData}
-        /> */}
+         <MultipleLinks
+            title={'Also seen on'}
+            data={ factCheckedStoriesData }
+         />
+
+         <MoleculeMultiplePosts
+            title={'Text matches'}
+            data={ sectionSearchTextSearch}
+        />
+
+         <MoleculeMultiplePosts
+            title={'Semantically Similar Matches'}
+            data={ sectionSearchSemanticSearch }
+        />
 
 
          {/* <MultipleLinks

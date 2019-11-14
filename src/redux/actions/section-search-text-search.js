@@ -4,14 +4,13 @@ import Promise from 'bluebird';
 import { postWithToken } from '../../service/shell-server';
 
 // define action types
-const FIND_DUPLICATE_IMAGES = 'FIND_DUPLICATE_IMAGES'
-const FIND_DUPLICATE_VIDEOS = 'FIND_DUPLICATE_VIDEOS'
-const SET_SEARCH_DUPLICATE_STATUS_LOADING = 'SET_SEARCH_DUPLICATE_STATUS_LOADING'
-const SET_SEARCH_DUPLICATE_STATUS_ERROR = 'SET_SEARCH_DUPLICATE_STATUS_ERROR'
-const SET_SEARCH_DUPLICATE_STATUS_DATA = 'SET_SEARCH_DUPLICATE_STATUS_DATA'
+const FIND_MATCHING_TEXT = 'FIND_MATCHING_TEXT'
+const SET_SEARCH_MATCHING_TEXT_STATUS_LOADING = 'SET_SEARCH_MATCHING_TEXT_STATUS_LOADING'
+const SET_SEARCH_MATCHING_TEXT_STATUS_ERROR = 'SET_SEARCH_MATCHING_TEXT_STATUS_ERROR'
+const SET_SEARCH_MATCHING_TEXT_STATUS_DATA = 'SET_SEARCH_MATCHING_TEXT_STATUS_DATA'
 
 // define actions
-export const findDuplicateImages = (payload) => (
+export const findMatchingText = (payload) => (
     (dispatch) => {
         dispatch(setLoading())
 
@@ -20,9 +19,9 @@ export const findDuplicateImages = (payload) => (
         console.log(localStorage.getItem('token'))
 
         postWithToken(
-            '/search/duplicate',
+            '/search/find-text-in-image',
             {
-                url: payload.data.query
+                text: payload.data.query
             },
             localStorage.getItem('token')
         )
@@ -31,20 +30,20 @@ export const findDuplicateImages = (payload) => (
             dispatch(setData(result.data))})
         .catch((err)=> {
             console.log(err);
-            dispatch(setError('Error Loading Duplicates'));
+            dispatch(setError('Error Finding Matches'));
         })
     }
 )
 
 const setLoading = () => ({
-    type: 'SET_SEARCH_DUPLICATE_STATUS_LOADING',
+    type: 'SET_SEARCH_MATCHING_TEXT_STATUS_LOADING',
     data: {
         status: 'loading'
     }
 })
 
 const setError = (errorMessage) => ({
-    type: 'SET_SEARCH_DUPLICATE_STATUS_ERROR',
+    type: 'SET_SEARCH_MATCHING_TEXT_STATUS_ERROR',
     data: {
         status: 'error',
         message: errorMessage
@@ -52,14 +51,13 @@ const setError = (errorMessage) => ({
 })
 
 const setData = (duplicatePost) => ({
-    type: 'SET_SEARCH_DUPLICATE_STATUS_DATA',
+    type: 'SET_SEARCH_MATCHING_TEXT_STATUS_DATA',
     data: duplicatePost
 })
 
 export const types = {
-    FIND_DUPLICATE_IMAGES,
-    FIND_DUPLICATE_VIDEOS,
-    SET_SEARCH_DUPLICATE_STATUS_LOADING,
-    SET_SEARCH_DUPLICATE_STATUS_ERROR,
-    SET_SEARCH_DUPLICATE_STATUS_DATA
+    FIND_MATCHING_TEXT,
+    SET_SEARCH_MATCHING_TEXT_STATUS_LOADING,
+    SET_SEARCH_MATCHING_TEXT_STATUS_ERROR,
+    SET_SEARCH_MATCHING_TEXT_STATUS_DATA
 }

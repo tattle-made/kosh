@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import Promise from 'bluebird';
+import { postWithToken } from '../../service/shell-server';
 
 // define action types
 const FIND_SIMILAR_FACT_CHECKED_STORIES = 'FIND_SIMILAR_FACT_CHECKED_STORIES'
@@ -8,35 +9,26 @@ const SET_SIMILAR_FACT_CHECKED_STORIES_STATUS_ERROR = 'SET_SIMILAR_FACT_CHECKED_
 const SET_SIMILAR_FACT_CHECKED_STORIES_DATA = 'SET_SIMILAR_FACT_CHECKED_STORIES_DATA'
 
 // define actions
-export const findSimilarFactCheckedStories = () => (
+export const findSimilarFactCheckedStories = (payload) => (
     (dispatch) => {
         dispatch(setLoading())
-        Promise.delay(1500).then(()=>{
-            dispatch(setData({
-                status:'data',
-                urls : [
-                    {
-                        title: 'Sample Title of First Url',
-                        url : 'https://www.altnews.in/authors-wikipedia-page-vandalised-after-times-critical-cover-story-on-pm-modi/',
-                        timestamp: "10th May 2019"
-                    },
-                    {
-                        title: 'Sample Title of Second Url',
-                        url : 'https://www.boomlive.in/amidst-shutdown-rumours-lakshmi-vilas-bank-files-police-complaint/',
-                        timestamp: "9th May 2019"
-                    },
-                    {
-                        title: 'Sample Title of Third Url',
-                        url : 'https://www.altnews.in/authors-wikipedia-page-vandalised-after-times-critical-cover-story-on-pm-modi/',
-                        timestamp: "19th March 2018"
-                    }
-                ]
-            }))
-        })
+
+        // console.log('hello')
+        // console.log(payload)
+
+        postWithToken(
+            '/search/duplicate-stories',
+            {
+                url: payload.data.query
+            },
+            localStorage.getItem('token')
+        )
+        .then((result) => {
+            console.log(result)
+            dispatch(setData(result.data))})
         .catch((err)=> {
             console.log(err);
-            //dispatch error
-
+            dispatch(setError('Error Finding Stories'));
         })
     }
 )

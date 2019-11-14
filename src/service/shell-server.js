@@ -22,9 +22,20 @@ const post = (endpoint, payload)=>{
     .catch((err) => console.log('ERROR IN API CALL ',err));
 }
 
+const postWithToken = (endpoint, payload, token)=>{
+  return axios.post(`${API_URL}${endpoint}`, 
+    payload,
+    {
+      headers: {token}
+    }
+    )
+  .catch((err) => console.log('ERROR IN API CALL ',err));
+}
+
 export {
     get,
     post,
+    postWithToken,
     API_URL,
     SOCKET_URL
 }
