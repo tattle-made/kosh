@@ -31,15 +31,17 @@ import {Promise} from 'bluebird';
 // routes
 // tslint:disable-next-line:max-line-length
 import {register as registerFactCheckStoryRoute} from './routes/fact-checked-stories/FactCheckedStoryRoutes';
+import {register as registerS3AuthRoute} from './routes/s3-auth/S3AuthRoutes';
+import {register as registerSearchRoute} from './routes/search/SearchRoutes';
 
 // Queue
 import queueManagerInstance from './queue';
 import { plainToClass } from 'class-transformer';
 import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
+import s3 from './routes/s3-auth/S3-helper';
 queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
 const { UI } = require('bull-board');
-
 
 const app = express();
 const port = 3003;
@@ -101,16 +103,7 @@ app.post('/api/search/stories', (req: Request, res: Response) => {
     .catch((err) => console.log(err));
 });
 
-app.post('/api/search/duplicate', (req: Request, res: Response) => {
-    const url = req.body.url;
-    const threshold = req.body.threshold;
 
-    searchServer.findDuplicate(url, threshold)
-    .then((result) => res.json(result))
-    .catch((err) => console.log('ERROR ', err));
-
-    console.log({url});
-});
 
 app.post('/api/search/tag', (req: Request, res: Response) => {
     const tag = req.body.tag;
@@ -126,6 +119,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 registerFactCheckStoryRoute(app);
+registerS3AuthRoute(app);
+registerSearchRoute(app);
 
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {

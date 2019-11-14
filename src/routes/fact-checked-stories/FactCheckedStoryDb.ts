@@ -16,3 +16,12 @@ FactCheckedStory.init({
         modelName: 'factCheckedStory',
     },
 );
+
+
+export function getStoryByPostId(id: number) {
+     return FactCheckedStory.findOne({
+         where: {
+             postId: id,
+         },
+     });
+}
