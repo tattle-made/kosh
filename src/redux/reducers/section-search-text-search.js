@@ -4,7 +4,8 @@ const {
     FIND_MATCHING_TEXT,
     SET_SEARCH_MATCHING_TEXT_STATUS_LOADING,
     SET_SEARCH_MATCHING_TEXT_STATUS_ERROR,
-    SET_SEARCH_MATCHING_TEXT_STATUS_DATA
+    SET_SEARCH_MATCHING_TEXT_STATUS_DATA,
+    RESET_SEARCH_MATCHING_TEXT
 } = types;
 
 const initialState = {
@@ -21,6 +22,8 @@ const sectionSearchTextSearch = (state=initialState, action) => {
             return action.data;
         case SET_SEARCH_MATCHING_TEXT_STATUS_DATA:
             return action.data;
+        case RESET_SEARCH_MATCHING_TEXT:
+            return initialState;
         default:
             return state;
     }

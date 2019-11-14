@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grid,    Box, Heading, Button} from 'grommet'
+import { Grid,    Box, Heading,  Text, Button} from 'grommet'
 import { Search } from 'react-feather';
 
 import { useDispatch, useSelector} from 'react-redux';
@@ -27,12 +27,18 @@ import sectionSearchTextSearch from '../../redux/reducers/section-search-text-se
 import { findMatchingText } from '../../redux/actions/section-search-text-search';
 import { findSemanticallySimilarPosts } from '../../redux/actions/section-search-semantic-search';
 
+import {reset as resetSectionSearchDuplication} from '../../redux/actions/section-search-duplicate'
+import {reset as resetSectionSearchFCStory} from '../../redux/actions/section-search-fact-checked-stories'
+import {reset as resetSectionSearchSemanticSearch} from '../../redux/actions/section-search-semantic-search'
+import {reset as resetSectionSearchTextSearch} from '../../redux/actions/section-search-text-search'
+
+
 const {ExternalLink, MediaBlock, MultiModalInput} = Atoms;
 const {MultipleLinks} = ExternalLink;
 const {MultipleWithClickMoreButton, SinglePost} = MediaBlock;
 const {MoleculeSearchInputForm, MoleculeSinglePost, MoleculeMultiplePosts} = Molecules;
 
-const { findDuplicateImages } = Duplicate;
+const { findDuplicateImages } = Duplicate
 
 const alsoSeenOnData = {
    loading : false, // true or false,
@@ -179,6 +185,18 @@ const SectionSearchWhatsappPosts = () => {
 
          <MoleculeSearchFilterOptions
             onSave={(options) => setOptions(options)}/>
+
+         <Button
+            onClick={() => {
+               dispatch(resetSectionSearchDuplication())
+               dispatch(resetSectionSearchFCStory())
+               dispatch(resetSectionSearchSemanticSearch())
+               dispatch(resetSectionSearchTextSearch())
+            }}
+         >
+            <Text size={'xsmall'}> reset </Text>
+         </Button>
+
 
          <MoleculeSinglePost
             visible={true}

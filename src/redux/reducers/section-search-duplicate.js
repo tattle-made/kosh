@@ -6,7 +6,8 @@ const {
     FIND_DUPLICATE_VIDEOS,
     SET_SEARCH_DUPLICATE_STATUS_LOADING,
     SET_SEARCH_DUPLICATE_STATUS_ERROR,
-    SET_SEARCH_DUPLICATE_STATUS_DATA
+    SET_SEARCH_DUPLICATE_STATUS_DATA,
+    RESET_SEARCH_DUPLICATE,
 } = types;
 
 const initialState = {
@@ -25,6 +26,8 @@ const sectionStatusDuplicate = (state=initialState, action) => {
             return action.data;
         case SET_SEARCH_DUPLICATE_STATUS_DATA:
             return action.data;
+        case RESET_SEARCH_DUPLICATE:
+            return initialState;
         default:
             return state;
     }

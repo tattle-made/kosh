@@ -4,7 +4,8 @@ const {
     FIND_SEMANTICALLY_SIMILAR_POSTS,
     SET_SEARCH_SEMANTICALLY_SIMILAR_STATUS_LOADING,
     SET_SEARCH_SEMANTICALLY_SIMILAR_STATUS_ERROR,
-    SET_SEARCH_SEMANTICALLY_SIMILAR_STATUS_DATA
+    SET_SEARCH_SEMANTICALLY_SIMILAR_STATUS_DATA,
+    RESET_SEARCH_SEMANTICALLY_SIMILAR
 } = types;
 
 const initialState = {
@@ -21,6 +22,8 @@ const sectionSearchSemanticSearch = (state=initialState, action) => {
             return action.data;
         case SET_SEARCH_SEMANTICALLY_SIMILAR_STATUS_DATA:
             return action.data;
+        case RESET_SEARCH_SEMANTICALLY_SIMILAR:
+            return initialState;
         default:
             return state;
     }
