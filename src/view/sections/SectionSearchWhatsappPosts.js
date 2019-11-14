@@ -171,8 +171,8 @@ const SectionSearchWhatsappPosts = () => {
             onSubmit={onSubmit}
             s3AuthConf={
                   {
-                     url: 'http://localhost:3003/api/s3-auth',
-                     token: '0f4fe090-0643-11ea-bc52-1387edf2f78a'
+                     url: 'http://13.235.149.236:3003/api/s3-auth',
+                     token: localStorage.getItem('token')
                   }
             }
          />

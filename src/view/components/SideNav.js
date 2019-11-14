@@ -32,7 +32,7 @@ import { logoutUser } from '../../redux/actions/auth';
 import AccessControl from './AccessControl';
 import Queue from '../pages/Queue';
 import { LogOut } from 'react-feather';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const {AppShell, LayoutPortal} = Layout;
 const { Status } = Atoms;
@@ -40,6 +40,7 @@ const { Status } = Atoms;
 const SideNav = ({location}) => {
 
   const sectionStatus = useSelector(state => state.sectionStatus)
+  const dispatch = useDispatch();
 
   console.log('===')
   console.log(sectionStatus);
@@ -49,8 +50,8 @@ const SideNav = ({location}) => {
   }
 
   const onUserOptionClick = (e) => {
-    this.props.logoutUser();
     e.stopPropagation();
+    dispatch(logoutUser());
   }
 
   const mainContent = (route) => {
