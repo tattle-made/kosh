@@ -49,7 +49,7 @@ const SideNav = ({location}) => {
   }
 
   const onUserOptionClick = (e) => {
-    //this.props.logoutUser();
+    this.props.logoutUser();
     e.stopPropagation();
   }
 
