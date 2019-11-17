@@ -39,6 +39,7 @@ import queueManagerInstance from './queue';
 import { plainToClass } from 'class-transformer';
 import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
 import s3 from './routes/s3-auth/S3-helper';
+import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
 queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
 const { UI } = require('bull-board');
@@ -125,12 +126,12 @@ registerSearchRoute(app);
 
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
-    const page = req.params.page || 1;
+    const page = Number(req.params.page) || 1;
     postController.getAll(page).then((posts) => res.send(posts));
 });
 
 app.post('/api/postByTime/:page', (req: Request, res: Response) => {
-    const page = req.params.page || 1;
+    const page = Number(req.params.page) || 1;
     const { startDate, endDate } = req.body;
     const d1 = new Date(startDate).toISOString();
     const d2 = new Date(endDate).toISOString();
@@ -143,7 +144,7 @@ app.post('/api/postByTime/:page', (req: Request, res: Response) => {
 });
 
 app.post('/api/postByTimeAndUsers/:page', (req: Request, res: Response) => {
-    const page = req.params.page || 1;
+    const page = Number(req.params.page) || 1;
     const { users_id, startDate, endDate } = req.body;
     const d1 = new Date(startDate).toISOString();
     const d2 = new Date(endDate).toISOString();
@@ -177,12 +178,12 @@ app.post('/api/posts', (req: Request, res: Response) => {
 });
 
 app.get('/api/posts/id/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
+    const  id = Number(req.params.id);
     postController.get(id).then((post) => res.send(post));
 });
 
 app.delete('/api/posts/delete/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
     postController.delete(id).then((post) => res.send(post));
 });
 
@@ -210,14 +211,14 @@ app.post('/api/auth/logout', (req: Request, res: Response) => {
 });
 
 app.get('/api/user/:id', (req: Request, res: Response) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     userController.getById(id).then((user) => {
         res.send(user);
     });
 });
 
 app.get('/api/users/:page', (req: Request, res: Response) => {
-    const page = req.params.page || 1;
+    const page = Number(req.params.page) || 1;
     userController.getAll(page).then((users) => {
         res.send(users);
     });
@@ -239,7 +240,7 @@ app.post('/api/users/create', (req: Request, res: Response) => {
 
 app.post('/api/users/update/:id', (req: Request, res: Response) => {
     const user = new UserCreateRequest(req.body);
-    const { id } = req.params;
+    const id = Number(req.params.id);
     userController
         .update(id, user)
         .then((response) => res.send(response))
@@ -247,7 +248,7 @@ app.post('/api/users/update/:id', (req: Request, res: Response) => {
 });
 
 app.delete('/api/users/delete/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
     userController
         .delete(id)
         .then((response) => res.send(response))

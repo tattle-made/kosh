@@ -1,0 +1,11 @@
+build/
+config/
+dev/
+migrations/
+models/
+node_modules/
+.prettierrc
+tsconfig.json
+tslint.json
+Dockerfile
+.dockerignore
