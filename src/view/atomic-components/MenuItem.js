@@ -20,7 +20,7 @@ const NavItem = styled(Link)`
 const MenuItem = props => {
   return (
     <NavItem to={props.route}>
-      <Box direction={'row'} gap={'small'} align={'center'} margin={{'bottom':'small'}}>
+      <Box direction={'row'} gap={'small'} align={'baseline'} margin={{'bottom':'small'}}>
         {icons[props.icon]}
         <Heading level={2}> {props.label}</Heading>
       </Box>

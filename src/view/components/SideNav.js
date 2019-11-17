@@ -35,7 +35,7 @@ import { LogOut } from 'react-feather';
 import { useSelector, useDispatch } from 'react-redux';
 
 const {AppShell, LayoutPortal} = Layout;
-const { Status } = Atoms;
+const { Status, AppLogo } = Atoms;
 
 const SideNav = ({location}) => {
 
@@ -50,8 +50,8 @@ const SideNav = ({location}) => {
   }
 
   const onUserOptionClick = (e) => {
-    e.stopPropagation();
     dispatch(logoutUser());
+    e.stopPropagation();
   }
 
   const mainContent = (route) => {
@@ -80,63 +80,66 @@ const SideNav = ({location}) => {
     <AppShell>
       <LayoutPortal
         primaryNavigationContent={
-          <Box pad={'medium'} >
+          <Box pad={'small'}>
             <Box margin={{bottom: 'medium'}}>
-              <Heading level={3}> Tattle </Heading>
+              <AppLogo name={'Archive'} />
             </Box>
 
-            <div className='links' onClick={e => onMenuItemClick(e)}>
-              <MenuItem
-                route={'/posts'}
-                icon={'post'}
-                label={'Posts'}
-                className={classnames({
-                  active:
-                    location.pathname.includes('/posts') ||
-                    location.pathname.includes('/post')
-                })}
-              />
-              <MenuItem
-                route={'/search'}
-                icon={'search'}
-                label={'Search'}
-                className={classnames({
-                  active: location.pathname.includes('/search')
-                })}
-              />
-              <MenuItem
-                route={'/queue'}
-                icon={'queue'}
-                label={'Queues'}
-                className={classnames({
-                  active: location.pathname.includes('/queue')
-                })}
-              />
-              <AccessControl
-                allowedPermissions={['user:canView']}
-                text={() => this.dothis()}
-                renderNoAccess={() => {}}
-              >
+          
+            <Box pad={'medium'} >
+              <div className='links' onClick={e => onMenuItemClick(e)}>
                 <MenuItem
-                  route={'/users'}
-                  icon={'user'}
-                  label={'Users'}
+                  route={'/posts'}
+                  icon={'post'}
+                  label={'Posts'}
                   className={classnames({
-                    active: location.pathname.includes('/users')
+                    active:
+                      location.pathname.includes('/posts') ||
+                      location.pathname.includes('/post')
                   })}
                 />
-              </AccessControl>
-            </div>
+                <MenuItem
+                  route={'/search'}
+                  icon={'search'}
+                  label={'Search'}
+                  className={classnames({
+                    active: location.pathname.includes('/search')
+                  })}
+                />
+                <MenuItem
+                  route={'/queue'}
+                  icon={'queue'}
+                  label={'Queues'}
+                  className={classnames({
+                    active: location.pathname.includes('/queue')
+                  })}
+                />
+                <AccessControl
+                  allowedPermissions={['user:canView']}
+                  text={() => this.dothis()}
+                  renderNoAccess={() => {}}
+                >
+                  <MenuItem
+                    route={'/users'}
+                    icon={'user'}
+                    label={'Users'}
+                    className={classnames({
+                      active: location.pathname.includes('/users')
+                    })}
+                  />
+                </AccessControl>
+              </div>
 
-            <Box margin={{top: 'large'}}>
-              <Button
-                plain
-                onClick={e => this.onUserOptionClick(e)}
-              >
-                <LogOut />
-              </Button>
+              <Box margin={{top: 'large'}}>
+                <Button
+                  plain
+                  onClick={onUserOptionClick}
+                >
+                  <LogOut />
+                </Button>
+              </Box>
+                      
             </Box>
-
           </Box>
         }
         mainSectionContent={
