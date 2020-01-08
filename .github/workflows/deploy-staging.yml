@@ -13,12 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Publish to Docker2
-      uses: zenato/docker-action@master
+      uses: dennyabrain/docker-action@master
       with:
         username: tattletech
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: tattletech/archive-server
         tag: latest
+        arg1: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        arg2: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: Install EB-CLI
       run: pip install awsebcli --upgrade --user
     - name: deploy to ebs
