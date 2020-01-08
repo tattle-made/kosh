@@ -115,7 +115,8 @@ app.post('/api/search/tag', (req: Request, res: Response) => {
     .catch((err) => console.log(err));
 });
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/ping', (req: Request, res: Response) => {
+    console.log('pinging');
     res.send('pong');
 });
 
