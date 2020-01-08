@@ -1,0 +1,30 @@
+name: deploy-staging
+
+on: 
+  push:
+    branches: 
+      - master
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish to Docker2
+      uses: zenato/docker-action@master
+      with:
+        username: tattletech
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: tattletech/archive-server
+        tag: latest
+    - name: Install EB-CLI
+      run: pip install awsebcli --upgrade --user
+    - name: deploy to ebs
+      run: |
+        mkdir ~/.aws
+        echo '[profile eb-cli]' >> ~/.aws/config
+        echo 'aws_access_key_id =' ${{ secrets.AWS_ACCESS_KEY_ID}} >> ~/.aws/config
+        echo 'aws_secret_access_key =' ${{ secrets.AWS_SECRET_ACCESS_KEY }} >> ~/.aws/config
+        ~/.local/bin/eb deploy staging -l $GITHUB_SHA
