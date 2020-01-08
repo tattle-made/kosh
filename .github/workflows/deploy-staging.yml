@@ -21,7 +21,7 @@ jobs:
         username: tattletech
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: tattletech/archive-server
-        tag: ${$SHA8}
+        tag: ${{ $SHA8 }}
         arg1: ${{ secrets.AWS_ACCESS_KEY_ID }}
         arg2: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
