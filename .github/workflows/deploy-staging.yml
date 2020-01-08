@@ -18,7 +18,7 @@ jobs:
         username: tattletech
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: tattletech/archive-server
-        tag: $(git rev-parse --short "$GITHUB_SHA")
+        tag: ${{ $(git rev-parse --short "$GITHUB_SHA") }}
         arg1: ${{ secrets.AWS_ACCESS_KEY_ID }}
         arg2: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: Install EB-CLI
