@@ -1,0 +1,8 @@
+archiveserver:
+  image: tattletech/archive-server:latest
+  ports:
+  - 3003:3003
+jobredisqueue:
+  image: redis
+  ports:
+  - 6379:6379

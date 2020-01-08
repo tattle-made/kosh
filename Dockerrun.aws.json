@@ -2,6 +2,19 @@
     "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
         {
+            "name": "job-redis-queue",
+            "essential": true,
+            "image": "redis",
+            "memory": 256,
+            "memoryReservation": 256,
+            "portMappings": [
+                {
+                    "containerPort": 6379,
+                    "hostPort": 6379
+                }
+            ]
+        },
+        {
             "name": "archive-server",
             "essential": true,
             "image": "tattletech/archive-server:latest",
