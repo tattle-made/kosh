@@ -2,3 +2,7 @@ node_modules/
 dist/
 build/
 config/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
