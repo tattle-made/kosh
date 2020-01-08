@@ -9,9 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SHA8: ${GITHUB_SHA::8}
 
     steps:
     - uses: actions/checkout@v1
+      
     - name: Publish to Docker2
       uses: dennyabrain/docker-action@master
       with:
@@ -21,8 +24,10 @@ jobs:
         tag: latest
         arg1: ${{ secrets.AWS_ACCESS_KEY_ID }}
         arg2: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
     - name: Install EB-CLI
       run: pip install awsebcli --upgrade --user
+      
     - name: deploy to ebs
       run: |
         mkdir ~/.aws
