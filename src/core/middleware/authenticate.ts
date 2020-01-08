@@ -5,7 +5,8 @@ const loginController = new LoginController();
 
 export const authenticate = (req: Request, res: Response, next: () => void) => {
     const token = req.headers['token'] as string;
-    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') ) {
+    // tslint:disable-next-line:max-line-length
+    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') || req.originalUrl.startsWith('/pong') ) {
         next();
     } else if (token) {
         loginController
