@@ -1,7 +1,7 @@
 {
-    "name": "shell-express",
+    "name": "archive-server",
     "version": "1.0.0",
-    "description": "",
+    "description": "backend gateway service for tattle",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
