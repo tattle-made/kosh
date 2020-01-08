@@ -1,0 +1,20 @@
+branch-defaults:
+  master:
+    environment: staging
+environment-defaults:
+  staging:
+    branch: null
+    repository: null
+global:
+  application_name: Archive-Server
+  default_ec2_keyname: tattle-ec2-key
+  default_platform: arn:aws:elasticbeanstalk:ap-south-1::platform/Multi-container
+    Docker running on 64bit Amazon Linux/2.18.0
+  default_region: ap-south-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: git
+  workspace_type: Application
