@@ -7,4 +7,4 @@ config/
 # !.elasticbeanstalk/*.cfg.yml
 # !.elasticbeanstalk/*.config.yml
 # !.elasticbeanstalk/*.global.yml
-.elasticbeanstalk/logs/
+.elasticbeanstalk/logs/*
