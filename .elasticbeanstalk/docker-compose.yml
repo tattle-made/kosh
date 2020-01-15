@@ -1,5 +1,7 @@
 archiveserver:
   image: tattletech/archive-server:latest
+  links:
+  - jobredisqueue:job-redis-queue
   ports:
   - 3003:3003
 jobredisqueue:

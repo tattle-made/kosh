@@ -25,6 +25,9 @@
                     "containerPort": 3003,
                     "hostPort": 3003
                 }
+            ],
+            "links": [
+                "job-redis-queue"
             ]
         }
     ],

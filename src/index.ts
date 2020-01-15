@@ -267,7 +267,7 @@ app.post('/api/index-pending', (req: Request, res: Response) => {
 app.use(Sentry.Handlers.errorHandler());
 
 
-app.use('/ui', UI);
+// app.use('/ui', UI);
 
 // app.use(function onError(err, req, res, next) {
 //     // The error id is attached to `res.sentry` to be returned

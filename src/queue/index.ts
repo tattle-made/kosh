@@ -2,7 +2,7 @@ import {Queue as QueueType, Job} from 'bull';
 import * as Queue from 'bull';
 import { CreateStoryRequestModel } from '../routes/fact-checked-stories/CreateStoryRequestModel';
 // tslint:disable-next-line:no-var-requires
-const { setQueues } = require('bull-board');
+const { setQueues, createQueues } = require('bull-board');
 import {Promise} from 'bluebird';
 // import { PostCreateRequest } from '../../build/models/request/PostCreateRequest';
 import { PostCreateRequest } from '../models/request/PostCreateRequest';
@@ -18,6 +18,15 @@ class QueueManager {
     constructor() {
         this.factCheckStoriesIndexQueue = new Queue('Fact Checked Story Index Queue');
         this.whatsappPostIndexQueue = new Queue('Whatsapp Post Index Queue');
+
+        const redisConfig = {
+            redis: {
+              port: 6379,
+              host: 'jobredisqueue',
+            },
+        };
+
+        const queues = createQueues(redisConfig);
 
         setQueues([
             this.factCheckStoriesIndexQueue,
