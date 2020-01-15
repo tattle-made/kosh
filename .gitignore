@@ -8,3 +8,4 @@ config/
 # !.elasticbeanstalk/*.config.yml
 # !.elasticbeanstalk/*.global.yml
 .elasticbeanstalk/logs/*
+.env

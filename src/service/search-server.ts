@@ -1,16 +1,14 @@
-import * as config from 'config';
+
 import Axios, {AxiosResponse} from 'axios';
 import {Post, get, deduceMediaUrl, appendMediaUrlToPost} from '../models/data/PostDb';
 import {User} from '../models/data/UserDb';
 import {Promise} from 'bluebird';
 import { getStoryByPostId } from '../routes/fact-checked-stories/FactCheckedStoryDb';
-const searchServerConfig: any = config.get('search-server');
-
 /*
 todo: video api is not deployed yet
 */
 export class SearchServer {
-    private host: string = `${searchServerConfig.host}:${searchServerConfig.port}`;
+    private host: string = `${process.env.SEARCH_HOST}:${process.env.SEARCH_PORT}`;
     private IMAGE_ENDPOINT: string = `${this.host}/upload_image`;
     private VIDEO_ENDPOINT: string = '/upload_video';
     private TEXT_ENDPOINT: string = '/upload_text';

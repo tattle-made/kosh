@@ -1,4 +1,3 @@
-import * as config from 'config';
 import { Sequelize } from 'sequelize';
 
 const {
@@ -12,7 +11,6 @@ const {
 class DB {
     private sequelize: Sequelize;
     constructor() {
-        // const { host, port, username, password, table } = config.get('db');
         this.sequelize = new Sequelize(
                 SQL_TABLE_NAME as string,
                 SQL_DB_USERNAME as string,

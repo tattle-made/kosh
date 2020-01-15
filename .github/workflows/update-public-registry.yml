@@ -1,4 +1,4 @@
-name: deploy-staging
+name: update-public-registry
 
 on: 
   push:

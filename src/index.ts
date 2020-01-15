@@ -1,3 +1,7 @@
+import { config as configDotenv} from 'dotenv';
+
+configDotenv();
+
 import * as express from 'express';
 import * as cors from 'cors';
 import * as Sentry from '@sentry/node';

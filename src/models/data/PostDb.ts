@@ -3,11 +3,10 @@ import db from '../../service/db';
 import { PostCreateRequest } from '../request/PostCreateRequest';
 import {Promise} from 'bluebird';
 import axios from 'axios';
-import * as config from 'config';
 
 export class Post extends Sequelize.Model {}
 const Op = Sequelize.Op;
-const searchServerConfig: any = config.get('search-server');
+
 
 import {User} from './UserDb';
 import { MediaSource } from './MediaSource';
@@ -225,7 +224,7 @@ export function deletePost(id: number) {
 
 export function indexPendingPosts() {
     console.log('****');
-    console.log(`${searchServerConfig.host}:${searchServerConfig.port}`);
+    console.log(`${process.env.SEARCH_HOST}:${process.env.SEARCH_PORT}`);
     return Post.findAll({
         limit: 10,
         where: {
