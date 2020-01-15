@@ -9,3 +9,4 @@ tslint.json
 Dockerfile
 .dockerignore
 .env
+.elasticbeanstalk/logs/*
