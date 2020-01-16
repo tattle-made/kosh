@@ -177,7 +177,7 @@ const SectionSearchWhatsappPosts = () => {
             onSubmit={onSubmit}
             s3AuthConf={
                   {
-                     url: 'http://13.235.149.236:3003/api/s3-auth',
+                     url: 'http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/api/s3-auth',
                      token: localStorage.getItem('token')
                   }
             }
