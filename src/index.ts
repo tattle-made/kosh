@@ -37,6 +37,7 @@ import {Promise} from 'bluebird';
 import {register as registerFactCheckStoryRoute} from './routes/fact-checked-stories/FactCheckedStoryRoutes';
 import {register as registerS3AuthRoute} from './routes/s3-auth/S3AuthRoutes';
 import {register as registerSearchRoute} from './routes/search/SearchRoutes';
+import {register as registerProcessQueueRoutes} from './routes/process-queue/ProcessQueueRoutes';
 
 // Queue
 import queueManagerInstance from './queue';
@@ -44,7 +45,7 @@ import { plainToClass } from 'class-transformer';
 import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
 import s3 from './routes/s3-auth/S3-helper';
 import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
-queueManagerInstance.setupWorker();
+// queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
 const { UI } = require('bull-board');
 
@@ -127,6 +128,7 @@ app.get('/ping', (req: Request, res: Response) => {
 registerFactCheckStoryRoute(app);
 registerS3AuthRoute(app);
 registerSearchRoute(app);
+registerProcessQueueRoutes(app);
 
 
 
@@ -271,7 +273,7 @@ app.post('/api/index-pending', (req: Request, res: Response) => {
 app.use(Sentry.Handlers.errorHandler());
 
 
-// app.use('/ui', UI);
+app.use('/ui', UI);
 
 // app.use(function onError(err, req, res, next) {
 //     // The error id is attached to `res.sentry` to be returned

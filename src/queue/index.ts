@@ -16,8 +16,8 @@ class QueueManager {
     private whatsappPostIndexQueue: QueueType;
 
     constructor() {
-        this.factCheckStoriesIndexQueue = new Queue('Fact Checked Story Index Queue', 'redis://job-redis-queue:6379');
-        this.whatsappPostIndexQueue = new Queue('Whatsapp Post Index Queue', 'redis://job-redis-queue:6379');
+        this.factCheckStoriesIndexQueue = new Queue('Fact Checked Story Index Queue', `redis://${process.env.REDIS_HOST}:6379`);
+        this.whatsappPostIndexQueue = new Queue('Whatsapp Post Index Queue', `redis://${process.env.REDIS_HOST}:6379`);
 
 
         setQueues([
@@ -25,6 +25,7 @@ class QueueManager {
             this.whatsappPostIndexQueue,
         ]);
 
+        this.setupWorker();
     }
 
     public addFactCheckStoryIndexJob(jobParam: CreateStoryRequestModel) {
@@ -36,19 +37,38 @@ class QueueManager {
     }
 
     public setupWorker() {
-        this.factCheckStoriesIndexQueue.process((job) => {
-            return Promise.resolve(job.toJSON())
-            .then((result) => console.log(result))
-            .then(() => Promise.delay(5000));
+        // this.factCheckStoriesIndexQueue.process((job) => {
+        //     return Promise.resolve(job.toJSON())
+        //         .then((result) => console.log(result))
+        //         .then(() => Promise.delay(5000));
+        // });
+
+        this.whatsappPostIndexQueue.process((job) => {
+            const searchServer = new SearchServer();
+            return searchServer.indexPostLoose(job.toJSON().data)
+                .then()
+                .catch((err) => {
+                    this.whatsappPostIndexQueue.pause();
+                    return Promise.reject('stop the queue');
+                });
         });
 
-        this.processWhatsappQueue();
+        this.pauseWorker();
+        // this.processWhatsappQueue();
+    }
+
+    public pauseWorker() {
+        return this.whatsappPostIndexQueue.pause();
+    }
+
+    public resumeWorker() {
+        return this.whatsappPostIndexQueue.resume();
     }
 
     private processWhatsappQueue() {
         const searchServer = new SearchServer();
         this.whatsappPostIndexQueue.process((job) => {
-            return searchServer.indexPostLoose(job.toJSON().data).then();
+            // return searchServer.indexPostLoose(job.toJSON().data).then();
         });
     }
 }
