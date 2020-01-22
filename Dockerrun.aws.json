@@ -30,6 +30,5 @@
                 "job-redis-queue"
             ]
         }
-    ],
-    "family": ""
+    ]
 }
