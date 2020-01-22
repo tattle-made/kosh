@@ -1,7 +1,8 @@
 import { Express, Request, Response } from 'express';
 import {plainToClass} from 'class-transformer';
 import Redis from '../../service/redis';
-import queueManagerInstance from '../../../src/queue';
+import queueManagerInstance from '../../queue';
+
 
 const isStringValidBoolean = (status: string) => {
     if (status === 'true' || status === 'false') {

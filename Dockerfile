@@ -1,6 +1,4 @@
 FROM node:10-alpine
-ARG awsAccessKey
-ARG awsSecretKey
 RUN apk update && apk add --no-cache python3
 RUN apk update && apk add yarn python g++ make && rm -rf /var/cache/apk/*
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
