@@ -6,18 +6,22 @@ services:
         image: 'redis'
         ports: 
             - "6379:6379"
-
+        volumes: 
+            - "~/data/archive-server/redis:/data"
+        
     archive-server:
         container_name: 'archive-server'
         build : .
         ports: 
             - "3003:3003"
+        volumes:
+            - .:/home/node/app
         env_file: .env
         environment: 
-            APP_VERSION: $APP_VERSION,
-            SEARCH_HOST: $SEARCH_HOST,
-            SEARCH_PORT: $SEARCH_PORT,
-            SQL_DB_HOST: $SQL_DB_HOST,
+            APP_VERSION: $APP_VERSION
+            SEARCH_HOST: $SEARCH_HOST
+            SEARCH_PORT: $SEARCH_PORT
+            SQL_DB_HOST: $SQL_DB_HOST
             SQL_DB_PASSWORD: $SQL_DB_PASSWORD
             SQL_DB_PORT: $SQL_DB_PORT
             SQL_DB_USERNAME: $SQL_DB_USERNAME
@@ -26,3 +30,6 @@ services:
             TATTLE_UI_AWS_SECRET_ACCESS_KEY: $TATTLE_UI_AWS_SECRET_ACCESS_KEY
         depends_on: 
             - job-redis-queue
+
+volumes:
+    node_modules:  

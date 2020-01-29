@@ -16,8 +16,11 @@ export class LoginController extends _BaseController {
     }
 
     public login(username: string, password: string) {
+        console.log('A');
         return exists(username, password)
             .then((result) => {
+                console.log('A');
+                console.log(result)
                 if (result.status) {
                     return createOrUpdateTokenForUserIdToken(result.userId);
                 } else {

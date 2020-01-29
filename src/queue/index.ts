@@ -2,7 +2,7 @@ import {Queue as QueueType, Job} from 'bull';
 import * as Queue from 'bull';
 import { CreateStoryRequestModel } from '../routes/fact-checked-stories/CreateStoryRequestModel';
 // tslint:disable-next-line:no-var-requires
-const { setQueues } = require('bull-board');
+const { setQueues } = require('@tattle-made/bull-board');
 import {Promise} from 'bluebird';
 // import { PostCreateRequest } from '../../build/models/request/PostCreateRequest';
 import { PostCreateRequest } from '../models/request/PostCreateRequest';
@@ -12,64 +12,48 @@ import { SearchServer } from '../service/search-server';
 
 
 class QueueManager {
-    private factCheckStoriesIndexQueue: QueueType;
-    private whatsappPostIndexQueue: QueueType;
+    private postIndexQueue: QueueType;
 
     constructor() {
-        this.factCheckStoriesIndexQueue = new Queue('Fact Checked Story Index Queue', `redis://${process.env.REDIS_HOST}:6379`);
-        this.whatsappPostIndexQueue = new Queue('Whatsapp Post Index Queue', `redis://${process.env.REDIS_HOST}:6379`);
+        this.postIndexQueue = new Queue('Whatsapp Post Index Queue', `redis://${process.env.REDIS_HOST}:6379`);
 
 
         setQueues([
-            this.factCheckStoriesIndexQueue,
-            this.whatsappPostIndexQueue,
+            this.postIndexQueue,
         ]);
 
         this.setupWorker();
     }
 
     public addFactCheckStoryIndexJob(jobParam: CreateStoryRequestModel) {
-        return this.whatsappPostIndexQueue.add(jobParam.getJSONForQueue());
+        return this.postIndexQueue.add(jobParam.getJSONForQueue());
     }
 
     public addWhatsappPostToIndexJob(jobParam: PostIndexJobCreateModel) {
-        return this.whatsappPostIndexQueue.add(jobParam.getJSONForQueue());
+        return this.postIndexQueue.add(jobParam.getJSONForQueue());
     }
 
     public setupWorker() {
-        // this.factCheckStoriesIndexQueue.process((job) => {
-        //     return Promise.resolve(job.toJSON())
-        //         .then((result) => console.log(result))
-        //         .then(() => Promise.delay(5000));
-        // });
-
-        this.whatsappPostIndexQueue.process((job) => {
+        this.postIndexQueue.process((job) => {
             const searchServer = new SearchServer();
             return searchServer.indexPostLoose(job.toJSON().data)
                 .then()
                 .catch((err) => {
-                    this.whatsappPostIndexQueue.pause();
-                    return Promise.reject('stop the queue');
+                    this.postIndexQueue.pause();
+                    // tslint:disable-next-line:max-line-length
+                    return Promise.reject(new Error(err.response.status + '\n' + err.response.statusText));
                 });
         });
 
         this.pauseWorker();
-        // this.processWhatsappQueue();
     }
 
     public pauseWorker() {
-        return this.whatsappPostIndexQueue.pause();
+        return this.postIndexQueue.pause();
     }
 
     public resumeWorker() {
-        return this.whatsappPostIndexQueue.resume();
-    }
-
-    private processWhatsappQueue() {
-        const searchServer = new SearchServer();
-        this.whatsappPostIndexQueue.process((job) => {
-            // return searchServer.indexPostLoose(job.toJSON().data).then();
-        });
+        return this.postIndexQueue.resume();
     }
 }
 

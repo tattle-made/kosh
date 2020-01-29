@@ -47,7 +47,7 @@ import s3 from './routes/s3-auth/S3-helper';
 import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
 // queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
-const { UI } = require('bull-board');
+const { router } = require('@tattle-made/bull-board');
 
 const app = express();
 const port = 3003;
@@ -199,6 +199,7 @@ app.get('/api/search', (req: Request, res: Response) => {
 });
 
 app.post('/api/auth/login', (req: Request, res: Response) => {
+    console.log(req.body);
     const { username, password } = req.body;
     const { errors, isValid } = loginValidator(req.body);
     if (!isValid) {
@@ -273,7 +274,7 @@ app.post('/api/index-pending', (req: Request, res: Response) => {
 app.use(Sentry.Handlers.errorHandler());
 
 
-app.use('/ui', UI);
+app.use('/ui', router);
 
 // app.use(function onError(err, req, res, next) {
 //     // The error id is attached to `res.sentry` to be returned
