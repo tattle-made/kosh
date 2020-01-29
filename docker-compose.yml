@@ -28,6 +28,7 @@ services:
             SQL_TABLE_NAME: $SQL_TABLE_NAME
             TATTLE_UI_AWS_ACCESS_KEY: $TATTLE_UI_AWS_ACCESS_KEY
             TATTLE_UI_AWS_SECRET_ACCESS_KEY: $TATTLE_UI_AWS_SECRET_ACCESS_KEY
+            REDIS_HOST: $REDIS_HOST
         depends_on: 
             - job-redis-queue
 

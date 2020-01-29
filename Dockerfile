@@ -9,5 +9,5 @@ RUN npm install && npm install typescript forever nodemon
 COPY --chown=node:node . . 
 EXPOSE 3003
 RUN npm run build
-# CMD ["node", "build/index.js"]
-CMD ["npm", "run", "start-dev"]
+CMD ["node", "build/index.js"]
+# CMD ["npm", "run", "start-dev"]
