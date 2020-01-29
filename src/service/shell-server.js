@@ -1,10 +1,8 @@
 import axios from 'axios'
+import { ARCHIVE_SERVER_PATH } from '../config';
 
-// const SERVER_ENDPOINT = 'archive-staging.ap-south-1.elasticbeanstalk.com';
-const SERVER_ENDPOINT = 'localhost';
-const PORT = '3003'
-const API_URL = `http://${SERVER_ENDPOINT}:${PORT}/api`;
-const SOCKET_URL = `http://${SERVER_ENDPOINT}:${PORT}/`
+const API_URL = `${ARCHIVE_SERVER_PATH}/api`;
+const SOCKET_URL = `${ARCHIVE_SERVER_PATH}/`;
 
 const get = (endpoint, token)=>{
     return axios.get(

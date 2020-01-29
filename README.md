@@ -47,3 +47,5 @@ Deploy notes
 * Queue API path in useStore.js
 * shell server in shell-server.js
 * S3_AUTH_ENDPOINT in SectionSearchWhatsappPosts.js
+
+Comment out the apt fields in config.js

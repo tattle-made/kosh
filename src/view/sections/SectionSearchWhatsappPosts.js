@@ -31,6 +31,7 @@ import {reset as resetSectionSearchDuplication} from '../../redux/actions/sectio
 import {reset as resetSectionSearchFCStory} from '../../redux/actions/section-search-fact-checked-stories'
 import {reset as resetSectionSearchSemanticSearch} from '../../redux/actions/section-search-semantic-search'
 import {reset as resetSectionSearchTextSearch} from '../../redux/actions/section-search-text-search'
+import { ARCHIVE_SERVER_PATH } from '../../config';
 
 
 const {ExternalLink, MediaBlock, MultiModalInput} = Atoms;
@@ -116,8 +117,7 @@ const moleculeUrlDefaultData = {
    status: 'default',
 }
 
-// const S3_AUTH_ENDPOINT = 'http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/api/s3-auth'
-const S3_AUTH_ENDPOINT = 'http://localhost:3003/api/s3-auth'
+const S3_AUTH_ENDPOINT = `${ARCHIVE_SERVER_PATH}/api/s3-auth`
 
 /**
 * @author denny

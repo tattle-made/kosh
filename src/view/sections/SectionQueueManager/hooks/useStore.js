@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import qs from 'querystring'
+import { ARCHIVE_SERVER_PATH } from '../../../../config'
 
 const interval = 5000
-// const SERVER_BASE_PATH = 'http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/ui'
-const SERVER_BASE_PATH = 'http://localhost:3003/ui'
+const SERVER_BASE_PATH = `${ARCHIVE_SERVER_PATH}/ui`
 
 export default function useStore(basePath) {
   const [state, setState] = useState({
