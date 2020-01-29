@@ -12,6 +12,12 @@
                     "containerPort": 6379,
                     "hostPort": 6379
                 }
+            ],
+            "mountPoints": [
+                {
+                    "containerPath": "/data",
+                    "sourceVolume": "redisVolume"
+                }
             ]
         },
         {
@@ -29,6 +35,14 @@
             "links": [
                 "job-redis-queue"
             ]
+        }
+    ],
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "/var/app/current/redis/"
+            },
+            "name": "redisVolume"
         }
     ]
 }
