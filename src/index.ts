@@ -45,6 +45,11 @@ import { plainToClass } from 'class-transformer';
 import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
 import s3 from './routes/s3-auth/S3-helper';
 import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
+
+// import packageJsonFile from '../../package';
+
+
+
 // queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
 const { router } = require('@tattle-made/bull-board');
@@ -122,7 +127,7 @@ app.post('/api/search/tag', (req: Request, res: Response) => {
 
 app.get('/ping', (req: Request, res: Response) => {
     console.log('pinging');
-    res.send('pong');
+    res.send({ message : 'pong', version: process.env.APP_VERSION});
 });
 
 registerFactCheckStoryRoute(app);
