@@ -46,3 +46,4 @@ push to master and the website will be automatically deployed to shell.tattle.co
 Deploy notes
 * Queue API path in useStore.js
 * shell server in shell-server.js
+* S3_AUTH_ENDPOINT in SectionSearchWhatsappPosts.js

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const SERVER_ENDPOINT = 'archive-staging.ap-south-1.elasticbeanstalk.com';
-// const SERVER_ENDPOINT = 'localhost';
+// const SERVER_ENDPOINT = 'archive-staging.ap-south-1.elasticbeanstalk.com';
+const SERVER_ENDPOINT = 'localhost';
 const PORT = '3003'
 const API_URL = `http://${SERVER_ENDPOINT}:${PORT}/api`;
 const SOCKET_URL = `http://${SERVER_ENDPOINT}:${PORT}/`
@@ -33,9 +33,9 @@ const postWithToken = (endpoint, payload, token)=>{
 }
 
 export {
-    get,
-    post,
-    postWithToken,
-    API_URL,
-    SOCKET_URL
+  get,
+  post,
+  postWithToken,
+  API_URL,
+  SOCKET_URL
 }

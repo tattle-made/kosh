@@ -116,6 +116,9 @@ const moleculeUrlDefaultData = {
    status: 'default',
 }
 
+// const S3_AUTH_ENDPOINT = 'http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/api/s3-auth'
+const S3_AUTH_ENDPOINT = 'http://localhost:3003/api/s3-auth'
+
 /**
 * @author denny
 * @function SectionSearchWhatsappPosts
@@ -177,7 +180,7 @@ const SectionSearchWhatsappPosts = () => {
             onSubmit={onSubmit}
             s3AuthConf={
                   {
-                     url: 'http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/api/s3-auth',
+                     url: S3_AUTH_ENDPOINT,
                      token: localStorage.getItem('token')
                   }
             }

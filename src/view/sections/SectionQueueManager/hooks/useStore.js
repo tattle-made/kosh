@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import qs from 'querystring'
 
 const interval = 5000
-const SERVER_BASE_PATH = 'http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/ui'
-// const SERVER_BASE_PATH = 'http://localhost:3003/ui'
+// const SERVER_BASE_PATH = 'http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/ui'
+const SERVER_BASE_PATH = 'http://localhost:3003/ui'
 
 export default function useStore(basePath) {
   const [state, setState] = useState({
@@ -11,14 +11,16 @@ export default function useStore(basePath) {
     loading: true,
   })
   const [selectedStatuses, setSelectedStatuses] = useState({})
+  const [currentPages, setCurrentPages] = useState(0)
 
   const poll = useRef()
 
   useEffect(() => {
     stopPolling()
     runPolling()
+
     return stopPolling
-  }, [selectedStatuses])
+  }, [selectedStatuses, currentPages])
 
   const stopPolling = () => {
     if (poll.current) {
@@ -41,7 +43,7 @@ export default function useStore(basePath) {
   }
 
   const update = () => {
-    return fetch(`${SERVER_BASE_PATH}/queues/?${qs.encode(selectedStatuses)}`)
+    return fetch(`${SERVER_BASE_PATH}/queues/?${qs.encode(selectedStatuses)}&page=${currentPages}`)
       .then(res => (res.ok ? res.json() : Promise.reject(res)))
       .then(data => setState({ data, loading: false }))
   }
@@ -68,5 +70,6 @@ export default function useStore(basePath) {
     cleanAll,
     selectedStatuses,
     setSelectedStatuses,
+    setCurrentPages
   }
 }

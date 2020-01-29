@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { getYear, format, isToday, formatDistance } from 'date-fns'
 import { type } from 'ramda'
 import Highlight from 'react-highlight/lib/optimized'
 
-import { Box } from 'grommet'
+import { Box, Heading, Text, Button } from 'grommet'
+import { Play, Pause, ArrowLeft, ArrowRight } from 'react-feather'
+import { postWithToken } from '../../../service/shell-server'
 
 const today = new Date()
 
@@ -199,7 +201,10 @@ const fieldComponents = {
     return (
       <>
         {job.failedReason || 'NA'}
-        <Highlight className="javascript">{job.stacktrace}</Highlight>
+        {/* <Highlight className="javascript">{job.stacktrace}</Highlight> */}
+        <Highlight className="json">
+          {JSON.stringify(job.data, null, 2)}
+        </Highlight>
       </>
     )
   },
@@ -278,6 +283,44 @@ function QueueActions(props) {
   )
 }
 
+const PlayPause = ({queueName, setCurrentPages}) => {
+  const [queueState, setQueueState] = useState(false);
+  const [pageNum, setPageNum] = useState(0);
+
+  const onPlayPauseButtonClicked = (state) => {
+    postWithToken( '/process-queue/enable', { enable: state }, localStorage.getItem('token') )
+    setQueueState(state)
+  }
+
+  const onRightClicked = () => {
+    setPageNum(pageNum+1);
+    setCurrentPages(pageNum)
+  }
+
+  const onLeftClicked = () => {
+    setPageNum(pageNum-1);
+    setCurrentPages(pageNum)
+  }
+
+  return(
+    <Box direction={'row'}>
+      <Button> 
+        {
+          queueState===false?
+          <Play onClick={() => onPlayPauseButtonClicked(true)} size={16} />
+          :
+          <Pause onClick={ () => onPlayPauseButtonClicked(false)} size={16} />
+        }
+      </Button>
+      <Box direction={'row'} align={'center'}>
+        <Button icon={<ArrowLeft size={16} />} onClick={onLeftClicked} />
+        <Button plain label={pageNum} />
+        <Button icon={<ArrowRight size={16} />} onClick={onRightClicked} />
+      </Box>
+    </Box>
+  )
+}
+
 export default function Queue({
   retryAll,
   retryJob,
@@ -285,10 +328,15 @@ export default function Queue({
   queue,
   selectStatus,
   selectedStatus,
+  setCurrentPages
 }) {
   return (
     <Box pad={'medium'}>
-      <h3>{queue.name}</h3>
+      <Box direction={'row'} gap={'large'} margin={ {bottom : 'medium'} } align={'center'}>
+        <h3>{queue.name}</h3>
+        <PlayPause setCurrentPages={setCurrentPages} />
+      </Box>
+    
       <Box direction={'row'} gap={'medium'}>
         {statuses.map(status => (
           <MenuItem

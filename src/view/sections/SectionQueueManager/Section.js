@@ -13,6 +13,7 @@ export default function Section({ basePath }) {
     retryJob,
     retryAll,
     cleanAll,
+    setCurrentPages
   } = useStore(basePath)
 
   return (
@@ -28,6 +29,7 @@ export default function Section({ basePath }) {
                 key={queue.name}
                 selectedStatus={selectedStatuses[queue.name]}
                 selectStatus={setSelectedStatuses}
+                setCurrentPages={setCurrentPages}
                 retryJob={retryJob(queue.name)}
                 retryAll={retryAll(queue.name)}
                 cleanAll={cleanAll(queue.name)}
