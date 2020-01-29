@@ -40,7 +40,7 @@
     "volumes": [
         {
             "host": {
-                "sourcePath": "/var/app/current/redis/"
+                "sourcePath": "/home/redis/"
             },
             "name": "redisVolume"
         }
