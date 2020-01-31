@@ -1,3 +1,5 @@
+![deploy-staging](https://github.com/tattle-made/archive-server/workflows/deploy-staging/badge.svg?branch=development)
+
 # Pre requisite
 typescript
 
