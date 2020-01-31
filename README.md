@@ -2,7 +2,7 @@
 ![deploy-production](https://github.com/tattle-made/archive-server/workflows/deploy-production/badge.svg?event=push)
 
 # Pre requisite
-typescript
+typescript 
 
 
 to start the dev server run : 
