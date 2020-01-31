@@ -20,7 +20,7 @@ jobs:
         username: tattletech
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: tattletech/archive-server
-        tag: latest
+        tag: staging
         arg1: ${{ secrets.AWS_ACCESS_KEY_ID }}
         arg2: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
