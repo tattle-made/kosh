@@ -26,7 +26,7 @@ export function register(app: Express) {
     app.post('/api/search/find-text-in-image', (req: Request, res: Response) => {
         const text = req.body.text;
         searchServer.findTextWithinImage(text)
-        .then((result) => res.json({status: 'data', posts: result}))
+        .then((result) => res.json({status: 'data', urls: result}))
         .catch((err) => res.json({status: 'error', message : err.message}));
     });
 

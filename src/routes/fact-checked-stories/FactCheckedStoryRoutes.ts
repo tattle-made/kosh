@@ -8,6 +8,7 @@ import { PostController } from '../../controllers/PostController';
 import { PostIndexJobCreateModel } from '../posts/PostIndexJobCreateModel';
 import { FactCheckedStory } from './FactCheckedStoryDb';
 import queueManagerInstance from '../../queue';
+import { GetFactCheckStoryRequestModel } from './GetFactCheckStoryRequestModel';
 
 
 // Job Queues
@@ -44,5 +45,15 @@ export function register(app: Express) {
             queueManagerInstance.addFactCheckStoryIndexJob(createStoryRequestModelInstance);
         })
         .catch((err) => res.send(err.JSON));
+    });
+
+    app.get('/api/fact-check-story/:type/:page', (req: Request, res: Response) => {
+        const factCheckedStoryController = new FactCheckedStoryController();
+        // tslint:disable-next-line:max-line-length
+        const getFactCheckStoryRequestModelInstance = plainToClass(GetFactCheckStoryRequestModel, req.params);
+
+        factCheckedStoryController.getAll(getFactCheckStoryRequestModelInstance)
+        .then((response) => res.send(response))
+        .catch((err) => res.send(err));
     });
 }

@@ -174,12 +174,21 @@ export class SearchServer {
                 return get(duplicate.doc_id);
             }));
         })
-        .then((posts) => {
-            return posts.map((post: any) => {
-                return{
-                    id: post.id,
-                    type: post.type,
-                    mediaUrl: post.mediaUrl,
+        .then((posts: any) => Promise.all(posts.map((post: any) => getStoryByPostId(post.id) )))
+        .then((docs) => {
+            return Promise.all(docs.map((doc: any) => {
+                // tslint:disable-next-line:max-line-length
+                console.log(doc);
+                return Axios.get(`http://52.66.83.191:5001/api/metadata?docId=${doc.docId}`)
+                .then((res) => res.data);
+            }));
+        })
+        .then((metadata) => {
+            return metadata.map((item: any) => {
+                return {
+                    title: item.headline,
+                    url: item.postURL,
+                    timestamp: item.date_updated,
                 };
             });
         })
