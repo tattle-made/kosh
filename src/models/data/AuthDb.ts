@@ -67,10 +67,7 @@ export function createOrUpdateTokenForUserIdToken(
         },
         { returning: true },
     )
-        .then((val) => {
-            console.log('---> ', val);
-            return new ExistsResponseToken(true, userId, token, role);
-        })
+        .then((val) => new ExistsResponseToken(true, userId, token, role))
         .catch((err) => {
             return Promise.resolve({
                 message: 'Error creating user token',

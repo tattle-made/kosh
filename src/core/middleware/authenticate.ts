@@ -4,12 +4,13 @@ import { LoginController } from '../../controllers/LoginController';
 const loginController = new LoginController();
 
 export const authenticate = (req: Request, res: Response, next: () => void) => {
-    const token = req.headers['token'] as string;
-    // tslint:disable-next-line:max-line-length
     if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') || req.originalUrl.startsWith('/ping') ) {
         next();
-    } else if (token) {
-        loginController
+    } else {
+        const auth = req.headers.authorization;
+        if (auth) {
+            const token = auth.split(' ')[1];
+            loginController
             .existsToken(token)
             .then((data) => {
                 if (data.status === true) {
@@ -24,7 +25,8 @@ export const authenticate = (req: Request, res: Response, next: () => void) => {
             .catch((err) => {
                 res.status(501).send('Unable to connect');
             });
-    } else {
-        res.send('No token Provided');
+        } else {
+            res.send('No token Provided');
+        }
     }
 };

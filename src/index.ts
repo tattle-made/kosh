@@ -204,7 +204,6 @@ app.get('/api/search', (req: Request, res: Response) => {
 });
 
 app.post('/api/auth/login', (req: Request, res: Response) => {
-    console.log(req.body);
     const { username, password } = req.body;
     const { errors, isValid } = loginValidator(req.body);
     if (!isValid) {
