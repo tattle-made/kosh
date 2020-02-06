@@ -6,7 +6,9 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start-dev": "nodemon --config \"./dev/nodemon.json\"/",
-        "build": "tsc"
+        "build": "tsc",
+        "start-test": "ts-node login.ts",
+        "watch:test": "nodemon --config \"./dev/nodemon-test.json\"/"
     },
     "author": "",
     "license": "ISC",
@@ -20,7 +22,7 @@
         "@types/uuid": "^3.4.5",
         "@types/validator": "^10.11.1",
         "nodemon": "^1.19.1",
-        "ts-node": "^8.3.0",
+        "ts-node": "^8.6.2",
         "tslint": "^5.18.0",
         "typescript": "^3.7.4"
     },
@@ -43,6 +45,7 @@
         "express": "^4.17.1",
         "is-empty": "^1.2.0",
         "mysql2": "^1.6.5",
+        "nohm": "^2.2.3",
         "redis": "^2.8.0",
         "reflect-metadata": "^0.1.13",
         "sequelize": "^5.21.2",
