@@ -80,7 +80,12 @@ export function createOrUpdateTokenForUserIdToken(
 }
 
 export function deleteToken(token: string): Promise<number> {
-    return Auth.destroy({ where: { token } }).catch((err) => logError(err));
+    let count: number;
+    return Auth.destroy({ where: { token } })
+    .then((cnt) => count = cnt)
+    .then(() => loginController.deleteToken(token))
+    .then(() => count)
+    .catch((err) => logError(err));
 }
 
 export function existsToken(token: string): Promise<ExistsResponse> {

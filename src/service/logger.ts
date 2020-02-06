@@ -1,9 +1,17 @@
-import * as Sentry from "@sentry/node";
+import * as Sentry from '@sentry/node';
 
 export function logMessage(message: string) {
-    Sentry.captureMessage(message);
+    if (process.env.type === 'DEVELOPMENT') {
+        console.log(message);
+    } else {
+        Sentry.captureMessage(message);
+    }
 }
 
 export function logError(err: any) {
-    Sentry.captureException(err);
+    if (process.env.type === 'DEVELOPMENT') {
+        console.log(err);
+    } else {
+        Sentry.captureException(err);
+    }
 }
