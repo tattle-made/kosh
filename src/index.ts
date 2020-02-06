@@ -55,7 +55,7 @@ import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
 const { router } = require('@tattle-made/bull-board');
 
 const app = express();
-const port = 3003;
+const port = 80;
 const server = app.listen(port, () => {
     console.log('server is listening to ', port);
 });
@@ -125,9 +125,11 @@ app.post('/api/search/tag', (req: Request, res: Response) => {
     .catch((err) => console.log(err));
 });
 
-app.get('/ping', (req: Request, res: Response) => {
-    console.log('pinging');
-    res.send({ message : 'pong', version: process.env.APP_VERSION});
+app.get('/', (req: Request, res: Response) => {
+    res.set('Content-Type', 'text/html');
+    res.send(Buffer.from(`${process.env.APP_VERSION}`));
+    // console.log('pinging');
+    // res.send({ message : 'pong', version: process.env.APP_VERSION});
 });
 
 registerFactCheckStoryRoute(app);

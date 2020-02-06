@@ -4,7 +4,7 @@ import { LoginController } from '../../controllers/LoginController';
 const loginController = new LoginController();
 
 export const authenticate = (req: Request, res: Response, next: () => void) => {
-    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') || req.originalUrl.startsWith('/ping') ) {
+    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') || req.originalUrl.startsWith('/') ) {
         next();
     } else {
         const auth = req.headers.authorization;
