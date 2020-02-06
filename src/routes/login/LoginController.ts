@@ -29,10 +29,8 @@ export class LoginController extends _BaseController {
         .then((userToken) => {
             // console.log(userToken.allProperties());
             return userToken.find({token})
-            .then((user) => {
-                const loginStatus = user.length === 0 ? false : true;
-                return RedisOperationResult.dataFactory('login check result', {loginStatus});
-            })
+            .then((user) => userToken.load(user[0]))
+            .then((userProperties) => RedisOperationResult.dataFactory('login check result', {userProperties}) )
             .catch((err) => RedisOperationResult.errorFactory('login check error', err));
         });
     }

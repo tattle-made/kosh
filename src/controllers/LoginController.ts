@@ -24,16 +24,15 @@ export class LoginController extends _BaseController {
 
         return exists(username, password)
             .then((result) => {
-                console.log(result);
                 if (result.status) {
-                    return createOrUpdateTokenForUserIdToken(result.userId);
+                    return createOrUpdateTokenForUserIdToken(result.userId, result.role);
                 } else {
-                    return new ExistsResponseToken(false, -1, '');
+                    return new ExistsResponseToken(false, -1, '', '');
                 }
             })
             .then((data) => {
                 response = data;
-                return newLoginController.addTokenToStore(data.token, data.userId, 'author');
+                return newLoginController.addTokenToStore(data.token, data.userId, data.role);
             })
             .then(() => response)
             .catch((err) => {

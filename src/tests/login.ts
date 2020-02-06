@@ -3,7 +3,7 @@ import { LoginController as OldLoginController} from '../controllers/LoginContro
 const loginController = new LoginController();
 const oldLoginController = new OldLoginController();
 
-const TOKEN = 'e8356ac0-48a5-11ea-8bdc-85ff70558e7b';
+const TOKEN = '12454b00-48ab-11ea-ab77-01789fb90b34';
 
 setTimeout(() => {
     // loginController.addTokenToStore(TOKEN, 160, 'author')

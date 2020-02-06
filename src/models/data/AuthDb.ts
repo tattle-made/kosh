@@ -4,6 +4,9 @@ import { v1 as uuid } from 'uuid';
 import { logError } from '../../service/logger';
 import ExistsResponse from '../response/ExistsResponse';
 import ExistsResponseToken from '../response/ExistsResponseToken';
+import { LoginController } from '../../routes/login/LoginController';
+
+const loginController = new LoginController();
 
 export class Auth extends Sequelize.Model {}
 
@@ -54,6 +57,7 @@ export function createOrUpdateTokenForUserId(userId: number): Promise<string> {
 
 export function createOrUpdateTokenForUserIdToken(
     userId: number,
+    role: string,
 ): Promise<ExistsResponseToken> {
     const token = uuid();
     return Auth.upsert(
@@ -64,7 +68,8 @@ export function createOrUpdateTokenForUserIdToken(
         { returning: true },
     )
         .then((val) => {
-            return new ExistsResponseToken(true, userId, token);
+            console.log('---> ', val);
+            return new ExistsResponseToken(true, userId, token, role);
         })
         .catch((err) => {
             return Promise.resolve({
@@ -79,23 +84,11 @@ export function deleteToken(token: string): Promise<number> {
 }
 
 export function existsToken(token: string): Promise<ExistsResponse> {
-    return Auth.findOne({
-        where: {
-            token,
-        },
+    return loginController.isLoggedIn(token)
+    .then((result) => {
+        return new ExistsResponse(true, result.payload.userProperties.id, result.payload.userProperties.role)
     })
-        .then((data) => {
-            if (data) {
-                const userId = data.get('user_id') as number;
-                return new ExistsResponse(true, userId);
-            } else {
-                return new ExistsResponse(false, -1);
-            }
-        })
-        .catch((err) => {
-            return Promise.resolve({
-                message: 'Error checking token existence',
-                error: err,
-            });
-        });
+    .catch((err) => {
+        return new ExistsResponse(false, -1, '');
+    });
 }

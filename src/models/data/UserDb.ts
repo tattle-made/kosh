@@ -51,17 +51,19 @@ export function exists(
     })
         .then((result) => {
             if (result.count === 0) {
-                return new ExistsResponse(false, -1);
+                return new ExistsResponse(false, -1, '');
             } else {
                 return bcrypt
                     .compare(password, result.rows[0].get('password') as string)
                     .then((res) => {
                         if (res === true) {
-                            return new ExistsResponse(true, result.rows[0].get(
-                                'id',
-                            ) as number);
+                            return new ExistsResponse(
+                                true,
+                                result.rows[0].get('id') as number,
+                                result.rows[0].get('role') as string,
+                            );
                         } else {
-                            return new ExistsResponse(false, -1);
+                            return new ExistsResponse(false, -1, '');
                         }
                     })
                     .catch((err) => {

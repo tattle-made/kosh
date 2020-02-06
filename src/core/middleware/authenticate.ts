@@ -15,6 +15,7 @@ export const authenticate = (req: Request, res: Response, next: () => void) => {
                 if (data.status === true) {
                     const userId = data.userId;
                     res.locals.userId = userId;
+                    res.locals.role = data.role;
                     next();
                 } else {
                     res.status(401).send('authentication failed');
