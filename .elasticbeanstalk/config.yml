@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: staging
+    environment: archive-production
 environment-defaults:
   staging:
     branch: null
