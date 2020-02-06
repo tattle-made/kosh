@@ -102,7 +102,7 @@ export function getAll(page: number): Promise<object> {
     })
     .catch((err) => {
         return Promise.resolve({
-            message: 'Error Fetching Post',
+            message: 'Error in getAll',
             error: err,
         });
     });
@@ -129,7 +129,7 @@ export function get(id: number) {
     .then((post) => appendMediaUrlToPost(post as Post))
     .catch((err) => {
         return Promise.resolve({
-            message: 'Error Fetching Post',
+            message: 'Error get Post',
             error: err,
         });
     });
@@ -161,7 +161,7 @@ export function getByTime(
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error in get by time',
                 error: err,
             });
         });
@@ -195,7 +195,7 @@ export function getByTimeAndUsers(
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error getByTimeAndUsers ',
                 error: err,
             });
         });

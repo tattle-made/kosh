@@ -66,7 +66,7 @@ export function exists(
                     })
                     .catch((err) => {
                         return Promise.resolve({
-                            message: 'Error Fetching Post',
+                            message: 'Error exists() 1',
                             error: err,
                         });
                     });
@@ -74,7 +74,7 @@ export function exists(
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error exists() 2',
                 error: err,
             });
         });
@@ -106,7 +106,7 @@ export function getCompleteList() {
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error getCompleteList()',
                 error: err,
             });
         });
@@ -129,7 +129,7 @@ export function getAll(page: number) {
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error getAll()',
                 error: err,
             });
         });
@@ -146,7 +146,7 @@ export function getById(id: number) {
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error getById()',
                 error: err,
             });
         });
@@ -229,7 +229,7 @@ export function getUserRole(id: number): Promise<string> {
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error getUserRole()',
                 error: err,
             });
         });

@@ -46,7 +46,7 @@ export function createOrUpdateTokenForUserId(userId: number): Promise<string> {
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error getting user',
                 error: err,
             });
         });
@@ -68,7 +68,7 @@ export function createOrUpdateTokenForUserIdToken(
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error creating user token',
                 error: err,
             });
         });
@@ -94,7 +94,7 @@ export function existsToken(token: string): Promise<ExistsResponse> {
         })
         .catch((err) => {
             return Promise.resolve({
-                message: 'Error Fetching Post',
+                message: 'Error checking token existence',
                 error: err,
             });
         });

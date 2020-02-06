@@ -47,7 +47,7 @@ export function getAll(param: GetFactCheckStoryRequestModel) {
     })
     .catch((err) => {
         return Promise.resolve({
-            message: 'Error Fetching Post',
+            message: 'Error getAll',
             error: err,
         });
     });
