@@ -33,4 +33,4 @@ jobs:
         echo '[profile eb-cli]' >> ~/.aws/config
         echo 'aws_access_key_id =' ${{ secrets.AWS_ACCESS_KEY_ID}} >> ~/.aws/config
         echo 'aws_secret_access_key =' ${{ secrets.AWS_SECRET_ACCESS_KEY }} >> ~/.aws/config
-        ~/.local/bin/eb deploy archive-production -l $GITHUB_SHA
+        ~/.local/bin/eb deploy test-3 -l $GITHUB_SHA
