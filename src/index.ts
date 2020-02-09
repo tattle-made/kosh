@@ -55,7 +55,7 @@ import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
 const { router } = require('@tattle-made/bull-board');
 
 const app = express();
-const port = 3003;
+const port = 3003; 
 const server = app.listen(port, () => {
     console.log('server is listening to ', port);
 });
