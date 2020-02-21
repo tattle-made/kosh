@@ -1,4 +1,6 @@
 branch-defaults:
+  development:
+    environment: archive-dev
   master:
     environment: staging
 environment-defaults:

@@ -23,3 +23,12 @@ for parameter names coming from APIs
 for column names in sql db
 
 ...
+
+
+Development
+archive-server-dev.tattle.co.in
+archive-staging.ap-south-1.elasticbeanstalk.com.
+
+Production
+archive-server.tattle.co.in
+archive-live.ap-south-1.elasticbeanstalk.com
