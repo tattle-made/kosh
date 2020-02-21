@@ -12,7 +12,9 @@ jobs:
       SHA8: ${GITHUB_SHA::8}
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        ref: development
       
     - name: Publish to Docker2
       uses: dennyabrain/docker-action@master

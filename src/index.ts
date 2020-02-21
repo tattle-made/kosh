@@ -38,6 +38,7 @@ import {register as registerFactCheckStoryRoute} from './routes/fact-checked-sto
 import {register as registerS3AuthRoute} from './routes/s3-auth/S3AuthRoutes';
 import {register as registerSearchRoute} from './routes/search/SearchRoutes';
 import {register as registerProcessQueueRoutes} from './routes/process-queue/ProcessQueueRoutes';
+import {register as registerPublicRoutes} from './routes/public/PublicRoutes';
 
 // Queue
 import queueManagerInstance from './queue';
@@ -134,6 +135,7 @@ registerFactCheckStoryRoute(app);
 registerS3AuthRoute(app);
 registerSearchRoute(app);
 registerProcessQueueRoutes(app);
+registerPublicRoutes(app);
 
 
 

@@ -12,7 +12,9 @@ jobs:
       SHA8: ${GITHUB_SHA::8}
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        ref: master
       
     - name: Publish to Docker2
       uses: dennyabrain/docker-action@master
@@ -20,7 +22,7 @@ jobs:
         username: tattletech
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: tattletech/archive-server
-        tag: latest
+        tag: stable
         arg1: ${{ secrets.AWS_ACCESS_KEY_ID }}
         arg2: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
