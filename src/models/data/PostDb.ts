@@ -14,7 +14,7 @@ import { MediaSource } from './MediaSource';
 export function deduceMediaUrl(serviceName: string, dirName: string, fileName: string) {
     switch (serviceName) {
         case 'aws':
-            return `https://${dirName}.s3.ap-south-1.amazonaws.com/${fileName}`;
+            return `https://s3.ap-south-1.amazonaws.com/${dirName}/${fileName}`;
         case 'firebase':
             // tslint:disable-next-line:max-line-length
             return `https://firebasestorage.googleapis.com/v0/b/crowdsourcesocialposts.appspot.com/o/${dirName}%2F${fileName}?alt=media&token=bd030137-3020-42ac-be32-4eaab299dc5c`;

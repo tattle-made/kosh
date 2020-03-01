@@ -20,7 +20,7 @@ MediaSource.init(
 // })
 // .catch((err) => console.log(err));
 
-// MediaSource.create({serviceName: 'aws', dirName: 'temp-story-scrape-store'})
+// MediaSource.create({serviceName: 'aws', dirName: 'archive-telegram-bot.tattle.co.in'})
 // .then((res) => console.log('media source created ', res))
 // .catch((err) => console.log(err));
 
