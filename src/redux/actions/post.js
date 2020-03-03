@@ -2,9 +2,10 @@ import { POST_DELETE, POSTS, POST_UPLOAD, SEARCH } from './types';
 import axios from 'axios';
 import { error, triggerLoading } from './utils';
 import { toggleAuthentication } from './auth';
+import {API_URL} from '../../service/shell-server'
 
 const postDelete = (id, page) => {
-  const url = `http://localhost:8080/api/posts/delete/${id}`;
+  const url = `${API_URL}/posts/delete/${id}`;
   const token = localStorage.getItem('token');
   const request = axios.delete(url, {
     headers: {
@@ -32,7 +33,7 @@ const postDelete = (id, page) => {
 };
 
 const postByTime = (page, startDate, endDate) => {
-  const url = `http://localhost:8080/api/postByTime/${page}`;
+  const url = `${API_URL}/postByTime/${page}`;
 
   const token = localStorage.getItem('token');
   const time = {
@@ -64,7 +65,7 @@ const postByTime = (page, startDate, endDate) => {
 };
 
 const postByTimeAndUsers = (page, users_id, startDate, endDate) => {
-  const url = `http://localhost:8080/api/postByTimeAndUsers/${page}`;
+  const url = `${API_URL}/postByTimeAndUsers/${page}`;
 
   const token = localStorage.getItem('token');
   const data = {
@@ -101,20 +102,23 @@ const fetchPosts = page => {
     page = 1;
   }
 
-  const url = `http://localhost:8080/api/posts/${page}`;
+  const url = `${API_URL}/posts/${page}`;
   const token = localStorage.getItem('token');
   const request = axios.get(url, {
     headers: {
       token
     }
   });
+  
   return dispatch => {
+    dispatch(triggerLoading(true))
     request
       .then(res => {
         dispatch({
           type: POSTS,
           payload: res.data
         });
+        dispatch(triggerLoading(false))
       })
       .catch(err => {
         dispatch(toggleAuthentication(false));
@@ -133,7 +137,7 @@ const uploadToS3 = (file, fileName, fileType) => {
   return dispatch =>
     axios
       .post(
-        'http://localhost:8080/api/uploadToS3',
+        `${API_URL}/uploadToS3`,
         {
           fileName: fileName,
           fileType: fileType
@@ -172,31 +176,30 @@ const uploadToS3 = (file, fileName, fileType) => {
       });
 };
 
-const search = () => {
-  const url = `http://localhost:8080/api/search`;
-  const token = localStorage.getItem('token');
-  const request = axios.get(url, {
-    headers: {
-      token
-    }
-  });
+const search = (params) => {
+  const SEARCH_API_URL = "http://3.130.147.43:7000/find_duplicate"
+  
 
   return dispatch => {
-    request
-      .then(res => {
-        dispatch({
-          type: SEARCH,
-          payload: res.data
-        });
-        dispatch(triggerLoading(false));
-      })
-      .catch(err => {
-        if (err.response === undefined) {
-          dispatch(error('Network Error'));
-        } else {
-          dispatch(error(err.response.data));
-        }
+    axios.post(SEARCH_API_URL, {
+      text: params.search_term
+    })
+    .then(res => {
+      console.log('==search response==')
+      console.log(res);
+      dispatch({
+        type: SEARCH,
+        payload: res.data
       });
+      dispatch(triggerLoading(false));
+    })
+    .catch(err => {
+      if (err.response === undefined) {
+        dispatch(error('Network Error'));
+      } else {
+        dispatch(error(err.response.data));
+      }
+    });
   };
 };
 

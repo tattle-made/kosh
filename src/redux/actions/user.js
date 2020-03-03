@@ -9,10 +9,12 @@ import {
 import axios from 'axios';
 import { error } from './utils';
 
+import {API_URL} from '../../service/shell-server'
+
 const createUser = userData => {
   const token = localStorage.getItem('token');
   const request = axios.post(
-    'http://localhost:8080/api/users/create',
+    `${API_URL}/users/create`,
     userData,
     {
       headers: {
@@ -36,7 +38,7 @@ const createUser = userData => {
 };
 
 const userDelete = (id, page) => {
-  const url = `http://localhost:8080/api/users/delete/${id}`;
+  const url = `${API_URL}/users/delete/${id}`;
   const token = localStorage.getItem('token');
   const request = axios.delete(url, {
     headers: {
@@ -70,7 +72,7 @@ const selectedUser = userData => {
 };
 
 const updateUser = (id, userData) => {
-  const url = `http://localhost:8080/api/users/update/${id}`;
+  const url = `${API_URL}/users/update/${id}`;
   const token = localStorage.getItem('token');
 
   const request = axios.post(url, userData, {
@@ -98,7 +100,7 @@ const updateUser = (id, userData) => {
 };
 
 const fetchAllUsers = () => {
-  const url = 'http://localhost:8080/api/userList';
+  const url = `${API_URL}/userList`;
   const token = localStorage.getItem('token');
   const request = axios.get(url, {
     headers: {
@@ -128,7 +130,7 @@ const fetchAllUsers = () => {
 };
 
 const fetchUsers = page => {
-  const url = `http://localhost:8080/api/users/${page}`;
+  const url = `${API_URL}/users/${page}`;
   const token = localStorage.getItem('token');
   const request = axios.get(url, {
     headers: {

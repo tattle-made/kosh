@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Breadcrumb } from 'react-bootstrap';
 import HeadingTwo from '../atomic-components/text/HeadingTwo';
+import {Box, Heading} from 'grommet'
 import itemList from '../../core-utils/breadcrumbItems';
 import PropTypes from 'prop-types';
 
@@ -21,7 +22,7 @@ class BreadCrumb extends Component {
 
       return (items[index] = (
         <Breadcrumb.Item href={link} key={item}>
-          <HeadingTwo text={display} />
+          <Heading level={3}> {display} </Heading>
         </Breadcrumb.Item>
       ));
     });
@@ -31,9 +32,9 @@ class BreadCrumb extends Component {
     const items = itemList(this.props.path);
 
     return (
-      <div>
+      <Box>
         <Breadcrumb>{this.display(items)}</Breadcrumb>
-      </div>
+      </Box>
     );
   }
 }

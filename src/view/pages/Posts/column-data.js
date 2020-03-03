@@ -1,15 +1,15 @@
 import { textFilter } from "react-bootstrap-table2-filter";
-import { actionIconsFormatter, previewFormatter } from "./column-formatter";
+import { actionIconsFormatter, previewFormatter, timestampFormatter } from "./column-formatter";
 
 const column = (extraData, history) => {
   return [
     {
-      dataField: "type",
-      text: "Title"
+      dataField: "user.username",
+      text: "User Name"
     },
     {
       dataField: "filename",
-      text: "Description",
+      text: "Preview",
       formatter: previewFormatter,
       formatExtraData: extraData[0].posts,
       events: {
@@ -20,9 +20,15 @@ const column = (extraData, history) => {
       }
     },
     {
+      dataField: "createdAt",
+      text: "Added on",
+      headerAlign: "center",
+      formatter: timestampFormatter,
+    },
+    {
       dataField: "tags",
       text: "Tags",
-      filter: textFilter(),
+      // filter: textFilter(),
       headerAlign: "center"
     },
     {

@@ -1,18 +1,30 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {Database, Search, Terminal, User} from 'react-feather';
+
+import styled from 'styled-components'
+import {ResponsiveContext, Box, Heading, Text} from 'grommet'
+
+const icons = {
+  'post': <Database/>,
+  'search': <Search/>,
+  'queue': <Terminal/>,
+  'user': <User/>
+}
+
+const NavItem = styled(Link)`
+  color: #29415c;
+`;
 
 const MenuItem = props => {
   return (
-    <Link to={props.route}>
-      <div className={`label-icon-container ${props.className}`}>
-        <span className='icon'>
-          <FontAwesomeIcon icon={props.icon} color='#000637' />
-        </span>
-        <h2>{props.label}</h2>
-      </div>
-    </Link>
+    <NavItem to={props.route}>
+      <Box direction={'row'} gap={'small'} align={'baseline'} margin={{'bottom':'small'}}>
+        {icons[props.icon]}
+        <Heading level={2}> {props.label}</Heading>
+      </Box>
+    </NavItem>
   );
 };
 

@@ -5,11 +5,11 @@ import {
   faUsers,
   faSearch,
   faTimes,
-  faSignOutAlt
+  faSignOutAlt,
+  faMicrochip
 } from '@fortawesome/free-solid-svg-icons';
 import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import tattle_monogram_dark from '../../assets/img/tattle_monogram_dark.png';
 import PropTypes from 'prop-types';
 
@@ -22,37 +22,39 @@ import UserUpdate from '../pages/UserUpdate';
 import PostsTableItem from './PostData';
 import MenuItem from '../atomic-components/MenuItem';
 
+import { Grommet, Box, Button, Image, Heading} from 'grommet'
+import { Layout, Atoms} from '@tattle-made/ui';
+
 //action
 import { logoutUser } from '../../redux/actions/auth';
 
 // access control
 import AccessControl from './AccessControl';
+import Queue from '../pages/Queue';
+import { LogOut } from 'react-feather';
+import { useSelector, useDispatch } from 'react-redux';
 
-class SideNav extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false
-    };
-    this.onUserOptionClick = this.onUserOptionClick.bind(this);
-  }
+const {AppShell, LayoutPortal} = Layout;
+const { Status, AppLogo } = Atoms;
 
-  toggle(e) {
-    this.setState({
-      open: !this.state.open
-    });
-  }
+const SideNav = ({location}) => {
 
-  onMenuItemClick(e) {
+  const sectionStatus = useSelector(state => state.sectionStatus)
+  const dispatch = useDispatch();
+
+  console.log('===')
+  console.log(sectionStatus);
+  
+  const onMenuItemClick = (e) => {
     e.stopPropagation();
   }
 
-  onUserOptionClick(e) {
-    this.props.logoutUser();
+  const onUserOptionClick = (e) => {
+    dispatch(logoutUser());
     e.stopPropagation();
   }
 
-  mainContent(route) {
+  const mainContent = (route) => {
     if (route === '/posts' || route.includes('/posts/')) {
       return <PostsTable />;
     } else if (route === '/search') {
@@ -67,48 +69,59 @@ class SideNav extends Component {
       route.includes('/users/page/')
     ) {
       return <UsersTable />;
+    } else if (route === '/queue') {
+      return <Queue/>
     } else {
       return <PostsTableItem />;
     }
   }
 
-  render() {
-    return (
-      <div
-        className={classnames('main', {
-          'sidenav-open': this.state.open,
-          'sidenav-close': !this.state.open
-        })}
-      >
-        <div className='content-container'>
-          <div className='sidenav-container' onClick={() => this.toggle()}>
-            <div>
-              <div className='app-logo-container'>
-                <img className='logo' src={tattle_monogram_dark} alt='logo' />
-                <h1>Tattle</h1>
-                <span className='sideNav-cross'>
-                  <FontAwesomeIcon icon={faTimes} />
-                </span>
-              </div>
-              <div className='links' onClick={e => this.onMenuItemClick(e)}>
+  return (
+    <AppShell>
+      <LayoutPortal
+        primaryNavigationContent={
+          <Box pad={'small'}>
+            <Box margin={{bottom: 'medium'}}>
+              <AppLogo name={'Archive'} />
+            </Box>
+
+          
+            <Box pad={'medium'} >
+              <div className='links' onClick={e => onMenuItemClick(e)}>
                 <MenuItem
                   route={'/posts'}
-                  icon={eval(faCloud)}
+                  icon={'post'}
                   label={'Posts'}
                   className={classnames({
                     active:
-                      this.props.location.pathname.includes('/posts') ||
-                      this.props.location.pathname.includes('/post')
+                      location.pathname.includes('/posts') ||
+                      location.pathname.includes('/post')
                   })}
                 />
                 <MenuItem
                   route={'/search'}
-                  icon={eval(faSearch)}
+                  icon={'search'}
                   label={'Search'}
                   className={classnames({
-                    active: this.props.location.pathname.includes('/search')
+                    active: location.pathname.includes('/search')
                   })}
                 />
+
+                <AccessControl
+                  allowedPermissions={['user:canView']}
+                  text={() => this.dothis()}
+                  renderNoAccess={() => {}}
+                >
+                  <MenuItem
+                    route={'/queue'}
+                    icon={'queue'}
+                    label={'Queues'}
+                    className={classnames({
+                      active: location.pathname.includes('/queue')
+                    })}
+                  />
+                </AccessControl>
+
                 <AccessControl
                   allowedPermissions={['user:canView']}
                   text={() => this.dothis()}
@@ -116,30 +129,40 @@ class SideNav extends Component {
                 >
                   <MenuItem
                     route={'/users'}
-                    icon={eval(faUsers)}
+                    icon={'user'}
                     label={'Users'}
                     className={classnames({
-                      active: this.props.location.pathname.includes('/users')
+                      active: location.pathname.includes('/users')
                     })}
                   />
                 </AccessControl>
               </div>
-              <div
-                onClick={e => this.onUserOptionClick(e)}
-                className='user-options'
-              >
-                <FontAwesomeIcon icon={faSignOutAlt} size='lg' />
-              </div>
-            </div>
-          </div>
 
-          <div className='main-content-container'>
-            {this.mainContent(this.props.location.pathname)}
-          </div>
-        </div>
-      </div>
-    );
-  }
+              <Box margin={{top: 'large'}}>
+                <Button
+                  plain
+                  onClick={onUserOptionClick}
+                >
+                  <LogOut />
+                </Button>
+              </Box>
+                      
+            </Box>
+          </Box>
+        }
+        mainSectionContent={
+          mainContent(location.pathname)
+        }
+      >
+      </LayoutPortal>
+
+      <Status
+        type={sectionStatus.status}
+        message={sectionStatus.message}
+      />
+    </AppShell>
+  );
+  
 }
 
 SideNav.propTypes = {
@@ -147,11 +170,5 @@ SideNav.propTypes = {
   location: PropTypes.object.isRequired
 };
 
-const SideNavBar = withRouter(
-  connect(
-    null,
-    { logoutUser }
-  )(SideNav)
-);
 
-export default SideNavBar;
+export default SideNav;

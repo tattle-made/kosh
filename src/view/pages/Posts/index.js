@@ -22,11 +22,16 @@ import SearchPostFilterParameters from '../../components/SearchPostFilterParamet
 
 import { onSearch } from './post-controller';
 
+import {Spinner} from 'react-bootstrap'
+
+import {SOCKET_URL} from '../../../service/shell-server'
+import { Box } from 'grommet'
+
 // socket io
 import io from 'socket.io-client';
 
 //connect to server
-const socket = io('http://localhost:8080/');
+const socket = io(`${SOCKET_URL}`);
 
 class PostsTable extends Component {
   constructor(props) {
@@ -48,9 +53,11 @@ class PostsTable extends Component {
       page = 1;
     }
 
-    setTimeout(() => {
-      this.props.fetchPosts(page);
-    }, 1000);
+    this.props.fetchPosts(page);
+
+    // setTimeout(() => {
+     
+    // }, 1000);
 
     // SOCKET IO
     // so when new data is received the page will refresh automatically.
@@ -110,27 +117,34 @@ class PostsTable extends Component {
     );
 
     return (
-      <div className='container'>
-        <BreadCrumb
+      <Box pad={'small'} margin={{top:'medium'}}>
+
+        {/* <BreadCrumb
           path={this.props.match.path}
           page={parseInt(this.state.page)}
-        />
-        <PrimaryActionTable
+        /> */}
+        {/* <PrimaryActionTable
           filter={filterType => this.onFilterItemSelect(filterType)}
-        />
-        <SearchPostFilterParameters
+        /> */}
+        {/* <SearchPostFilterParameters
           type={this.state.filter}
           payload={data =>
             this.onSearch(data, this.state.filter, this.props.location)
           }
-        />
-        <Table
-          data={this.state.posts}
-          columns={columns}
-          page={parseInt(this.state.page)}
-          count={this.state.count}
-        />
-      </div>
+        /> */}
+        {
+          this.props.loading 
+          ?
+            <Spinner animation="border" />
+          :
+            <Table
+              data={this.state.posts}
+              columns={columns}
+              page={parseInt(this.state.page)}
+              count={this.state.count}
+            /> 
+        }
+      </Box>
     );
   }
 }
@@ -144,7 +158,8 @@ PostsTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  posts: state.posts
+  posts: state.posts,
+  loading: state.loading
 });
 
 const PostsTablePage = withRouter(

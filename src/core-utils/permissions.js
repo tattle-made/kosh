@@ -43,6 +43,8 @@ const getRoutePermissions = route => {
       return [ADMIN, EDITOR];
     case '/users/create':
       return [ADMIN];
+    case '/queue':
+      return [ADMIN];
     default:
       return [SUBSCRIBER];
   }

@@ -10,9 +10,11 @@ import FooterSite from './view/components/Footer';
 import InfoPanel from './view/components/InfoPanel';
 import SideNav from './view/components/SideNav';
 import LoginCard from './view/pages/Login';
+import SignUp from './view/pages/SignUp';
 import PrivateRoute from './view/components/PrivateRoute';
 
 import { PersistGate } from 'redux-persist/integration/react';
+import Queue from './view/pages/Queue';
 
 function App() {
   return (
@@ -21,9 +23,15 @@ function App() {
         <Router>
           <div>
             <Switch>
+              <Route exact path='/request-access' component={SignUp} />
+            </Switch>
+            <Switch>
               <Route exact path='/' component={LoginCard} />
             </Switch>
             <Route path='/' component={FooterSite} />
+            <Switch>
+              <PrivateRoute exact path='/queue' component={SideNav} />
+            </Switch>
             <Switch>
               <PrivateRoute exact path='/search' component={SideNav} />
             </Switch>

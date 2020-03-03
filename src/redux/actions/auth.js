@@ -2,12 +2,15 @@ import { SET_USER, AUTHENTICATE } from './types';
 
 import { PURGE } from 'redux-persist';
 import axios from 'axios';
-import { error } from './utils';
+import { error, triggerLoading } from './utils';
+import {get, post} from '../../service/shell-server';
 
 const loginUser = userData => {
-  const request = axios.post('http://localhost:8080/api/auth/login', userData);
+  
+
   return dispatch => {
-    request
+      dispatch(triggerLoading(true))
+      post('/auth/login', userData)
       .then(res => {
         const auth = res.data.auth;
 
@@ -16,15 +19,9 @@ const loginUser = userData => {
           const { userId, token } = res.data;
           // storing the token in local storage
           localStorage.setItem('token', token);
-          const userDataRequest = axios.get(
-            `http://localhost:8080/api/user/${userId}`,
-            {
-              headers: {
-                token
-              }
-            }
-          );
-          userDataRequest.then(res => {
+          get(`/user/${userId}`, token)
+          .then(res => {
+            dispatch(triggerLoading(false))
             dispatch(setCurrentUser(res.data));
             dispatch(toggleAuthentication(true));
           });

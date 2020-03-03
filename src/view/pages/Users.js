@@ -21,8 +21,10 @@ import AccessControl from '../components/AccessControl';
 // socket io
 import io from 'socket.io-client';
 
+import {SOCKET_URL} from '../../service/shell-server'
+
 //connect to server
-const socket = io('http://localhost:8080/');
+const socket = io(`${SOCKET_URL}`);
 
 class UsersTable extends Component {
   constructor(props) {
