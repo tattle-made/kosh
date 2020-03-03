@@ -106,14 +106,22 @@ const SideNav = ({location}) => {
                     active: location.pathname.includes('/search')
                   })}
                 />
-                <MenuItem
-                  route={'/queue'}
-                  icon={'queue'}
-                  label={'Queues'}
-                  className={classnames({
-                    active: location.pathname.includes('/queue')
-                  })}
-                />
+
+                <AccessControl
+                  allowedPermissions={['user:canView']}
+                  text={() => this.dothis()}
+                  renderNoAccess={() => {}}
+                >
+                  <MenuItem
+                    route={'/queue'}
+                    icon={'queue'}
+                    label={'Queues'}
+                    className={classnames({
+                      active: location.pathname.includes('/queue')
+                    })}
+                  />
+                </AccessControl>
+
                 <AccessControl
                   allowedPermissions={['user:canView']}
                   text={() => this.dothis()}
