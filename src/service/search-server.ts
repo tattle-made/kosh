@@ -148,6 +148,7 @@ export class SearchServer {
                     title: item.headline,
                     url: item.postURL,
                     timestamp: item.date_updated,
+                    domain: item.domain,
                 };
             });
         })
