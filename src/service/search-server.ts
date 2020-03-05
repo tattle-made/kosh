@@ -113,6 +113,7 @@ export class SearchServer {
     }
 
     public findDuplicateStories(imageUrl: string) {
+        console.log('Finding Duplicate Stories for ', imageUrl);
         const THRESHOLD = 2;
 
         return Axios.post('http://3.130.147.43:7000/find_duplicate', {
@@ -129,12 +130,18 @@ export class SearchServer {
                 if (duplicateStories.length === 0) {
                     Promise.reject('unknown error');
                 } else {
-                    return duplicateStories.splice(0, 8);
+                    return duplicateStories.splice(0, 5);
                 }
             }
         })
-        .then((stories) => Promise.all(stories.map((story: any) => get(story.doc_id))))
-        .then((posts: any) => Promise.all(posts.map((post: any) => getStoryByPostId(post.id) )))
+        .then((stories) => {
+            // console.log('stories: ', stories);
+            return Promise.all(stories.map((story: any) => get(story.doc_id)));
+        })
+        .then((posts: any) => {
+            // console.log('posts: ', posts);
+            return Promise.all(posts.map((post: any) => getStoryByPostId(post.id)));
+        })
         .then((docs) => {
             return Promise.all(docs.map((doc: any) => {
                 // tslint:disable-next-line:max-line-length
@@ -143,6 +150,7 @@ export class SearchServer {
             }));
         })
         .then((metadata) => {
+            // console.log(metadata);
             return metadata.map((item: any) => {
                 return {
                     title: item.headline,
@@ -154,7 +162,7 @@ export class SearchServer {
         })
         .catch((err) => {
             console.log('error finding duplicates', err);
-            Promise.reject(err)
+            return Promise.reject(err);
         });
     }
 
