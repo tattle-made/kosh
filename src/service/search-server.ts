@@ -113,6 +113,8 @@ export class SearchServer {
     }
 
     public findDuplicateStories(imageUrl: string) {
+        const THRESHOLD = 2;
+
         return Axios.post('http://3.130.147.43:7000/find_duplicate', {
             image_url: imageUrl,
         })
@@ -127,7 +129,7 @@ export class SearchServer {
                 if (duplicateStories.length === 0) {
                     Promise.reject('unknown error');
                 } else {
-                    return duplicateStories.splice(0, 3);
+                    return duplicateStories.splice(0, 8);
                 }
             }
         })
@@ -141,8 +143,6 @@ export class SearchServer {
             }));
         })
         .then((metadata) => {
-            console.log('===');
-            console.log(metadata);
             return metadata.map((item: any) => {
                 return {
                     title: item.headline,
