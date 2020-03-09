@@ -135,11 +135,15 @@ export class SearchServer {
             }
         })
         .then((stories) => {
-            // console.log('stories: ', stories);
+            console.log('stories: ', stories);
             return Promise.all(stories.map((story: any) => get(story.doc_id)));
         })
         .then((posts: any) => {
-            // console.log('posts: ', posts);
+            console.log('posts: ', posts);
+            return posts.filter((post: any) => post != null);
+        })
+        .then((posts) => {
+            console.log('filtered posts: ', posts);
             return Promise.all(posts.map((post: any) => getStoryByPostId(post.id)));
         })
         .then((docs) => {
@@ -150,7 +154,7 @@ export class SearchServer {
             }));
         })
         .then((metadata) => {
-            // console.log(metadata);
+            console.log(metadata);
             return metadata.map((item: any) => {
                 return {
                     title: item.headline,
