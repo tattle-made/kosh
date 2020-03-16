@@ -1,7 +1,6 @@
 import { Express, Request, Response } from 'express';
 import {plainToClass} from 'class-transformer';
 import { SearchServer } from '../../service/search-server';
-
 const searchServer = new SearchServer();
 /**
  * todo : send success response, send failure response

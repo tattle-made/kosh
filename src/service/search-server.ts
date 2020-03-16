@@ -113,6 +113,9 @@ export class SearchServer {
     }
 
     public findDuplicateStories(imageUrl: string) {
+        console.log('Finding Duplicate Stories for ', imageUrl);
+        const THRESHOLD = 2;
+
         return Axios.post('http://3.130.147.43:7000/find_duplicate', {
             image_url: imageUrl,
         })
@@ -127,34 +130,48 @@ export class SearchServer {
                 if (duplicateStories.length === 0) {
                     Promise.reject('unknown error');
                 } else {
-                    return duplicateStories.splice(0, 3);
+                    return duplicateStories.splice(0, 5);
                 }
             }
         })
-        .then((stories) => Promise.all(stories.map((story: any) => get(story.doc_id))))
-        .then((posts: any) => Promise.all(posts.map((post: any) => getStoryByPostId(post.id) )))
+        .then((stories) => {
+            console.log('stories: ', stories);
+            return Promise.all(stories.map((story: any) => get(story.doc_id)));
+        })
+        .then((posts: any) => {
+            console.log('posts: ', posts);
+            return posts.filter((post: any) => post != null);
+        })
+        .then((posts) => {
+            console.log('filtered posts: ', posts);
+            return Promise.all(posts.map((post: any) => getStoryByPostId(post.id)));
+        })
         .then((docs) => {
             return Promise.all(docs.map((doc: any) => {
                 // tslint:disable-next-line:max-line-length
-                console.log(doc);
-                return Axios.get(`http://52.66.83.191:5001/api/metadata?docId=${doc.docId}`)
+                return Axios.get(`${process.env.FCSEARCH_HOST}/metadataFromDoc?docId=${doc.docId}`)
                 .then((res) => res.data);
             }));
         })
         .then((metadata) => {
+            console.log(metadata);
             return metadata.map((item: any) => {
                 return {
                     title: item.headline,
                     url: item.postURL,
                     timestamp: item.date_updated,
+                    domain: item.domain,
                 };
             });
         })
-        .catch((err) => Promise.reject(err));
+        .catch((err) => {
+            console.log('error finding duplicates', err);
+            return Promise.reject(err);
+        });
     }
 
     public findTextWithinImage(text: string) {
-        return Axios.post('http://3.130.147.43:7000/find_duplicate', {
+        return Axios.post(`${process.env.SEARCH_HOST}:${process.env.SEARCH_PORT}/find_duplicate`, {
             text,
         })
         .then((result) => result.data)

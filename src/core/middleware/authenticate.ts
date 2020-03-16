@@ -4,7 +4,12 @@ import { LoginController } from '../../controllers/LoginController';
 const loginController = new LoginController();
 
 export const authenticate = (req: Request, res: Response, next: () => void) => {
-    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') || req.originalUrl.startsWith('/') ) {
+    const token = req.headers['token'] as string;
+    // tslint:disable-next-line:max-line-length
+    if (req.originalUrl === '/api/auth/login' ||
+        req.originalUrl.startsWith('/ui') ||
+        req.originalUrl.startsWith('/ping') ||
+        req.originalUrl.startsWith('/public/ping') ) {
         next();
     } else {
         const auth = req.headers.authorization;

@@ -1,4 +1,4 @@
-name: deploy-staging
+name: deploy-dev
 
 on: 
   push:
@@ -12,7 +12,9 @@ jobs:
       SHA8: ${GITHUB_SHA::8}
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        ref: development
       
     - name: Publish to Docker2
       uses: dennyabrain/docker-action@master
@@ -33,4 +35,4 @@ jobs:
         echo '[profile eb-cli]' >> ~/.aws/config
         echo 'aws_access_key_id =' ${{ secrets.AWS_ACCESS_KEY_ID}} >> ~/.aws/config
         echo 'aws_secret_access_key =' ${{ secrets.AWS_SECRET_ACCESS_KEY }} >> ~/.aws/config
-        ~/.local/bin/eb deploy staging -l $GITHUB_SHA
+        ~/.local/bin/eb deploy archive-dev -l $GITHUB_SHA

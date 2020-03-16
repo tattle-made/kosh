@@ -7,7 +7,11 @@ const application = new Application();
 
 export const authorize = (req: Request, res: Response, next: () => void) => {
     // tslint:disable-next-line:max-line-length
-    if (req.originalUrl === '/api/auth/login' || req.originalUrl.startsWith('/ui') || req.originalUrl.startsWith('/')  ) {
+    if (req.originalUrl === '/api/auth/login' ||
+        req.originalUrl.startsWith('/ui') ||
+        req.originalUrl.startsWith('/ping') ||
+        req.originalUrl.startsWith('/public/ping')
+        ) {
         return next();
     }
 
