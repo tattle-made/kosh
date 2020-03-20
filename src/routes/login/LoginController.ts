@@ -27,7 +27,7 @@ export class LoginController extends _BaseController {
         // check in redis
         return redis.getORM().factory<UserTokenORMModel>('user-token')
         .then((userToken) => {
-            // console.log(userToken.allProperties());
+            console.log(userToken.allProperties());
             return userToken.find({token})
             .then((user) => userToken.load(user[0]))
             .then((userProperties) => RedisOperationResult.dataFactory('login check result', {userProperties}) )

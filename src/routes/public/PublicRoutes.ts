@@ -11,6 +11,7 @@ export function register( app: Express ) {
     });
 
     app.get('/public/fact-check-story/:type/:page', (req: Request, res: Response) => {
+        console.log('get public fact-check-story');
         const factCheckedStoryController = new FactCheckedStoryController();
 
         const getFactCheckStoryRequestModelInstance = plainToClass(GetFactCheckStoryRequestModel, req.params);

@@ -127,10 +127,17 @@ app.post('/api/search/tag', (req: Request, res: Response) => {
 });
 
 app.get('/', (req: Request, res: Response) => {
+    console.log('pinged');
     res.set('Content-Type', 'text/html');
     res.send(Buffer.from(`${process.env.APP_VERSION}`));
     // console.log('pinging');
     // res.send({ message : 'pong', version: process.env.APP_VERSION});
+});
+
+app.get('/ping', (req: Request, res: Response) => {
+    console.log('pinged');
+    res.set('Content-Type', 'text/html');
+    res.send(Buffer.from(`${process.env.APP_VERSION}`));
 });
 
 registerFactCheckStoryRoute(app);

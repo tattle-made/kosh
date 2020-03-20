@@ -8,6 +8,7 @@ import S3Helper from './S3-helper';
  */
 export function register(app: Express) {
     app.post('/api/s3-auth', (req: Request, res: Response) => {
+        console.log('gettin s3 auth');
         S3Helper.s3.getSignedUrl('putObject', {
             Bucket: 'tattle-services-search',
             Key: req.body.filename,
