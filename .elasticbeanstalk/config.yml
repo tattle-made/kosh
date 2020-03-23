@@ -2,7 +2,7 @@ branch-defaults:
   development:
     environment: archive-dev
   master:
-    environment: staging
+    environment: archive-live
 environment-defaults:
   staging:
     branch: null
