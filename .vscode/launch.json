@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Docker",
+            "preLaunchTask": "tsc-watch",
+            "protocol":"auto",
+            "port": 9222,
+            "restart": true,
+            "localRoot": "${workspaceFolder}/server/dist",
+            "remoteRoot": "/server/dist",
+            "outFiles": [
+                "${workspaceFolder}/server/dist/**/*.js"
+            ],
+            "skipFiles": [
+                "<node_internals>/**/*.js",
+            ],
+            "trace": true
+        }
+    ]
+}
