@@ -1,0 +1,10 @@
+.card:hover {
+  box-shadow: 10px 5px 5px rgb(63, 62, 62);
+  cursor: pointer;
+}
+
+.badge {
+  background-color: $color-primary-one;
+  color: #fff;
+  font-size: 15px !important;
+}

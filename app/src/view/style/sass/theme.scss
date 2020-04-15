@@ -1,0 +1,52 @@
+$color-primary-one: #e65447;
+$color-primary-two: #ffd3d0;
+$color-primary-three: #ffccc8;
+$color-primary-four: #ffe5e2;
+
+$color-black-one: #000637;
+$color-black-two: #060d42;
+$color-black-three: #0a1144;
+$color-black-four: #151a3d;
+
+$color-white-one: #f0f0f0;
+$color-white-two: #e7e7e7;
+$color-white-three: #dfdfdf;
+$color-white-four: #d7d7d7;
+
+$color-success: #95eda2;
+$color-error: rgba(255, 98, 63, 1);
+
+//sideNav colors
+$sidenav-background: #ffe5e2;
+$sidenav-link-hover: #ffccc8;
+
+//primitives
+$color-background: white;
+// $color-primary: #e65447;
+$color-primary-dark: #aa2a1e;
+$color-primary-light: #e0685d;
+$color-primary-light-transcluscent: #e0685d22;
+
+$color-secondary-one: #f4f4f4;
+$color-secondary-two: #eeeeee;
+$color-secondary-three: #cccccc;
+$color-secondary-four: #aaaaaa;
+$color-secondary-five: #444444;
+
+$text-color-dark: #222222;
+$text-color-light: #ffffff;
+
+$border-color: #dddddd;
+
+$logo-width: 3em;
+$logo-height: 3em;
+
+$logo-width-mobile: 1.5em;
+$logo-height-mobile: 1.5em;
+
+$font-stack: 'M PLUS Rounded 1c', sans-serif;
+
+//specific derived ones
+// $sidebar-background: $color-primary-light-transcluscent;
+$tag-background: $color-primary-light-transcluscent;
+$tag-text-color: $color-secondary-five;

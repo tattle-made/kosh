@@ -1,0 +1,28 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - development
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: development
+    - name: Run a multi-line script
+      run: |
+        npm install
+        npm run build
+    - name: Setup AWS CLI
+      run: |
+        sudo apt-get install python3-setuptools 
+        pip3 install awscli --upgrade --user
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} 
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws configure set region ap-south-1
+        aws s3 sync ./build s3://shell-dev.tattle.co.in

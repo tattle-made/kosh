@@ -1,0 +1,54 @@
+.search-input {
+  max-width: 450px;
+}
+
+.search-input-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: -5px;
+}
+
+.search-input-checkbox {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-top: 14px;
+  margin-left: -5px;
+}
+
+.search-input-button {
+  margin-top: 4px;
+  margin-left: -6px;
+}
+
+.checkbox-box input {
+  display: none;
+}
+
+.checkbox-box {
+  padding-left: 30px;
+  position: relative;
+  cursor: pointer;
+  font-size: 18px;
+  margin-right: 18px;
+}
+
+.checkbox-box .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #d4cfcf;
+  border-radius: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-top: 10px;
+}
+
+.checkbox-box input:checked + .checkmark {
+  background-color: #ea6565;
+}
+
+.checkbox-box:hover .checkmark {
+  background-color: #ebebeb;
+}

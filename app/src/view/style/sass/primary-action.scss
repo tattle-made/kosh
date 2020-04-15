@@ -1,0 +1,14 @@
+.primary-action-post-table {
+  display: flex;
+}
+
+.primary-action-post-table-drop-down {
+  margin-left: auto;
+}
+
+.primary-action-post-table-upload {
+  background-color: $color-white-one;
+  color: $color-black-two;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}

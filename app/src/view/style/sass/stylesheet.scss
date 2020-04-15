@@ -1,0 +1,27 @@
+@import 'theme';
+@import 'header';
+@import 'sideNav';
+@import 'login';
+@import 'fonts';
+@import 'searchInput';
+@import 'search-result';
+@import 'card';
+@import 'breadcrumb';
+@import '~react-datepicker/dist/react-datepicker.css';
+@import 'react-select';
+@import 'post-table';
+@import 'footer';
+@import 'primary-action';
+@import 'media-card';
+@import 'logo';
+
+// modifying bootstrap constants value
+$theme-colors: (
+  'primary': #0074d9,
+  'danger': #ff4136,
+  'color-primary-one': $color-primary-one,
+  'color-white-one': $color-white-one,
+  'color-white-two': $color-white-two
+);
+
+@import '../../../../node_modules/bootstrap/scss/bootstrap.scss';
