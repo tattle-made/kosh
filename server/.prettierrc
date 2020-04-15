@@ -1,0 +1,14 @@
+{
+  "arrowParens": "always",
+  "trailingComma": "all",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "overrides": [
+    {
+      "files": "*",
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}

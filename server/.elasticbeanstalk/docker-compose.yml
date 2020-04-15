@@ -1,0 +1,10 @@
+archiveserver:
+  image: tattletech/archive-server:latest
+  links:
+  - jobredisqueue:job-redis-queue
+  ports:
+  - 3003:3003
+jobredisqueue:
+  image: redis
+  ports:
+  - 6379:6379

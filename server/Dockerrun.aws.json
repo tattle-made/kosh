@@ -1,0 +1,48 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "job-redis-queue",
+            "essential": true,
+            "image": "redis",
+            "memory": 256,
+            "memoryReservation": 256,
+            "portMappings": [
+                {
+                    "containerPort": 6379,
+                    "hostPort": 6379
+                }
+            ],
+            "mountPoints": [
+                {
+                    "containerPath": "/data",
+                    "sourceVolume": "redisVolume"
+                }
+            ]
+        },
+        {
+            "name": "archive-server",
+            "essential": true,
+            "image": "tattletech/archive-server:latest",
+            "memory": 256,
+            "memoryReservation": 256,
+            "portMappings": [
+                {
+                    "containerPort": 3003,
+                    "hostPort": 3003
+                }
+            ],
+            "links": [
+                "job-redis-queue"
+            ]
+        }
+    ],
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "/home/redis/"
+            },
+            "name": "redisVolume"
+        }
+    ]
+}

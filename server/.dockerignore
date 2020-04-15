@@ -1,0 +1,12 @@
+build/
+config/
+dev/
+migrations/
+models/
+node_modules/
+.prettierrc
+tslint.json
+Dockerfile
+.dockerignore
+.env
+.elasticbeanstalk/logs/*
