@@ -1,50 +1,51 @@
 version: '3'
 
 services: 
-    job_queue:
-        image: 'redis'
-        ports: 
-            - "6379:6379"
-        volumes: 
-            - "~/data/archive-server/redis:/data"
+    # job_queue:
+    #     image: 'redis'
+    #     ports: 
+    #         - "6379:6379"
+    #     volumes: 
+    #         - "~/data/archive-server/redis:/data"
     # redis_ui:
     #     image: 'marian/rebrow'
     #     ports:
     #         - "5001:5001"
     #     restart: always
-    db:
-        image: 'mysql'
-        command: --default-authentication-plugin=mysql_native_password
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: root_pw
-            MYSQL_DATABASE: kosh
-            MYSQL_USER: user_name
-            MYSQL_PASSWORD: user_pw
-        ports:
-            - 3306:3306
-        volumes: 
-            - "~/data/archive-server/sql:/var/lib/mysql"
-    db_gui:
-        image: adminer
-        restart: always
-        ports:
-        - 8080:8080
-    server:
-        container_name: 'server'
-        build:
-            context: ./server
-            dockerfile: Dockerfile
-        ports: 
-            - 3003:3003
-            - 5858:5858
-            - 9222:9222
-        volumes:
-            - ./server/dist:/server/dist
-        env_file: ./server/local.env
-        depends_on: 
-            - job_queue
-        command: npm run debug
+    # db:
+    #     image: 'mysql'
+    #     command: --default-authentication-plugin=mysql_native_password
+    #     restart: always
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: root_pw
+    #         MYSQL_DATABASE: kosh
+    #         MYSQL_USER: user_name
+    #         MYSQL_PASSWORD: user_pw
+    #     ports:
+    #         - 3306:3306
+    #     volumes: 
+    #         - "~/data/archive-server/sql:/var/lib/mysql"
+    # db_gui:
+    #     image: adminer
+    #     restart: always
+    #     ports:
+    #     - 8080:8080
+    # server:
+    #     container_name: 'server'
+    #     build:
+    #         context: ./server
+    #         dockerfile: Dockerfile
+    #     ports: 
+    #         - 3003:3003
+    #         - 5858:5858
+    #         - 9222:9222
+    #     volumes:
+    #         - ./server/dist:/server/dist
+    #     env_file: ./server/local.env
+    #     depends_on: 
+    #         - job_queue
+    #         - db
+    #     command: npm run debug
     app:
         build:
             context: ./app
@@ -52,7 +53,7 @@ services:
         ports:
             - "3000:3000" 
         volumes:
-            - ./app:/var/app
+            - ./app:/app
         tty: true
     
 volumes:

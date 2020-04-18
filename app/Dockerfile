@@ -1,4 +1,5 @@
 FROM node:10
-WORKDIR /var/app
+WORKDIR /app
 EXPOSE 3000
-CMD npm start
+RUN npm install -g react-scripts
+CMD npm install && npm start

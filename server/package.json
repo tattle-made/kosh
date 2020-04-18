@@ -1,16 +1,17 @@
 {
-    "name": "archive-server",
+    "name": "@tattle/kosh-server",
     "version": "1.0.0",
     "description": "backend gateway service for tattle",
-    "main": "index.js",
+    "main": "./dist/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start-dev": "nodemon --config \"./dev/nodemon.json\"/",
+        "postinstall": "tsc",
         "build": "tsc",
-        "start-test": "ts-node login.ts",
-        "watch:test": "nodemon --config \"./dev/nodemon-test.json\"/"
+        "watch": "tsc -w",
+        "debug": "npm run build && nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/index.js",
+        "docker-debug": "docker-compose up",
+        "start": "node ./dist/index.js"
     },
-    "author": "",
+    "author": "@tattle-made",
     "license": "ISC",
     "devDependencies": {
         "@types/bluebird": "^3.5.27",
