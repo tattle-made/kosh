@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import HeadingThree from "../atomic-components/text/HeadingThree";
 import BodyTwo from "../atomic-components/text/BodyTwo";
 import packageJsonFile from '../../../package.json';
 

@@ -3,18 +3,10 @@ import { withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 // actions
 import { triggerLoading } from '../../redux/actions/utils';
 import { search } from '../../redux/actions/post';
-
-import BreadCrumb from '../atomic-components/BreadCrumb';
-import SearchForm from '../components/SearchForm';
-import SearchResult from '../components/SearchResult';
-import SimpleSearchResult from '../components/TempImageCard'
-
 import {Container} from 'react-bootstrap'
-
 import {Layout} from '@tattle-made/ui'
 import SectionSearch from '../sections/SectionSearchWhatsappPosts'
 

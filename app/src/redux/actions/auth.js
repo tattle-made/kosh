@@ -1,7 +1,6 @@
 import { SET_USER, AUTHENTICATE } from './types';
 
 import { PURGE } from 'redux-persist';
-import axios from 'axios';
 import { error, triggerLoading } from './utils';
 import {get, post} from '../../service/shell-server';
 

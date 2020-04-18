@@ -2,6 +2,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Web App",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/app/src",
+            "sourceMapPathOverrides": {
+                "webpack:///app/src/*": "${webRoot}/*",
+            }
+        },
+        {
             "type": "node",
             "request": "attach",
             "name": "Attach to Docker",

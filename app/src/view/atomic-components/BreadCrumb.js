@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Breadcrumb } from 'react-bootstrap';
-import HeadingTwo from '../atomic-components/text/HeadingTwo';
 import {Box, Heading} from 'grommet'
 import itemList from '../../core-utils/breadcrumbItems';
 import PropTypes from 'prop-types';

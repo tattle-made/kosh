@@ -1,16 +1,5 @@
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCloud,
-  faUsers,
-  faSearch,
-  faTimes,
-  faSignOutAlt,
-  faMicrochip
-} from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
 import classnames from 'classnames';
-import { withRouter } from 'react-router-dom';
-import tattle_monogram_dark from '../../assets/img/tattle_monogram_dark.png';
 import PropTypes from 'prop-types';
 
 //components
@@ -22,7 +11,7 @@ import UserUpdate from '../pages/UserUpdate';
 import PostsTableItem from './PostData';
 import MenuItem from '../atomic-components/MenuItem';
 
-import { Grommet, Box, Button, Image, Heading} from 'grommet'
+import { Box, Button} from 'grommet'
 import { Layout, Atoms} from '@tattle-made/ui';
 
 //action

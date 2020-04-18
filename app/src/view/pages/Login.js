@@ -6,9 +6,6 @@ import PropTypes from 'prop-types';
 //actions
 import { loginUser } from '../../redux/actions/auth';
 
-//components
-import tattleLogo from '../../assets/img/tattle_monogram_dark.png';
-import LoginHeader from '../components/LoginHeader';
 import Logo from '../components/Logo'
 import LoginFooter from '../components/LoginFooter';
 import LoginCard from '../components/LoginCard';

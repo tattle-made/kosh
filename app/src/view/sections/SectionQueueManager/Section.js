@@ -1,7 +1,6 @@
 import React from 'react'
 import Queue from './Queue'
 import RedisStats from './RedisStats'
-import Header from './Header'
 import useStore from './hooks/useStore'
 import { Box } from 'grommet'
 

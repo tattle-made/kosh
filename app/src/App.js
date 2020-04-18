@@ -12,9 +12,7 @@ import SideNav from './view/components/SideNav';
 import LoginCard from './view/pages/Login';
 import SignUp from './view/pages/SignUp';
 import PrivateRoute from './view/components/PrivateRoute';
-
 import { PersistGate } from 'redux-persist/integration/react';
-import Queue from './view/pages/Queue';
 
 function App() {
   return (

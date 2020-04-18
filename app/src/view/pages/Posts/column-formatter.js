@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AccessControl from '../../components/AccessControl';
 import { faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 import PreviewFormatterTable from '../../components/PreviewFormatterTable';
-import { BodyOne } from '../../atomic-components/text';
 import Moment from 'moment';
 
 const actionIconsFormatter = (cell, row, rowIndex, extraData) => {

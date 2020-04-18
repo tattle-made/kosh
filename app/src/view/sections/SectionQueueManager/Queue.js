@@ -3,7 +3,7 @@ import { getYear, format, isToday, formatDistance } from 'date-fns'
 import { type } from 'ramda'
 import Highlight from 'react-highlight/lib/optimized'
 
-import { Box, Heading, Text, Button } from 'grommet'
+import { Box, Button } from 'grommet'
 import { Play, Pause, ArrowLeft, ArrowRight } from 'react-feather'
 import { postWithToken } from '../../../service/shell-server'
 
@@ -222,7 +222,7 @@ const fieldComponents = {
       </Highlight>
     )
   },
-  retry: ({ job, retryJob }) => {
+  retry: ({ retryJob }) => {
     return <button onClick={retryJob}>Retry</button>
   },
 }
@@ -283,7 +283,7 @@ function QueueActions(props) {
   )
 }
 
-const PlayPause = ({queueName, setCurrentPages}) => {
+const PlayPause = ({setCurrentPages}) => {
   const [queueState, setQueueState] = useState(false);
   const [pageNum, setPageNum] = useState(0);
 

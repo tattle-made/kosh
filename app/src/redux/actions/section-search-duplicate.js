@@ -1,8 +1,4 @@
-import Axios from 'axios';
-import { setAppStatusLoading, setAppStatusMessage, setAppStatusError } from './section-status';
-import Promise from 'bluebird';
 import { postWithToken } from '../../service/shell-server';
-
 // define action types
 const FIND_DUPLICATE_IMAGES = 'FIND_DUPLICATE_IMAGES'
 const FIND_DUPLICATE_VIDEOS = 'FIND_DUPLICATE_VIDEOS'

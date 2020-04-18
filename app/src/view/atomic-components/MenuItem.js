@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Database, Search, Terminal, User} from 'react-feather';
 
 import styled from 'styled-components'
-import {ResponsiveContext, Box, Heading, Text} from 'grommet'
+import {Box, Heading} from 'grommet'
 
 const icons = {
   'post': <Database/>,

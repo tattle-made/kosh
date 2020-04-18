@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import HeadingOne from '../atomic-components/text/HeadingOne';
-import { Card } from 'react-bootstrap';
 
 class PermissionDenied extends Component {
   render() {

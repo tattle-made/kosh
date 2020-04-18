@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import {HeadingOne, HeadingTwo, HeadingThree, BodyOne, BodyTwo, SubHeadingOne} from '../atomic-components/text'
-import { Button, Form,  Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Button, Form,  Col, Spinner } from 'react-bootstrap';
 import  {Link} from 'react-router-dom'
 
 class LoginCard extends Component {
@@ -42,7 +41,7 @@ class LoginCard extends Component {
 
               <Col xs={12} md={2} className="login-button">
                 {
-                  this.props.loading==true
+                  this.props.loading===true
                   ? 
                     <Button variant="color-primary-one" disabled block>
                       <Spinner

@@ -1,4 +1,3 @@
-import { textFilter } from "react-bootstrap-table2-filter";
 import { actionIconsFormatter, previewFormatter, timestampFormatter } from "./column-formatter";
 
 const column = (extraData, history) => {

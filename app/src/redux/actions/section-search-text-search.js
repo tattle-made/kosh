@@ -1,6 +1,3 @@
-import Axios from 'axios';
-import { setAppStatusLoading, setAppStatusMessage, setAppStatusError } from './section-status';
-import Promise from 'bluebird';
 import { postWithToken } from '../../service/shell-server';
 
 // define action types

@@ -1,5 +1,3 @@
-import Axios from 'axios';
-import Promise from 'bluebird';
 import { postWithToken } from '../../service/shell-server';
 
 // define action types

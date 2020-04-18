@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {HeadingOne, HeadingTwo, HeadingThree, BodyOne, BodyTwo, SubHeadingOne} from '../atomic-components/text'
-import { Button, Form,  Container, Row, Col, Spinner } from 'react-bootstrap';
+import {HeadingOne, HeadingTwo, SubHeadingOne} from '../atomic-components/text'
+import { Button, Form,  Container, Col, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
 import Logo from '../components/Logo'
@@ -38,8 +38,8 @@ class SignUp extends Component {
         this.setState({status:'upload'})
 
         axios.post('http://13.235.141.145:3002/request-access/add', this.state)
-        .then((res)=>this.setState({'status':'success'}))
-        .catch((err)=>this.setState({'status':'error'}));
+        .then(()=>this.setState({'status':'success'}))
+        .catch(()=>this.setState({'status':'error'}));
     }
 
     render(){
