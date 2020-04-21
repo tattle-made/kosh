@@ -25,11 +25,11 @@ services:
       - 3306:3306
     volumes:
       - "~/data/archive-server/sql:/var/lib/mysql"
-  # db_gui:
-  #     image: adminer
-  #     restart: always
-  #     ports:
-  #     - 8080:8080
+  db_gui:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   server:
     container_name: "server"
     build:

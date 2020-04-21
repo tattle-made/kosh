@@ -15,71 +15,117 @@ import PrivateRoute from './view/components/PrivateRoute';
 import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <div>
-            <Switch>
-              <Route exact path='/request-access' component={SignUp} />
-            </Switch>
-            <Switch>
-              <Route exact path='/' component={LoginCard} />
-            </Switch>
-            <Route path='/' component={FooterSite} />
-            <Switch>
-              <PrivateRoute exact path='/queue' component={SideNav} />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/search' component={SideNav} />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/infoPanel' component={InfoPanel} />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/users' component={SideNav} />
-            </Switch>
-            <Switch>
-              <PrivateRoute
-                exact
-                path='/users/page/:page'
-                component={SideNav}
-              />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/posts' component={SideNav} />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/posts/:page' component={SideNav} />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/post/:id' component={SideNav} />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/sidenav' component={SideNav} />
-            </Switch>
-            <Switch>
-              <PrivateRoute
-                exact
-                path='/users/update/:id'
-                component={SideNav}
-              />
-            </Switch>
-            <Switch>
-              <PrivateRoute
-                exact
-                path='/users/delete/:id'
-                component={SideNav}
-              />
-            </Switch>
-            <Switch>
-              <PrivateRoute exact path='/users/create' component={SideNav} />
-            </Switch>
-          </div>
-        </Router>
-      </PersistGate>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router>
+                    <div>
+                        <Switch>
+                            <Route
+                                exact
+                                path="/request-access"
+                                component={SignUp}
+                            />
+                        </Switch>
+                        <Switch>
+                            <Route exact path="/" component={LoginCard} />
+                        </Switch>
+                        <Route path="/" component={FooterSite} />
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/queue"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/search"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/infoPanel"
+                                component={InfoPanel}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/users"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/users/page/:page"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/posts"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/posts/:page"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/post/:id"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                path="/posts/:id/metadata"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/sidenav"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/users/update/:id"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/users/delete/:id"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
+                                exact
+                                path="/users/create"
+                                component={SideNav}
+                            />
+                        </Switch>
+                    </div>
+                </Router>
+            </PersistGate>
+        </Provider>
+    );
 }
 
 export default App;

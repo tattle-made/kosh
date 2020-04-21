@@ -6,43 +6,40 @@ import { getRoutePermissions } from '../../core-utils/permissions';
 import PermissionDenied from './PermissionDenied';
 
 const PrivateRoute = ({ component: Component, auth, userRole, ...rest }) => {
-  let authorized = false;
-  let allowedRoles = getRoutePermissions(rest.path);
+    let authorized = false;
+    let allowedRoles = getRoutePermissions(rest.path);
 
-  if (allowedRoles.includes(userRole)) {
-    authorized = true;
-  }
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        auth.isAuthenticated === true ? (
-          authorized === true ? (
-            <Component {...props} />
-          ) : (
-            <PermissionDenied />
-          )
-        ) : (
-          <Redirect to='/' />
-        )
-      }
-    />
-  );
+    if (allowedRoles.includes(userRole)) {
+        authorized = true;
+    }
+    return (
+        <Route
+            {...rest}
+            render={(props) =>
+                auth.isAuthenticated ? (
+                    authorized ? (
+                        <Component {...props} />
+                    ) : (
+                        <PermissionDenied />
+                    )
+                ) : (
+                    <Redirect to="/" />
+                )
+            }
+        />
+    );
 };
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired,
-  userRole: PropTypes.string.isRequired
+    auth: PropTypes.object.isRequired,
+    userRole: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  userRole: state.loginUser.role
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    userRole: state.loginUser.role,
 });
 
-const PrivateRouteItem = connect(
-  mapStateToProps,
-  {}
-)(PrivateRoute);
+const PrivateRouteItem = connect(mapStateToProps, {})(PrivateRoute);
 
 export default PrivateRouteItem;
