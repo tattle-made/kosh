@@ -3,5 +3,5 @@ WORKDIR /server
 COPY . /server
 RUN npm install
 EXPOSE 3000
-RUN ls
-CMD npm install && npm start
+RUN echo ls
+CMD [ "npm", "start" ]
