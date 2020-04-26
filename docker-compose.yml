@@ -24,7 +24,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - "~/data/archive-server/sql:/var/lib/mysql"
+      - mysql_db_data_container:/var/lib/mysql
   db_gui:
     image: adminer
     restart: always
@@ -58,3 +58,4 @@ services:
 
 volumes:
   node_modules:
+  mysql_db_data_container:
