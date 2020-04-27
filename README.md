@@ -35,7 +35,7 @@ Join the kosh server hosted by us to get a tour of all the features and the curr
 
 ## Want to contribute to Kosh?
 
-We have a [guide](contributing.md) for you
+We have a [guide](CONTRIBUTING.md) for you
 
 ## To get help with developing or running Kosh
 

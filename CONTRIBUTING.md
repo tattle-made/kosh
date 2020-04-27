@@ -6,10 +6,15 @@ By contributing to Kosh, you are agreeing to our community guidelines (will be l
 
 Contributing to Kosh takes 4 easy steps
 
-- 👋Say Hi
-- 🔨Do your thing
-- 📞Tell us
-- 🎉Celebrate
+👋 Say Hi
+
+🔨 Do your thing
+
+📞 Tell us
+
+🎉 Celebrate
+
+---
 
 # 👋 Say Hi
 
@@ -23,8 +28,8 @@ If there's a particular improvement you want to suggest, or a bug in kosh you wa
 
 The very first thing you should do is be able to access Kosh and play around with it. There are two ways to do so
 
-- Request Access to our publicly hosted Kosh (link to the request access form)
-- Launch Kosh on your own machine (link to local-development.md)
+- [Request Access](https://docs.google.com/forms/d/e/1FAIpQLSfb248JGhHziFQ3YfE9CYYWkF5vb_zlUn1bpmbjpy8aVGbw7g/viewform) to our publicly hosted Kosh
+- Launch Kosh on your own machine (guide)[docs/development.md]
 
 ## Pair programming
 
@@ -34,7 +39,7 @@ Once you have a local instance of Kosh running, you can make the changes you wan
 
 # 📞 Tell us
 
-All code changes happen via pull request. We use Github Flow. The easiest way to let us know if you want to combine your changes into the core code is to make a Pull Request (PR)
+All code changes happen via pull request. We use [Github Flow](https://guides.github.com/introduction/flow/). The easiest way to let us know if you want to combine your changes into the core code is to make a Pull Request (PR)
 
 In your PR, please mention the following :
 
