@@ -27,15 +27,15 @@ Kosh empowers small and big media outfits to archive and annotate media that the
 
 ## Request Access
 
-Join the kosh server hosted by us to get a tour of all the features and the current state of the project.
+You can [request access](<(https://docs.google.com/forms/d/e/1FAIpQLSfb248JGhHziFQ3YfE9CYYWkF5vb_zlUn1bpmbjpy8aVGbw7g/viewform)>) to join the kosh server hosted by us to get a tour of all the features and the current state of the project.
 
-## Local Development
+## Running Locally
 
-[guide](https://github.com/tattle-made/kosh/blob/master/docs/development.md)
+We have a [guide](https://github.com/tattle-made/kosh/blob/master/docs/development.md) for it.
 
 ## Want to contribute to Kosh?
 
-We have a [guide](CONTRIBUTING.md) for you
+We have a [guide](CONTRIBUTING.md) for you.
 
 ## To get help with developing or running Kosh
 
