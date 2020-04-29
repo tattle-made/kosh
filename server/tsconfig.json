@@ -10,19 +10,11 @@
         "emitDecoratorMetadata": true,
         "moduleResolution": "node",
         "importHelpers": true,
-        "types": [
-            "node"
-        ],
-        "typeRoots": [
-            "node_modules/@types"
-        ],
+        "types": ["node", "jest"],
+        "typeRoots": ["node_modules/@types"],
         "sourceMap": true,
         "skipLibCheck": true
     },
-    "include": [
-        "./src/**/*.ts"
-    ],
-    "exclude": [
-        "./src/public/"
-    ]
+    "include": ["./src/**/*.ts"],
+    "exclude": ["./src/public/", "./src/**/*.test.ts"]
 }
