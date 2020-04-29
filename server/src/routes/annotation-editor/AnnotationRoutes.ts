@@ -77,7 +77,7 @@ export class AnnotationRoutes {
                 this.setupHandlerForStartEditMetadata(socket);
                 this.setupHandlerForStopEditMetadata(socket);
             })
-            .on('disconnect', (socket) => {
+            .on('disconnect', (socket: any) => {
                 console.log('client disconnected from annotation namespace');
             });
     }

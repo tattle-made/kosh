@@ -10,7 +10,7 @@
         "debug": "nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/index.js",
         "docker-debug": "docker-compose up",
         "start": "node ./dist/index.js",
-        "test": "jest --watch"
+        "test": "jest"
     },
     "author": "@tattle-made",
     "license": "ISC",
@@ -30,6 +30,7 @@
         "babel-jest": "^25.5.0",
         "jest": "^25.5.0",
         "nodemon": "^1.19.1",
+        "socket.io-client": "^2.3.0",
         "ts-jest": "^25.4.0",
         "ts-node": "^8.6.2",
         "tslint": "^5.18.0",
@@ -41,6 +42,7 @@
         "@types/bcrypt": "^3.0.0",
         "@types/redis": "^2.8.14",
         "@types/socket.io": "^2.1.2",
+        "@types/socket.io-client": "^1.4.32",
         "aws-sdk": "^2.570.0",
         "axios": "^0.19.0",
         "bcrypt": "^3.0.6",
