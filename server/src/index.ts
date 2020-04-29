@@ -1,4 +1,4 @@
-import { config as configDotenv} from 'dotenv';
+import { config as configDotenv } from 'dotenv';
 
 configDotenv();
 
@@ -29,16 +29,16 @@ import { authorize } from './core/middleware/authorize';
 import { SearchServer } from './service/search-server';
 import { getMetadata } from './service/story-scraper';
 
-import {Promise} from 'bluebird';
-
+import { Promise } from 'bluebird';
 
 // routes
 // tslint:disable-next-line:max-line-length
-import {register as registerFactCheckStoryRoute} from './routes/fact-checked-stories/FactCheckedStoryRoutes';
-import {register as registerS3AuthRoute} from './routes/s3-auth/S3AuthRoutes';
-import {register as registerSearchRoute} from './routes/search/SearchRoutes';
-import {register as registerProcessQueueRoutes} from './routes/process-queue/ProcessQueueRoutes';
-import {register as registerPublicRoutes} from './routes/public/PublicRoutes';
+import { register as registerFactCheckStoryRoute } from './routes/fact-checked-stories/FactCheckedStoryRoutes';
+import { register as registerS3AuthRoute } from './routes/s3-auth/S3AuthRoutes';
+import { register as registerSearchRoute } from './routes/search/SearchRoutes';
+import { register as registerProcessQueueRoutes } from './routes/process-queue/ProcessQueueRoutes';
+import { register as registerPublicRoutes } from './routes/public/PublicRoutes';
+import { AnnotationRoutes } from './routes/annotation-editor/AnnotationRoutes';
 
 // Queue
 import queueManagerInstance from './queue';
@@ -49,14 +49,12 @@ import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
 
 // import packageJsonFile from '../../package';
 
-
-
 // queueManagerInstance.setupWorker();
 // tslint:disable-next-line:no-var-requires
 const { router } = require('@tattle-made/bull-board');
 
 const app = express();
-const port = 3003; 
+const port = 3003;
 const server = app.listen(port, () => {
     console.log('server is listening to ', port);
 });
@@ -92,7 +90,6 @@ app.use(express.json());
 app.use(authenticate);
 app.use(authorize);
 
-
 // import logger from './logger-core';
 const postController = new PostController();
 const searchController = new SearchController();
@@ -101,29 +98,29 @@ const userController = new UserController();
 
 const searchServer = new SearchServer();
 
-
 app.post('/api/search/stories', (req: Request, res: Response) => {
     const url = req.body.url;
 
-    const fileNames = ['6e70b1a4d2b841f0b6887e7867b4ac59',
+    const fileNames = [
         '6e70b1a4d2b841f0b6887e7867b4ac59',
-        '6e70b1a4d2b841f0b6887e7867b4ac59'];
+        '6e70b1a4d2b841f0b6887e7867b4ac59',
+        '6e70b1a4d2b841f0b6887e7867b4ac59',
+    ];
 
-    Promise.all( fileNames.map( (filename) => getMetadata(filename) ) )
-    .then((data) => ({stories: data}))
-    .then((data) => res.json(data))
-    .catch((err) => console.log(err));
+    Promise.all(fileNames.map((filename) => getMetadata(filename)))
+        .then((data) => ({ stories: data }))
+        .then((data) => res.json(data))
+        .catch((err) => console.log(err));
 });
-
-
 
 app.post('/api/search/tag', (req: Request, res: Response) => {
     const tag = req.body.tag;
     const source = req.body.source;
 
-    searchServer.searchTag(tag)
-    .then((result) => res.json(result))
-    .catch((err) => console.log(err));
+    searchServer
+        .searchTag(tag)
+        .then((result) => res.json(result))
+        .catch((err) => console.log(err));
 });
 
 app.get('/', (req: Request, res: Response) => {
@@ -145,8 +142,7 @@ registerS3AuthRoute(app);
 registerSearchRoute(app);
 registerProcessQueueRoutes(app);
 registerPublicRoutes(app);
-
-
+AnnotationRoutes.registerPublicEndpoints(app, io);
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
     const page = Number(req.params.page) || 1;
@@ -185,23 +181,28 @@ app.post('/api/posts', (req: Request, res: Response) => {
     const ioPost = req.app.get('socketio');
 
     postController
-    .create(post)
-    .then((response: any) => {
-        ioPost.emit('posts/newData', { name: 'gully' });
-        res.send(response);
-        return response.id;
-    })
-    .then((postId) => postController.get(postId))
-    .then((postJson) => {
-        // tslint:disable-next-line:max-line-length
-        const createPostIndexJobRequestModelInstance = plainToClass(PostIndexJobCreateModel, postJson);
-        queueManagerInstance.addWhatsappPostToIndexJob(createPostIndexJobRequestModelInstance);
-    })
-    .catch((err) => res.send(err.JSON));
+        .create(post)
+        .then((response: any) => {
+            ioPost.emit('posts/newData', { name: 'gully' });
+            res.send(response);
+            return response.id;
+        })
+        .then((postId) => postController.get(postId))
+        .then((postJson) => {
+            // tslint:disable-next-line:max-line-length
+            const createPostIndexJobRequestModelInstance = plainToClass(
+                PostIndexJobCreateModel,
+                postJson,
+            );
+            queueManagerInstance.addWhatsappPostToIndexJob(
+                createPostIndexJobRequestModelInstance,
+            );
+        })
+        .catch((err) => res.send(err.JSON));
 });
 
 app.get('/api/posts/id/:id', (req: Request, res: Response) => {
-    const  id = Number(req.params.id);
+    const id = Number(req.params.id);
     postController.get(id).then((post) => res.send(post));
 });
 
@@ -279,15 +280,15 @@ app.delete('/api/users/delete/:id', (req: Request, res: Response) => {
 });
 
 app.post('/api/index-pending', (req: Request, res: Response) => {
-    postController.getIndexPendingPosts()
-    .then((result) => {
-        res.send(result);
-    })
-    .catch((err) => res.send(err.JSON));
+    postController
+        .getIndexPendingPosts()
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => res.send(err.JSON));
 });
 
 app.use(Sentry.Handlers.errorHandler());
-
 
 app.use('/ui', router);
 

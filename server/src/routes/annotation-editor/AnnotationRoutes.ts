@@ -1,12 +1,21 @@
 import { AnnotationController } from './AnnotationController';
 import { AnnotationRoom } from './AnnotationRoom';
+import { Express, Request, Response } from 'express';
+import { Server, Socket } from 'socket.io';
 /**
  * Public Routes for suppo
  *
  * @class AnnotationRoutes
  */
-class AnnotationRoutes {
+export class AnnotationRoutes {
     private controller = new AnnotationController();
+    private io: Server;
+    private app: Express;
+
+    constructor(app: Express, io: Server) {
+        this.app = app;
+        this.io = io;
+    }
 
     /**
      * returns the metadata associated with a post and templateId in JSON format.
@@ -32,12 +41,16 @@ class AnnotationRoutes {
         return;
     }
 
-    private setupHandlerForStartEditMetadata() {
-        return;
+    private setupHandlerForStartEditMetadata(socket: Socket) {
+        socket.on('start_edit_metadata', () => {
+            console.log('edit metadata');
+        });
     }
 
-    private setupHandlerForStopEditMetadata() {
-        return;
+    private setupHandlerForStopEditMetadata(socket: Socket) {
+        socket.on('stop_edit_metadata', () => {
+            console.log('edit metadata');
+        });
     }
 
     private setupHandlerForLeaveChannel() {
@@ -55,6 +68,17 @@ class AnnotationRoutes {
      * @memberof AnnotationRoutes
      */
     public registerPublicEndpoints() {
-        return;
+        this.io
+            .of('annotation')
+            .on('connection', (socket) => {
+                console.log('client connected to annotation namespace');
+                const { room_name } = socket.handshake.query;
+                socket.join('room_name');
+                this.setupHandlerForStartEditMetadata(socket);
+                this.setupHandlerForStopEditMetadata(socket);
+            })
+            .on('disconnect', (socket) => {
+                console.log('client disconnected from annotation namespace');
+            });
     }
 }
