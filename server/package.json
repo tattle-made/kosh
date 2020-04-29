@@ -10,10 +10,27 @@
         "debug": "nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/index.js",
         "docker-debug": "docker-compose up",
         "start": "node ./dist/index.js",
-        "test": "jest"
+        "test": "jest --watch --testTimeout=12000 --runInBand"
     },
     "author": "@tattle-made",
     "license": "ISC",
+    "jest": {
+        "roots": [
+            "<rootDir>/src"
+        ],
+        "transform": {
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "jsx",
+            "json",
+            "node"
+        ]
+    },
     "devDependencies": {
         "@babel/core": "^7.9.0",
         "@babel/preset-env": "^7.9.5",

@@ -42,14 +42,14 @@ export class AnnotationRoutes {
     }
 
     private setupHandlerForStartEditMetadata(socket: Socket) {
-        socket.on('start_edit_metadata', () => {
-            console.log('edit metadata');
+        socket.on('start_edit_metadata', (data) => {
+            socket.broadcast.emit('start_edit_metadata', data);
         });
     }
 
     private setupHandlerForStopEditMetadata(socket: Socket) {
-        socket.on('stop_edit_metadata', () => {
-            console.log('edit metadata');
+        socket.on('stop_edit_metadata', (data) => {
+            socket.broadcast.emit('stop_edit_metadata', data);
         });
     }
 
@@ -71,9 +71,8 @@ export class AnnotationRoutes {
         this.io
             .of('annotation')
             .on('connection', (socket) => {
-                console.log('client connected to annotation namespace');
                 const { room_name } = socket.handshake.query;
-                socket.join('room_name');
+                socket.join(room_name);
                 this.setupHandlerForStartEditMetadata(socket);
                 this.setupHandlerForStopEditMetadata(socket);
             })

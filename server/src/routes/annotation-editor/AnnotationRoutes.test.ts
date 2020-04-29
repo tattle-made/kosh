@@ -8,6 +8,25 @@ import { AnnotationRoutes } from './AnnotationRoutes';
 import * as socketioClient from 'socket.io-client';
 
 let server: http.Server;
+let io: socketio.Server;
+const serverAddrress = 'http://localhost';
+const serverPort = '3000';
+const serverUrl = `${serverAddrress}:${serverPort}`;
+
+function getConnectedClient(
+    url: string = serverUrl,
+    namespace: string,
+    roomName: string,
+) {
+    return socketioClient.connect(
+        `${serverUrl}/annotation?room_name=${roomName}`,
+        {
+            reconnectionDelay: 0,
+            forceNew: true,
+            transports: ['websocket'],
+        },
+    );
+}
 
 /*
  * setup a barebones express server
@@ -17,9 +36,9 @@ beforeAll((done) => {
     const app = express();
     const httpServer = http.createServer(app);
 
-    server = httpServer.listen(3000, () => {
+    server = httpServer.listen(serverPort, () => {
         done();
-        console.log('listening on *:3000');
+        console.log(`listening on *:${serverPort}`);
     });
 
     app.get('/ping', (req: Request, res: Response) => {
@@ -41,10 +60,10 @@ beforeAll((done) => {
         next();
     });
 
-    const io = socketio(server);
+    io = socketio(server);
     app.set('socketio', io);
     io.on('connection', (client) => {
-        console.log('Client is connected');
+        // console.log('Client is connected');
     });
 
     const annotationRoutes = new AnnotationRoutes(app, io);
@@ -55,26 +74,88 @@ afterAll(() => {
     server.close();
 });
 
-test('Setup Namespace', (done) => {
-    const socket = socketioClient.connect('http://localhost:3000/annotation', {
-        // tslint:disable-next-line:object-literal-key-quotes
-        reconnectionDelay: 0,
-        forceNew: true,
-        // tslint:disable-next-line:object-literal-key-quotes
-        transports: ['websocket'],
-    });
-    socket.on('connect', () => {
-        console.log('connected');
-        done();
-    });
-}, 10000);
+afterEach(() => {
+    Object.values(io.of('/annotation').connected).map((socket) =>
+        socket.disconnect(),
+    );
+});
 
-// test('API call')
+test('10 Clients can connect to a room within /annotation namespace', (done) => {
+    let connectedCount = 0;
+    const sockets: SocketIOClient.Socket[] = [];
+    for (let i = 0; i < 10; i++) {
+        sockets.push(
+            socketioClient.connect(
+                'http://localhost:3000/annotation?room_name=abc',
+                {
+                    reconnectionDelay: 0,
+                    forceNew: true,
+                    transports: ['websocket'],
+                },
+            ),
+        );
+        sockets[i].on('connect', () => {
+            connectedCount++;
+            if (connectedCount === 10) {
+                // tslint:disable-next-line:no-string-literal
+                expect(io.nsps['/annotation'].adapter.rooms['abc'].length).toBe(
+                    10,
+                );
+                done();
+            }
+        });
+    }
+});
 
-// test('API call', () => {
-//     return axios
-//         .get('https://jsonplaceholder.typicode.com/todos/1')
-//         .then((res: any) => {
-//             expect(res.data.userId).toBe(1);
-//         });
-// });
+test('start_edit_message is recieved by all connected clients', (done) => {
+    const clientB = getConnectedClient(serverUrl, 'annotation', 'abc');
+    const clientA = getConnectedClient(serverUrl, 'annotation', 'abc');
+
+    const payload = {
+        metaKey: 'location',
+        metaValue: 'Punjab',
+    };
+
+    clientB.on('connect', () => {
+        // console.log('B connected');
+    });
+
+    clientA.on('connect', () => {
+        clientA.emit('start_edit_metadata', payload);
+        clientB.on('start_edit_metadata', (data: any) => {
+            try {
+                expect(data).toEqual(payload);
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+});
+
+test('stop_edit_metadata is recieved by all connected clients', (done) => {
+    const clientB = getConnectedClient(serverUrl, 'annotation', 'abc');
+    const clientA = getConnectedClient(serverUrl, 'annotation', 'abc');
+
+    const payload = {
+        metaKey: 'location',
+        metaValue: 'Haryana',
+    };
+
+    clientB.on('connect', () => {
+        // console.log('B connected');
+    });
+
+    clientA.on('connect', () => {
+        // console.log('A connected');
+        clientA.emit('stop_edit_metadata', payload);
+        clientB.on('stop_edit_metadata', (data: any) => {
+            try {
+                expect(data).toEqual(payload);
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+});
