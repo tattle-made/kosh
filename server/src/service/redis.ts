@@ -2,24 +2,28 @@ import { RedisClient, createClient, RedisError } from 'redis';
 import { promisify } from 'util';
 import { Nohm, NohmModel } from 'nohm';
 import { UserTokenORMModel } from '../routes/login/UserTokenModel';
+import { AnnotationRedisDataModel } from '../routes/annotation-editor/AnnotationRedisDataModel';
 
 let getAsync: any;
 let setAsync: any;
 
-class Redis {
+export class Redis {
     private redisClient: RedisClient;
 
     constructor() {
         this.redisClient = createClient({
-            port : 6379,
-            host : process.env.REDIS_HOST,
+            port: 6379,
+            host: process.env.REDIS_HOST,
         });
+    }
 
+    public setup(done: () => void) {
         this.redisClient.on('connect', () => {
             console.log('redis connected');
             Nohm.setPrefix('archive');
             Nohm.setClient(this.redisClient);
             this.registerModels();
+            done();
         });
 
         getAsync = promisify(this.redisClient.get).bind(this.redisClient);
@@ -27,26 +31,25 @@ class Redis {
 
         // set defaults
         this.setProcessQueueFlag(false);
-
     }
 
     public setProcessQueueFlag(process: boolean) {
         return setAsync('process-queue-flag', String(process))
-        .then()
-        .catch((err: RedisError) => {
-            console.log('error storing flag in redis', err);
-        });
+            .then()
+            .catch((err: RedisError) => {
+                console.log('error storing flag in redis', err);
+            });
     }
 
     public getProcessQueueFlag(): Promise<string> {
         return getAsync('process-queue-flag')
-        .then((res: string) => {
-            console.log('success getting flag from redis', res);
-            return res;
-        })
-        .catch((err: RedisError) => {
-            console.log('error getting flag from redis', err);
-        });
+            .then((res: string) => {
+                console.log('success getting flag from redis', res);
+                return res;
+            })
+            .catch((err: RedisError) => {
+                console.log('error getting flag from redis', err);
+            });
     }
 
     public getORM() {
@@ -54,10 +57,7 @@ class Redis {
     }
 
     private registerModels() {
-        const userTokenStaticModel = Nohm.register(UserTokenORMModel);
+        Nohm.register(UserTokenORMModel);
+        Nohm.register(AnnotationRedisDataModel);
     }
-
 }
-
-export default new Redis();
-
