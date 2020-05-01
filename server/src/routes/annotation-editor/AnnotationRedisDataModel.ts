@@ -44,3 +44,14 @@ export class AnnotationRedisDataModel extends NohmModel<AnnotationProperties> {
         },
     };
 }
+
+export interface AnnotationPropertiesOptional {
+    key?: string;
+    emotion?: string;
+    factual_claim?: boolean;
+    verifiable?: boolean;
+    place?: boolean;
+    citizen_journalism?: boolean;
+    cta?: boolean;
+    fact_checked?: boolean;
+}
