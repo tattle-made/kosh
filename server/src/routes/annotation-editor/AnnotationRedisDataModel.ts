@@ -1,7 +1,7 @@
 import { NohmModel, TTypedDefinitions } from 'nohm';
 
 export interface AnnotationProperties {
-    id: number;
+    key: string;
     emotion: string;
     factual_claim: boolean;
     verifiable: boolean;
@@ -16,8 +16,8 @@ export type AnnotationType = AnnotationProperties;
 export class AnnotationRedisDataModel extends NohmModel<AnnotationProperties> {
     public static modelName = 'annotation-room';
     protected static definitions: TTypedDefinitions<AnnotationProperties> = {
-        id: {
-            type: 'number',
+        key: {
+            type: 'string',
             unique: true,
             index: true,
         },

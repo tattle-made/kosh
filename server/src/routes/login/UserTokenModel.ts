@@ -1,5 +1,5 @@
 import { NohmModel, TTypedDefinitions } from 'nohm';
-import redis from '../../service/redis';
+import { Redis } from '../../service/redis';
 
 export interface UserTokenProperties {
     token: string;
@@ -23,4 +23,3 @@ export class UserTokenORMModel extends NohmModel<UserTokenProperties> {
         },
     };
 }
-

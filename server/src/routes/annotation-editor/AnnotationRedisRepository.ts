@@ -26,7 +26,7 @@ export class AnnotationRedisRepository {
             });
     }
 
-    public get(id: number) {
+    public get(key: string) {
         return this.redis
             .getORM()
             .factory<AnnotationRedisDataModel>(
@@ -34,7 +34,7 @@ export class AnnotationRedisRepository {
             )
             .then((annotationRedisDataModel) => {
                 return annotationRedisDataModel
-                    .find({ id })
+                    .find({ key })
                     .then((annotationData) =>
                         annotationRedisDataModel.load(annotationData),
                     );
