@@ -9,9 +9,12 @@ export interface AnnotationProperties {
     citizen_journalism: boolean;
     cta: boolean;
     fact_checked: boolean;
+    users: string;
 }
 
 export type AnnotationType = AnnotationProperties;
+
+export type AnnotationPropertiesOptional = Partial<AnnotationProperties>;
 
 export class AnnotationRedisDataModel extends NohmModel<AnnotationProperties> {
     public static modelName = 'annotation-room';
@@ -42,16 +45,8 @@ export class AnnotationRedisDataModel extends NohmModel<AnnotationProperties> {
         fact_checked: {
             type: 'boolean',
         },
+        users: {
+            type: 'json',
+        },
     };
-}
-
-export interface AnnotationPropertiesOptional {
-    key?: string;
-    emotion?: string;
-    factual_claim?: boolean;
-    verifiable?: boolean;
-    place?: boolean;
-    citizen_journalism?: boolean;
-    cta?: boolean;
-    fact_checked?: boolean;
 }

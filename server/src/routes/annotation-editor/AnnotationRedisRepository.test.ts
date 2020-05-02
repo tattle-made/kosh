@@ -9,9 +9,9 @@ import {
 let annotationRedisRepository: AnnotationRedisRepository;
 let redis: Redis;
 
-describe('Write and Retrieve Values', () => {
+describe.only('Write and Retrieve Values', () => {
     const payload: AnnotationType = {
-        key: '1234:27',
+        key: '1234:28',
         emotion: 'joy',
         factual_claim: true,
         verifiable: true,
@@ -19,6 +19,8 @@ describe('Write and Retrieve Values', () => {
         cta: true,
         citizen_journalism: false,
         fact_checked: true,
+        users:
+            '{"viewers":[{"id":1,"name":"denny"},{"id":2,"name":"kruttika"}],"editors":[{"id":3,"name":"tarunima"}]}',
     };
 
     beforeAll((done) => {
@@ -28,34 +30,33 @@ describe('Write and Retrieve Values', () => {
     });
 
     afterAll(() => {
-        annotationRedisRepository
-            .get(payload.key)
-            .then((data) => data.id)
-            .then((id) => {
-                return redis
-                    .getORM()
-                    .factory<AnnotationRedisDataModel>(
-                        AnnotationRedisDataModel.modelName,
-                    )
-                    .then((annotation) => {
-                        annotation.id = id;
-                        return annotation.remove();
-                    });
-            })
-            .catch((err) => console.log('error cleaning up redis : ', err));
+        // annotationRedisRepository
+        //     .get(payload.key)
+        //     .then((data) => data.id)
+        //     .then((id) => {
+        //         return redis
+        //             .getORM()
+        //             .factory<AnnotationRedisDataModel>(
+        //                 AnnotationRedisDataModel.modelName,
+        //             )
+        //             .then((annotation) => {
+        //                 annotation.id = id;
+        //                 return annotation.remove();
+        //             });
+        //     })
+        //     .catch((err) => console.log('error cleaning up redis : ', err));
     });
 
-    test.only('store and retrieve data from redis', () => {
+    test('store and retrieve data from redis', () => {
         return annotationRedisRepository.store(payload).then((res: any) => {
             return annotationRedisRepository.get(payload.key).then((data) => {
                 expect(data.key).toBe(payload.key);
             });
         });
-        // expect(1).toBe(1);
     });
 });
 
-describe.only('Update Value by key', () => {
+describe.skip('Update Value by key', () => {
     const payload: AnnotationType = {
         key: '1234:39',
         emotion: 'murder',
@@ -65,9 +66,13 @@ describe.only('Update Value by key', () => {
         cta: true,
         citizen_journalism: false,
         fact_checked: true,
+        users: '',
     };
 
     beforeAll((done) => {
+        if (skip) {
+            return;
+        }
         redis = new Redis();
         redis.setup(done);
         annotationRedisRepository = new AnnotationRedisRepository(redis);
@@ -88,10 +93,10 @@ describe.only('Update Value by key', () => {
                         return annotation.remove();
                     });
             })
-            .catch((err) => console.log('error cleaning up redis : ', err));
+            .catch((err) => console.log('error cleaning up redis2 : ', err));
     });
 
-    test.only('write a form. update value and then check', () => {
+    test('write a form. update value and then check', () => {
         return annotationRedisRepository.store(payload).then((res: any) => {
             return annotationRedisRepository
                 .updateValue(payload.key, 'emotion', 'joy')
