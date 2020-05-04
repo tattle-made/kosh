@@ -12,7 +12,6 @@ import 'reflect-metadata';
 import * as socketio from 'socket.io';
 import { Request, Response } from 'express';
 import { PostController } from './controllers/PostController';
-import { MetadataController } from './controllers/MetadataController';
 
 import { SearchController } from './controllers/SearchController';
 import { LoginController } from './controllers/LoginController';
@@ -97,7 +96,6 @@ app.use(authorize);
 
 // import logger from './logger-core';
 const postController = new PostController();
-const metadataController = new MetadataController();
 const searchController = new SearchController();
 const loginController = new LoginController();
 const userController = new UserController();
@@ -201,11 +199,6 @@ app.post('/api/posts', (req: Request, res: Response) => {
         queueManagerInstance.addWhatsappPostToIndexJob(createPostIndexJobRequestModelInstance);
     })
     .catch((err) => res.send(err.JSON));
-});
-
-app.get('/api/posts/id/:id/metadata', (req: Request, res: Response) => {
-    const  id = Number(req.params.id);
-    metadataController.getByPostId(id).then((post) => res.send(post));
 });
 
 app.get('/api/posts/id/:id', (req: Request, res: Response) => {
