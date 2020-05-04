@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
-import db from '../db';
-import { MetadataDateCreateRequest, MetadataDateUpdateRequest, MetadataIndexCreateRequest } from '../RecordCreateRequest';
+import db from '../../../service/db';
+import { MetadataDateCreateRequest, MetadataDateUpdateRequest, MetadataIndexCreateRequest } from '../../request/PostMetadataRequest';
 import { MetadataIndex, create as createIndex } from '../MetadataIndex';
 import { MetadataHistoryDate } from '../PostMetadataHistory/MetadataHistoryDate';
 

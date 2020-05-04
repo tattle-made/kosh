@@ -95,6 +95,12 @@ function App() {
                         </Switch>
                         <Switch>
                             <PrivateRoute
+                                path="/posts/:id/metadata/changes"
+                                component={SideNav}
+                            />
+                        </Switch>
+                        <Switch>
+                            <PrivateRoute
                                 exact
                                 path="/sidenav"
                                 component={SideNav}

@@ -1,36 +1,37 @@
 import * as Sequelize from 'sequelize';
-import db from '../db';
-import { MetadataDateCreateRequest, MetadataDateUpdateRequest, MetadataIndexCreateRequest } from '../RecordCreateRequest';
+import db from '../../../service/db';
+import { MetadataNumberCreateRequest, MetadataIndexCreateRequest, MetadataNumberUpdateRequest } from '../../request/PostMetadataRequest';
 import { MetadataIndex, create as createIndex } from '../MetadataIndex';
-import { MetadataHistoryDate } from '../PostMetadataHistory/MetadataHistoryDate';
+import { MetadataHistoryNumber } from '../PostMetadataHistory/MetadataHistoryNumber';
 
-export class MetadataDate extends Sequelize.Model {}
+export class MetadataNumber extends Sequelize.Model {}
 const Op = Sequelize.Op;
 
-MetadataDate.init(
+
+MetadataNumber.init(
     {
         post_id: Sequelize.INTEGER,
-        date: Sequelize.DATEONLY,
+        value: Sequelize.STRING,
         created_by: Sequelize.INTEGER,
         created_at: Sequelize.DATE,
     },
     {
         sequelize: db.get(),
-        tableName: 'metadata_date',
-        modelName: 'metadataDate',
+        tableName: 'metadata_number',
+        modelName: 'metadataNumber',
         timestamps: false
     },
 );
 
 //Post.belongsTo(User);
 
-export async function create(param: MetadataDateCreateRequest): Promise<any> {
+export async function create(param: MetadataNumberCreateRequest): Promise<any> {
     var transaction = await db.get().transaction();
     try
     {
-        var item: any = await MetadataDate.create(param.getAll(), {transaction: transaction});
+        var item: any = await MetadataNumber.create(param.getAll(), {transaction: transaction});
         item = await item!.get({plain : true});
-        var indexItem: any = await createIndex(new MetadataIndexCreateRequest({metadata_type: 3, metadata_id: item.id, post_id: param.post_id}));
+        var indexItem: any = await createIndex(new MetadataIndexCreateRequest({metadata_type: 2, metadata_id: item.id, post_id: param.post_id}));
         await transaction.commit();
         return Promise.resolve({...item, metadata_id: item.id, id: indexItem.id});
     }
@@ -38,14 +39,13 @@ export async function create(param: MetadataDateCreateRequest): Promise<any> {
     {
         await transaction.rollback();
         return Promise.resolve({
-            message: 'Error Creating Date item',
+            message: 'Error Creating Number item',
             error: JSON.stringify(err),
         });
     }
 }
 
-
-export function update(param: MetadataDateUpdateRequest): Promise<any> {
+export function update(param: MetadataNumberUpdateRequest): Promise<any> {
     return MetadataIndex.findOne({
         where: {
             id: param.id,
@@ -53,7 +53,7 @@ export function update(param: MetadataDateUpdateRequest): Promise<any> {
     })
     .then((metadataIndex) => {
         let metadataIndexObj: any = metadataIndex!.get({plain:true});
-        return  MetadataDate.findOne({
+        return  MetadataNumber.findOne({
             where: {
                 id: metadataIndexObj.metadata_id
             }
@@ -67,8 +67,8 @@ export function update(param: MetadataDateUpdateRequest): Promise<any> {
             console.log(metadataObj);
             let insertPayload: any = {...metadataObj, item_id: metadataObj.id, moved_at: param.created_at};
             delete insertPayload.id;
-            var historyItem: MetadataHistoryDate = await MetadataHistoryDate.create(insertPayload, {transaction: transaction});
-            await metadataItem!.update({date: param.date, created_by: param.created_by, created_at: param.created_at});
+            var historyItem: MetadataHistoryNumber = await MetadataHistoryNumber.create(insertPayload, {transaction: transaction});
+            await metadataItem!.update({value: param.value, created_by: param.created_by, created_at: param.created_at});
             await transaction.commit();
             return Promise.resolve({message: 'success'});
         }
@@ -86,7 +86,7 @@ export function update(param: MetadataDateUpdateRequest): Promise<any> {
 }
 
 export function get(id: number) {
-    return MetadataDate.findOne({
+    return MetadataNumber.findOne({
         where: {
             id,
         }
@@ -94,7 +94,7 @@ export function get(id: number) {
     .then( (item) => Promise.resolve(item!.get({ plain: true })) )
     .catch((err) => 
         Promise.resolve({
-            message: 'Error get Date item',
+            message: 'Error get Number item',
             error: err,
         })
     );

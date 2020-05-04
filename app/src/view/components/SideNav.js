@@ -11,6 +11,7 @@ import UserUpdate from '../pages/UserUpdate';
 import PostsTableItem from './PostData';
 import MenuItem from '../atomic-components/MenuItem';
 import PostMetadata from '../pages/PostMetadata';
+import PostMetadataChanges from '../pages/PostMetadataChanges';
 
 import { Box, Button } from 'grommet';
 import { Layout, Atoms } from '@tattle-made/ui';
@@ -44,10 +45,14 @@ const SideNav = ({ location }) => {
     };
 
     const mainContent = (route) => {
+        var patPostMetadataChanges = new RegExp('/posts/\\d*/metadata/changes');
         var patPostMetadata = new RegExp('/posts/\\d*/metadata');
         var patPosts = new RegExp();
 
-        if (route.match(patPostMetadata)) {
+        if (route.match(patPostMetadataChanges)) {
+            console.log("here");
+            return <PostMetadataChanges />;
+        } else if (route.match(patPostMetadata)) {
             return <PostMetadata />;
         } else if (route === '/posts' || route.includes('/posts/')) {
             return <PostsTable />;
