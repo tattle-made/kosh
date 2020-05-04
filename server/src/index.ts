@@ -12,6 +12,7 @@ import 'reflect-metadata';
 import * as socketio from 'socket.io';
 import { Request, Response } from 'express';
 import { PostController } from './controllers/PostController';
+
 import { SearchController } from './controllers/SearchController';
 import { LoginController } from './controllers/LoginController';
 

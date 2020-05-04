@@ -1,8 +1,70 @@
-import { POST_DELETE, POSTS, POST_UPLOAD, SEARCH } from './types';
+import { POST_DELETE, POSTS, POST, POST_METADATA, POST_UPLOAD, SEARCH } from './types';
 import axios from 'axios';
 import { error, triggerLoading } from './utils';
 import { toggleAuthentication } from './auth';
 import {API_URL} from '../../service/shell-server'
+
+const fetchPost = id => {
+
+  const url = `${API_URL}/posts/id/${id}`;
+  const token = localStorage.getItem('token');
+  const request = axios.get(url, {
+    headers: {
+      token
+    }
+  });
+  return dispatch => {
+    dispatch(triggerLoading(true))
+    request
+      .then(res => {
+        dispatch({
+          type: POST,
+          payload: res.data
+        });
+        dispatch(triggerLoading(false))
+        
+      })
+      .catch(err => {
+        dispatch(toggleAuthentication(false));
+        if (err.response === undefined) {
+          dispatch(error('Network Error'));
+        } else {
+          dispatch(error(err.response.data));
+        }
+      });
+  };
+};
+
+const fetchPostMetadata = id => {
+
+  const url = `${API_URL}/posts/id/${id}/metadata`;
+  const token = localStorage.getItem('token');
+  const request = axios.get(url, {
+    headers: {
+      token
+    }
+  });
+  return dispatch => {
+    dispatch(triggerLoading(true))
+    request
+      .then(res => {
+        dispatch({
+          type: POST_METADATA,
+          payload: res.data
+        });
+        dispatch(triggerLoading(false))
+      })
+      .catch(err => {
+        dispatch(toggleAuthentication(false));
+        console.log(err.response);
+        if (err.response === undefined) {
+          dispatch(error('Network Error'));
+        } else {
+          dispatch(error(err.response.data));
+        }
+      });
+  };
+};
 
 const postDelete = (id, page) => {
   const url = `${API_URL}/posts/delete/${id}`;
@@ -208,6 +270,8 @@ export {
   postByTimeAndUsers,
   postDelete,
   fetchPosts,
+  fetchPost,
+  fetchPostMetadata,
   uploadToS3,
   search
 };
