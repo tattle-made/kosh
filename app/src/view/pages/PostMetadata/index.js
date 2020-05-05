@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 
-import {
-    Breadcrumb,
-    Row,
-    Col,
-    Image,
-    Table,
-    Button,
-    Spinner,
-} from 'react-bootstrap';
-import { Box, Heading, Tab, Tabs } from 'grommet';
+import { Breadcrumb, Row, Col, Image, Table, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Box, Heading, Tab, Tabs, Button } from 'grommet';
+import { Edit } from 'react-feather';
 import MetadataTabFactCheckService from './MetadataTabFactCheckService';
 import MetadataTabTattle from './MetadataTabTattle';
 import MetadataTabMSR from './MetadataTabMSR';
@@ -115,19 +109,20 @@ class PostMetadata extends Component {
                                         <td>Pending Review</td>
                                     </tr>
                                 </Table>
+
                                 <Button
-                                    href={
-                                        '/posts/' +
-                                        this.state.post_id +
-                                        '/metadata/changes'
-                                    }
+                                    icon={<Edit size={16} />}
+                                    label="View changes"
+                                    onClick={() => {}}
                                 >
-                                    View changes
+                                    <Link
+                                        to={`/posts/${this.state.post_id}/metadata/changes`}
+                                    ></Link>
                                 </Button>
                             </Col>
                         </Row>
 
-                        <Tabs justify="start">
+                        <Tabs justify="start" margin={{ top: 'medium' }}>
                             <Tab title="Tattle" alignSelf="start">
                                 <MetadataTabTattle />
                             </Tab>
