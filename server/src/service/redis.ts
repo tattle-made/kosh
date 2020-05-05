@@ -7,6 +7,13 @@ import { AnnotationRedisDataModel } from '../routes/annotation-editor/Annotation
 let getAsync: any;
 let setAsync: any;
 
+export function setup() {
+    const redis = new Redis();
+    redis.setup(() => {
+        console.log('Redis Connected');
+    });
+}
+
 export class Redis {
     private redisClient: RedisClient;
 
@@ -19,7 +26,6 @@ export class Redis {
 
     public setup(done: () => void) {
         this.redisClient.on('connect', () => {
-            console.log('redis connected');
             Nohm.setPrefix('archive');
             Nohm.setClient(this.redisClient);
             this.registerModels();

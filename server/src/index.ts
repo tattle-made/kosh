@@ -39,6 +39,7 @@ import { register as registerS3AuthRoute } from './routes/s3-auth/S3AuthRoutes';
 import { register as registerSearchRoute } from './routes/search/SearchRoutes';
 import { register as registerProcessQueueRoutes } from './routes/process-queue/ProcessQueueRoutes';
 import { register as registerPublicRoutes } from './routes/public/PublicRoutes';
+import { register as registerMetadataRoutes } from './routes/metadata/MetadataRoutes';
 import { AnnotationRoutes } from './routes/annotation-editor/AnnotationRoutes';
 
 // Queue
@@ -47,6 +48,7 @@ import { plainToClass } from 'class-transformer';
 import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
 import s3 from './routes/s3-auth/S3-helper';
 import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
+import { setup as setupRedis } from './service/redis';
 
 // import packageJsonFile from '../../package';
 
@@ -68,6 +70,8 @@ io.on('connection', (client) => {
 Sentry.init({
     dsn: 'https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856',
 });
+
+setupRedis();
 
 app.use(
     cors({
@@ -143,6 +147,7 @@ registerS3AuthRoute(app);
 registerSearchRoute(app);
 registerProcessQueueRoutes(app);
 registerPublicRoutes(app);
+registerMetadataRoutes(app);
 // AnnotationRoutes.registerPublicEndpoints(app, io);
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
