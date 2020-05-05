@@ -5,6 +5,7 @@ import { logError } from '../../service/logger';
 import ExistsResponse from '../response/ExistsResponse';
 import ExistsResponseToken from '../response/ExistsResponseToken';
 import { LoginController } from '../../routes/login/LoginController';
+import { RedisOperationResultType } from '../../routes/login/RedisOperationResult';
 
 const loginController = new LoginController();
 
@@ -79,18 +80,23 @@ export function createOrUpdateTokenForUserIdToken(
 export function deleteToken(token: string): Promise<number> {
     let count: number;
     return Auth.destroy({ where: { token } })
-    .then((cnt) => count = cnt)
-    .then(() => loginController.deleteToken(token))
-    .then(() => count)
-    .catch((err) => logError(err));
+        .then((cnt) => (count = cnt))
+        .then(() => loginController.deleteToken(token))
+        .then(() => count)
+        .catch((err) => logError(err));
 }
 
 export function existsToken(token: string): Promise<ExistsResponse> {
-    return loginController.isLoggedIn(token)
-    .then((result) => {
-        return new ExistsResponse(true, result.payload.userProperties.id, result.payload.userProperties.role)
-    })
-    .catch((err) => {
-        return new ExistsResponse(false, -1, '');
-    });
+    return loginController
+        .isLoggedIn(token)
+        .then((result: RedisOperationResultType) => {
+            return new ExistsResponse(
+                true,
+                result.payload.userProperties.id,
+                result.payload.userProperties.role,
+            );
+        })
+        .catch((err) => {
+            return new ExistsResponse(false, -1, '');
+        });
 }

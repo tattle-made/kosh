@@ -1,3 +1,9 @@
+export type RedisOperationResultType = {
+    type: 'error' | 'data';
+    message: string;
+    payload: any;
+};
+
 export class RedisOperationResult {
     public type: 'error' | 'data';
     public message: string;
@@ -9,11 +15,19 @@ export class RedisOperationResult {
         this.payload = payload;
     }
 
-    public static dataFactory(message: string, payload: any): RedisOperationResult {
+    public static dataFactory(
+        message: string,
+        payload: any,
+    ): RedisOperationResult {
         return new RedisOperationResult('data', message, payload);
     }
 
-    public static errorFactory(message: string, payload: any): RedisOperationResult {
+    public static errorFactory(
+        message: string,
+        payload: any,
+    ): RedisOperationResult {
         return new RedisOperationResult('error', message, payload);
     }
 }
+
+export const redisOperationResultType = typeof RedisOperationResult;

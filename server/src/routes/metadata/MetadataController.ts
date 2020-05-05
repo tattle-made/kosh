@@ -1,13 +1,11 @@
-import BaseController from './_BaseController';
-import { getMetadataByPost } from '../models/data/MetadataIndex';
-
-import { PostCreateRequest } from '../models/request/PostCreateRequest';
+import BaseController from '../../controllers/_BaseController';
+import { getMetadataByPost } from '../../models/data/MetadataIndex';
 
 export class MetadataController extends BaseController {
     constructor() {
         super('temp');
     }
-    public getByPostId(post_id: number) {
-        return getMetadataByPost(post_id);
+    public getByPostId(postId: number) {
+        return getMetadataByPost(postId);
     }
 }

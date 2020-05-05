@@ -1,8 +1,5 @@
 export class AnnotationUser {
-    private id: number;
-    private name: string;
-
-    constructor() {
+    constructor(public id: number, public name: string) {
         return;
     }
 
