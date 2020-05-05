@@ -9,11 +9,10 @@ import UsersTable from '../pages/Users';
 import UserCreate from '../pages/UserCreate';
 import UserUpdate from '../pages/UserUpdate';
 import PostsTableItem from './PostData';
-import MenuItem from '../atomic-components/MenuItem';
 import PostMetadata from '../pages/PostMetadata';
 import PostMetadataChanges from '../pages/PostMetadataChanges';
 
-import { Box, Button } from 'grommet';
+import { Grommet, Box, Button } from 'grommet';
 import { Layout, Atoms } from '@tattle-made/ui';
 
 //action
@@ -24,6 +23,8 @@ import AccessControl from './AccessControl';
 import Queue from '../pages/Queue';
 import { LogOut } from 'react-feather';
 import { useSelector, useDispatch } from 'react-redux';
+import MenuItem from '../atomic-components/MenuItem';
+import { SimpleMenuItem } from '../atomic-components/SimpleMenuItem';
 
 const { AppShell, LayoutPortal } = Layout;
 const { Status, AppLogo } = Atoms;
@@ -50,7 +51,7 @@ const SideNav = ({ location }) => {
         var patPosts = new RegExp();
 
         if (route.match(patPostMetadataChanges)) {
-            console.log("here");
+            console.log('here');
             return <PostMetadataChanges />;
         } else if (route.match(patPostMetadata)) {
             return <PostMetadata />;
@@ -79,79 +80,56 @@ const SideNav = ({ location }) => {
         <AppShell>
             <LayoutPortal
                 primaryNavigationContent={
-                    <Box pad={'small'}>
+                    <Box pad={'small'} fill>
                         <Box>
                             <AppLogo name={'Kosh'} />
                         </Box>
 
-                        <Box pad={'medium'}>
-                            <div
-                                className="links"
-                                onClick={(e) => onMenuItemClick(e)}
-                            >
-                                <MenuItem
-                                    route={'/posts'}
-                                    icon={'post'}
-                                    label={'Posts'}
-                                    className={classnames({
-                                        active:
-                                            location.pathname.includes(
-                                                '/posts',
-                                            ) ||
-                                            location.pathname.includes('/post'),
-                                    })}
-                                />
-                                <MenuItem
-                                    route={'/search'}
-                                    icon={'search'}
-                                    label={'Search'}
-                                    className={classnames({
-                                        active: location.pathname.includes(
-                                            '/search',
-                                        ),
-                                    })}
-                                />
-
-                                <AccessControl
-                                    allowedPermissions={['user:canView']}
-                                    text={() => this.dothis()}
-                                    renderNoAccess={() => {}}
-                                >
-                                    <MenuItem
-                                        route={'/queue'}
-                                        icon={'queue'}
-                                        label={'Queues'}
-                                        className={classnames({
-                                            active: location.pathname.includes(
-                                                '/queue',
-                                            ),
-                                        })}
+                        <Box pad={'medium'} flex={'grow'}>
+                            <Grommet>
+                                <div onClick={(e) => onMenuItemClick(e)}>
+                                    <SimpleMenuItem
+                                        route={'/posts'}
+                                        icon={'post'}
+                                        label={'Posts'}
                                     />
-                                </AccessControl>
-
-                                <AccessControl
-                                    allowedPermissions={['user:canView']}
-                                    text={() => this.dothis()}
-                                    renderNoAccess={() => {}}
-                                >
-                                    <MenuItem
-                                        route={'/users'}
-                                        icon={'user'}
-                                        label={'Users'}
-                                        className={classnames({
-                                            active: location.pathname.includes(
-                                                '/users',
-                                            ),
-                                        })}
+                                    <SimpleMenuItem
+                                        route={'/search'}
+                                        icon={'search'}
+                                        label={'Search'}
                                     />
-                                </AccessControl>
-                            </div>
 
-                            <Box margin={{ top: 'large' }}>
-                                <Button plain onClick={onUserOptionClick}>
-                                    <LogOut />
-                                </Button>
-                            </Box>
+                                    <AccessControl
+                                        allowedPermissions={['user:canView']}
+                                        text={() => this.dothis()}
+                                        renderNoAccess={() => {}}
+                                    >
+                                        <SimpleMenuItem
+                                            route={'/queue'}
+                                            icon={'queue'}
+                                            label={'Queues'}
+                                        />
+                                    </AccessControl>
+
+                                    <AccessControl
+                                        allowedPermissions={['user:canView']}
+                                        text={() => this.dothis()}
+                                        renderNoAccess={() => {}}
+                                    >
+                                        <SimpleMenuItem
+                                            route={'/users'}
+                                            icon={'user'}
+                                            label={'Users'}
+                                        />
+                                    </AccessControl>
+                                </div>
+                            </Grommet>
+                        </Box>
+
+                        <Box margin={{ top: 'large' }}>
+                            <Button plain onClick={onUserOptionClick}>
+                                <LogOut />
+                            </Button>
                         </Box>
                     </Box>
                 }

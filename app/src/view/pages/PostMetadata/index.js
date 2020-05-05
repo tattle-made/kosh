@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 
-import { Breadcrumb, Row, Col, Image, Table, Button, Spinner } from 'react-bootstrap';
+import {
+    Breadcrumb,
+    Row,
+    Col,
+    Image,
+    Table,
+    Button,
+    Spinner,
+} from 'react-bootstrap';
 import { Box, Heading, Tab, Tabs } from 'grommet';
 import MetadataTabFactCheckService from './MetadataTabFactCheckService';
 import MetadataTabTattle from './MetadataTabTattle';
 import MetadataTabMSR from './MetadataTabMSR';
-
+import MetadataTabSharechatSocialRealtime from './MetadataTabSharechatSocialRealtime';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -15,117 +23,142 @@ import { withRouter } from 'react-router-dom';
 import { fetchPost, fetchPostMetadata } from '../../../redux/actions/post';
 
 class PostMetadata extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      post_id: 0,
-      post: {
-                user: {username:'Loading'}, 
+    constructor(props) {
+        super(props);
+        this.state = {
+            post_id: 0,
+            post: {
+                user: { username: 'Loading' },
                 createdAt: '0000-00-00T00:00:00.000Z',
-                mediaUrl: '#'
+                mediaUrl: '#',
             },
-      metadata: [],
-      count: 0,
-      loading: true,
-    };
-    this.refresh = this.refresh.bind(this);
-  }
-
-  componentDidMount() {
-    const path = this.props.location.pathname;
-    let urlChunks = path.split('/');
-    let post_id = urlChunks[urlChunks.length-2];
-    this.setState({post_id: post_id});
-    console.log("Hereeee");
-    this.props.fetchPost(post_id);
-    this.props.fetchPostMetadata(post_id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    //console.log("nextProps", nextProps);
-    if (nextProps.post !== this.props.post) {
-      this.setState({
-        post: nextProps.post,
-        metadata: nextProps.post.metadata,
-      });
+            metadata: [],
+            count: 0,
+            loading: true,
+        };
+        this.refresh = this.refresh.bind(this);
     }
-  }
 
-  refresh() {
-    this.props.fetchPosts(this.state.page);
-  }
+    componentDidMount() {
+        const path = this.props.location.pathname;
+        let urlChunks = path.split('/');
+        let post_id = urlChunks[urlChunks.length - 2];
+        this.setState({ post_id: post_id });
+        this.props.fetchPost(post_id);
+        this.props.fetchPostMetadata(post_id);
+    }
 
-  render() {
-    let createdAt = this.state.post.createdAt.split('T')[0];
-    return (
+    componentWillReceiveProps(nextProps) {
+        //console.log("nextProps", nextProps);
+        if (nextProps.post !== this.props.post) {
+            this.setState({
+                post: nextProps.post,
+                metadata: nextProps.post.metadata,
+            });
+        }
+    }
+
+    refresh() {
+        this.props.fetchPosts(this.state.page);
+    }
+
+    render() {
+        let createdAt = this.state.post.createdAt.split('T')[0];
+        return (
             <Box direction={'column'} margin={'small'}>
-            {
-              this.props.loading 
-              ?
-                <Spinner animation="border" />
-              :
-              <React.Fragment>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="/posts"> Posts </Breadcrumb.Item>
-                    <Breadcrumb.Item href={ "/posts/id/"+this.state.post_id }> { this.state.post_id } </Breadcrumb.Item>
-                    <Breadcrumb.Item href={ "/posts/"+this.state.post_id+"/metadata" } active>Metadata</Breadcrumb.Item>
-                </Breadcrumb>
-                <Row className="mh-50">
-                    <Col>
-                        <Image src={ this.state.post.mediaUrl } style={{ maxHeight: '400px', maxWidth: '400px' }} />
-                    </Col>
-                    <Col>
-                        <Table striped bordered hover size="sm">
-                            <tr>
-                              <th>Source</th>
-                              <td>{ this.state.post.user.username }</td>
-                            </tr>
-                            <tr>
-                              <th>Added on</th>
-                              <td>{ createdAt }</td>
-                            </tr>
-                            <tr>
-                              <th>Status</th>
-                              <td>Pending Review</td>
-                            </tr>
-                        </Table>
-                        <Button href={ "/posts/"+this.state.post_id+"/metadata/changes" }>View changes</Button>
-                    </Col>
-                </Row>
-                <Heading level={1}> Metadata </Heading>
-                <Tabs justify="start">
-                    <Tab title="Tattle" alignSelf="start">
-                        <MetadataTabTattle />
-                    </Tab>
-                    <Tab title="Factcheck">
-                        <MetadataTabFactCheckService />
-                    </Tab>
-                    <Tab title="MSR">
-                        <MetadataTabMSR />
-                    </Tab>
-                </Tabs>
-            </React.Fragment>
-            }
+                {this.props.loading ? (
+                    <Spinner animation="border" />
+                ) : (
+                    <React.Fragment>
+                        <Breadcrumb>
+                            <Breadcrumb.Item href="/posts">
+                                {' '}
+                                Posts{' '}
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                href={'/posts/id/' + this.state.post_id}
+                            >
+                                {' '}
+                                {this.state.post_id}{' '}
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                href={
+                                    '/posts/' + this.state.post_id + '/metadata'
+                                }
+                                active
+                            >
+                                Metadata
+                            </Breadcrumb.Item>
+                        </Breadcrumb>
+                        <Row className="mh-50">
+                            <Col>
+                                <Image
+                                    src={this.state.post.mediaUrl}
+                                    style={{
+                                        maxHeight: '400px',
+                                        maxWidth: '400px',
+                                    }}
+                                />
+                            </Col>
+                            <Col>
+                                <Table striped bordered hover size="sm">
+                                    <tr>
+                                        <th>Source</th>
+                                        <td>{this.state.post.user.username}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Added on</th>
+                                        <td>{createdAt}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>Pending Review</td>
+                                    </tr>
+                                </Table>
+                                <Button
+                                    href={
+                                        '/posts/' +
+                                        this.state.post_id +
+                                        '/metadata/changes'
+                                    }
+                                >
+                                    View changes
+                                </Button>
+                            </Col>
+                        </Row>
+
+                        <Tabs justify="start">
+                            <Tab title="Tattle" alignSelf="start">
+                                <MetadataTabTattle />
+                            </Tab>
+                            <Tab title="Factcheck">
+                                <MetadataTabFactCheckService />
+                            </Tab>
+                            <Tab title="MSR">
+                                <MetadataTabMSR />
+                            </Tab>
+                            <Tab title="shasoc-rt">
+                                <MetadataTabSharechatSocialRealtime />
+                            </Tab>
+                        </Tabs>
+                    </React.Fragment>
+                )}
             </Box>
-    );
-  }
+        );
+    }
 }
 
-const mapStateToProps = state => ({
-  post: state.post,
-  metadata: state.metadata,
-  loading: state.loading
+const mapStateToProps = (state) => ({
+    post: state.post,
+    metadata: state.metadata,
+    loading: state.loading,
 });
 
 const PostMetadataPage = withRouter(
-  connect(
-    mapStateToProps,
-    { fetchPost, fetchPostMetadata }
-  )(PostMetadata)
+    connect(mapStateToProps, { fetchPost, fetchPostMetadata })(PostMetadata),
 );
 
 export default PostMetadataPage;
-
 
 var textData = {
     id: 1,
