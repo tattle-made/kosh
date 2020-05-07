@@ -6,11 +6,29 @@ import { AnnotationRedisDataModel } from '../routes/annotation-editor/Annotation
 
 let getAsync: any;
 let setAsync: any;
+let redis: Redis;
 
 export function setup() {
-    const redis = new Redis();
-    redis.setup(() => {
-        console.log('Redis Connected');
+    if (redis === undefined) {
+        redis = new Redis();
+        redis.setup(() => {
+            console.log('Redis Connected');
+        });
+    }
+}
+
+export function RedisInstance(target: any, key: string | symbol) {
+    let val = target[key];
+    const getter = () => redis;
+    const setter = (next: any) => {
+        val = next;
+    };
+
+    Object.defineProperty(target, key, {
+        get: getter,
+        set: setter,
+        enumerable: true,
+        configurable: true,
     });
 }
 

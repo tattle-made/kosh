@@ -9,7 +9,7 @@ import {
 let annotationRedisRepository: AnnotationRedisRepository;
 let redis: Redis;
 
-describe.only('Write and Retrieve Values', () => {
+describe('Write and Retrieve Values', () => {
     const payload: AnnotationType = {
         key: '1234:28',
         emotion: 'joy',
@@ -30,21 +30,21 @@ describe.only('Write and Retrieve Values', () => {
     });
 
     afterAll(() => {
-        // annotationRedisRepository
-        //     .get(payload.key)
-        //     .then((data) => data.id)
-        //     .then((id) => {
-        //         return redis
-        //             .getORM()
-        //             .factory<AnnotationRedisDataModel>(
-        //                 AnnotationRedisDataModel.modelName,
-        //             )
-        //             .then((annotation) => {
-        //                 annotation.id = id;
-        //                 return annotation.remove();
-        //             });
-        //     })
-        //     .catch((err) => console.log('error cleaning up redis : ', err));
+        annotationRedisRepository
+            .get(payload.key)
+            .then((data) => data.id)
+            .then((id) => {
+                return redis
+                    .getORM()
+                    .factory<AnnotationRedisDataModel>(
+                        AnnotationRedisDataModel.modelName,
+                    )
+                    .then((annotation) => {
+                        annotation.id = id;
+                        return annotation.remove();
+                    });
+            })
+            .catch((err) => console.log('error cleaning up redis : ', err));
     });
 
     test('store and retrieve data from redis', () => {
@@ -56,7 +56,7 @@ describe.only('Write and Retrieve Values', () => {
     });
 });
 
-describe.skip('Update Value by key', () => {
+describe('Update Value by key', () => {
     const payload: AnnotationType = {
         key: '1234:39',
         emotion: 'murder',
@@ -70,9 +70,6 @@ describe.skip('Update Value by key', () => {
     };
 
     beforeAll((done) => {
-        if (skip) {
-            return;
-        }
         redis = new Redis();
         redis.setup(done);
         annotationRedisRepository = new AnnotationRedisRepository(redis);

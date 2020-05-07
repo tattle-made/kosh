@@ -37,7 +37,7 @@ export class AnnotationRoutes {
         });
     }
 
-    private setupHandlerForJoinChannel() {
+    private setupHandlerForJoinChannel(socket: Socket) {
         return;
     }
 
@@ -53,12 +53,16 @@ export class AnnotationRoutes {
         });
     }
 
-    private setupHandlerForLeaveChannel() {
+    private setupHandlerForLeaveChannel(socket: Socket) {
         return;
     }
 
-    private setupHandlerForGetMetadata() {
-        return;
+    private setupHandlerForGetMetadata(socket: Socket) {
+        socket.on('get_metadata', (data) => {
+            this.controller.getRoom(data.roomId).then((metadata) => {
+                socket.broadcast.emit('get_metadata_result', metadata);
+            });
+        });
     }
 
     /**
@@ -75,6 +79,9 @@ export class AnnotationRoutes {
                 socket.join(room_name);
                 this.setupHandlerForStartEditMetadata(socket);
                 this.setupHandlerForStopEditMetadata(socket);
+                this.setupHandlerForJoinChannel(socket);
+                this.setupHandlerForLeaveChannel(socket);
+                this.setupHandlerForGetMetadata(socket);
             })
             .on('disconnect', (socket: any) => {
                 console.log('client disconnected from annotation namespace');

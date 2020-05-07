@@ -37,7 +37,7 @@ export class AnnotationRedisRepository {
         );
     }
 
-    public get(key: string) {
+    public get(key: string): Promise<AnnotationType> {
         return this.redis
             .getORM()
             .factory<AnnotationRedisDataModel>(

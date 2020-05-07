@@ -1,7 +1,11 @@
 import { AnnotationUser } from './AnnotationUser';
 import { Promise } from 'bluebird';
+import { AnnotationType } from './AnnotationRedisDataModel';
+import { Redis, RedisInstance } from '../../service/redis';
 
 export class AnnotationRoom {
+    @RedisInstance public redis: Redis | undefined;
+
     constructor(rommId: string) {
         return;
     }
@@ -38,8 +42,18 @@ export class AnnotationRoom {
      * @returns
      * @memberof AnnotationController
      */
-    public getMostRecentData() {
-        return;
+    public getMostRecentData(): Promise<AnnotationType> {
+        return Promise.resolve({
+            key: '',
+            emotion: '',
+            factual_claim: true,
+            verifiable: true,
+            place: true,
+            citizen_journalism: true,
+            cta: true,
+            fact_checked: true,
+            users: '',
+        });
     }
 
     /**
@@ -50,11 +64,29 @@ export class AnnotationRoom {
      * @returns
      * @memberof AnnotationController
      */
-    public getStableData() {
-        return;
+    public getStableData(): Promise<AnnotationType> {
+        return Promise.resolve({
+            key: '',
+            emotion: '',
+            factual_claim: true,
+            verifiable: true,
+            place: true,
+            citizen_journalism: true,
+            cta: true,
+            fact_checked: true,
+            users: '',
+        });
+    }
+
+    public getData(realtime: boolean): Promise<AnnotationType> {
+        return realtime ? this.getMostRecentData() : this.getStableData();
     }
 
     public toString(): string {
         return '';
+    }
+
+    public isRedisInitialized(): boolean {
+        return typeof this.redis === 'Redis';
     }
 }
