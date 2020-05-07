@@ -10,3 +10,4 @@ config/
 .env*
 *.env
 .elasticbeanstalk/logs/**
+.history/
