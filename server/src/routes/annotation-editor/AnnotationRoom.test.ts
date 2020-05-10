@@ -10,7 +10,7 @@ import {
 let annotationRedisRepository: AnnotationRedisRepository;
 let redis: Redis;
 
-describe.only('Test Annotation Room', () => {
+describe('Test Annotation Room', () => {
     let annotationRoom: AnnotationRoom;
     const payload: AnnotationType = {
         key: '1234:28',

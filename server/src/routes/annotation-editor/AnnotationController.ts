@@ -2,12 +2,20 @@ import { AnnotationRoom } from './AnnotationRoom';
 import { Promise } from 'bluebird';
 
 export class AnnotationController {
-    private createRoom(id: string) {
-        return;
+    private rooms: Map<string, AnnotationRoom> = new Map();
+
+    public createRoom(id: string) {
+        if (this.rooms.get(id) === undefined) {
+            this.rooms.set(id, new AnnotationRoom(id));
+        }
     }
 
-    public getRoom(id: string): Promise<AnnotationRoom> {
-        return Promise.resolve(new AnnotationRoom(id));
+    public getRoom(id: string): AnnotationRoom | undefined {
+        try {
+            return this.rooms.get(id);
+        } catch {
+            throw new Error('Room does not exist');
+        }
     }
 
     /**
@@ -65,5 +73,14 @@ export class AnnotationController {
      */
     public getRooms(pageNum: number, pageSize: number) {
         return;
+    }
+
+    public toJSON() {
+        const rooms: object[] = [];
+
+        this.rooms.forEach((room, key) => {
+            rooms.push(room.toJSON());
+        });
+        return { rooms };
     }
 }

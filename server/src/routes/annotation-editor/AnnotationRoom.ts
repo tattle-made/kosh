@@ -6,9 +6,7 @@ import { Redis, RedisInstance } from '../../service/redis';
 export class AnnotationRoom {
     @RedisInstance public redis: Redis | undefined;
 
-    constructor(rommId: string) {
-        return;
-    }
+    constructor(public id: string) {}
 
     public addViewer(userId: number) {
         return Promise.resolve({});
@@ -82,11 +80,7 @@ export class AnnotationRoom {
         return realtime ? this.getMostRecentData() : this.getStableData();
     }
 
-    public toString(): string {
-        return '';
-    }
-
-    public isRedisInitialized(): boolean {
-        return typeof this.redis === 'Redis';
+    public toJSON(): object {
+        return { room_id: this.id };
     }
 }
