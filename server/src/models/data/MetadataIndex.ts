@@ -24,6 +24,7 @@ MetadataIndex.init(
         metadata_type: Sequelize.INTEGER,
         metadata_id: Sequelize.INTEGER,
         post_id: Sequelize.INTEGER,
+        template_id: Sequelize.INTEGER,
     },
     {
         sequelize: db.get(),
@@ -46,10 +47,11 @@ export function create(param: MetadataIndexCreateRequest): Promise<any> {
         );
 }
 
-export function getMetadataByPost(post_id: number): Promise<any> {
+export function getMetadata(post_id: number, template_id: number): Promise<any> {
     return MetadataIndex.findAll({
         where: {
             post_id: post_id,
+            template_id: template_id,
         }
     })
     .then((items) => {
@@ -69,6 +71,18 @@ export function getMetadataByPost(post_id: number): Promise<any> {
         return p.then(() => {
             return records;
         });
+    });
+}
+
+export function getMetadataByItemId(item_id: number): Promise<any> {
+    return MetadataIndex.findOne({
+        where: {
+            id: item_id,
+        }
+    })
+    .then((item) => {
+        let obj: any = item!.get({ plain :true });
+        return {...fetchFuncMap[obj.metadata_type](obj.metadata_id), metadata_type: obj.metadata_type};
     });
 }
 
