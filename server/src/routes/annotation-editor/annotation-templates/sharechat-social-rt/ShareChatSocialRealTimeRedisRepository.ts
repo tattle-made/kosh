@@ -1,17 +1,13 @@
-import { Redis } from '../../../service/redis';
+import { Redis } from '../../../../service/redis';
 import {
     ShareChatAnnotationPropertyType,
     ShareChatAnnotationRedisDataModel,
     ShareChatAnnotationPropertyOptionalType,
 } from './ShareChatAnnotationDataModel';
-import { AnnotationRedisRepository } from './AnnotationRedisRepositoryInterface';
+import { AnnotationRedisRepositoryBaseClass } from '../AnnotationRedisRepositoryBaseClass';
 import { Nohm, NohmModel, TTypedDefinitions } from 'nohm';
 
-export class ShareChatSocialRealTimeRedisRepository extends AnnotationRedisRepository<
+export class ShareChatSocialRealTimeRedisRepository extends AnnotationRedisRepositoryBaseClass<
     ShareChatAnnotationPropertyType,
     ShareChatAnnotationRedisDataModel
-> {
-    constructor(public name: string) {
-        super(name);
-    }
-}
+> {}
