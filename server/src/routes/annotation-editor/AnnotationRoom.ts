@@ -1,17 +1,18 @@
 import { AnnotationUser } from './AnnotationUser';
 import { Promise } from 'bluebird';
 import { AnnotationType } from './AnnotationRedisDataModel';
-import {
-    AnnotationRedisRepository,
-    annotationTemplateRecords,
-} from './annotation-templates/AnnotationRedisRepositoryInterface';
+
 import { AnnotationProperties } from './annotation-templates/AnnotationProperties';
+import { AnnotationRedisRepositoryBaseClass } from './annotation-templates/AnnotationRedisRepositoryBaseClass';
+import { NohmModel } from 'nohm';
+import { annotationTemplateRecords } from './annotation-templates/TemplateIdRedisRepositoryRecord';
 
 export class AnnotationRoom {
     public readonly postId: number;
     public readonly templateId: number;
-    public readonly redisRepository: AnnotationRedisRepository<
-        AnnotationProperties
+    public readonly redisRepository: AnnotationRedisRepositoryBaseClass<
+        AnnotationProperties,
+        NohmModel
     >;
 
     constructor(public id: string) {

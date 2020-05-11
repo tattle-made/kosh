@@ -44,8 +44,8 @@ export class AnnotationRedisRepositoryBaseClass<T, U extends NohmModel>
             });
     }
 
-    public updateValue(key: string, keyName: string, value: string) {
-        const temp: Partial<T> = {
+    public updateValue(key: string, keyName: string, value: any) {
+        const temp = {
             [keyName]: value,
         };
 

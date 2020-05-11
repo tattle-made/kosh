@@ -12,6 +12,8 @@ export interface ShareChatAnnotationProperties {
     users: string;
 }
 
+type t = keyof ShareChatAnnotationProperties;
+
 export type ShareChatAnnotationPropertyType = ShareChatAnnotationProperties;
 
 export type ShareChatAnnotationPropertyOptionalType = Partial<
