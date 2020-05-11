@@ -1,7 +1,5 @@
-import { AnnotationUser } from './AnnotationUser';
 import { Promise } from 'bluebird';
 import { AnnotationType } from './AnnotationRedisDataModel';
-
 import { AnnotationProperties } from './annotation-templates/AnnotationProperties';
 import { AnnotationRedisRepositoryBaseClass } from './annotation-templates/AnnotationRedisRepositoryBaseClass';
 import { NohmModel } from 'nohm';
@@ -53,18 +51,12 @@ export class AnnotationRoom {
      * @returns
      * @memberof AnnotationController
      */
-    public getMostRecentData(): Promise<AnnotationType> {
-        return Promise.resolve({
-            key: '',
-            emotion: '',
-            factual_claim: true,
-            verifiable: true,
-            place: true,
-            citizen_journalism: true,
-            cta: true,
-            fact_checked: true,
-            users: '',
-        });
+    public getMostRecentData(): Promise<AnnotationProperties> {
+        return this.redisRepository.getData('1');
+    }
+
+    public store(data: AnnotationProperties) {
+        return this.redisRepository.store(data);
     }
 
     /**
@@ -75,7 +67,7 @@ export class AnnotationRoom {
      * @returns
      * @memberof AnnotationController
      */
-    public getStableData(): Promise<AnnotationType> {
+    public getStableData(): Promise<AnnotationProperties> {
         return Promise.resolve({
             key: '',
             emotion: '',
@@ -89,7 +81,7 @@ export class AnnotationRoom {
         });
     }
 
-    public getData(realtime: boolean): Promise<AnnotationType> {
+    public getData(realtime: boolean): Promise<AnnotationProperties> {
         // get from the right repository. as simple as that? or get from
         return realtime ? this.getMostRecentData() : this.getStableData();
     }

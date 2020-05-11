@@ -5,13 +5,12 @@ import { AnnotationRedisRepositoryInterface } from './AnnotationRedisRepositoryI
 
 export class AnnotationRedisRepositoryBaseClass<T, U extends NohmModel>
     implements AnnotationRedisRepositoryInterface<T, U> {
-    private redis!: Redis;
     public data!: T;
     //    private annotationRedisModelStatic = Nohm.register(
     //        ShareChatAnnotationRedisDataModel,
     //    );
 
-    constructor(public name: string) {}
+    constructor(public name: string, private redis: Redis) {}
 
     public store(data2: T) {
         return this.redis
