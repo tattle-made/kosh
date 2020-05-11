@@ -61,20 +61,6 @@ export class AnnotationController {
             );
     }
 
-    /**
-     * This function is meant to assist in debugging. It will return ids of all active annotation rooms.
-     * Since that number could potentially be very high, we serve the results in a paginated manner
-     * instead of returning them all at once.
-     *
-     * @param {number} pageNum
-     * @param {number} pageSize
-     * @returns
-     * @memberof AnnotationController
-     */
-    public getRooms(pageNum: number, pageSize: number) {
-        return;
-    }
-
     public toJSON() {
         const rooms: object[] = [];
 

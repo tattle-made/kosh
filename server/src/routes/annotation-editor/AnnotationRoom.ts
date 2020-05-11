@@ -1,12 +1,24 @@
 import { AnnotationUser } from './AnnotationUser';
 import { Promise } from 'bluebird';
 import { AnnotationType } from './AnnotationRedisDataModel';
-import { Redis, RedisInstance } from '../../service/redis';
+import {
+    AnnotationRedisRepository,
+    annotationTemplateRecords,
+} from './annotation-templates/AnnotationRedisRepositoryInterface';
+import { AnnotationProperties } from './annotation-templates/AnnotationProperties';
 
 export class AnnotationRoom {
-    @RedisInstance public redis: Redis | undefined;
+    public readonly postId: number;
+    public readonly templateId: number;
+    public readonly redisRepository: AnnotationRedisRepository<
+        AnnotationProperties
+    >;
 
-    constructor(public id: string) {}
+    constructor(public id: string) {
+        this.postId = +id.split(':')[0];
+        this.templateId = +id.split(':')[1];
+        this.redisRepository = annotationTemplateRecords[this.templateId];
+    }
 
     public addViewer(userId: number) {
         return Promise.resolve({});
@@ -77,6 +89,7 @@ export class AnnotationRoom {
     }
 
     public getData(realtime: boolean): Promise<AnnotationType> {
+        // get from the right repository. as simple as that? or get from
         return realtime ? this.getMostRecentData() : this.getStableData();
     }
 
