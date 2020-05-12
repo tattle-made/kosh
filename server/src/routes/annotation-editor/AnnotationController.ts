@@ -54,11 +54,10 @@ export class AnnotationController {
         finalMetaValue: string,
     ) {
         const annotationRoom = new AnnotationRoom(roomId);
-        return annotationRoom
-            .removeEditor(userId)
-            .then(() =>
-                annotationRoom.setNewValue(userId, metaKey, finalMetaValue),
-            );
+        return annotationRoom.removeEditor(userId);
+        // .then(() =>
+        //     annotationRoom.setNewValue(userId, metaKey, finalMetaValue),
+        // );
     }
 
     public toJSON() {

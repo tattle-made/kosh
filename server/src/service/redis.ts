@@ -63,4 +63,10 @@ export class Redis {
         Nohm.register(UserTokenORMModel);
         Nohm.register(ShareChatAnnotationRedisDataModel);
     }
+
+    public flushAll(done: () => void) {
+        this.redisClient.flushall(() => {
+            done();
+        });
+    }
 }

@@ -17,27 +17,10 @@ export class AnnotationRoutes {
         this.io = io;
     }
 
-    /**
-     * returns the metadata associated with a post and templateId in JSON format.
-     * if realTime is true, it will get data from Redis that might still be actively edited
-     * if its not true, it will get data from the SQL database that might be old
-     *
-     * @private
-     * @param {number} postId
-     * @param {number} tempateId
-     * @param {boolean} realTime
-     * @returns
-     * @memberof AnnotationRoutes
-     */
-    private getMetadata(postId: number, tempateId: number, realTime: boolean) {
-        let room: AnnotationRoom;
-        return this.controller.getRoom('').then((response) => {
-            room = response;
-            return realTime ? room.getMostRecentData() : room.getStableData();
-        });
-    }
-
     private setupHandlerForJoinChannel(socket: Socket) {
+        socket.on('join_room', (data) => {
+            this.controller.createRoom(data.roomId);
+        });
         return;
     }
 
@@ -59,9 +42,8 @@ export class AnnotationRoutes {
 
     private setupHandlerForGetMetadata(socket: Socket) {
         socket.on('get_metadata', (data) => {
-            this.controller.getRoom(data.roomId).then((metadata) => {
-                socket.broadcast.emit('get_metadata_result', metadata);
-            });
+            const room = this.controller.getRoom(data.roomId);
+            socket.broadcast.emit('get_metadata_result', room?.getData(true));
         });
     }
 

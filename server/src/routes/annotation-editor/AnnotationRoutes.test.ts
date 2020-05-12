@@ -86,7 +86,7 @@ test('10 Clients can connect to a room within /annotation namespace', (done) => 
     for (let i = 0; i < 10; i++) {
         sockets.push(
             socketioClient.connect(
-                'http://localhost:3000/annotation?room_name=abc',
+                'http://localhost:3000/annotation?room_name=1234:1',
                 {
                     reconnectionDelay: 0,
                     forceNew: true,

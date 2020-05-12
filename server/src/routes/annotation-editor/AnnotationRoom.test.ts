@@ -5,6 +5,8 @@ import { AnnotationRoom } from './AnnotationRoom';
 import { AnnotationProperties } from './annotation-templates/AnnotationProperties';
 import { ShareChatSocialRealTimeRedisRepository } from './annotation-templates/sharechat-social-rt/ShareChatSocialRealTimeRedisRepository';
 import { Redis } from '../../service/redis';
+import { ShareChatAnnotationProperties } from './annotation-templates/sharechat-social-rt/ShareChatAnnotationDataModel';
+import { ShareChatAnnotationPropertyType } from './annotation-templates/sharechat-social-rt/ShareChatAnnotationDataModel';
 
 const redis = container.resolve(Redis);
 
@@ -76,7 +78,7 @@ describe('Non Redis Operations for Annotation Room', () => {
 });
 
 describe.only('Redis operations for Annotation room', () => {
-    let room: AnnotationRoom;
+    const room: AnnotationRoom = new AnnotationRoom('1234:1');
 
     const payload: AnnotationProperties = {
         key: '1234:1',
@@ -94,7 +96,10 @@ describe.only('Redis operations for Annotation room', () => {
     beforeAll((done) => {
         redis.setup(() => {
             console.log('setup done');
-            done();
+            // redis.flushAll(() => {
+            //     console.log('redis flushed');
+            //     done();
+            // });
         });
     });
 
@@ -103,10 +108,17 @@ describe.only('Redis operations for Annotation room', () => {
     });
 
     test('store and retrieve data from redis', () => {
-        room = new AnnotationRoom(payload.key);
         return room.store(payload).then((res: any) => {
             return room.getData(true).then((data) => {
                 expect(data.key).toBe(payload.key);
+            });
+        });
+    });
+
+    test.only('update value', () => {
+        return room.update('emotion', 'fear').then(() => {
+            return room.getData(true).then((data) => {
+                expect(data.key).toBe(payload.emotion);
             });
         });
     });

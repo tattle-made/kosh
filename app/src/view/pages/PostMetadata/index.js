@@ -59,7 +59,7 @@ class PostMetadata extends Component {
     render() {
         let createdAt = this.state.post.createdAt.split('T')[0];
         return (
-            <Box direction={'column'} margin={'small'}>
+            <Box direction={'column'} margin={'small'} flex>
                 {this.props.loading ? (
                     <Spinner animation="border" />
                 ) : (
@@ -123,6 +123,9 @@ class PostMetadata extends Component {
                         </Row>
 
                         <Tabs justify="start" margin={{ top: 'medium' }}>
+                            <Tab title="shasoc-rt">
+                                <MetadataTabSharechatSocialRealtime />
+                            </Tab>
                             <Tab title="Tattle" alignSelf="start">
                                 <MetadataTabTattle />
                             </Tab>
@@ -131,9 +134,6 @@ class PostMetadata extends Component {
                             </Tab>
                             <Tab title="MSR">
                                 <MetadataTabMSR />
-                            </Tab>
-                            <Tab title="shasoc-rt">
-                                <MetadataTabSharechatSocialRealtime />
                             </Tab>
                         </Tabs>
                     </React.Fragment>

@@ -38,8 +38,8 @@ export class AnnotationRoom {
         return Promise.resolve({});
     }
 
-    public setNewValue(userId: number, metakey: string, metaValue: string) {
-        return Promise.resolve({});
+    public update(metakey: string, metaValue: string) {
+        return this.redisRepository.updateValue(this.id, metakey, metaValue);
     }
 
     public store(data: AnnotationProperties) {

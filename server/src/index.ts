@@ -1,6 +1,8 @@
 import { config as configDotenv } from 'dotenv';
 
 configDotenv();
+import 'reflect-metadata';
+import { container } from 'tsyringe';
 
 import * as express from 'express';
 import * as cors from 'cors';
@@ -48,7 +50,9 @@ import { plainToClass } from 'class-transformer';
 import { PostIndexJobCreateModel } from './routes/posts/PostIndexJobCreateModel';
 import s3 from './routes/s3-auth/S3-helper';
 import { GetPostsRequest } from './routes/post/GetPostsRequestsModel';
-import { setup as setupRedis } from './service/redis';
+import { Redis } from './service/redis';
+
+const redis = container.resolve(Redis);
 
 // import packageJsonFile from '../../package';
 
@@ -71,7 +75,9 @@ Sentry.init({
     dsn: 'https://015d3991941a475d9985ca5360098a1c@sentry.io/1499856',
 });
 
-setupRedis();
+redis.setup(() => {
+    console.log('redis setup done');
+});
 
 app.use(
     cors({
@@ -137,7 +143,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.get('/ping', (req: Request, res: Response) => {
-    console.log('pinged');
+    console.log('ping');
     res.set('Content-Type', 'text/html');
     res.send(Buffer.from(`${process.env.APP_VERSION}`));
 });
