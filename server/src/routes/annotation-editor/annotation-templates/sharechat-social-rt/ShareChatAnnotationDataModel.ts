@@ -23,7 +23,7 @@ export type ShareChatAnnotationPropertyOptionalType = Partial<
 export class ShareChatAnnotationRedisDataModel extends NohmModel<
     ShareChatAnnotationProperties
 > {
-    public static modelName = 'annotation-room';
+    public static modelName = 'annotation-room-shar-soc';
     protected static definitions: TTypedDefinitions<
         ShareChatAnnotationProperties
     > = {

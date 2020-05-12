@@ -3,44 +3,35 @@ import { AnnotationProperties } from './AnnotationProperties';
 import { NohmModel } from 'nohm';
 import { AnnotationRedisRepositoryInterface } from './AnnotationRedisRepositoryInterface';
 
-export class AnnotationRedisRepositoryBaseClass<T, U extends NohmModel>
-    implements AnnotationRedisRepositoryInterface<T, U> {
+export class AnnotationRedisRepositoryBaseClass<
+    T extends AnnotationProperties,
+    U extends NohmModel
+> implements AnnotationRedisRepositoryInterface<T, U> {
     public data!: T;
-    //    private annotationRedisModelStatic = Nohm.register(
-    //        ShareChatAnnotationRedisDataModel,
-    //    );
 
     constructor(public name: string, private redis: Redis) {}
 
-    public store(data2: T) {
-        return this.redis
-            .getORM()
-            .factory<U>(
-                //    ShareChatAnnotationRedisDataModel.modelName,
-                'annotation-room',
-            )
-            .then((annotationRedisDataModel) => {
-                annotationRedisDataModel.property({
-                    ...data2,
-                });
-                return annotationRedisDataModel.save();
-            });
+    private getRedisFactory() {
+        return this.redis.getORM().factory<U>('annotation-room-shar-soc');
     }
 
-    public getData(key: string): Promise<T> {
-        return this.redis
-            .getORM()
-            .factory<U>(
-                //    ShareChatAnnotationRedisDataModel.modelName,
-                'annotation-room',
-            )
-            .then((annotationRedisDataModel) => {
-                return annotationRedisDataModel
-                    .find({ key })
-                    .then((annotationData) =>
-                        annotationRedisDataModel.load(annotationData),
-                    );
+    public store(data: T) {
+        return this.getRedisFactory().then((annotationRedisDataModel) => {
+            annotationRedisDataModel.property({
+                ...data,
             });
+            return annotationRedisDataModel.save();
+        });
+    }
+
+    public getData(key: string): Promise<T & { id: string }> {
+        return this.getRedisFactory().then((annotationRedisDataModel) => {
+            return annotationRedisDataModel
+                .find({ key })
+                .then((annotationData) => {
+                    return annotationRedisDataModel.load(annotationData);
+                });
+        });
     }
 
     public updateValue(key: string, keyName: string, value: any) {
@@ -48,25 +39,44 @@ export class AnnotationRedisRepositoryBaseClass<T, U extends NohmModel>
             [keyName]: value,
         };
 
-        return this.redis
-            .getORM()
-            .factory<U>(
-                //    ShareChatAnnotationRedisDataModel.modelName,
-                'annotation-room',
-            )
-            .then((annotationRedisDataModel) => {
-                return annotationRedisDataModel
-                    .find({ key })
-                    .then((annotationData) => {
-                        return annotationRedisDataModel
-                            .load(annotationData)
-                            .then((data) => {
-                                annotationRedisDataModel.property({
-                                    ...temp,
-                                });
-                                return annotationRedisDataModel.save();
+        return this.getRedisFactory().then((annotationRedisDataModel) => {
+            return annotationRedisDataModel
+                .find({ key })
+                .then((annotationData) => {
+                    return annotationRedisDataModel
+                        .load(annotationData)
+                        .then((data) => {
+                            annotationRedisDataModel.property({
+                                ...temp,
                             });
-                    });
-            });
+                            return annotationRedisDataModel.save();
+                        });
+                });
+        });
     }
+
+    public reset(key: string) {
+        return this.getData(key)
+            .then((data) => data.id)
+            .then((id) => {
+                return this.getRedisFactory().then((annotation) => {
+                    annotation.id = id;
+                    return annotation.remove();
+                });
+            })
+            .catch((err) => console.log('error cleaning up redis : ', err));
+    }
+
+    // remove(key: string) {
+    //     annotationRedisRepository
+    //         .get(key)
+    //         .then((data) => data.id)
+    //         .then((id) => {
+    //             return redis
+    //                 .getORM()
+    //                 .factory<AnnotationRedisDataModel>(
+    //                     AnnotationRedisDataModel.modelName,
+    //                 )
+
+    // }
 }

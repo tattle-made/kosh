@@ -2,40 +2,17 @@ import { RedisClient, createClient, RedisError } from 'redis';
 import { promisify } from 'util';
 import { Nohm, NohmModel } from 'nohm';
 import { UserTokenORMModel } from '../routes/login/UserTokenModel';
-import { AnnotationRedisDataModel } from '../routes/annotation-editor/AnnotationRedisDataModel';
+import { singleton } from 'tsyringe';
+import { ShareChatAnnotationRedisDataModel } from '../routes/annotation-editor/annotation-templates/sharechat-social-rt/ShareChatAnnotationDataModel';
 
 let getAsync: any;
 let setAsync: any;
-let redis: Redis;
-
-export function setup() {
-    if (redis === undefined) {
-        redis = new Redis();
-        redis.setup(() => {
-            console.log('Redis Connected');
-        });
-    }
-}
-
-export function RedisInstance(target: any, key: string | symbol) {
-    let val = target[key];
-    const getter = () => redis;
-    const setter = (next: any) => {
-        val = next;
-    };
-
-    Object.defineProperty(target, key, {
-        get: getter,
-        set: setter,
-        enumerable: true,
-        configurable: true,
-    });
-}
-
+@singleton()
 export class Redis {
     private redisClient: RedisClient;
 
     constructor() {
+        // console.log('redis constructor');
         this.redisClient = createClient({
             port: 6379,
             host: process.env.REDIS_HOST,
@@ -43,7 +20,9 @@ export class Redis {
     }
 
     public setup(done: () => void) {
+        // console.log('redis setup');
         this.redisClient.on('connect', () => {
+            // console.log('redis conneced');
             Nohm.setPrefix('archive');
             Nohm.setClient(this.redisClient);
             this.registerModels();
@@ -82,6 +61,6 @@ export class Redis {
 
     private registerModels() {
         Nohm.register(UserTokenORMModel);
-        Nohm.register(AnnotationRedisDataModel);
+        Nohm.register(ShareChatAnnotationRedisDataModel);
     }
 }

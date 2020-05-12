@@ -1,5 +1,4 @@
 import { Promise } from 'bluebird';
-import { AnnotationType } from './AnnotationRedisDataModel';
 import { AnnotationProperties } from './annotation-templates/AnnotationProperties';
 import { AnnotationRedisRepositoryBaseClass } from './annotation-templates/AnnotationRedisRepositoryBaseClass';
 import { NohmModel } from 'nohm';
@@ -43,6 +42,10 @@ export class AnnotationRoom {
         return Promise.resolve({});
     }
 
+    public store(data: AnnotationProperties) {
+        return this.redisRepository.store(data);
+    }
+
     /**
      * This returns data from a redis store. this might be data that is still being
      * currently updated by users.
@@ -52,11 +55,7 @@ export class AnnotationRoom {
      * @memberof AnnotationController
      */
     public getMostRecentData(): Promise<AnnotationProperties> {
-        return this.redisRepository.getData('1');
-    }
-
-    public store(data: AnnotationProperties) {
-        return this.redisRepository.store(data);
+        return this.redisRepository.getData(this.id);
     }
 
     /**
@@ -84,6 +83,10 @@ export class AnnotationRoom {
     public getData(realtime: boolean): Promise<AnnotationProperties> {
         // get from the right repository. as simple as that? or get from
         return realtime ? this.getMostRecentData() : this.getStableData();
+    }
+
+    public reset() {
+        return this.redisRepository.reset(this.id);
     }
 
     public toJSON(): object {

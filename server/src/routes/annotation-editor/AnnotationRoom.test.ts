@@ -1,13 +1,12 @@
 process.env.REDIS_HOST = 'localhost';
-import { Redis } from '../../service/redis';
+import 'reflect-metadata';
+import { container } from 'tsyringe';
 import { AnnotationRoom } from './AnnotationRoom';
-import { AnnotationRedisRepository } from './AnnotationRedisRepository';
-import {
-    AnnotationType,
-    AnnotationRedisDataModel,
-    AnnotationProperties,
-} from './AnnotationRedisDataModel';
+import { AnnotationProperties } from './annotation-templates/AnnotationProperties';
 import { ShareChatSocialRealTimeRedisRepository } from './annotation-templates/sharechat-social-rt/ShareChatSocialRealTimeRedisRepository';
+import { Redis } from '../../service/redis';
+
+const redis = container.resolve(Redis);
 
 // describe('Test Annotation Room', () => {
 //     let annotationRoom: AnnotationRoom;
@@ -77,11 +76,10 @@ describe('Non Redis Operations for Annotation Room', () => {
 });
 
 describe.only('Redis operations for Annotation room', () => {
-    let annotationRedisRepository: AnnotationRedisRepository;
-    let redis: Redis;
+    let room: AnnotationRoom;
 
     const payload: AnnotationProperties = {
-        key: '1234:28',
+        key: '1234:1',
         emotion: 'joy',
         factual_claim: true,
         verifiable: true,
@@ -94,34 +92,29 @@ describe.only('Redis operations for Annotation room', () => {
     };
 
     beforeAll((done) => {
-        redis = new Redis();
-        redis.setup(done);
-        annotationRedisRepository = new AnnotationRedisRepository(redis);
+        redis.setup(() => {
+            console.log('setup done');
+            done();
+        });
     });
 
     afterAll(() => {
-        annotationRedisRepository
-            .get(payload.key)
-            .then((data) => data.id)
-            .then((id) => {
-                return redis
-                    .getORM()
-                    .factory<AnnotationRedisDataModel>(
-                        AnnotationRedisDataModel.modelName,
-                    )
-                    .then((annotation) => {
-                        annotation.id = id;
-                        return annotation.remove();
-                    });
-            })
-            .catch((err) => console.log('error cleaning up redis : ', err));
+        room.reset();
     });
 
     test('store and retrieve data from redis', () => {
-        return annotationRedisRepository.store(payload).then((res: any) => {
-            return annotationRedisRepository.get(payload.key).then((data) => {
+        room = new AnnotationRoom(payload.key);
+        return room.store(payload).then((res: any) => {
+            return room.getData(true).then((data) => {
                 expect(data.key).toBe(payload.key);
             });
         });
     });
 });
+
+// expect(1).toBe(1);
+// return annotationRedisRepository.get(payload.key).then((data) => {
+//     expect(data.key).toBe(payload.key);
+// });
+
+// TODO : add checks for template id not being in the template records

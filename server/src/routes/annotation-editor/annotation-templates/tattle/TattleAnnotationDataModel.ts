@@ -14,7 +14,7 @@ export type TattleAnnotationPropertyOptionalType = Partial<
 export class TattleAnnotationRedisDataModel extends NohmModel<
     TattleAnnotationProperties
 > {
-    public static modelName = 'annotation-room';
+    public static modelName = 'annotation-room-tattle';
     protected static definitions: TTypedDefinitions<
         TattleAnnotationProperties
     > = {
