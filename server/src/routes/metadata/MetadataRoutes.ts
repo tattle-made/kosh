@@ -25,7 +25,21 @@ export function register(app: Express) {
         metadataController.update(postId, itemId, value, userId).then((resp) => res.send(resp));
     });
 
+    app.get('/api/metadata-changes/post/:postId/get', (req: Request, res: Response) => {
+        const postId = Number(req.params.postId);
+        metadataController.getChangesByPost(postId).then((changes) => res.send(changes));
+    });
 
+    app.get('/api/metadata-changes/post/:postId/template/:templateId/get', (req: Request, res: Response) => {
+        const postId = Number(req.params.postId);
+        const templateId = Number(req.params.templateId);
+        metadataController.getChangesByPostTemplate(postId, templateId).then((changes) => res.send(changes));
+    });
 
-
+    app.get('/api/metadata-changes/post/:postId/template/:templateId/user/:userId/get', (req: Request, res: Response) => {
+        const postId = Number(req.params.postId);
+        const templateId = Number(req.params.templateId);
+        const userId = Number(req.params.userId);
+        metadataController.getChangesByPostTemplateAndUser(postId, templateId, userId).then((changes) => res.send(changes));
+    });
 }

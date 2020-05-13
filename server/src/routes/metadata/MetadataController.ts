@@ -1,5 +1,5 @@
 import BaseController from '../../controllers/_BaseController';
-import { getMetadata, get as getMetadataIndex, getMetadataByItemId } from '../../models/data/MetadataIndex';
+import { getMetadata, get as getMetadataIndex, getMetadataByItemId, getChangesByPost, getChangesByPostTemplate, getChangesByPostTemplateAndUser } from '../../models/data/MetadataIndex';
 import {MetadataTextUpdateRequest, MetadataNumberUpdateRequest, MetadataDateUpdateRequest, MetadataDateRangeUpdateRequest, MetadataLatLongUpdateRequest} from '../../models/request/PostMetadataRequest';
 import { update as updateText } from '../../models/data/PostMetadata/MetadataText';
 import { update as updateNumber } from '../../models/data/PostMetadata/MetadataNumber';
@@ -18,7 +18,7 @@ export class MetadataController extends BaseController {
     
     public saveByTemplate(postId: number, templateId: number, data: any, userId: number) {
     	let changes = JSON.parse(data);
-    	let p: Promise = Promise.resolve();
+    	let p: Promise<any> = Promise.resolve();
     	for(var itemId in changes)
     	{
     		p = p.then(() => getMetadataByItemId(itemId))
@@ -58,7 +58,7 @@ export class MetadataController extends BaseController {
     			case 4: return updateDateRange(updateRequest as MetadataDateRangeUpdateRequest); break;
     			case 5: return updateLatLong(updateRequest as MetadataLatLongUpdateRequest); break;
     		}
-    	})
+    	});
     }
 
     private generateUpdateRequest(itemId: number, itemType: number, value: any, userId: number) {
@@ -109,6 +109,20 @@ export class MetadataController extends BaseController {
 			});	
 		}
     }
-    
+
+    public getChangesByPost(postId: number)
+    {
+    	return getChangesByPost(postId);
+    }
+
+    public getChangesByPostTemplate(postId: number, templateId: number)
+    {
+    	return getChangesByPostTemplate(postId, templateId);
+    }
+
+    public getChangesByPostTemplateAndUser(postId: number, templateId: number, userId: number)
+    {
+    	return getChangesByPostTemplateAndUser(postId, templateId, userId);
+    }
 
 }

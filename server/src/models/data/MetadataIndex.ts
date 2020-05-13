@@ -7,6 +7,13 @@ import { get as getDate } from './PostMetadata/MetadataDate';
 import { get as getDateRange } from './PostMetadata/MetadataDateRange';
 import { get as getLatLong } from './PostMetadata/MetadataLatLong';
 
+import { MetadataHistoryText } from './PostMetadataHistory/MetadataHistoryText';
+import { MetadataHistoryNumber } from './PostMetadataHistory/MetadataHistoryNumber';
+import { MetadataHistoryDate } from './PostMetadataHistory/MetadataHistoryDate';
+import { MetadataHistoryDateRange } from './PostMetadataHistory/MetadataHistoryDateRange';
+import { MetadataHistoryLatLong } from './PostMetadataHistory/MetadataHistoryLatLong';
+
+
 export class MetadataIndex extends Sequelize.Model {}
 const Op = Sequelize.Op;
 
@@ -17,6 +24,15 @@ const fetchFuncMap: any[] = [
         getDate,
         getDateRange,
         getLatLong
+    ];
+
+const fetchHistoryModelMap: any[] = [
+        null, // fetchHistoryFuncMap[0] should never be called 
+        MetadataHistoryText,
+        MetadataHistoryNumber,
+        MetadataHistoryDate,
+        MetadataHistoryDateRange,
+        MetadataHistoryLatLong
     ];
 
 MetadataIndex.init(
@@ -83,6 +99,142 @@ export function getMetadataByItemId(item_id: number): Promise<any> {
     .then((item) => {
         let obj: any = item!.get({ plain :true });
         return {...fetchFuncMap[obj.metadata_type](obj.metadata_id), metadata_type: obj.metadata_type};
+    });
+}
+
+export function getChangesByPost(post_id: number): Promise<any> {
+    // Get all metadata_ids
+    return MetadataIndex.findAll({
+        where: {
+            post_id,
+        },
+        attributes: ['metadata_type','metadata_id'],
+    })
+    .then((items) => {
+        let records : any[] = [];
+        for(var i = 0; i < 6; i++)
+            records.push([]);
+        let p: Promise<any> = Promise.resolve();
+        for(let item of items)
+        {
+            p = p.then(() => {
+                let obj: any = item!.get({ plain :true });
+                records[obj.metadata_type].push(obj.metadata_id);
+                return;
+            });
+        }
+
+        // Get changes associated with metadata ids
+        var results = []
+        for(var i = 1; i <= 5; i++)
+        {
+            p = p.then(() => {
+                return fetchHistoryModelMap[i].findAll({where: {id: records[i]}})
+                    .then((changes: any) => 
+                    {
+                        for(let change of changes)
+                        {
+                            results.push(change!.get({plain:true}));
+                        }
+                        return;
+                    });
+            })
+        }
+        return p.then(() => {
+            return records;
+        });
+    });
+}
+
+
+
+
+export function getChangesByPostTemplate(post_id: number, template_id: number): Promise<any> {
+    // Get all metadata_ids
+    return MetadataIndex.findAll({
+        where: {
+            post_id, template_id
+        },
+        attributes: ['metadata_type','metadata_id'],
+    })
+    .then((items) => {
+        let records : any[] = [];
+        for(var i = 0; i < 6; i++)
+            records.push([]);
+        let p: Promise<any> = Promise.resolve();
+        for(let item of items)
+        {
+            p = p.then(() => {
+                let obj: any = item!.get({ plain :true });
+                records[obj.metadata_type].push(obj.metadata_id);
+                return;
+            });
+        }
+
+        // Get changes associated with metadata ids
+        var results = []
+        for(var i = 1; i <= 5; i++)
+        {
+            p = p.then(() => {
+                return fetchHistoryModelMap[i].findAll({where: {id: records[i]}})
+                    .then((changes: any) => 
+                    {
+                        for(let change of changes)
+                        {
+                            results.push(change!.get({plain:true}));
+                        }
+                        return;
+                    });
+            })
+        }
+        return p.then(() => {
+            return records;
+        });
+    });
+}
+
+
+export function getChangesByPostTemplateAndUser(post_id: number, template_id: number, user_id: number): Promise<any> {
+    // Get all metadata_ids
+    return MetadataIndex.findAll({
+        where: {
+            post_id, template_id
+        },
+        attributes: ['metadata_type','metadata_id'],
+    })
+    .then((items) => {
+        let records : any[] = [];
+        for(var i = 0; i < 6; i++)
+            records.push([]);
+        let p: Promise<any> = Promise.resolve();
+        for(let item of items)
+        {
+            p = p.then(() => {
+                let obj: any = item!.get({ plain :true });
+                records[obj.metadata_type].push(obj.metadata_id);
+                return;
+            });
+        }
+
+        // Get changes associated with metadata ids
+        var results = []
+        for(var i = 1; i <= 5; i++)
+        {
+            p = p.then(() => {
+                return fetchHistoryModelMap[i].findAll({where: {id: records[i], user_id}})
+                    .then((changes: any) => 
+                    {
+                        for(let change of changes)
+                        {
+                            results.push(change!.get({plain:true}));
+                        }
+                        return;
+                    });
+            })
+        }
+        return p.then(() => {
+            return records;
+        });
     });
 }
 
