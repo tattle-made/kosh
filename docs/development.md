@@ -54,8 +54,8 @@ visit localhost:3000 on your app and enter the following credentials to login
 
 |               |        |
 | --------------|--------|
-| username      | admin  |
-| password      | secret |
+| username      | test_admin  |
+| password      | test_admin_password |
 
 
 ## Debug using VS Code
