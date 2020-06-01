@@ -30,31 +30,6 @@ services:
     restart: always
     ports:
       - 8080:8080
-  # server:
-  #   container_name: "server"
-  #   build:
-  #     context: ./server
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - 3003:3003
-  #     - 5858:5858
-  #     - 9222:9222
-  #   volumes:
-  #     - ./server/dist:/server/dist
-  #   env_file: ./server/local.env
-  #   depends_on:
-  #     - redis
-  #     - db
-  #   command: npm run debug
-  # app:
-  #   build:
-  #     context: ./app
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./app:/app
-  #   tty: true
 
 volumes:
   node_modules:
