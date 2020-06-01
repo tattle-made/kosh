@@ -16,6 +16,21 @@ export class AnnotationRoom {
         this.postId = +id.split(':')[0];
         this.templateId = +id.split(':')[1];
         this.redisRepository = annotationTemplateRecords[this.templateId];
+        const payload: AnnotationProperties = {
+            key: id,
+            emotion: 'joy',
+            factual_claim: true,
+            verifiable: true,
+            place: true,
+            cta: true,
+            citizen_journalism: false,
+            fact_checked: true,
+            users:
+                '{"viewers":[{"id":1,"name":"denny"},{"id":2,"name":"kruttika"}],"editors":[{"id":3,"name":"tarunima"}]}',
+        };
+        this.store(payload).then((data) =>
+            console.log('room initialized with data'),
+        );
     }
 
     public addViewer(userId: number) {
@@ -39,6 +54,7 @@ export class AnnotationRoom {
     }
 
     public update(metakey: string, metaValue: string) {
+        console.log('----', { id: this.id, key: metakey, value: metaValue });
         return this.redisRepository.updateValue(this.id, metakey, metaValue);
     }
 

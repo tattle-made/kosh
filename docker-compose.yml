@@ -7,11 +7,11 @@ services:
       - "6379:6379"
     volumes:
       - "~/data/archive-server/redis:/data"
-  # redis_ui:
-  #   image: "marian/rebrow"
-  #   ports:
-  #     - "5001:5001"
-  #   restart: always
+  redis_ui:
+    image: "marian/rebrow"
+    ports:
+      - "5001:5001"
+    restart: always
   db:
     image: "mysql"
     command: --default-authentication-plugin=mysql_native_password

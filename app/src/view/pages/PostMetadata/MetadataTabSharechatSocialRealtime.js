@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Heading, Text } from 'grommet';
 import { RealTimeUserActivityFeed } from './components/RealTimeUserActivityFeed';
 import { Molecules } from '@tattle-made/ui';
+import * as socketioClient from 'socket.io-client';
 const { EditableText, EditableRadioGroup, EditableEnum } = Molecules;
 
 /**
@@ -71,9 +72,63 @@ const payload = {
     },
 };
 
+const NCJ = {
+    value: 'Yes',
+    options: ['Yes', 'No'],
+    label: 'Is this this possible citizen journalism ?',
+};
+const NE = {
+    id: 7,
+    type: 'text',
+    label: 'How do you define emotions?',
+    value: 'Joy',
+    options: [
+        'Joy',
+        'Trust',
+        'Fear',
+        'Surprise',
+        'Sadness',
+        'Disgust',
+        'Anger',
+        'Anticipation',
+    ],
+};
+const NCTA = {
+    value: 'Yes',
+    options: ['Yes', 'No'],
+    label: 'Does it contain a call to action ?',
+};
+const NFC = {
+    value: 'Yes',
+    options: ['Yes', 'No'],
+    label: 'Does it contain factual claims ?',
+};
+const NV = {
+    value: 'Yes',
+    options: ['Yes', 'No'],
+    label: 'Does the content come from a source that is verifiable ?',
+};
+const NP = {
+    value: 'Yes',
+    options: ['Yes', 'No'],
+    label: 'Does it refer to a place ?',
+};
+
+function getClientConnnectedToRealTimeAnnotationRoom(serverUrl, roomName) {
+    return socketioClient.connect(
+        `${serverUrl}/annotation?room_name=${roomName}`,
+        {
+            reconnectionDelay: 0,
+            forceNew: true,
+            transports: ['websocket'],
+        },
+    );
+}
+
 const MetadatatabSharechatSocialRealtime = () => {
     const [fetching, setFetching] = useState(false);
     const [emotion, setEmotion] = useState(payload.emotion);
+    const [client, setClient] = useState({});
     const [cta, setCta] = useState(payload.cta);
     const [factualClaim, setFactualClaim] = useState(payload.factual_claim);
     const [verifiable, setVerifiable] = useState(payload.verifiable);
@@ -84,8 +139,55 @@ const MetadatatabSharechatSocialRealtime = () => {
     const [factChecked, setFactChecked] = useState(payload.fact_checked);
 
     useEffect(() => {
+        console.log('connecting to socket');
+        const socketClient = getClientConnnectedToRealTimeAnnotationRoom(
+            'http://localhost:3003',
+            '115095:1',
+        );
+
+        socketClient.on('get_metadata', (data) => {
+            console.log('metadata received', data);
+
+            NCJ.value = data.citizen_journalism ? 'Yes' : 'No';
+            NCTA.value = data.cta ? 'Yes' : 'No';
+            NFC.value = data.factual_claim ? 'Yes' : 'No';
+            NV.value = data.verifiable ? 'Yes' : 'No';
+            NP.value = data.place ? 'Yes' : 'No';
+            NE.value = [
+                data.emotion.substr(0, 1)[0].toUpperCase(),
+                data.emotion.substr(1),
+            ].join('');
+
+            // console.log('---->', payload.emotion);
+            // console.log('----*', NE);
+            setCitizenJournalism(NCJ);
+            setEmotion(NE);
+            setFactualClaim(NFC);
+            setCta(NCTA);
+            setVerifiable(NV);
+            setPlace(NP);
+        });
+        socketClient.on('join_room', (data) => {
+            console.log('room joined', data);
+            socketClient.emit('get_metadata', { roomId: '1150195:1' });
+        });
+        socketClient.on('connect', () => {
+            console.log('client connected');
+            socketClient.emit('join_room', { roomId: '1150195:1' });
+        });
+
+        setClient(socketClient);
         setFetching(true);
-    });
+    }, []);
+
+    const updateFactualClaim = (data) => {
+        setFactualClaim(data);
+        client.emit('stop_edit_metadata', {
+            key: 'factual_claim',
+            value: data.value === 'Yes' ? true : false,
+            roomId: '115095:1',
+        });
+    };
 
     return (
         <Box flex>
@@ -100,7 +202,7 @@ const MetadatatabSharechatSocialRealtime = () => {
                 <EditableRadioGroup
                     data={factualClaim}
                     isEditable={true}
-                    updateCallback={setFactualClaim}
+                    updateCallback={updateFactualClaim}
                 />
                 <EditableRadioGroup
                     data={verifiable}

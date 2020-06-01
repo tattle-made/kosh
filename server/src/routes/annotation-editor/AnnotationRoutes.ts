@@ -19,7 +19,9 @@ export class AnnotationRoutes {
 
     private setupHandlerForJoinChannel(socket: Socket) {
         socket.on('join_room', (data) => {
+            console.log('join room ', data);
             this.controller.createRoom(data.roomId);
+            socket.broadcast.emit('join_room', { join: true });
         });
         return;
     }
@@ -32,6 +34,12 @@ export class AnnotationRoutes {
 
     private setupHandlerForStopEditMetadata(socket: Socket) {
         socket.on('stop_edit_metadata', (data) => {
+            console.log('stop edit metadata', data);
+            console.log('controller ', this.controller.getRoom(data.roomId));
+            this.controller
+                .getRoom(data.roomId)
+                ?.update(data.key, data.value)
+                .then((payload) => console.log('done editing ', payload));
             socket.broadcast.emit('stop_edit_metadata', data);
         });
     }
@@ -42,8 +50,11 @@ export class AnnotationRoutes {
 
     private setupHandlerForGetMetadata(socket: Socket) {
         socket.on('get_metadata', (data) => {
+            console.log('request for metadata from room : ', data.roomId);
             const room = this.controller.getRoom(data.roomId);
-            socket.broadcast.emit('get_metadata_result', room?.getData(true));
+            room?.getData(true).then((payload) => {
+                socket.broadcast.emit('get_metadata', payload);
+            });
         });
     }
 
@@ -54,9 +65,11 @@ export class AnnotationRoutes {
      * @memberof AnnotationRoutes
      */
     public registerPublicEndpoints() {
+        console.log('regisering public endpoints');
         this.io
             .of('annotation')
             .on('connection', (socket) => {
+                console.log('client connected to annotation room');
                 const { room_name } = socket.handshake.query;
                 socket.join(room_name);
                 this.setupHandlerForStartEditMetadata(socket);

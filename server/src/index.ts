@@ -154,7 +154,9 @@ registerSearchRoute(app);
 registerProcessQueueRoutes(app);
 registerPublicRoutes(app);
 registerMetadataRoutes(app);
-// AnnotationRoutes.registerPublicEndpoints(app, io);
+
+const annotationRoutes = new AnnotationRoutes(app, io);
+annotationRoutes.registerPublicEndpoints();
 
 app.get('/api/posts/:page', (req: Request, res: Response) => {
     const page = Number(req.params.page) || 1;
