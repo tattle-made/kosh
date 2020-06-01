@@ -1,21 +1,22 @@
 import * as Sequelize from 'sequelize';
-import db from '../db';
+import db from '../../../service/db';
 
-export class MetadataHistoryText extends Sequelize.Model {}
+export class MetadataHistoryDateRange extends Sequelize.Model {}
 const Op = Sequelize.Op;
 
-MetadataHistoryText.init(
+MetadataHistoryDateRange.init(
     {
         item_id: Sequelize.INTEGER,
-        value: Sequelize.STRING,
+        start_date: Sequelize.DATEONLY,
+        end_date: Sequelize.DATEONLY,
         created_by: Sequelize.INTEGER,
         created_at: Sequelize.DATE,
         moved_at: Sequelize.DATE
     },
     {
         sequelize: db.get(),
-        tableName: 'metadata_history_text',
-        modelName: 'metadataHistoryText',
+        tableName: 'metadata_history_daterange',
+        modelName: 'metadataHistoryDateRange',
         timestamps: false
     },
 );
@@ -23,7 +24,7 @@ MetadataHistoryText.init(
 //Post.belongsTo(User);
 
 export function get(id: number) {
-    return MetadataHistoryText.findOne({
+    return MetadataHistoryDateRange.findOne({
         where: {
             id,
         }
@@ -31,7 +32,7 @@ export function get(id: number) {
     .then( (item) => Promise.resolve(item!.get({ plain: true })) )
     .catch((err) => 
         Promise.resolve({
-            message: 'Error get Text item',
+            message: 'Error get DateRange item',
             error: err,
         })
     );

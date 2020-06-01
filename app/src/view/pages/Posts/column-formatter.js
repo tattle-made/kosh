@@ -7,6 +7,7 @@ import Moment from 'moment';
 import { Box, Button } from 'grommet';
 import { Database } from 'react-feather';
 import { Link } from 'react-router-dom';
+import MoleculeViewMetadataFromOriginalService from '../../molecules/MoleculeViewMetadataFromOriginalService';
 
 const actionIconsFormatter = (cell, row, rowIndex, extraData) => {
     const data = extraData[0][0];
@@ -27,8 +28,9 @@ const actionIconsFormatter = (cell, row, rowIndex, extraData) => {
             </AccessControl>
             <FontAwesomeIcon icon={faCheck} />
             <Link to={`/posts/${row.id}/metadata`}>
-                <Database size={28} />
+                <Database size={24} />
             </Link>
+            <MoleculeViewMetadataFromOriginalService postId={row.id} />
         </Box>
     );
 };

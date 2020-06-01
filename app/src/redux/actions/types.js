@@ -2,6 +2,8 @@ const ERROR = 'ERROR';
 const LOADING = 'LOADING';
 const SEARCH = 'SEARCH';
 const POSTS = 'POSTS';
+const POST = 'POST';
+const POST_METADATA = 'POST_METADATA';
 const POST_DELETE = 'POST_DELETE';
 const POST_UPLOAD = 'POST_UPLOAD';
 const USER = 'USER';
@@ -19,6 +21,8 @@ export {
   LOADING,
   SEARCH,
   POSTS,
+  POST,
+  POST_METADATA,
   SET_USER,
   USER,
   USERS,

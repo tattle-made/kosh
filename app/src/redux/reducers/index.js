@@ -5,6 +5,8 @@ import { users, loginUser, allUsers } from './user';
 import selectedUser from './selectedUser';
 import auth from './auth';
 import posts from './posts';
+import post from './post';
+import postMetadata from './post-metadata';
 import upload from './upload';
 import search from './search';
 import sectionStatus from './section-status'
@@ -20,7 +22,9 @@ export default combineReducers({
   allUsers,
   users,
   selectedUser,
+  post,
   posts,
+  postMetadata,
   search,
   auth,
   upload,

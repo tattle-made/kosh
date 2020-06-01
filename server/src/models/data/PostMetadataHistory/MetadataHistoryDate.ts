@@ -1,22 +1,21 @@
 import * as Sequelize from 'sequelize';
-import db from '../db';
+import db from '../../../service/db';
 
-export class MetadataHistoryLatLong extends Sequelize.Model {}
+export class MetadataHistoryDate extends Sequelize.Model {}
 const Op = Sequelize.Op;
 
-MetadataHistoryLatLong.init(
+MetadataHistoryDate.init(
     {
         item_id: Sequelize.INTEGER,
-        latitude: Sequelize.DECIMAL(8,6),
-        longitude: Sequelize.DECIMAL(9,6),
+        date: Sequelize.DATEONLY,
         created_by: Sequelize.INTEGER,
         created_at: Sequelize.DATE,
         moved_at: Sequelize.DATE
     },
     {
         sequelize: db.get(),
-        tableName: 'metadata_history_latlong',
-        modelName: 'metadataHistoryLatLong',
+        tableName: 'metadata_history_date',
+        modelName: 'metadataHistoryDate',
         timestamps: false
     },
 );
@@ -24,7 +23,7 @@ MetadataHistoryLatLong.init(
 //Post.belongsTo(User);
 
 export function get(id: number) {
-    return MetadataHistoryLatLong.findOne({
+    return MetadataHistoryDate.findOne({
         where: {
             id,
         }
@@ -32,7 +31,7 @@ export function get(id: number) {
     .then( (item) => Promise.resolve(item!.get({ plain: true })) )
     .catch((err) => 
         Promise.resolve({
-            message: 'Error get LatLong item',
+            message: 'Error get Date item',
             error: err,
         })
     );

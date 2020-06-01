@@ -1,8 +1,8 @@
 import * as Sequelize from 'sequelize';
-import db from '../db';
-import { MetadataDateCreateRequest, MetadataDateUpdateRequest, MetadataIndexCreateRequest } from '../RecordCreateRequest';
-import { MetadataIndex, create as createIndex } from './MetadataIndex';
-import { MetadataHistoryDate } from './MetadataHistoryDate';
+import db from '../../../service/db';
+import { MetadataDateCreateRequest, MetadataDateUpdateRequest, MetadataIndexCreateRequest } from '../../request/PostMetadataRequest';
+import { MetadataIndex, create as createIndex } from '../MetadataIndex';
+import { MetadataHistoryDate } from '../PostMetadataHistory/MetadataHistoryDate';
 
 export class MetadataDate extends Sequelize.Model {}
 const Op = Sequelize.Op;

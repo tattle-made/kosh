@@ -11,6 +11,7 @@
         "quotemark": [true, "single"],
         "variable-name": [true, "allow-leading-underscore"],
         "interface-name": [true, "never-prefix"],
-        "no-console": false
+        "no-console": false,
+        "interface-over-type-literal": false
     }
 }
