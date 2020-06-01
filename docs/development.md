@@ -59,10 +59,15 @@ The docker containers are running the app and the server in their development mo
 
 visit localhost:3000 on your app and enter the following credentials to login
 
-|          |        |
-| -------- | ------ |
-| username | admin  |
-| password | secret |
+|          |                     |
+| -------- | ------------------- |
+| username | test_admin          |
+| password | test_admin_password |
+
+## Debug notes
+
+1. SQL administration
+   The docker-compose file comes with a UI tool for SQL management called [Adminer](https://www.adminer.org). It should be accessible at http://localhost:8080/. You'll be greeted with the following page. I've already entered the values you'd need to access kosh's local database.
 
 ## Debug using VS Code
 
