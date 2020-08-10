@@ -6,7 +6,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - "~/data/archive-server/redis:/data"
+      - "~/data/kosh/redis:/data"
   redis_ui:
     image: "marian/rebrow"
     ports:
@@ -24,7 +24,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - mysql_db_data_container:/var/lib/mysql
+      - "~/data/kosh/db:/var/lib/mysql"
   db_gui:
     image: adminer
     restart: always
@@ -33,4 +33,3 @@ services:
 
 volumes:
   node_modules:
-  mysql_db_data_container:
