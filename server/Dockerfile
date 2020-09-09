@@ -1,7 +1,12 @@
-FROM node:12
-WORKDIR /server
-COPY . /server
-RUN npm install
-EXPOSE 3000
-RUN echo ls
-CMD [ "npm", "start" ]
+FROM node:10-alpine
+RUN apk update && apk add --no-cache python3
+RUN apk update && apk add yarn python g++ make && rm -rf /var/cache/apk/*
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+WORKDIR /home/node/app
+COPY package*.json ./
+USER node
+RUN npm install && npm install typescript forever nodemon
+COPY --chown=node:node . . 
+EXPOSE 3003
+RUN npm run build
+CMD ["npm", "start"]

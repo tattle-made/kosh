@@ -4,7 +4,6 @@
     "description": "backend gateway service for tattle",
     "main": "./dist/index.js",
     "scripts": {
-        "postinstall": "tsc",
         "build": "tsc",
         "watch": "tsc -w",
         "debug": "nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/index.js",
